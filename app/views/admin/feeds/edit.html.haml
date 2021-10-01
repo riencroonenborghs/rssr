@@ -1,0 +1,8 @@
+.container
+  %h1 Editing Feed
+
+  .pt-3.pb-3
+    = link_to 'Back', admin_feeds_path, class: "text-decoration-none"
+
+  = render 'form', feed: @feed
+

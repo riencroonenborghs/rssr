@@ -1,0 +1,29 @@
+.container
+  %h2 Log in
+    
+  = form_for(resource, as: resource_name, url: session_path(resource_name)) do |form|
+    - if resource.errors.any?
+      #error_explanation
+        %ul
+          = resource.errors.full_messages.each do |message|
+            %li= message
+
+    .row
+      .col-12
+        = form.label :email, class: "form-label"
+        = form.email_field :email, autofocus: true, autocomplete: "email", class: "form-control"
+
+    .row
+      .col-12
+        = form.label :password, class: "form-label"
+        = form.password_field :password, autocomplete: "current-password", class: "form-control"
+
+    - if devise_mapping.rememberable?
+      .row
+        .col-12.pt-2.pb-2
+          = form.check_box :remember_me, class: "form-check-input"
+          = form.label :remember_me, class: "form-check-label"
+
+    .row
+      .col-12
+        = form.submit "Log in", class: "btn btn-primary"

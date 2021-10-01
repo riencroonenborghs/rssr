@@ -1,0 +1,36 @@
+- entries.each do |entry|
+  %li.list-group-item
+    .d-flex.flex-column
+      .meta.d-flex.justify-content-between
+        .fs-10
+          =link_to entry.feed.title, entries_feed_path(entry.feed), class: "text-decoration-none"
+        .fs-11.fw-lighter(title="#{entry.published_at.in_time_zone("Pacific/Auckland").to_formatted_s(:long)}")
+          =time_ago_in_words entry.published_at
+          ago
+      .title-and-image.d-flex.justify-content-between
+        .title.pe-4.pt-2
+          =link_to entry.title, "#", class: "text-decoration-none", "data-bs-toggle" => "modal", "data-bs-target" => "#entry-#{entry.id}"            
+        - if entry.image_url
+          .image.d-flex.flex-column.justify-content-center
+            =image_tag entry.image_url, width: "100px", class: "rounded"
+
+      .modal.fade(id="entry-#{entry.id}" tabindex="-1" aria-labelledby="entry-#{entry.id}-label" aria-hidden="true")
+        .modal-dialog.modal-dialog-scrollable.modal-dialog-centered.modal-fullscreen
+          .modal-content
+            .modal-header.ps-0
+              .d-flex.align-items-center
+                =link_to "#", class: "btn", "data-bs-dismiss" => "modal", "aria-label" => "Close" do
+                  %i.bi.bi-chevron-left
+                .header.d-flex.flex-column
+                  .d-flex.justify-content-between
+                    .fs-10
+                      =link_to entry.feed.title, entries_feed_path(entry.feed), class: "text-decoration-none"
+                    .fs-11.fw-lighter(title="#{entry.published_at.in_time_zone("Pacific/Auckland").to_formatted_s(:long)}")
+                      =time_ago_in_words entry.published_at
+                      ago                   
+                  %h5.modal-title.pt-2(id="entry-#{entry.id}-label")  
+                  =link_to entry.title, entry.url, class: "text-decoration-none", target: "_blank"
+            .modal-body
+              - if entry.image_url
+                =image_tag entry.image_url, width: "100px", class: "rounded me-3", align: "left"
+              =raw entry.summary

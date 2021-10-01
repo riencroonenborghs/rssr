@@ -1,0 +1,12 @@
+- if entries.size.zero?
+  .container 
+    Nothing.
+    Maybe check back later?
+- else
+  %ul.list-group.entries
+    = render partial: "/shared/page", locals: { entries: entries }
+
+  .page-links.d-flex.justify-content-center.pt-4.pb-4
+    =link_to_previous_page entries, "<i class='bi bi-chevron-double-left'></i>".html_safe, class: "btn text-primary"
+    .page-loading.spinner-grow.text-primary(role="status")
+    =link_to_next_page entries, "<i class='bi bi-chevron-double-right'></i>".html_safe, class: "btn text-primary"

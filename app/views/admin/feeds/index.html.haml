@@ -1,0 +1,49 @@
+.container
+  %h1 Feeds
+
+  .pt-3.pb-3
+    = link_to "New Feed", new_admin_feed_path, class: "text-decoration-none"
+
+  %table.table.table-hover
+    %thead
+      %tr
+        %th
+        %th Feed
+        %th.fs-10.fw-lighter Visit<br/>Last Entry
+        %th
+          = link_to visit_admin_entries_path, method: :post do
+            %i.bi.bi-download
+        %th(colspan="2")
+    %tbody
+      - @feeds.each do |feed|
+        %tr
+          %td
+            - if feed.active?
+              %i.bi.bi-check
+            - else
+              &nbsp;
+            %br
+            = feed.entries.count
+          %td
+            = link_to feed.title, entries_feed_path(feed), class: "text-decoration-none"
+            %br
+            = feed.url
+          %td.fs-10.fw-lighter
+            - if feed.last_visited
+              = feed.last_visited.in_time_zone("Pacific/Auckland").to_formatted_s(:short) 
+            - else
+              Not yet
+            - if (entry = feed.entries.most_recent_first&.first)
+              %br
+              = entry.published_at.in_time_zone("Pacific/Auckland").to_formatted_s(:short) 
+          %td
+            - if feed.active?
+              = link_to visit_admin_feed_path(feed), method: :post do
+                %i.bi.bi-download
+          %td
+            = link_to edit_admin_feed_path(feed) do
+              %i.bi.bi-pencil
+          %td
+            = link_to [:admin, feed], method: :delete, data: { confirm: "Are you sure?" } do
+              %i.bi.bi-trash
+

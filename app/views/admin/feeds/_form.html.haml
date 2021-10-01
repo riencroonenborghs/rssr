@@ -1,0 +1,27 @@
+= form_with(model: [:admin, feed], local: true) do |form|
+  - if feed.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(feed.errors.count, "error")
+        prohibited this feed from being saved:
+
+      %ul
+        = feed.errors.full_messages.each do |message|
+          %li= message
+
+  .row
+    .col-12
+      = form.label :title, class: "form-label"
+      = form.text_field :title, class: "form-control"
+
+    .col-12
+      = form.label :url, class: "form-label"
+      = form.text_field :url, class: "form-control"
+
+    .col-2.pt-2.pb-2
+      = form.check_box :active, class: "form-check-input"
+      = form.label :active, class: "form-check-label"
+
+    .col-12
+      = form.submit "#{feed.new_record? ? "Create" : "Update"} Feed", class: "btn btn-primary"
+
