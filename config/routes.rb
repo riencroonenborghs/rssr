@@ -1,16 +1,10 @@
 Rails.application.routes.draw do
   devise_for :users
 
-  # resources :entries, only: [:index]
-  # resources :feeds, only: [:entries] do
-  #   member do
-  #     get :entries
-  #   end
-  # end
-
-  resources :feeds, only: [:index] do
+  resources :feeds, only: [:index, :search] do
     resources :entries, only: [:index]
   end
+  resources :search, only: [:new, :create]
 
   devise_scope :user do
     namespace :admin do

@@ -1,0 +1,12 @@
+.ps-3.pt-2
+  %h2 Search
+
+  = form_with url: search_index_path, method: :post, local: true do |form|
+    .row
+      .col-12.pe-4
+        = form.label :query, class: "form-label"
+        = form.text_field :query, class: "form-control"
+    .row.pt-2
+      .col-1
+        = form.submit "Search", class: "btn btn-primary"
+

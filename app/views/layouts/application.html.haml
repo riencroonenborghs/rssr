@@ -19,7 +19,9 @@
           = link_to root_path, class: "navbar-brand" do
             RSSr
                 
-        .d-flex          
+        .d-flex
+          = link_to new_search_path, class: "btn" do
+            %i.bi.bi-search
           - if signed_in?
             = link_to visit_admin_entries_path(root: true), method: :post, class: "btn" do
               %i.bi.bi-download
