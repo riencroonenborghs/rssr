@@ -1,6 +1,0 @@
-.ps-2.d-flex.flex-column
-  .fs-10.fw-lighter.pe-2.pt-2
-    Last visited 
-    =@feed.last_visited.in_time_zone("Pacific/Auckland").to_formatted_s(:long)
-  %h2=@feed.title
-= render partial: "/shared/entries", locals: { entries: @entries }

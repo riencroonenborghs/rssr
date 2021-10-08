@@ -1,1 +1,6 @@
-= render partial: "/shared/entries", locals: { entries: @all_entries }
+.ps-3.pt-2.d-flex.justify-content-between.align-items-center
+  %h2=@feed.title
+  .fs-10.fw-lighter.pe-3
+    Last visited 
+    =@feed.last_visited.in_time_zone("Pacific/Auckland").to_formatted_s(:long)
+= render partial: "/shared/entries", locals: { entries: @entries }

@@ -3,7 +3,7 @@
     .d-flex.flex-column
       .meta.d-flex.justify-content-between
         .fs-10
-          =link_to entry.feed.title, entries_feed_path(entry.feed), class: "text-decoration-none"
+          =link_to entry.feed.title, feed_entries_path(entry.feed), class: "text-decoration-none"
         .fs-11.fw-lighter(title="#{entry.published_at.in_time_zone("Pacific/Auckland").to_formatted_s(:long)}")
           =time_ago_in_words entry.published_at
           ago
@@ -24,7 +24,7 @@
                 .header.d-flex.flex-column
                   .d-flex.justify-content-between
                     .fs-10
-                      =link_to entry.feed.title, entries_feed_path(entry.feed), class: "text-decoration-none"
+                      =link_to entry.feed.title, feed_entries_path(entry.feed), class: "text-decoration-none"
                     .fs-11.fw-lighter(title="#{entry.published_at.in_time_zone("Pacific/Auckland").to_formatted_s(:long)}")
                       =time_ago_in_words entry.published_at
                       ago                   

@@ -25,7 +25,7 @@
             %br
             = feed.entries.count
           %td
-            = link_to feed.title, entries_feed_path(feed), class: "text-decoration-none"
+            = link_to feed.title, feed_entries_path(feed), class: "text-decoration-none"
             %br
             = feed.url
           %td.fs-10.fw-lighter

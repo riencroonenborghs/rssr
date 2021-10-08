@@ -1,20 +1,17 @@
 class EntriesController < ApplicationController
   def index
-    set_all_entries
+    set_feed
+    set_entries
     paged_render
   end
 
   private
 
-  def set_all_entries
-    @all_entries = Entry
-      .joins(:feed)
-      .merge(Feed.active)
-      .most_recent_first
-      .page(page)
+  def set_feed
+    @feed = Feed.find(params[:feed_id])
   end
 
-  def page
-    params[:page]&.to_i || 1
-  end
+  def set_entries
+    @entries = @feed.entries.most_recent_first.page(page)
+  end  
 end

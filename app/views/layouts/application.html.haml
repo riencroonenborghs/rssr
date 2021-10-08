@@ -56,7 +56,7 @@
           %table.table
             - @feeds.each do |feed|
               %tr
-                %td= link_to feed.title, entries_feed_path(feed), class: "text-decoration-none"
+                %td= link_to feed.title, feed_entries_path(feed), class: "text-decoration-none"
                 %td.fs-10.fw-lighter=feed.entries.count
           
 
