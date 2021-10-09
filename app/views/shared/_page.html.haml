@@ -35,4 +35,4 @@
             .modal-body
               - if entry.image_url
                 =image_tag entry.image_url, width: "100px", class: "rounded me-3", align: "left"
-              =raw entry.summary
+              =raw sanitize(entry.summary, tags: %w(strong em p a))
