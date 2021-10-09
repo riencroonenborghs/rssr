@@ -7,6 +7,8 @@ class Feed < ApplicationRecord
 
   before_validation :guess_title
 
+  acts_as_taggable_on :tags
+
   scope :alphabetically, -> { order(title: :asc) }
   scope :active, -> { where(active: true) }
 

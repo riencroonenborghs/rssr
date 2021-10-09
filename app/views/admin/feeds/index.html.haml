@@ -11,8 +11,6 @@
         %th Feed
         %th.fs-10.fw-lighter Visit<br/>Last Entry
         %th
-          = link_to visit_admin_entries_path, method: :post do
-            %i.bi.bi-download
         %th(colspan="2")
     %tbody
       - @feeds.each do |feed|
@@ -28,6 +26,8 @@
             = link_to feed.title, feed_entries_path(feed), class: "text-decoration-none"
             %br
             = feed.url
+            %br
+            = tags feed
           %td.fs-10.fw-lighter
             - if feed.last_visited
               = feed.last_visited.in_time_zone("Pacific/Auckland").to_formatted_s(:short) 
@@ -39,7 +39,7 @@
           %td
             - if feed.active?
               = link_to visit_admin_feed_path(feed), method: :post do
-                %i.bi.bi-download
+                %i.bi.bi-arrow-counterclockwise
           %td
             = link_to edit_admin_feed_path(feed) do
               %i.bi.bi-pencil

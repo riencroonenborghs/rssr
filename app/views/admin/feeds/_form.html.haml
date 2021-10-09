@@ -10,9 +10,13 @@
           %li= message
 
   .row
-    .col-12
+    .col-6
       = form.label :title, class: "form-label"
       = form.text_field :title, class: "form-control"
+
+    .col-6
+      = form.label :tag_list, class: "form-label"
+      = form.text_field :tag_list, value: feed.tag_list.join(", "), class: "form-control"
 
     .col-12
       = form.label :url, class: "form-label"
