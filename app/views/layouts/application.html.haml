@@ -24,9 +24,9 @@
             %i.bi.bi-search
           - if signed_in?
             = link_to visit_admin_entries_path(root: true), method: :post, class: "btn" do
-              %i.bi.bi-download
+              %i.bi.bi-arrow-counterclockwise
             = link_to admin_feeds_path, class: "btn" do
-              %i.bi.bi-list-check
+              %i.bi.bi-wrench
             = link_to destroy_user_session_path, method: :delete, class: "btn" do
               %i.bi.bi-lock
           - else
