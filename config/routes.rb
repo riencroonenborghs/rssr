@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   resources :feeds, only: [:index, :search] do
     resources :entries, only: [:index]
+    get "by_tag/:tag" => "feeds#by_tag", on: :collection, as: :by_tag
   end
   resources :search, only: [:new, :create]
 
