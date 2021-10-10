@@ -10,6 +10,8 @@ module ApplicationHelper
   end
 
   def clean_summary(entry)
+    return unless entry.summary
+    
     sanitized = sanitize(entry.summary, tags: %w(strong em p a))
     sanitized.gsub(/\<a /, "<a target='_blank' ")
   end
