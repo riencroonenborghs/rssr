@@ -8,4 +8,9 @@ module ApplicationHelper
       end
     end
   end
+
+  def clean_summary(entry)
+    sanitized = sanitize(entry.summary, tags: %w(strong em p a))
+    sanitized.gsub(/\<a /, "<a target='_blank' ")
+  end
 end
