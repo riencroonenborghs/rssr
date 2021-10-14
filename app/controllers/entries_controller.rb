@@ -12,6 +12,10 @@ class EntriesController < ApplicationController
   end
 
   def set_entries
-    @entries = @feed.entries.most_recent_first.page(page)
+    @entries = offset_scope do    
+      @feed
+        .entries
+        .most_recent_first
+    end.page(page)
   end  
 end

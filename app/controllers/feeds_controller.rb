@@ -13,11 +13,12 @@ class FeedsController < ApplicationController
   private
 
   def set_entries
-    @entries = Entry
-      .joins(:feed)
-      .merge(Feed.active)
-      .most_recent_first
-      .page(page)
+    @entries = offset_scope do    
+      Entry
+        .joins(:feed)
+        .merge(Feed.active)
+        .most_recent_first
+    end.page(page)
   end
 
   def set_tag
