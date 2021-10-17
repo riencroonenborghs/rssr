@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   before_action :set_feeds
   before_action :set_offset
+  before_action :darkmode?
 
   private
 
@@ -27,5 +28,9 @@ class ApplicationController < ActionController::Base
     scope = yield
     scope = scope.where("entries.created_at <= ?", @offset) if @offset
     scope
+  end
+
+  def darkmode?
+    @darkmode = Darkmode.darkmode?
   end
 end

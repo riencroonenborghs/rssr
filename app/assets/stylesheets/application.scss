@@ -23,3 +23,56 @@
 // External libraries
 @import "bootstrap/scss/bootstrap";
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css");
+
+body {
+  &.darkmode {
+    @extend .bg-dark;
+    nav.navbar {
+      @extend .navbar-dark;  
+      @extend .bg-dark;
+    }
+    a {
+      @extend .text-light;
+    }
+    .list-group-item {
+      @extend .bg-dark;
+      border-color:rgba(256,256,256,0.15);
+    }
+    .table {
+      @extend .text-white;
+    }
+    .badge.rounded-pill {
+      @extend .bg-secondary;
+      @extend .text-white;
+    }
+    .offcanvas {
+      @extend .bg-dark;
+      @extend .text-white;
+    }
+    .modal-content {
+      @extend .bg-dark;
+      @extend .text-white;
+    }
+    .page-loading {
+      @extend .text-white;
+    }
+    .meta {
+      .ts {
+        @extend .text-white;
+      }
+    }
+  }
+
+  nav.navbar {
+    @extend .navbar-light;
+    @extend .bg-white;
+  }
+
+  .badge.rounded-pill {
+    @extend .bg-primary;
+  }
+
+  .page-loading {
+    @extend .text-primary;
+  }
+}
