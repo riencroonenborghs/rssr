@@ -45,6 +45,7 @@ body {
     #by-tag,
     #admin,
     #search,
+    #login,
     .meta .ts {
       @extend .text-white;
     }
@@ -60,6 +61,10 @@ body {
     .badge.rounded-pill {
       @extend .bg-secondary;
     }
+
+    input[type=submit] {
+      @extend .btn-secondary;
+    }
   }
 
   nav.navbar {
@@ -73,5 +78,9 @@ body {
 
   .page-loading {
     @extend .text-primary;
+  }
+
+  input[type=submit] {
+    @extend .btn-primary;
   }
 }
