@@ -27,39 +27,37 @@
 body {
   &.darkmode {
     @extend .bg-dark;
-    nav.navbar {
-      @extend .navbar-dark;  
-      @extend .bg-dark;
-    }
-    a {
-      @extend .text-light;
-    }
-    .list-group-item {
-      @extend .bg-dark;
-      border-color:rgba(256,256,256,0.15);
-    }
-    .table {
-      @extend .text-white;
-    }
-    .badge.rounded-pill {
-      @extend .bg-secondary;
-      @extend .text-white;
-    }
-    .offcanvas {
-      @extend .bg-dark;
-      @extend .text-white;
-    }
+
+    nav.navbar,
+    .list-group-item,
+    .offcanvas,
     .modal-content {
       @extend .bg-dark;
+    }
+  
+    a,
+    .table,
+    .badge.rounded-pill,
+    .offcanvas,
+    .modal-content,
+    .page-loading,
+    #feed,
+    #by-tag,
+    #admin,
+    .meta .ts {
       @extend .text-white;
     }
-    .page-loading {
-      @extend .text-white;
+
+    .list-group-item {
+      border-color:rgba(256,256,256,0.15);
     }
-    .meta {
-      .ts {
-        @extend .text-white;
-      }
+    
+    nav.navbar {
+      @extend .navbar-dark;
+    }
+
+    .badge.rounded-pill {
+      @extend .bg-secondary;
     }
   }
 
