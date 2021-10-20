@@ -4,7 +4,8 @@ $(function() {
   // calculate date in hex
   let offset = Math.round((new Date()).getTime() / 1000).toString(16);
   
-  $(window).scroll(function () { 
+  // $(window).scroll(function () { 
+  $(window).on("scroll", function () { 
     if ($(window).scrollTop() >= $(document).height() - $(window).height()) {      
       if (timeout) { clearTimeout(timeout); }
       timeout = setTimeout(function() {
@@ -14,11 +15,13 @@ $(function() {
         page += 1;
         const url = `${window.location.search.pathname || ''}?page=${page}&ts=${offset}`;
 
-        $.get(url, function(data, status) {
+        $.get(url, function(data, status, xhr) {
           $(".page-loading").hide();
           if (status == 'success') {
-            $(".entries").append(data);            
-          }          
+            // no more data? turn off scrolling
+            if (data === "\n") { $(window).off("scroll"); }
+            else { $(".entries").append(data); }
+          }
         });
       }, 250);
     }
