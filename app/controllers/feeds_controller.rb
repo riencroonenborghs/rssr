@@ -13,7 +13,7 @@ class FeedsController < ApplicationController
   private
 
   def set_entries
-    @entries = offset_scope do    
+    @entries = paged_offset_scope do    
       Entry
         .joins(:feed)
         .merge(Feed.active)

@@ -5,6 +5,12 @@ class EntriesController < ApplicationController
     paged_render
   end
 
+  def day
+    set_feed
+    set_day_entries
+    paged_render
+  end
+
   private
 
   def set_feed
@@ -12,10 +18,19 @@ class EntriesController < ApplicationController
   end
 
   def set_entries
-    @entries = offset_scope do    
+    @entries = paged_offset_scope do    
       @feed
         .entries
         .most_recent_first
     end.page(page)
-  end  
+  end
+
+  def set_day_entries
+    @entries = paged_offset_scope do    
+      @feed
+        .entries
+        .most_recent_first
+        .last_24h
+    end.page(page)
+  end
 end

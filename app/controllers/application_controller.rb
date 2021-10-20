@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   before_action :set_feeds
+  before_action :set_tags
   before_action :set_offset
   before_action :darkmode?
 
@@ -7,6 +8,10 @@ class ApplicationController < ActionController::Base
 
   def set_feeds
     @feeds = Feed.alphabetically.includes(:entries)
+  end
+
+  def set_tags
+    @tags = ActsAsTaggableOn::Tag.joins(:taggings).distinct(:name).sort
   end
 
   def set_offset
@@ -24,13 +29,13 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def offset_scope
+  def paged_offset_scope
     scope = yield
     scope = scope.where("entries.created_at <= ?", @offset) if @offset
     scope
   end
 
   def darkmode?
-    @darkmode = false # Darkmode.darkmode?
+    @darkmode = Darkmode.darkmode?
   end
 end

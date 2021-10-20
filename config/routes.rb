@@ -2,7 +2,11 @@ Rails.application.routes.draw do
   devise_for :users
 
   resources :feeds, only: [:index, :search] do
-    resources :entries, only: [:index]
+    resources :entries, only: [:index, :day] do
+      collection do
+        get :day
+      end
+    end
     get "by_tag/:tag" => "feeds#by_tag", on: :collection, as: :by_tag
   end
   resources :search, only: [:new, :create]

@@ -27,7 +27,7 @@
             %br
             = feed.url
             %br
-            = tags feed
+            = tag_links feed
           %td.fs-10.fw-lighter
             - if feed.last_visited
               = feed.last_visited.in_time_zone("Pacific/Auckland").to_formatted_s(:short) 

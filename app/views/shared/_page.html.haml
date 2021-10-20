@@ -14,7 +14,7 @@
           .image.d-flex.flex-column.justify-content-center
             =image_tag entry.image_url, width: "100px", class: "rounded"
       .tags.fs-10.fw-lighter.d-flex.justify-content-end.pb-2
-        = tags entry.feed
+        = tag_links entry.feed
 
       .modal.fade(id="entry-#{entry.id}" tabindex="-1" aria-labelledby="entry-#{entry.id}-label" aria-hidden="true")
         .modal-dialog.modal-dialog-scrollable.modal-dialog-centered.modal-fullscreen
