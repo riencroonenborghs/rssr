@@ -58,9 +58,14 @@
       .offcanvas-body
         %div
           %table.table
+            %tr
+              %td= link_to "All", root_path, class: "text-decoration-none"
+              %td.fs-10.fw-lighter
+                =Entry.last_24h.count
             - @feeds.each do |feed|
               %tr
                 %td= link_to feed.title, feed_entries_path(feed), class: "text-decoration-none"
-                %td.fs-10.fw-lighter=feed.entries.count
+                %td.fs-10.fw-lighter
+                  =feed.entries.last_24h.count
           
 

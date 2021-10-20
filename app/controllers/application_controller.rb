@@ -31,6 +31,6 @@ class ApplicationController < ActionController::Base
   end
 
   def darkmode?
-    @darkmode = Darkmode.darkmode?
+    @darkmode = false # Darkmode.darkmode?
   end
 end
