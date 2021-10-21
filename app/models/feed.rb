@@ -14,8 +14,8 @@ class Feed < ApplicationRecord
   scope :active, -> { where(active: true) }
 
   def guess_url
-    return unless url.match(/youtube\.com/)
-    return if url.match(/feed/)
+    return unless url.match?(/youtube\.com/)
+    return if url.match?(/feed/)
 
     self.url = YoutubeFeedUrl.call(url: url).feed_url
   end
@@ -39,4 +39,8 @@ class Feed < ApplicationRecord
     self.update!(last_visited: Time.zone.now)
   end
   handle_asynchronously :visit!
+
+  def youtube?
+    url.match?(/youtube\.com/)
+  end
 end

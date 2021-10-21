@@ -46,7 +46,8 @@ body {
     #admin,
     #search,
     #login,
-    .meta .ts {
+    .meta .ts,
+    i.bi {
       @extend .text-white;
     }
 

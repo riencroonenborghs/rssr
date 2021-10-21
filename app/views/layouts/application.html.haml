@@ -69,7 +69,10 @@
               - count = feed.entries.last_24h.count
               - unless count.zero?
                 %tr
-                  %td= link_to feed.title, day_feed_entries_path(feed), class: "text-decoration-none"
+                  %td
+                    - if feed.youtube?
+                      %i.bi.bi-youtube
+                    = link_to feed.title, day_feed_entries_path(feed), class: "text-decoration-none"
                   %td.fs-10.fw-lighter
                     =count
             

@@ -3,6 +3,8 @@
     .d-flex.flex-column
       .meta.d-flex.justify-content-between
         .fs-10
+          - if entry.feed.youtube?
+            %i.bi.bi-youtube
           =link_to entry.feed.title, feed_entries_path(entry.feed), class: "text-decoration-none"
         .fs-11.fw-lighter.ts(title="#{entry.published_at.in_time_zone("Pacific/Auckland").to_formatted_s(:long)}")
           =time_ago_in_words entry.published_at
