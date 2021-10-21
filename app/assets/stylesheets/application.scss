@@ -50,6 +50,12 @@ body {
       @extend .text-white;
     }
 
+    .table {
+      tr:hover {
+        @extend .text-white;
+      }
+    }
+
     .list-group-item {
       border-color:rgba(256,256,256,0.15);
     }

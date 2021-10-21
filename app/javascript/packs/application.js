@@ -15,3 +15,4 @@ require("channels")
 
 import 'bootstrap'
 import "./infiniteScroll"
+import "./admin"
