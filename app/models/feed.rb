@@ -5,12 +5,20 @@ class Feed < ApplicationRecord
   validates :url, :title, presence: true
   validates :url, uniqueness: true
 
+  before_validation :guess_url
   before_validation :guess_title
 
   acts_as_taggable_on :tags
 
   scope :alphabetically, -> { order(title: :asc) }
   scope :active, -> { where(active: true) }
+
+  def guess_url
+    return unless url.match(/youtube\.com/)
+    return if url.match(/feed/)
+
+    self.url = YoutubeFeedUrl.call(url: url).feed_url
+  end
 
   def guess_title
     return if title.present?

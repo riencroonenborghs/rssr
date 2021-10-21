@@ -6,16 +6,12 @@ class LoadFeed < AppService
   end
 
   def call
-    @loaded_feed = Feedjira.parse(xml)
+    @loaded_feed = Feedjira.parse(data)
   end
 
   private
 
-  def xml
-    HTTParty.get(feed.url, headers: headers)&.body
-  end
-
-  def headers
-    { "User-agent" => "linux:rssr:1.0" }
+  def data
+    LoadUrl.call(url: feed.url).data
   end
 end
