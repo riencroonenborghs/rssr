@@ -16,9 +16,6 @@
     %nav.navbar.sticky-top.border-bottom
       .container-fluid
         %div
-          -#
-            = link_to "#tagsOffCancas", class: "btn pt-0 pe-0", "data-bs-toggle" => "offcanvas" do
-              %i.bi.bi-tag
           = link_to "#calendarOffCancas", class: "btn pt-0", "data-bs-toggle" => "offcanvas" do
             %i.bi.bi-rss
           = link_to root_path, class: "navbar-brand" do
@@ -54,28 +51,6 @@
             =flash[:notice]
           %button.btn-close.btn-close-white.me-2.m-auto(type="button" data-bs-dismiss="toast" aria-label="Close")
 
-    -##tagsOffCancas.offcanvas.offcanvas-start(tabindex="-1" aria-labelledby="tagsOffCancasLabel")
-      .offcanvas-header
-        %h5.offcanvas-title#tagsOffCancasLabel Tags
-        %button.btn-close.text-reset(type="button" data-bs-dismiss="offcanvas" aria-label="Close")
-      .offcanvas-body
-        %div
-          %table.table
-            - @tags.each do |tag|
-              %tr
-                %td.d-flex.justify-content-between.align-items-center.fw-bold
-                  %span.ps-0
-                    =tag_link tag
-                  .fs-10.fw-lighter
-                    .d-flex.align-items-center
-                      = Entry.joins(:feed).merge(Feed.tagged_with(tag.name)).last_24h.count  
-              - Feed.tagged_with(tag.name).order(name: :asc).each do |feed|
-                %tr
-                  %td.d-flex.justify-content-between.align-items-center
-                    = link_to feed.title, feed_entries_path(feed), class: "text-decoration-none"
-                    .fs-10.fw-lighter
-                      =feed.entries.last_24h.count
-
     #calendarOffCancas.offcanvas.offcanvas-start(tabindex="-1" aria-labelledby="calendarOffCancasLabel")
       .offcanvas-header
         %h5.offcanvas-title#calendarOffCancasLabel Last 24 hours
@@ -86,7 +61,10 @@
             %tr.fw-bold
               %td= link_to "All", root_path, class: "text-decoration-none"
               %td.fs-10.fw-lighter
-                =Entry.count
+                - if user_signed_in?
+                  =Entry.joins(feed: :user).where("users.id = ?", current_user.id).count
+                - else
+                  =Entry.count
             - @feeds.each do |feed|
               - count = feed.entries.last_24h.count
               - unless count.zero?

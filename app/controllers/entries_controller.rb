@@ -14,7 +14,15 @@ class EntriesController < ApplicationController
   private
 
   def set_feed
+    user_signed_in? ? set_current_user_feed : set_global_feed
+  end
+
+  def set_global_feed
     @feed = Feed.find(params[:feed_id])
+  end
+
+  def set_current_user_feed
+    @feed = current_user.feeds.find(params[:feed_id])
   end
 
   def set_entries

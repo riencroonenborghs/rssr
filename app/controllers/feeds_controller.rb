@@ -4,20 +4,22 @@ class FeedsController < ApplicationController
     paged_render
   end
 
-  def by_tag
+  def tagged
     set_tag
-    set_entries_by_tag
+    set_entries_tagged
     paged_render
   end
 
   private
 
   def set_entries
-    @entries = paged_offset_scope do    
-      Entry
+    @entries = paged_offset_scope do
+      scope = Entry
         .joins(:feed)
         .merge(Feed.active)
         .most_recent_first
+      scope = scope.joins(feed: :user).where("users.id = ?", current_user.id) if user_signed_in?
+      scope
     end.page(page)
   end
 
@@ -25,11 +27,12 @@ class FeedsController < ApplicationController
     @tag = params[:tag]
   end
 
-  def set_entries_by_tag
-    @entries = Entry
+  def set_entries_tagged
+    scope = Entry
       .joins(:feed)
       .merge(Feed.active.tagged_with(@tag))
       .most_recent_first
-      .page(page)
+    scope = scope.joins(feed: :user).where("users.id = ?", current_user.id) if user_signed_in?
+    @entries = scope.page(page)
   end
 end

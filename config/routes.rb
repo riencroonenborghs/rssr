@@ -7,7 +7,7 @@ Rails.application.routes.draw do
         get :day
       end
     end
-    get "by_tag/:tag" => "feeds#by_tag", on: :collection, as: :by_tag
+    get "tagged/:tag" => "feeds#tagged", on: :collection, as: :tagged
   end
   resources :search, only: [:new, :create]
 
