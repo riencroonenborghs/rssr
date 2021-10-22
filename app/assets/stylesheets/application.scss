@@ -59,6 +59,7 @@ body {
 
     .list-group-item {
       border-color:rgba(256,256,256,0.15);
+      @extend .text-white;
     }
     
     nav.navbar {

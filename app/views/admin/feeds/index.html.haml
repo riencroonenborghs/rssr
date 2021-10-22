@@ -2,7 +2,9 @@
   %h1 Feeds
 
   .pt-3.pb-3
-    = link_to "New Feed", new_admin_feed_path, class: "text-decoration-none"
+    = link_to new_admin_feed_path, class: "text-decoration-none" do
+      %i.bi.bi-plus
+      New Feed
 
   %table.table.table-hover
     %thead

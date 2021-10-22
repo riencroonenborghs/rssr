@@ -28,7 +28,7 @@
             = link_to visit_admin_entries_path(root: true), method: :post, class: "btn" do
               %i.bi.bi-arrow-counterclockwise
             = link_to admin_feeds_path, class: "btn" do
-              %i.bi.bi-wrench
+              %i.bi.bi-gear
             = link_to destroy_user_session_path, method: :delete, class: "btn" do
               %i.bi.bi-lock
           - else
@@ -54,7 +54,8 @@
     #calendarOffCancas.offcanvas.offcanvas-start(tabindex="-1" aria-labelledby="calendarOffCancasLabel")
       .offcanvas-header
         %h5.offcanvas-title#calendarOffCancasLabel Last 24 hours
-        %button.btn-close.text-reset(type="button" data-bs-dismiss="offcanvas" aria-label="Close")
+        %button.btn(type="button" data-bs-dismiss="offcanvas" aria-label="Close")
+          %i.bi.bi-x-lg
       .offcanvas-body
         %div
           %table.table

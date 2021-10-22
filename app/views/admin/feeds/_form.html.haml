@@ -22,10 +22,16 @@
       = form.label :url, "URL", class: "form-label"
       = form.text_field :url, class: "form-control"
 
-    .col-2.pt-2.pb-2
+    .col-12.pt-2.pb-2
       = form.check_box :active, class: "form-check-input"
       = form.label :active, class: "form-check-label"
 
-    .col-12
+    .col-12.lead.fs-10.fw-lighter
+      %ul.list-group.list-group-flush
+        %li.list-group-item Feed title will automatically be filled in when created, unless you specifiy your own.
+        %li.list-group-item You do have to give your own (comma separated) tags.
+        %li.list-group-item URLs support youtube channel format.
+
+    .col-12.pt-2
       = form.submit "#{feed.new_record? ? "Create" : "Update"} Feed", class: "btn"
 
