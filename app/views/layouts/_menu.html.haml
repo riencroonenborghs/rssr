@@ -1,9 +1,12 @@
 #menuOffCancas.offcanvas.offcanvas-start(tabindex="-1" aria-labelledby="menuOffCancasLabel")
   .offcanvas-header
     -if user_signed_in?
-      %h5.offcanvas-title.d-flex.flex-column#menuOffCancasLabel
-        %div= current_user.name
-        .fs-11.fw-lighter=current_user.email
+      .d-flex
+        %div
+          %h5.rounded-circle.bg-secondary.p-2.ps-3.pe-3.me-3= current_user.name.first
+        %h5.offcanvas-title.d-flex.flex-column#menuOffCancasLabel
+          %div= current_user.name
+          .fs-11.fw-lighter=current_user.email
       %div
         = link_to destroy_user_session_path, method: :delete, class: "btn" do
           %i.bi.bi-lock
@@ -25,16 +28,17 @@
               %i.bi.bi-gear
       -@tags.each do |tag|
         .row
-          .d-flex.justify-content-between.w-100.align-items-center.p-2.m-1
-            %div
-              =link_to tag.upcase, tagged_today_feeds_path(tag), class: "text-decoration-none fw-bold"
+          .d-flex.justify-content-between.w-100.align-items-center.p-2.m-1.pt-4
+            %div.fw-lighter
+              =link_to tag.name.upcase, tagged_today_feeds_path(tag.name.upcase), class: "text-decoration-none"
             .fs-10.fw-lighter
               =@tag_count_by_tag[tag]
         - @feeds_by_tag[tag].each do |feed|
           .row
             .d-flex.justify-content-between.w-100.align-items-center.border-bottom.p-2.m-1
               %div
+                %i.bi.bi-chevron-right
                 = link_to feed.title, today_feed_entries_path(feed), class: "text-decoration-none"
               .fs-10.fw-lighter
-                = @entries_by_tag_by_feed[tag][feed].count
+                = @entries_by_tag_by_feed.dig(tag, feed).count
       

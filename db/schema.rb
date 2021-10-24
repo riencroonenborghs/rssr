@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_24_015834) do
+ActiveRecord::Schema.define(version: 2021_10_24_054926) do
 
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 2021_10_24_015834) do
     t.datetime "last_visited"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.text "error"
     t.index ["user_id"], name: "index_feeds_on_user_id"
   end
 

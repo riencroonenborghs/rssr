@@ -10,7 +10,7 @@ module ApplicationHelper
   end
 
   def tag_link(tag, klass: "")
-    link_to content_tag(:span, tag, class: "badge rounded-pill"), tagged_feeds_path(tag), class: klass
+    link_to content_tag(:span, tag.upcase, class: "badge rounded-pill"), tagged_feeds_path(tag.upcase), class: klass
   end
 
   def clean_summary(entry)
