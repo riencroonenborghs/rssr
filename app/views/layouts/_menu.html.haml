@@ -30,6 +30,8 @@
         .row
           .d-flex.justify-content-between.w-100.align-items-center.p-2.m-1.pt-4
             %div.fw-lighter
+              - if current_page?(tagged_today_feeds_path(tag.name.upcase)) 
+                %i.bi.bi-chevron-right
               =link_to tag.name.upcase, tagged_today_feeds_path(tag.name.upcase), class: "text-decoration-none"
             .fs-10.fw-lighter
               =@tag_count_by_tag[tag]
@@ -37,7 +39,20 @@
           .row
             .d-flex.justify-content-between.w-100.align-items-center.border-bottom.p-2.m-1
               %div
-                %i.bi.bi-chevron-right
+                - if current_page?(today_feed_entries_path(feed)) 
+                  %i.bi.bi-chevron-right
+                = link_to feed.title, today_feed_entries_path(feed), class: "text-decoration-none"
+              .fs-10.fw-lighter
+                = @entries_by_tag_by_feed.dig(tag, feed).count
+      
+
+    
+
+          -#.row
+            .d-flex.justify-content-between.w-100.align-items-center.border-bottom.p-2.m-1
+              %div
+                -#- if current_page?(today_feed_entries_path(feed)) 
+                  %i.bi.bi-chevron-right
                 = link_to feed.title, today_feed_entries_path(feed), class: "text-decoration-none"
               .fs-10.fw-lighter
                 = @entries_by_tag_by_feed.dig(tag, feed).count
