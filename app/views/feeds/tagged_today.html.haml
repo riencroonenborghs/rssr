@@ -1,6 +1,6 @@
-#by-tag.ps-3.pt-2
-  %h2
-    Today's "#{@tag}" feeds
+#tagged.ps-2.pt-2
+  .fw-lighter Today
+  %h2 Tagged with "#{@tag}"
 
 %ul.list-group.entries
   = render partial: "/shared/page", locals: { entries: @entries }

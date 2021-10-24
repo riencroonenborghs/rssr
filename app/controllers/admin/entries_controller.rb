@@ -7,7 +7,7 @@ module Admin
       redirect_url = params[:root] ? root_path : admin_feeds_url
 
       respond_to do |format|
-        format.html { redirect_to redirect_url, notice: "New articles are being downloaded." }
+        format.html { redirect_to redirect_url, notice: "Queued visiting all feeds." }
       end
     end
   end

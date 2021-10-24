@@ -20,7 +20,7 @@
     .row
       -if user_signed_in?
         .d-flex.justify-content-between.w-100.align-items-center
-          %h4.fw-bold Subscriptions
+          %h4.fw-bold Feeds
           %div
             = link_to visit_admin_entries_path(root: true), method: :post, class: "btn" do
               %i.bi.bi-arrow-counterclockwise
@@ -41,19 +41,9 @@
               %div
                 - if current_page?(today_feed_entries_path(feed)) 
                   %i.bi.bi-chevron-right
-                = link_to feed.title, today_feed_entries_path(feed), class: "text-decoration-none"
+                = link_to today_feed_entries_path(feed), class: "text-decoration-none" do
+                  - if feed.youtube?
+                    %i.bi.bi-youtube
+                  =feed.title
               .fs-10.fw-lighter
                 = @entries_by_tag_by_feed.dig(tag, feed).count
-      
-
-    
-
-          -#.row
-            .d-flex.justify-content-between.w-100.align-items-center.border-bottom.p-2.m-1
-              %div
-                -#- if current_page?(today_feed_entries_path(feed)) 
-                  %i.bi.bi-chevron-right
-                = link_to feed.title, today_feed_entries_path(feed), class: "text-decoration-none"
-              .fs-10.fw-lighter
-                = @entries_by_tag_by_feed.dig(tag, feed).count
-      

@@ -1,9 +1,8 @@
 - if entries.size.zero?
-  .container 
-    Nothing.
-    Maybe check back later?
+  .container.p-2
+    Nothing yet.
 - else
-  %ul.list-group.entries
+  .d-flex.flex-column.entries
     = render partial: "/shared/page", locals: { entries: entries }
 
   - if entries.size > 25

@@ -3,7 +3,7 @@ module ApplicationHelper
     content_tag :span do
       tag_list = feed.tag_list.each do |tag|
         concat(
-          tag_link(tag, klass: "ps-1")
+          tag_link(tag, klass: "pe-1")
         )
       end
     end
@@ -18,5 +18,9 @@ module ApplicationHelper
     
     sanitized = sanitize(entry.summary, tags: %w(strong em p a))
     sanitized.gsub(/\<a /, "<a target='_blank' ")
+  end
+
+  def clean_summary2(entry)
+    clean_summary(entry).first(50) + " ..."
   end
 end
