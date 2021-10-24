@@ -1,5 +1,6 @@
 #by-tag.ps-3.pt-2
-  %h2 Today's #{} tagged with "#{@tag}"
+  %h2
+    Today's "#{@tag}" feeds
 
 %ul.list-group.entries
   = render partial: "/shared/page", locals: { entries: @entries }

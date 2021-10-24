@@ -4,10 +4,11 @@ Rails.application.routes.draw do
   resources :feeds, only: [:index, :search] do
     resources :entries, only: [:index, :day] do
       collection do
-        get :day
+        get :today
       end
     end
     get "tagged/:tag" => "feeds#tagged", on: :collection, as: :tagged
+    get "tagged/:tag/today" => "feeds#tagged_today", on: :collection, as: :tagged_today
   end
   resources :search, only: [:new, :create]
 

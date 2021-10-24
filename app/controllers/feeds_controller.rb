@@ -10,6 +10,12 @@ class FeedsController < ApplicationController
     paged_render
   end
 
+  def tagged_today
+    set_tag
+    set_entries_tagged_today
+    paged_render
+  end
+
   private
 
   def set_entries
@@ -32,6 +38,16 @@ class FeedsController < ApplicationController
       .joins(:feed)
       .merge(Feed.active.tagged_with(@tag))
       .most_recent_first
+    scope = scope.joins(feed: :user).where("users.id = ?", current_user.id) if user_signed_in?
+    @entries = scope.page(page)
+  end
+
+  def set_entries_tagged_today
+    scope = Entry
+      .joins(:feed)
+      .merge(Feed.active.tagged_with(@tag))
+      .most_recent_first
+      .last_24h
     scope = scope.joins(feed: :user).where("users.id = ?", current_user.id) if user_signed_in?
     @entries = scope.page(page)
   end

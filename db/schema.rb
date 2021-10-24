@@ -10,15 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_09_014353) do
-
-  create_table "categories", force: :cascade do |t|
-    t.string "name", null: false
-    t.integer "parent_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["parent_id"], name: "index_categories_on_parent_id"
-  end
+ActiveRecord::Schema.define(version: 2021_10_24_015834) do
 
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
@@ -56,7 +48,6 @@ ActiveRecord::Schema.define(version: 2021_10_09_014353) do
     t.datetime "last_visited"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "category_id"
     t.index ["user_id"], name: "index_feeds_on_user_id"
   end
 
@@ -95,6 +86,7 @@ ActiveRecord::Schema.define(version: 2021_10_09_014353) do
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.text "name"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

@@ -16,7 +16,7 @@
     %nav.navbar.sticky-top.border-bottom
       .container-fluid
         %div
-          = link_to "#calendarOffCancas", class: "btn pt-0", "data-bs-toggle" => "offcanvas" do
+          = link_to "#menuOffCancas", class: "btn pt-0", "data-bs-toggle" => "offcanvas" do
             %i.bi.bi-rss
           = link_to root_path, class: "navbar-brand" do
             RSSr
@@ -24,14 +24,7 @@
         .d-flex
           = link_to new_search_path, class: "btn" do
             %i.bi.bi-search
-          - if signed_in?
-            = link_to visit_admin_entries_path(root: true), method: :post, class: "btn" do
-              %i.bi.bi-arrow-counterclockwise
-            = link_to admin_feeds_path, class: "btn" do
-              %i.bi.bi-gear
-            = link_to destroy_user_session_path, method: :delete, class: "btn" do
-              %i.bi.bi-lock
-          - else
+          - if !signed_in?
             = link_to new_user_session_path, class: "btn" do
               %i.bi.bi-unlock
 
@@ -50,31 +43,5 @@
           .toast-body
             =flash[:notice]
           %button.btn-close.btn-close-white.me-2.m-auto(type="button" data-bs-dismiss="toast" aria-label="Close")
-
-    #calendarOffCancas.offcanvas.offcanvas-start(tabindex="-1" aria-labelledby="calendarOffCancasLabel")
-      .offcanvas-header
-        %h5.offcanvas-title#calendarOffCancasLabel Last 24 hours
-        %button.btn(type="button" data-bs-dismiss="offcanvas" aria-label="Close")
-          %i.bi.bi-x-lg
-      .offcanvas-body
-        %div
-          %table.table
-            %tr.fw-bold
-              %td= link_to "All", root_path, class: "text-decoration-none"
-              %td.fs-10.fw-lighter
-                - if user_signed_in?
-                  =Entry.joins(feed: :user).where("users.id = ?", current_user.id).count
-                - else
-                  =Entry.count
-            - @feeds.each do |feed|
-              - count = feed.entries.last_24h.count
-              - unless count.zero?
-                %tr
-                  %td
-                    - if feed.youtube?
-                      %i.bi.bi-youtube
-                    = link_to feed.title, day_feed_entries_path(feed), class: "text-decoration-none"
-                  %td.fs-10.fw-lighter
-                    =count
-            
-
+    
+    = render partial: "/layouts/menu"
