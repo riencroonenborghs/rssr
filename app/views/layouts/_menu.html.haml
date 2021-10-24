@@ -3,7 +3,7 @@
     -if user_signed_in?
       .d-flex
         %div
-          %h5.rounded-circle.bg-secondary.p-2.ps-3.pe-3.me-3= current_user.name.first
+          %h5.rounded-circle.bg-primary.text-light.me-3.avatar= current_user.name.first
         %h5.offcanvas-title.d-flex.flex-column#menuOffCancasLabel
           %div= current_user.name
           .fs-11.fw-lighter=current_user.email

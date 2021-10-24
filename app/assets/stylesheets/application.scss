@@ -73,6 +73,10 @@ body {
     input[type=submit] {
       @extend .btn-secondary;
     }
+
+    .avatar {
+      @extend .bg-secondary;
+    }
   }
 
   nav.navbar {
@@ -90,5 +94,13 @@ body {
 
   input[type=submit] {
     @extend .btn-primary;
+  }
+
+  .avatar {
+    position: relative;
+    top: 2px;
+    padding: 10px;
+    padding-left: 16px;
+    padding-right: 16px;
   }
 }
