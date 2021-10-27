@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_24_054926) do
+ActiveRecord::Schema.define(version: 2021_10_28_043909) do
 
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
@@ -50,6 +50,31 @@ ActiveRecord::Schema.define(version: 2021_10_24_054926) do
     t.datetime "updated_at", precision: 6, null: false
     t.text "error"
     t.index ["user_id"], name: "index_feeds_on_user_id"
+  end
+
+  create_table "filter_engine_chain_ands", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_filter_engine_chain_ands_on_user_id"
+  end
+
+  create_table "filter_engine_chain_ors", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_filter_engine_chain_ors_on_user_id"
+  end
+
+  create_table "filter_engine_rules", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "type", default: "keyword", null: false
+    t.string "comparison", default: "eq", null: false
+    t.string "value", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "group_id", null: false
+    t.index ["user_id"], name: "index_filter_engine_rules_on_user_id"
   end
 
   create_table "taggings", force: :cascade do |t|
@@ -93,5 +118,8 @@ ActiveRecord::Schema.define(version: 2021_10_24_054926) do
 
   add_foreign_key "entries", "feeds"
   add_foreign_key "feeds", "users"
+  add_foreign_key "filter_engine_chain_ands", "users"
+  add_foreign_key "filter_engine_chain_ors", "users"
+  add_foreign_key "filter_engine_rules", "users"
   add_foreign_key "taggings", "tags"
 end

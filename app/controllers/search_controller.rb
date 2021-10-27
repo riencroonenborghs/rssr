@@ -13,13 +13,13 @@ class SearchController < ApplicationController
   def perform_search
     @entries = [] and return if @query.blank?
 
-    title_scope = Entry.where("upper(entries.title) like ?", "%#{@query.upcase}%")
-    summary_scope = Entry.where("upper(entries.summary) like ?", "%#{@query.upcase}%")
-
-    if user_signed_in?
-      title_scope = title_scope.joins(feed: :user).where("users.id = ?", current_user.id)
-      summary_scope = summary_scope.joins(feed: :user).where("users.id = ?", current_user.id)
+    title_scope = current_user_scope do
+      filtered_scope do
+        Entry.where("upper(entries.title) like ?", "%#{@query.upcase}%")
+      end
     end
+
+    summary_scope = Entry.where("upper(entries.summary) like ?", "%#{@query.upcase}%")
 
     @entries = title_scope.or(summary_scope)
   end

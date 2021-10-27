@@ -34,9 +34,21 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def paged_offset_scope
+  def offset_scope
     scope = yield
     scope = scope.where("entries.created_at <= ?", @offset) if @offset
+    scope
+  end
+
+  def current_user_scope
+    scope = yield
+    scope = scope.joins(feed: :user).where("users.id = ?", current_user.id) if user_signed_in?
+    scope
+  end
+  
+  def filtered_scope
+    scope = yield
+    scope = FilterEngine::Engine.call(user: current_user, scope: scope).scope
     scope
   end
 

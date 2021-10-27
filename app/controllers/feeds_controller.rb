@@ -19,13 +19,15 @@ class FeedsController < ApplicationController
   private
 
   def set_entries
-    @entries = paged_offset_scope do
-      scope = Entry
-        .joins(:feed)
-        .merge(Feed.active)
-        .most_recent_first
-      scope = scope.joins(feed: :user).where("users.id = ?", current_user.id) if user_signed_in?
-      scope
+    @entries = offset_scope do
+      current_user_scope do
+        filtered_scope do
+          Entry
+            .joins(:feed)
+            .merge(Feed.active)
+            .most_recent_first
+        end
+      end
     end.page(page)
   end
 
@@ -34,21 +36,27 @@ class FeedsController < ApplicationController
   end
 
   def set_entries_tagged
-    scope = Entry
-      .joins(:feed)
-      .merge(Feed.active.tagged_with(@tag))
-      .most_recent_first
-    scope = scope.joins(feed: :user).where("users.id = ?", current_user.id) if user_signed_in?
+    scope = current_user_scope do
+      filtered_scope do
+        Entry
+          .joins(:feed)
+          .merge(Feed.active.tagged_with(@tag))
+          .most_recent_first
+      end
+    end
     @entries = scope.page(page)
   end
 
   def set_entries_tagged_today
-    scope = Entry
-      .joins(:feed)
-      .merge(Feed.active.tagged_with(@tag))
-      .most_recent_first
-      .last_24h
-    scope = scope.joins(feed: :user).where("users.id = ?", current_user.id) if user_signed_in?
+    scope = current_user_scope do
+      filtered_scope do
+        Entry
+          .joins(:feed)
+          .merge(Feed.active.tagged_with(@tag))
+          .most_recent_first
+          .last_24h
+      end
+    end
     @entries = scope.page(page)
   end
 end

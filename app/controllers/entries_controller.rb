@@ -27,19 +27,23 @@ class EntriesController < ApplicationController
   end
 
   def set_entries
-    @entries = paged_offset_scope do    
-      @feed
-        .entries
-        .most_recent_first
+    @entries = offset_scope do
+      filtered_scope do
+        @feed
+          .entries
+          .most_recent_first
+      end
     end.page(page)
   end
 
   def set_today_entries
-    @entries = paged_offset_scope do    
-      @feed
-        .entries
-        .most_recent_first
-        .last_24h
+    @entries = offset_scope do    
+      filtered_scope do
+        @feed
+          .entries
+          .most_recent_first
+          .last_24h
+      end
     end.page(page)
   end
 end
