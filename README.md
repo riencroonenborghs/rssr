@@ -1,24 +1,19 @@
-# README
+# RSSr
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+RSS reader
 
-Things you may want to cover:
+## Tech
 
-* Ruby version
+Ruby on Rails
 
-* System dependencies
+[![Ruby on Rails - Install dependencies, run security checks, linters and tests](https://github.com/riencroonenborghs/rssr/actions/workflows/rubyonrails.yml/badge.svg)](https://github.com/riencroonenborghs/rssr/actions/workflows/rubyonrails.yml)
 
-* Configuration
+## Functionality
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+  - authentication
+  - manage and tag feeds
+  - scheduled download of new entries
+  - set up filter rules
+  - infinite scrolling
+  - darkmode
+  - search
