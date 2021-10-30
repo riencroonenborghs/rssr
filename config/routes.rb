@@ -19,6 +19,7 @@ Rails.application.routes.draw do
           post :visit
         end
       end
+      resources :rules
 
       resources :entries, only: [:visit] do
         collection do

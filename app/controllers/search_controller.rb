@@ -13,8 +13,8 @@ class SearchController < ApplicationController
   def perform_search
     @entries = [] and return if @query.blank?
 
-    title_scope = current_user_scope do
-      filtered_scope do
+    title_scope = filtered_scope do
+      current_user_scope do
         Entry.where("upper(entries.title) like ?", "%#{@query.upcase}%")
       end
     end

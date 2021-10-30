@@ -42,7 +42,6 @@ RSpec.describe FilterEngine::Engine, type: :model do
       let(:or_scopes) { where_sql.split("OR") }
 
       it "has an OR scope per group" do
-        pp full_sql
         expect(or_scopes.count).to eq 3
       end
       it "has correct AND scopes per group" do

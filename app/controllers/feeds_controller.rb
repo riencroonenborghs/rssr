@@ -20,8 +20,8 @@ class FeedsController < ApplicationController
 
   def set_entries
     @entries = offset_scope do
-      current_user_scope do
-        filtered_scope do
+      filtered_scope do
+        current_user_scope do
           Entry
             .joins(:feed)
             .merge(Feed.active)
@@ -36,8 +36,8 @@ class FeedsController < ApplicationController
   end
 
   def set_entries_tagged
-    scope = current_user_scope do
-      filtered_scope do
+    scope = filtered_scope do
+      current_user_scope do
         Entry
           .joins(:feed)
           .merge(Feed.active.tagged_with(@tag))
@@ -48,8 +48,8 @@ class FeedsController < ApplicationController
   end
 
   def set_entries_tagged_today
-    scope = current_user_scope do
-      filtered_scope do
+    scope = filtered_scope do
+      current_user_scope do
         Entry
           .joins(:feed)
           .merge(Feed.active.tagged_with(@tag))

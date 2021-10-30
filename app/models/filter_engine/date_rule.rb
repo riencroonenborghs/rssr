@@ -1,7 +1,11 @@
 module FilterEngine
   class DateRule < Rule
     def chain(scope)
-      scope.where.not("entries.published_at #{sql_comparison} ?", value)
+      scope.where("entries.published_at #{sql_comparison} ?", value)
+    end
+
+    def human_readable
+      "published #{sql_comparison} #{value}"
     end
 
     private

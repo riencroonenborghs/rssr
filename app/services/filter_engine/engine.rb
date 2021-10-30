@@ -8,23 +8,32 @@ module FilterEngine
     end
 
     def call
-      # @entries = Entry
-      #   .joins(feed: :user)
-      #   .where("users.id = ?", user.id)
-      # @entries = entries.merge(or_scope) if or_scope
+      return unless or_scope
 
-      @scope = scope.merge(or_scope) if or_scope
+      @scope = scope
+        .joins(joins_clauses)
+        .where(or_scope.ast.not.to_sql)
+        .distinct
     end
 
     private
 
-    def chained_and_scopes
+    def and_scopes
       @and_scopes ||= user.filter_engine_rules.group_by(&:group_id).map do |_, filter_engine_rules|
-        chain_and_scope(filter_engine_rules)
+        and_scope_for(filter_engine_rules)
       end
     end
 
-    def chain_and_scope(filter_engine_rules)
+    def joins_clauses
+      joins_clauses = and_scopes.map(&:joins_values).flatten
+      joins = joins_clauses.shift
+      joins_clauses.each do |joins_clause|
+        joins.update(joins_clause)
+      end
+      joins
+    end
+
+    def and_scope_for(filter_engine_rules)
       scope = Entry
       filter_engine_rules.each do |filter_engine_rule|
         scope = filter_engine_rule.chain(scope)
@@ -34,9 +43,10 @@ module FilterEngine
 
     def or_scope
       @or_scope ||= begin
-        scope = chained_and_scopes.shift
-        chained_and_scopes.each do |chained_and_scope|
-          scope = scope.or(chained_and_scope)
+        and_where_clauses = and_scopes.map(&:where_clause)
+        scope = and_where_clauses.shift
+        and_where_clauses.each do |and_where_clause|
+          scope = scope.or(and_where_clause)
         end
         scope
       end

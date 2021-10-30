@@ -10,6 +10,10 @@ module FilterEngine
     def chain(scope)
       raise "#chain(scope) implement me"
     end
+    
+    def human_readable
+      raise "#human_readable) implement me"
+    end
 
     private
     

@@ -4,7 +4,11 @@ module FilterEngine
       scope
         .joins(:feed)
         .includes(:feed)
-        .where.not("feeds.id #{sql_comparison} ?", value)
+        .where("feeds.id #{sql_comparison} ?", value)
+    end
+
+    def human_readable
+      "feed ID #{sql_comparison} #{value}"
     end
 
     private

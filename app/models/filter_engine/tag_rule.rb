@@ -4,8 +4,11 @@ module FilterEngine
       scope
         .joins(feed: { tags: :taggings})
         .includes(feed: { tags: :taggings})
-        .where
-        .not("upper(tags.name) #{sql_comparison} ?", value.upcase)
+        .where("upper(tags.name) #{sql_comparison} ?", value.upcase)
+    end
+
+    def human_readable
+      "tag #{sql_comparison} #{value.upcase}"
     end
     
     private
