@@ -1,12 +1,12 @@
 require "rails_helper"
 
 RSpec.describe Darkmode, type: :model do
-  let(:morning) { Time.zone.parse("28 Oct 2021, 06:00 am")  }
-  let(:noonish) { Time.zone.parse("28 Oct 2021, 1:00 pm")  }
-  let(:evening) { Time.zone.parse("28 Oct 2021, 09:00 pm")  }
+  let(:morning) { Time.zone.parse("28 Oct 2021, 06:00 am") }
+  let(:noonish) { Time.zone.parse("28 Oct 2021, 1:00 pm") }
+  let(:evening) { Time.zone.parse("28 Oct 2021, 09:00 pm") }
 
-  let(:sunrise) { Time.zone.parse("28 Oct 2021, 07:46 am")  }
-  let(:sunset) { Time.zone.parse("28 Oct 2021, 6:22 pm")  }
+  let(:sunrise) { Time.zone.parse("28 Oct 2021, 07:46 am") }
+  let(:sunset) { Time.zone.parse("28 Oct 2021, 6:22 pm") }
 
   before do
     allow_any_instance_of(SolarEventCalculator).to receive(:compute_official_sunrise).and_return(sunrise)

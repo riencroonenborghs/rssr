@@ -1,7 +1,7 @@
 module Admin
   class FeedsController < ApplicationController
     before_action :authenticate_user!
-    before_action :set_feed, only: %i[ edit update destroy visit ]
+    before_action :set_feed, only: %i[edit update destroy visit]
 
     def index
       @feeds = current_user.feeds.includes(:entries)
@@ -9,9 +9,6 @@ module Admin
 
     def new
       @feed = current_user.feeds.new
-    end
-
-    def edit
     end
 
     def create

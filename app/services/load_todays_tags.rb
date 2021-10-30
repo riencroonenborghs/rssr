@@ -31,7 +31,7 @@ class LoadTodaysTags < AppService
     end
   end
 
-  def parse_feed_and_tag(feed, tag, entry_list)
+  def parse_feed_and_tag(feed, tag, entry_list) # rubocop:disable Metrics/AbcSize
     feeds_by_tag[tag] ||= []
     entries[tag] ||= []
 

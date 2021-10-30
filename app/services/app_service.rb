@@ -1,6 +1,6 @@
 class AppService
   include ActiveModel::Validations
-  
+
   def self.call(*args, &block)
     new(*args, &block).tap(&:call)
   end

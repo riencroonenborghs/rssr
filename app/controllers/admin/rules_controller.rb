@@ -1,7 +1,7 @@
 module Admin
   class RulesController < ApplicationController
     before_action :authenticate_user!
-    before_action :set_rule, only: %i[ edit update destroy ]
+    before_action :set_rule, only: %i[edit update destroy]
 
     def index
       @rules = current_user.filter_engine_rules
@@ -9,9 +9,6 @@ module Admin
 
     def new
       @rule = FilterEngine::KeywordRule.new user: current_user, group_id: 1
-    end
-
-    def edit
     end
 
     def create

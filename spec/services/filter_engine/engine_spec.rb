@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe FilterEngine::Engine, type: :model do
   let(:user) { create :user }
-  
+
   let!(:feed) { create :feed, user: user }
   let!(:entry1) { create :entry, feed: feed, published_at: 10.days.ago }
   let!(:entry2) { create :entry, feed: feed, published_at: 9.days.ago }
@@ -19,7 +19,7 @@ RSpec.describe FilterEngine::Engine, type: :model do
       # "SELECT \"entries\".* FROM \"entries\" INNER JOIN \"feeds\" ON \"feeds\".\"id\" = \"entries\".\"feed_id\" INNER JOIN \"users\" ON \"users\".\"id\" = \"feeds\".\"user_id\" WHERE (users.id = 1) AND (upper(entries.title) like '%FOO%') AND (upper(entries.title) like '%BAR%')"
       let(:full_sql) { subject.scope.to_sql }
       # "(users.id = 1) AND (upper(entries.title) like '%FOO%') AND (upper(entries.title) like '%BAR%')"
-      let(:where_sql) { full_sql.split("WHERE")[1] } 
+      let(:where_sql) { full_sql.split("WHERE")[1] }
 
       it "has no OR scope" do
         expect(where_sql.match("OR")).to be nil
@@ -38,7 +38,7 @@ RSpec.describe FilterEngine::Engine, type: :model do
       # "SELECT \"entries\".* FROM \"entries\" INNER JOIN \"feeds\" ON \"feeds\".\"id\" = \"entries\".\"feed_id\" INNER JOIN \"users\" ON \"users\".\"id\" = \"feeds\".\"user_id\" WHERE (users.id = 1) AND (((upper(entries.title) like '%FOO%') AND (upper(entries.title) like '%BAR%') OR (upper(entries.title) like '%OLAF%') AND (upper(entries.title) like '%POLAF%')) OR (upper(entries.title) like '%QUUX%'))"
       let(:full_sql) { subject.scope.to_sql }
       # "(users.id = 1) AND (((upper(entries.title) like '%FOO%') AND (upper(entries.title) like '%BAR%') OR (upper(entries.title) like '%OLAF%') AND (upper(entries.title) like '%POLAF%')) OR (upper(entries.title) like '%QUUX%'))"
-      let(:where_sql) { full_sql.split("WHERE")[1] } 
+      let(:where_sql) { full_sql.split("WHERE")[1] }
       let(:or_scopes) { where_sql.split("OR") }
 
       it "has an OR scope per group" do

@@ -1,7 +1,7 @@
 class LoadFeed < AppService
   attr_reader :feed, :loaded_feed
 
-  def initialize(feed:)
+  def initialize(feed:) # rubocop:disable Lint/MissingSuper
     @feed = feed
   end
 

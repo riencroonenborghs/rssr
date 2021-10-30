@@ -1,7 +1,7 @@
 class EntriesController < ApplicationController
   before_action :set_current_user_feed, if: -> { user_signed_in? }
   before_action :set_global_feed, if: -> { !user_signed_in? }
-  
+
   def index
     set_entries
     paged_render
@@ -37,7 +37,7 @@ class EntriesController < ApplicationController
   end
 
   def set_today_entries
-    @entries = offset_scope do    
+    @entries = offset_scope do
       filtered_scope do
         @feed
           .entries

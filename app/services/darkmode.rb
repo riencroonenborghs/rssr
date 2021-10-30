@@ -1,4 +1,4 @@
-require "solareventcalculator.rb"
+require "solareventcalculator"
 
 class Darkmode
   def self.darkmode?

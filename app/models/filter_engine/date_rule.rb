@@ -10,25 +10,25 @@ module FilterEngine
 
     private
 
+    # rubocop:disable Metrics/MethodLength
     def sql_comparison
-      @sql_comparison ||= begin
-        case comparison
-        when "eq"
-          "="
-        when "ne"
-          "!="
-        when "lt"
-          "<"
-        when "lte"
-          "<="
-        when "gt"
-          ">"
-        when "gte"
-          ">="
-        else
-          "="
-        end
-      end
+      @sql_comparison ||= case comparison
+                          # when "eq"
+                          #   "="
+                          when "ne"
+                            "!="
+                          when "lt"
+                            "<"
+                          when "lte"
+                            "<="
+                          when "gt"
+                            ">"
+                          when "gte"
+                            ">="
+                          else
+                            "="
+                          end
     end
+    # rubocop:enable Metrics/MethodLength
   end
 end

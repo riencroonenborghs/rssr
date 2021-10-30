@@ -34,13 +34,13 @@ class Feed < ApplicationRecord
 
   def visit!
     return unless active?
-    
+
     loader = LoadEntries.call(feed: self)
-    self.update!(error: loader.errors.full_messages.to_sentence) if loader.failure?
-  rescue => e
-    self.update!(error: e.message)
+    update!(error: loader.errors.full_messages.to_sentence) if loader.failure?
+  rescue StandardError => e
+    update!(error: e.message)
   ensure
-    self.update!(last_visited: Time.zone.now)
+    update!(last_visited: Time.zone.now)
   end
   handle_asynchronously :visit!
 

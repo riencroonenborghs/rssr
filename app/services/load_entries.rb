@@ -1,7 +1,7 @@
 class LoadEntries < AppService
   attr_reader :feed
 
-  def initialize(feed:)
+  def initialize(feed:) # rubocop:disable Lint/MissingSuper
     @feed = feed
   end
 
@@ -12,18 +12,18 @@ class LoadEntries < AppService
       create_new_entry(entry)
     end
   end
-  
+
   private
 
   attr_reader :entries_by_entry_id
 
-  def entries    
+  def entries
     loader = LoadFeed.call(feed: feed)
     if loader.failure?
       errors.merge!(loader.errors)
       return []
     end
-    
+
     loader.loaded_feed.entries
   end
 

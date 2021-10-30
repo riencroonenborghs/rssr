@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe LoadFeed, type: :model do
   let(:feed) { create :feed }
   let(:data) { load_file_data("rss_data.xml") }
-  
+
   subject { described_class.new(feed: feed) }
 
   describe ".call" do

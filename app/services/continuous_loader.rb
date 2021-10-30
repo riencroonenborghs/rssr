@@ -8,5 +8,5 @@ class ContinuousLoader < AppService
     self.class.call
   end
 
-  handle_asynchronously :queue, run_at: Proc.new { 15.minutes.from_now }
+  handle_asynchronously :queue, run_at: proc { 15.minutes.from_now }
 end

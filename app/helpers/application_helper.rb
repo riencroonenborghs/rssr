@@ -1,7 +1,7 @@
 module ApplicationHelper
   def tag_links(feed)
     content_tag :span do
-      tag_list = feed.tag_list.each do |tag|
+      feed.tag_list.each do |tag|
         concat(
           tag_link(tag, klass: "pe-1")
         )
@@ -15,12 +15,12 @@ module ApplicationHelper
 
   def clean_summary(entry)
     return unless entry.summary
-    
-    sanitized = sanitize(entry.summary, tags: %w(strong em p a))
-    sanitized.gsub(/\<a /, "<a target='_blank' ")
+
+    sanitized = sanitize(entry.summary, tags: %w[strong em p a])
+    sanitized.gsub(/\<a /, "<a target='_blank' ") # rubocop:disable Style/RedundantRegexpEscape
   end
 
   def clean_summary2(entry)
-    clean_summary(entry).first(50) + " ..."
+    "#{clean_summary(entry).first(50)} ..."
   end
 end

@@ -1,7 +1,7 @@
 class LoadUrl < AppService
   attr_reader :url, :data
 
-  def initialize(url:)
+  def initialize(url:) # rubocop:disable Lint/MissingSuper
     @url = url
   end
 

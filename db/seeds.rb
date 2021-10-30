@@ -1,5 +1,6 @@
-user = User.create!(email: <EMAIL>, password: <PASSWORD>, password_confirmation: <PASSWORD>)
+user = User.create!(email: "<EMAIL>", password: "<PASSWORD>", password_confirmation: "<PASSWORD>")
 
+# rubocop:disable Layout/ArrayAlignment
 [["https://www.standaard.be/rss/section/1f2838d4-99ea-49f0-9102-138784c7ea7c", "news, national, België"],
   ["https://www.standaard.be/rss/section/e70ccf13-a2f0-42b0-8bd3-e32d424a0aa0", "news, world, België"],
   ["https://www.hbvl.be/rss/section/0DB351D4-B23C-47E4-AEEB-09CF7DD521F9", "news, national, Limburg, België"],
@@ -28,9 +29,10 @@ user = User.create!(email: <EMAIL>, password: <PASSWORD>, password_confirmation:
   ["http://krebsonsecurity.com/feed/", "tech, security"],
   ["https://martinfowler.com/feed.atom", "tech, development"],
   ["https://feeds.feedburner.com/TechCrunch/", "tech, misc"],
-  ["http://feeds.arstechnica.com/arstechnica/technology-lab", "misc"]
-  ].each do |item|
-    url, tag_list = item
-    user.feeds.create!(url: url, tag_list: tag_list)
-  rescue => e
-  end
+  ["http://feeds.arstechnica.com/arstechnica/technology-lab", "misc"]].each do |item|
+  url, tag_list = item
+  user.feeds.create!(url: url, tag_list: tag_list)
+rescue StandardError => e
+  pp e.message
+end
+# rubocop:enable Layout/ArrayAlignment

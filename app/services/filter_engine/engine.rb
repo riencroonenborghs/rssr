@@ -2,7 +2,7 @@ module FilterEngine
   class Engine < AppService
     attr_reader :user, :scope
 
-    def initialize(user:, scope:)
+    def initialize(user:, scope:) # rubocop:disable Lint/MissingSuper
       @user = user
       @scope = scope
     end
@@ -10,10 +10,9 @@ module FilterEngine
     def call
       return unless or_scope
 
-      @scope = scope
-        .joins(joins_clauses)
-        .where(or_scope.ast.not.to_sql)
-        .distinct
+      @scope = scope.joins(joins_clauses)
+                    .where(or_scope.ast.not.to_sql)
+                    .distinct
     end
 
     private

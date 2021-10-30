@@ -5,11 +5,10 @@ class ApplicationController < ActionController::Base
 
   before_action :set_offset
   before_action :darkmode?
-  
+
   before_action :tags
 
   private
-
 
   def set_signed_in_feeds
     @feeds = current_user.feeds.alphabetically.includes(:entries)
@@ -28,10 +27,7 @@ class ApplicationController < ActionController::Base
   end
 
   def paged_render
-    if page > 1
-      render :page, layout: false
-      return
-    end
+    render :page, layout: false and return if page > 1
   end
 
   def offset_scope
@@ -45,10 +41,10 @@ class ApplicationController < ActionController::Base
     scope = scope.joins(feed: :user).where("users.id = ?", current_user.id) if user_signed_in?
     scope
   end
-  
+
   def filtered_scope
     scope = yield
-    scope = FilterEngine::Engine.call(user: current_user, scope: scope).scope
+    scope = FilterEngine::Engine.call(user: current_user, scope: scope).scope # rubocop:disable Style/RedundantAssignment
     scope
   end
 
