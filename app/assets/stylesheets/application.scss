@@ -37,7 +37,7 @@ body {
     }
     
     a,
-    // .table,
+    h5,
     .badge.rounded-pill,
     .offcanvas,
     .modal-content,
@@ -48,7 +48,8 @@ body {
     #search,
     #login,
     .meta .ts,
-    i.bi {
+    i.bi,
+    .fw-lighter {
       @extend .text-white;
     }
 
@@ -82,11 +83,6 @@ body {
     }
   }
 
-  // nav.navbar {
-  //   @extend .navbar-light;
-  //   @extend .bg-white;
-  // }
-
   .badge.rounded-pill {
     @extend .bg-primary;
   }
@@ -106,4 +102,9 @@ body {
     padding-left: 16px;
     padding-right: 16px;
   }
+}
+
+.independent-scroll {
+  height: calc(100vh - 56px);
+  overflow: scroll;
 }

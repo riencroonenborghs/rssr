@@ -25,6 +25,8 @@
             RSSr
                 
         .d-flex
+          .page-links.d-flex.align-items-center
+            .page-loading.spinner-grow.spinner-grow-sm(role="status" style="display: none;")
           = link_to new_search_path, class: "btn" do
             %i.bi.bi-search
           - if !signed_in?
@@ -38,7 +40,7 @@
       = render partial: "/layouts/menu/mobile"
     - else
       .row
-        .col-3
+        .col-3.independent-scroll
           = render partial: "/layouts/menu/desktop"
-        .col-9
+        .col-9.independent-scroll.desktop-entries
           = yield
