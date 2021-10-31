@@ -16,14 +16,14 @@
     .row
       -if user_signed_in?
         .d-flex.justify-content-between.w-100.align-items-center
-          %h4.fw-bold Feeds
+          %h5 Feeds
           %div
             = link_to visit_admin_entries_path(root: true), method: :post, class: "btn" do
               %i.bi.bi-arrow-counterclockwise
             = link_to admin_feeds_path, class: "btn" do
               %i.bi.bi-gear
         .d-flex.justify-content-between.w-100.align-items-center
-          %h4.fw-bold Rules
+          %h5 Rules
           %div
             = link_to admin_rules_path, class: "btn" do
               %i.bi.bi-gear
