@@ -6,6 +6,7 @@ ruby "2.6.3"
 gem "acts-as-taggable-on"
 gem "bootsnap", ">= 1.4.2", require: false
 gem "brakeman"
+gem "browser"
 gem "bundler-audit"
 gem "daemons"
 gem "delayed_job_active_record"

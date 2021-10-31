@@ -1,4 +1,4 @@
-#login.container
+#login.container.pt-2
   %h2 Log in
     
   = form_for(resource, as: resource_name, url: session_path(resource_name)) do |form|
@@ -9,12 +9,12 @@
             %li= message
 
     .row
-      .col-12
+      .col-12.col-lg-4
         = form.label :email, class: "form-label"
         = form.email_field :email, autofocus: true, autocomplete: "email", class: "form-control"
 
     .row
-      .col-12
+      .col-12.col-lg-4
         = form.label :password, class: "form-label"
         = form.password_field :password, autocomplete: "current-password", class: "form-control"
 

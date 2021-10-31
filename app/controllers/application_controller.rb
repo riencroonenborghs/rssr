@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
 
   before_action :set_offset
   before_action :darkmode?
+  before_action :mobile?
 
   before_action :tags
 
@@ -44,6 +45,8 @@ class ApplicationController < ActionController::Base
 
   def filtered_scope
     scope = yield
+    return scope unless user_signed_in?
+
     scope = FilterEngine::Engine.call(user: current_user, scope: scope).scope # rubocop:disable Style/RedundantAssignment
     scope
   end
@@ -58,5 +61,9 @@ class ApplicationController < ActionController::Base
     @tag_count_by_tag = loader.tag_count_by_tag
     @feeds_by_tag = loader.feeds_by_tag
     @entries_by_tag_by_feed = loader.entries_by_tag_by_feed
+  end
+
+  def mobile?
+    @mobile = browser.device.mobile?
   end
 end

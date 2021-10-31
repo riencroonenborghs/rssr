@@ -1,0 +1,50 @@
+%div
+  .d-flex.p-3.justify-content-between
+    -if user_signed_in?
+      .d-flex
+        %div
+          %h5.rounded-circle.bg-primary.text-light.me-3.avatar= current_user.name.first
+        %h5.d-flex.flex-column
+          %div= current_user.name
+          .fs-11.fw-lighter=current_user.email
+      %div
+        = link_to destroy_user_session_path, method: :delete, class: "btn" do
+          %i.bi.bi-lock
+    -else
+      %h5 Today
+  .p-3.pt-0
+    .row
+      -if user_signed_in?
+        .d-flex.justify-content-between.w-100.align-items-center
+          %h4.fw-bold Feeds
+          %div
+            = link_to visit_admin_entries_path(root: true), method: :post, class: "btn" do
+              %i.bi.bi-arrow-counterclockwise
+            = link_to admin_feeds_path, class: "btn" do
+              %i.bi.bi-gear
+        .d-flex.justify-content-between.w-100.align-items-center
+          %h4.fw-bold Rules
+          %div
+            = link_to admin_rules_path, class: "btn" do
+              %i.bi.bi-gear
+      -@tags.each_with_index do |tag, index|
+        .row
+          .d-flex.justify-content-between.w-100.align-items-center.p-2.m-1(class="#{'pt-4' if index > 0}")
+            %div.fw-lighter
+              - if current_page?(tagged_today_feeds_path(tag.name.upcase)) 
+                %i.bi.bi-chevron-right
+              =link_to tag.name.upcase, tagged_today_feeds_path(tag.name.upcase), class: "text-decoration-none"
+            .fs-10.fw-lighter
+              =@tag_count_by_tag[tag]
+        - @feeds_by_tag[tag].each do |feed|
+          .row
+            .d-flex.justify-content-between.w-100.align-items-center.border-bottom.p-2.m-1
+              %div
+                - if current_page?(today_feed_entries_path(feed)) 
+                  %i.bi.bi-chevron-right
+                = link_to today_feed_entries_path(feed), class: "text-decoration-none" do
+                  - if feed.youtube?
+                    %i.bi.bi-youtube
+                  =feed.title
+              .fs-10.fw-lighter
+                = @entries_by_tag_by_feed.dig(tag, feed).count
