@@ -45,6 +45,6 @@
                 = link_to today_feed_entries_path(feed), class: "text-decoration-none" do
                   - if feed.youtube?
                     %i.bi.bi-youtube
-                  =feed.title
+                  =feed.name
               .fs-10.fw-lighter
                 = @entries_by_tag_by_feed.dig(tag, feed).count

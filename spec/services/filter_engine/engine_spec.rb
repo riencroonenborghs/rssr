@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe FilterEngine::Engine, type: :model do
   let(:user) { create :user }
 
-  let!(:feed) { create :feed, user: user }
+  let!(:feed) { create :feed }
   let!(:entry1) { create :entry, feed: feed, published_at: 10.days.ago }
   let!(:entry2) { create :entry, feed: feed, published_at: 9.days.ago }
   let!(:entry3) { create :entry, feed: feed, published_at: 8.days.ago }

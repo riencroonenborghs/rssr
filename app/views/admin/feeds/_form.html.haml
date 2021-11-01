@@ -11,8 +11,8 @@
 
   .row
     .col-6
-      = form.label :title, class: "form-label"
-      = form.text_field :title, class: "form-control"
+      = form.label :name, class: "form-label"
+      = form.text_field :name, class: "form-control"
 
     .col-6
       = form.label :tag_list, class: "form-label"
@@ -28,7 +28,7 @@
 
     .col-12.lead.fs-10.fw-lighter
       %ul.list-group.list-group-flush
-        %li.list-group-item Feed title will automatically be filled in when created, unless you specifiy your own.
+        %li.list-group-item Feed name will automatically be filled in when created, unless you specifiy your own.
         %li.list-group-item You do have to give your own (comma separated) tags.
         %li.list-group-item URLs support youtube channel format.
 

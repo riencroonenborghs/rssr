@@ -54,7 +54,7 @@ module Admin
     end
 
     def feed_params
-      params.require(:feed).permit(:url, :title, :active, :tag_list)
+      params.require(:feed).permit(:url, :name, :active, :tag_list)
     end
   end
 end

@@ -17,7 +17,7 @@
             %h5.card-title
               = link_to feed_entries_path(feed), class: "text-decoration-none" do
                 .d-flex.justify-content-between
-                  =feed.title
+                  =feed.name
                   %div.text-nowrap
                     - if feed.active?
                       %i.bi.bi-check

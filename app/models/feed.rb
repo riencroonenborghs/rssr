@@ -1,16 +1,18 @@
 class Feed < ApplicationRecord
-  belongs_to :user
+  has_many :user_feeds, foreign_key: :feed_id
+  has_many :users, through: :user_feeds
+
   has_many :entries, dependent: :destroy
 
-  validates :url, :title, presence: true
+  validates :url, :name, presence: true
   validates :url, uniqueness: true
 
   before_validation :guess_url
-  before_validation :guess_title
+  before_validation :guess_name
 
   acts_as_taggable_on :tags
 
-  scope :alphabetically, -> { order(title: :asc) }
+  scope :alphabetically, -> { order(name: :asc) }
   scope :active, -> { where(active: true) }
 
   def guess_url
@@ -20,8 +22,8 @@ class Feed < ApplicationRecord
     self.url = YoutubeFeedUrl.call(url: url).feed_url
   end
 
-  def guess_title
-    return if title.present?
+  def guess_name
+    return if name.present?
 
     loader = LoadFeed.call(feed: self)
     if loader.failure?
@@ -29,7 +31,7 @@ class Feed < ApplicationRecord
       return
     end
 
-    self.title = loader.loaded_feed.title
+    self.name = loader.loaded_feed.name
   end
 
   def visit!

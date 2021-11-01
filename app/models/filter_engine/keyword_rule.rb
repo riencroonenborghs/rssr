@@ -5,7 +5,7 @@ module FilterEngine
     end
 
     def human_readable
-      "title #{sql_comparison} #{value.upcase}"
+      "name #{sql_comparison} #{value.upcase}"
     end
 
     private

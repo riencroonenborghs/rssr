@@ -18,9 +18,9 @@ RSpec.describe LoadTodaysTags, type: :model do
   let(:taggable_tag6) { ActsAsTaggableOn::Tag.find_by name: tag6 }
 
   let!(:user) { create :user }
-  let!(:feed1) { create :feed, user: user, tag_list: [tag1, tag2, tag3].join(",") }
-  let!(:feed2) { create :feed, user: user, tag_list: [tag2, tag4].join(",") }
-  let!(:feed3) { create :feed, user: user, tag_list: [tag1, tag5, tag6].join(",") }
+  let!(:feed1) { create :feed, tag_list: [tag1, tag2, tag3].join(",") }
+  let!(:feed2) { create :feed, tag_list: [tag2, tag4].join(",") }
+  let!(:feed3) { create :feed, tag_list: [tag1, tag5, tag6].join(",") }
 
   let(:now) { 48.hours.ago }
 

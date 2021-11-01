@@ -1,8 +1,7 @@
 FactoryBot.define do
   factory :feed do
-    user
     url { Faker::Internet.url }
-    title { Faker::Lorem.sentence(word_count: 3) }
+    name { Faker::Lorem.sentence(word_count: 3) }
     active
 
     trait :active do
