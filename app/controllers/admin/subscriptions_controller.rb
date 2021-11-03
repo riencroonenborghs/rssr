@@ -15,16 +15,7 @@ module Admin
 
     def create
       @subscription = current_user.subscriptions.new(feed_id: params[:feed_id])
- 
-      respond_to do |format|
-        @subscription.save
-        format.js {}
-        # if @subscription.save
-        #   format.html { redirect_to admin_subscriptions_path, notice: "Subscription was successfully created." }
-        # else
-        #   format.html { render :new, status: :unprocessable_entity }
-        # end
-      end
+      @subscription.save
     end
 
     # def update
