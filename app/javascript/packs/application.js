@@ -14,4 +14,5 @@ require("channels")
 // const imagePath = (name) => images(name, true)
 
 import 'bootstrap'
+// import "./admin/discover"
 import "./infiniteScroll"

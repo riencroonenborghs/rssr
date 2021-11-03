@@ -1,0 +1,9 @@
+#admin.container.pt-2
+  %h1 Follow another Feed
+
+  .pt-3.pb-3
+    = link_to admin_subscriptions_path, class: "text-decoration-none" do
+      %i.bi.bi-chevron-left
+      Back
+
+  = render 'form', subscription: @subscription

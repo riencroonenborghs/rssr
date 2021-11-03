@@ -14,7 +14,17 @@ Rails.application.routes.draw do
 
   devise_scope :user do
     namespace :admin do
-      resources :feeds do
+      get "discover" => "discover#index"
+      get "discover/search" => "discover#search", as: :discover_search
+      get "discover/tag/:tag" => "discover#tagged", as: :discover_tagged
+
+      get "discover/page/:page" => "discover#index"
+      get "discover/search/page/:page" => "discover#search"
+      get "discover/tag/:tag/page/:page" => "discover#tagged"
+
+      post "subscribe/:feed_id" => "subscriptions#create", as: :subscribe
+      
+      resources :subscriptions do
         member do 
           post :visit
         end

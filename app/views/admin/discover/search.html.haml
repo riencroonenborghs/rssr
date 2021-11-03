@@ -1,0 +1,10 @@
+#discover-search.container.pt-3
+  %h1 Discover
+
+  = render partial: "search"
+  
+  .row.pt-4
+    - @feeds.each do |feed|
+      = render partial: "feed", locals: { feed: feed }
+  
+  = render partial: "pagination", locals: { list: @feeds }

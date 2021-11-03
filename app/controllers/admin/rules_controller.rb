@@ -1,6 +1,5 @@
 module Admin
-  class RulesController < ApplicationController
-    before_action :authenticate_user!
+  class RulesController < AdminController
     before_action :set_rule, only: %i[edit update destroy]
 
     def index

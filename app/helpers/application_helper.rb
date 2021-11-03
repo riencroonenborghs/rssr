@@ -13,6 +13,10 @@ module ApplicationHelper
     link_to content_tag(:span, tag.upcase, class: "badge rounded-pill"), tagged_feeds_path(tag.upcase), class: klass
   end
 
+  def tag_pill(tag_name)
+    content_tag(:span, tag_name.upcase, class: "badge rounded-pill")
+  end
+
   def clean_summary(entry)
     return unless entry.summary
 

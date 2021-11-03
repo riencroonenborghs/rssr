@@ -1,0 +1,13 @@
+= form_with(url: admin_discover_search_path, method: :get, local: true) do |form|
+  .row
+    .col-6
+      = form.text_field :query, class: "form-control", placeholder: "Find feeds by title or tags", value: @query
+    .col-6
+      = form.submit "Search", class: "btn"
+  - if @query
+    .row.fw-lighter.fs-10
+      .col-6
+        Found
+        #{pluralize @feeds.total_count, "result"}
+        &dash;
+        =link_to "Clear", admin_discover_path, class: "text-decoration-none"

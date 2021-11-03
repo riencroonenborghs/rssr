@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
 
   def current_user_scope
     scope = yield
-    scope = scope.joins(feed: :user).where("users.id = ?", current_user.id) if user_signed_in?
+    scope = scope.joins(feed: { subscriptions: :user }).where("users.id = ?", current_user.id) if user_signed_in?
     scope
   end
 

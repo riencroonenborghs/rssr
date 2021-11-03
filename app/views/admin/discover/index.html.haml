@@ -1,0 +1,23 @@
+- show_number_of_feeds = 5
+
+#discover.container.pt-3
+  %h1 Discover
+
+  = render partial: "search"
+
+  .row.feeds
+    - @tags.each do |tag|
+      - taggings = tag.taggings
+      %h6.fw-lighter.d-flex.align-items-center.pt-4
+        =link_to admin_discover_tagged_path(tag.name), class: "text-decoration-none" do
+          = tag_pill tag.name
+        .ps-1.fs-10 (#{tag.taggings_count})
+      - taggings.limit(show_number_of_feeds).each do |tagging|
+        - feed = tagging.taggable
+        = render partial: "feed", locals: { feed: feed }
+      - if taggings.count > show_number_of_feeds
+        .col-4.p-2.fs-10.fw-lighter.d-flex.align-items-center
+          =link_to admin_discover_tagged_path(tag.name), class: "text-decoration-none" do
+            and #{taggings.count - show_number_of_feeds} more ...
+  
+  = render partial: "pagination", locals: { list: @tags }

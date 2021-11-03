@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :user_feed do
+  factory :subscription do
     user
     feed
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_01_072028) do
+ActiveRecord::Schema.define(version: 2021_11_01_073311) do
 
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
@@ -62,6 +62,16 @@ ActiveRecord::Schema.define(version: 2021_11_01_072028) do
     t.index ["user_id"], name: "index_filter_engine_rules_on_user_id"
   end
 
+  create_table "subscriptions", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "feed_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["feed_id"], name: "index_subscriptions_on_feed_id"
+    t.index ["user_id", "feed_id"], name: "index_subscriptions_on_user_id_and_feed_id", unique: true
+    t.index ["user_id"], name: "index_subscriptions_on_user_id"
+  end
+
   create_table "taggings", force: :cascade do |t|
     t.integer "tag_id"
     t.string "taggable_type"
@@ -91,16 +101,6 @@ ActiveRecord::Schema.define(version: 2021_11_01_072028) do
     t.index ["name"], name: "index_tags_on_name", unique: true
   end
 
-  create_table "user_feeds", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "feed_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["feed_id"], name: "index_user_feeds_on_feed_id"
-    t.index ["user_id", "feed_id"], name: "index_user_feeds_on_user_id_and_feed_id", unique: true
-    t.index ["user_id"], name: "index_user_feeds_on_user_id"
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -113,7 +113,7 @@ ActiveRecord::Schema.define(version: 2021_11_01_072028) do
 
   add_foreign_key "entries", "feeds"
   add_foreign_key "filter_engine_rules", "users"
+  add_foreign_key "subscriptions", "feeds"
+  add_foreign_key "subscriptions", "users"
   add_foreign_key "taggings", "tags"
-  add_foreign_key "user_feeds", "feeds"
-  add_foreign_key "user_feeds", "users"
 end

@@ -1,6 +1,6 @@
 class Feed < ApplicationRecord
-  has_many :user_feeds, foreign_key: :feed_id
-  has_many :users, through: :user_feeds
+  has_many :subscriptions, foreign_key: :feed_id
+  has_many :users, through: :subscriptions
 
   has_many :entries, dependent: :destroy
 
@@ -14,6 +14,11 @@ class Feed < ApplicationRecord
 
   scope :alphabetically, -> { order(name: :asc) }
   scope :active, -> { where(active: true) }
+  scope :not_subscribed, -> (user) { where.not(id: user.subscriptions.pluck(:feed_id))  }
+
+  def subscribed?(user)
+    subscriptions.where(user_id: user.id).exists?
+  end
 
   def guess_url
     return unless url.match?(/youtube\.com/)
