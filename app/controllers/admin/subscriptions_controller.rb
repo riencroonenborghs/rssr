@@ -1,19 +1,30 @@
 module Admin
   class SubscriptionsController < AdminController
-    # before_action :set_subscription, only: %i[edit update destroy visit]
-    # before_action :set_page, only: %i[new]
-    # before_action :set_query, only: %i[new]
-
-    # def index
-    #   @subscriptions = current_user.subscriptions
-    # end
-
-    # def new
-    #   @subscription = current_user.subscriptions.new
-    #   @feeds = SearchFeeds.call(user: current_user, query: @query, page: @page).feeds
-    # end
+    def new
+      @subscription = current_user.subscriptions.new(feed: Feed.new)
+    end
 
     def create
+      service = CreateManualSubscription.call(
+        user: current_user,
+        name: subscription_params[:name],
+        tag_list: subscription_params[:tag_list],
+        url: subscription_params[:url],
+        description: subscription_params[:description]
+      )
+      @subscription = service.subscription
+
+      respond_to do |format|
+        if service.success?
+          format.html { redirect_to admin_discover_path, notice: "You're suscribed to '#{@subscription.feed.name}'." }
+        else
+          @subscription.feed = service.feed
+          format.html { render :new, status: :unprocessable_entity }
+        end
+      end
+    end
+
+    def subscribe
       @subscription = current_user.subscriptions.new(feed_id: params[:feed_id])
       @subscription.save
     end
@@ -56,8 +67,8 @@ module Admin
     #   @feed = current_user.subscription.find(params[:id])
     # end
 
-    # def subscription_params
-    #   params.require(:subscription).permit(:feed_id)
-    # end
+    def subscription_params
+      params.require(:subscription).permit(:name, :tag_list, :url, :description)
+    end
   end
 end

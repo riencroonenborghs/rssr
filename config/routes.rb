@@ -22,7 +22,7 @@ Rails.application.routes.draw do
       get "discover/search/page/:page" => "discover#search"
       get "discover/tag/:tag/page/:page" => "discover#tagged"
 
-      post "subscribe/:feed_id" => "subscriptions#create", as: :subscribe
+      post "subscribe/:feed_id" => "subscriptions#subscribe", as: :subscribe
       
       resources :subscriptions do
         member do 

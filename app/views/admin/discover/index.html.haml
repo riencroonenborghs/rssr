@@ -1,3 +1,6 @@
+- content_for :title do
+  Discover
+
 - show_number_of_feeds = 5
 
 #discover.container.pt-3
@@ -21,3 +24,4 @@
             and #{taggings.count - show_number_of_feeds} more ...
   
   = render partial: "pagination", locals: { list: @tags }
+  = render partial: "cant_find_it", locals: { list: @tags }

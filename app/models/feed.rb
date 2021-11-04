@@ -5,10 +5,11 @@ class Feed < ApplicationRecord
   has_many :entries, dependent: :destroy
 
   validates :url, :name, presence: true
+  validates :url, url: true
   validates :url, uniqueness: true
 
-  before_validation :guess_url
-  before_validation :guess_name
+  before_validation :guess_url, if: -> { valid_url? }
+  before_validation :guess_name, if: -> { valid_url? }
 
   acts_as_taggable_on :tags
 
@@ -21,6 +22,7 @@ class Feed < ApplicationRecord
   end
 
   def guess_url
+    return unless url.present?
     return unless url.match?(/youtube\.com/)
     return if url.match?(/feed/)
 
@@ -28,6 +30,7 @@ class Feed < ApplicationRecord
   end
 
   def guess_name
+    return unless url.present?
     return if name.present?
 
     loader = LoadFeed.call(feed: self)
@@ -36,7 +39,7 @@ class Feed < ApplicationRecord
       return
     end
 
-    self.name = loader.loaded_feed.name
+    self.name = loader.loaded_feed&.title
   end
 
   def visit!
@@ -53,5 +56,12 @@ class Feed < ApplicationRecord
 
   def youtube?
     url.match?(/youtube\.com/)
+  end
+
+  def valid_url?
+    validator = ActiveModel::Validations::UrlValidator.new({attributes:[1]})
+    feed = self.class.new
+    validator.validate_each(feed, :url, url)
+    !feed.errors[:url].present?
   end
 end
