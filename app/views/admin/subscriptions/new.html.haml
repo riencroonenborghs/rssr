@@ -9,7 +9,7 @@
       .col-12
         = form.label :url, class: "form-label"
         = form.text_field :url, class: "form-control", required: true
-        - if @subscription.feed.errors[:url]
+        - if @subscription.feed.errors[:url].present?
           %small.text-danger=@subscription.feed.errors[:url].to_sentence
           %br
         %small.fw-lighter We support regular RSS and atom feeds, as well as Youtube channels.
@@ -17,14 +17,14 @@
       .col-6
         = form.label :name, class: "form-label"
         = form.text_field :name, class: "form-control"
-        - if @subscription.feed.errors[:name]
+        - if @subscription.feed.errors[:name].present?
           %small.text-danger=@subscription.feed.errors[:name].to_sentence
           %br
-        %small.fw-lighter Stumped for words? We'll use the RSS feed's name if you leave this empty.
+        %small.fw-lighter Stumped for words? We'll use the RSS feed's title if you leave this empty.
       .col-6
         = form.label :tag_list, class: "form-label"
         = form.text_field :tag_list, class: "form-control"
-        - if @subscription.feed.errors[:tag_list]
+        - if @subscription.feed.errors[:tag_list].present?
           %small.text-danger=@subscription.feed.errors[:tag_list].to_sentence
           %br
         %small.fw-lighter
@@ -36,10 +36,10 @@
       .col-6
         = form.label :description, class: "form-label"
         = form.text_area :description, class: "form-control"
-        - if @subscription.feed.errors[:description]
+        - if @subscription.feed.errors[:description].present?
           %small.text-danger=@subscription.feed.errors[:description].to_sentence
           %br
-        %small.fw-lighter What's a this RSS feed all about?
+        %small.fw-lighter What's this RSS feed all about?
     .row
       .col-12.pt-2
         = form.submit "Subscribe", class: "btn"

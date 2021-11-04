@@ -23,12 +23,15 @@ Rails.application.routes.draw do
       get "discover/tag/:tag/page/:page" => "discover#tagged"
 
       post "subscribe/:feed_id" => "subscriptions#subscribe", as: :subscribe
+      post "unsubscribe/:subscription_id" => "subscriptions#unsubscribe", as: :unsubscribe
       
-      resources :subscriptions do
-        member do 
-          post :visit
-        end
-      end
+      resources :subscriptions, only: [:index, :new]
+
+      # resources :subscriptions do
+      #   member do 
+      #     post :visit
+      #   end
+      # end
       resources :rules
 
       resources :entries, only: [:visit] do

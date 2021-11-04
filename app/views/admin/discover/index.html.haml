@@ -23,5 +23,5 @@
           =link_to admin_discover_tagged_path(tag.name), class: "text-decoration-none" do
             and #{taggings.count - show_number_of_feeds} more ...
   
-  = render partial: "pagination", locals: { list: @tags }
+  = render partial: "/admin/shared/pagination", locals: { list: @tags }
   = render partial: "cant_find_it", locals: { list: @tags }

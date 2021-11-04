@@ -5,6 +5,9 @@
         = current_user.name.first
   .d-flex.flex-column.align-items-center
     %h5
+      =link_to admin_subscriptions_path, class: "text-decoration-none", title: "Subscriptions" do
+        %i.bi.bi-rss
+    %h5
       =link_to admin_discover_path, class: "text-decoration-none", title: "Discover" do
         %i.bi.bi-binoculars
     %h5

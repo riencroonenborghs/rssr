@@ -1,5 +1,11 @@
 module Admin
   class SubscriptionsController < AdminController
+    before_action :set_page, only: [:index]
+
+    def index
+      @subscriptions = current_user.subscriptions.page(@page)
+    end
+
     def new
       @subscription = current_user.subscriptions.new(feed: Feed.new)
     end
@@ -29,6 +35,11 @@ module Admin
       @subscription.save
     end
 
+    def unsubscribe
+      @subscription = current_user.subscriptions.find_by(id: params[:subscription_id])
+      @subscription.destroy
+    end
+
     # def update
     #   respond_to do |format|
     #     if @subscription.update(subscription_params)
@@ -55,9 +66,9 @@ module Admin
 
     private
 
-    # def set_page
-    #   @page = params[:page]&.to_i || 1
-    # end
+    def set_page
+      @page = params[:page]&.to_i || 1
+    end
 
     # def set_query
     #   @query = params[:query]

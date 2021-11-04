@@ -10,4 +10,4 @@
     - @feeds.each do |feed|
       = render partial: "feed", locals: { feed: feed }
   
-  = render partial: "pagination", locals: { list: @feeds }
+  = render partial: "/admin/shared/pagination", locals: { list: @feeds }

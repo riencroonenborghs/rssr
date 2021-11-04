@@ -1,47 +1,20 @@
 - content_for :title do
-  Discover
+  Subscriptions
 
-#admin.container.pt-2
+#new-subscription.container.pt-3
   %h1 Subscriptions
 
-  .pt-3.pb-3
-    = link_to new_admin_subscription_path, class: "text-decoration-none" do
-      %i.bi.bi-plus
-      Follow another Feed
-    -#= link_to visit_admin_entries_path, method: :post, class: "text-decoration-none" do
-      %i.bi.bi-arrow-counterclockwise
-      Reload all
-
-  .row
+  .row.subscriptions
     - @subscriptions.each do |subscription|
-      .col-12.col-xl-3
-        .card.m-2
+      .col-4.p-2
+        .card(id="subscription-#{subscription.id}")
           .card-body
-            %h5.card-title
-              = link_to feed_entries_path(subscription.feed), class: "text-decoration-none" do
-                .d-flex.justify-content-between
-                  =subscription.feed.name
-                  %div.text-nowrap
-                    - if subscription.feed.active?
-                      %i.bi.bi-check
-                    - else
-                      %i.bi.bi-x
-                    - if subscription.feed.youtube?
-                      %i.bi.bi-youtube
-            %h6.card-subtitle.mb-2.text-muted= tag_links subscription.feed
-            .card-text
-              .fw-lighter.fs-10.d-flex.flex-column
-                %div
-                  Last visit
-                  - if subscription.feed.last_visited
-                    = subscription.feed.last_visited.in_time_zone("Pacific/Auckland").to_formatted_s(:short) 
-                  - else
-                    Not yet
+            %h5.card-title=subscription.feed.name
+            - if subscription.feed.description
+              %p.fs-10.card-text=subscription.feed.description
+            .fw-lighter Subscribed since #{subscription.created_at.strftime("%d %B %Y")}
             .d-flex.justify-content-end
-              - if subscription.feed.active?
-                = link_to visit_admin_subscription_path(subscription.feed), method: :post, class: "btn" do
-                  %i.bi.bi-arrow-counterclockwise
-              = link_to edit_admin_subscription_path(subscription.feed), class: "btn" do
-                %i.bi.bi-pencil
-              = link_to [:admin, subscription], method: :delete, data: { confirm: "Are you sure?" }, class: "btn" do
-                %i.bi.bi-trash
+              = form_with url: admin_unsubscribe_path(subscription) do |form|
+                %button(type="submit" class="btn btn-sm btn-outline-primary") Unsubscribe
+
+  = render partial: "/admin/shared/pagination", locals: { list: @subscriptions }
