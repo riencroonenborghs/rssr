@@ -12,7 +12,7 @@ class Entry < ApplicationRecord
     viewed_by.where(user_id: user.id).exists?
   end
 
-  def read_it?(user)
+  def read_later?(user)
     read_later.where(user_id: user.id).exists?
   end
 end

@@ -1,6 +1,10 @@
 <% if @read_later.valid? %>
   function readLater () {
-    document.getElementById("read-later-<%= @read_later.entry.id %>").innerHTML = "<i class='bi bi-bookmark' />";
+    const parent = document.getElementById("read-later-<%= @read_later.entry.id %>");
+    const readLaterReadIt = parent.getElementsByClassName("read-later-read-it")[0];
+    readLaterReadIt.classList.add("d-none");
+    const readLater = parent.getElementsByClassName("read-later")[0];
+    readLater.classList.remove("d-none");
   }
   readLater();
 <% else %>
