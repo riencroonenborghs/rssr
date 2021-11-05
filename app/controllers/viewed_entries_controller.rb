@@ -1,7 +1,7 @@
 class ViewedEntriesController < ApplicationController
+  before_action :authenticate_user!
+
   def create
-    return unless user_signed_in?
-    
     entry = Entry.find_by(id: params[:entry_id])
     return unless entry
 

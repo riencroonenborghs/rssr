@@ -1,0 +1,14 @@
+<% if @read_later.valid? %>
+  function readLater () {
+    document.getElementById("read-later-<%= @read_later.entry.id %>").innerHTML = "<i class='bi bi-bookmark-check' />";
+  }
+  readLater();
+<% else %>
+  function showMessage () {
+    const alert = document.getElementById("async-flash-alert");
+    const body = alert.getElementsByClassName("toast-body")[0];
+    body.innerHTML = "<%= @subscription.errors.full_messages.to_sentence %>";
+    alert.classList.add("show");
+  }
+  showMessage();
+<% end %>

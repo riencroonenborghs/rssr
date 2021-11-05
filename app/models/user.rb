@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_many :subscriptions, foreign_key: :user_id, dependent: :destroy
   has_many :feeds, through: :subscriptions
   has_many :viewed_entries
+  has_many :read_later_entries
   
   has_many :filter_engine_rules, dependent: :destroy, class_name: "FilterEngine::Rule"
 end

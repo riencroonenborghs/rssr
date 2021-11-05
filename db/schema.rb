@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_05_031831) do
+ActiveRecord::Schema.define(version: 2021_11_05_051929) do
 
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
@@ -60,6 +60,16 @@ ActiveRecord::Schema.define(version: 2021_11_05_031831) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "group_id", null: false
     t.index ["user_id"], name: "index_filter_engine_rules_on_user_id"
+  end
+
+  create_table "read_later_entries", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "entry_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["entry_id"], name: "index_read_later_entries_on_entry_id"
+    t.index ["user_id", "entry_id"], name: "index_read_later_entries_on_user_id_and_entry_id"
+    t.index ["user_id"], name: "index_read_later_entries_on_user_id"
   end
 
   create_table "subscriptions", force: :cascade do |t|
@@ -123,6 +133,8 @@ ActiveRecord::Schema.define(version: 2021_11_05_031831) do
 
   add_foreign_key "entries", "feeds"
   add_foreign_key "filter_engine_rules", "users"
+  add_foreign_key "read_later_entries", "entries"
+  add_foreign_key "read_later_entries", "users"
   add_foreign_key "subscriptions", "feeds"
   add_foreign_key "subscriptions", "users"
   add_foreign_key "taggings", "tags"

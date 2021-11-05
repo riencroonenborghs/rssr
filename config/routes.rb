@@ -14,9 +14,12 @@ Rails.application.routes.draw do
 
 
   get "today" => "subscriptions#today", as: :subscriptions_today
-  post "viewed/:entry_id" => "viewed_entries#create"
 
   devise_scope :user do
+    post "viewed/:entry_id" => "viewed_entries#create"
+    post "read_later/:entry_id" => "read_later_entries#create", as: :read_later
+    delete "read_later/:entry_id/read_it" => "read_later_entries#destroy", as: :read_later_read_it
+
     namespace :admin do
       get "discover" => "discover#index"
       get "discover/search" => "discover#search", as: :discover_search
