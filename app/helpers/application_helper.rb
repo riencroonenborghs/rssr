@@ -27,4 +27,8 @@ module ApplicationHelper
   def clean_summary2(entry)
     "#{clean_summary(entry).first(50)} ..."
   end
+
+  def part_of_path(p)
+    pp request.path
+  end
 end

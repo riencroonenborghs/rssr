@@ -1,7 +1,7 @@
 - content_for :title do
   Subscriptions
 
-#new-subscription.container.pt-3
+#subscriptions.container.pt-3
   %h1 Subscriptions
 
   .row.subscriptions
@@ -13,6 +13,7 @@
             - if subscription.feed.description
               %p.fs-10.card-text=subscription.feed.description
             .fw-lighter Subscribed since #{subscription.created_at.strftime("%d %B %Y")}
+            .fw-lighter Last visited #{subscription.feed.last_visited.strftime("%d %B %Y at %H:%M")}
             .d-flex.justify-content-end
               = form_with url: admin_unsubscribe_path(subscription) do |form|
                 %button(type="submit" class="btn btn-sm btn-outline-primary") Unsubscribe

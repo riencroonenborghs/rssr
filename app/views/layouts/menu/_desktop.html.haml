@@ -1,50 +1,39 @@
-%div
-  .d-flex.p-3.justify-content-between
-    -if user_signed_in?
-      .d-flex
-        %div
-          %h5.rounded-circle.bg-primary.text-light.me-3.avatar= current_user.name.first
-        %h5.d-flex.flex-column
-          %div= current_user.name
-          .fs-11.fw-lighter=current_user.email
-      %div
-        = link_to destroy_user_session_path, method: :delete, class: "btn" do
-          %i.bi.bi-lock
-    -else
-      %h5 Today
-  .p-3.pt-0
-    .row
-      -if user_signed_in?
-        .d-flex.justify-content-between.w-100.align-items-center
-          %h5 Subscriptions
-          %div
-            = link_to visit_admin_entries_path(root: true), method: :post, class: "btn" do
-              %i.bi.bi-arrow-counterclockwise
-            = link_to admin_discover_path, class: "btn" do
-              %i.bi.bi-gear
-        .d-flex.justify-content-between.w-100.align-items-center
-          %h5 Rules
-          %div
-            = link_to admin_rules_path, class: "btn" do
-              %i.bi.bi-gear
-      -@tags.each_with_index do |tag, index|
-        .row
-          .d-flex.justify-content-between.w-100.align-items-center.p-2.m-1(class="#{'pt-4' if index > 0}")
-            %div.fw-lighter
-              - if current_page?(tagged_today_feeds_path(tag.name.upcase)) 
-                %i.bi.bi-chevron-right
-              =link_to tag.name.upcase, tagged_today_feeds_path(tag.name.upcase), class: "text-decoration-none"
-            .fs-10.fw-lighter
-              =@tag_count_by_tag[tag]
-        - @feeds_by_tag[tag].each do |feed|
-          .row
-            .d-flex.justify-content-between.w-100.align-items-center.border-bottom.p-2.m-1
-              %div
-                - if current_page?(today_feed_entries_path(feed)) 
-                  %i.bi.bi-chevron-right
-                = link_to today_feed_entries_path(feed), class: "text-decoration-none" do
-                  - if feed.youtube?
-                    %i.bi.bi-youtube
-                  =feed.name
-              .fs-10.fw-lighter
-                = @entries_by_tag_by_feed.dig(tag, feed).count
+.border-end.d-flex.flex-column.justify-content-between(style="height: calc(100vh - 45px);")
+  .pt-3
+    - if user_signed_in?
+      .d-flex.justify-content-center
+        %h5.rounded-circle.bg-primary.text-light.avatar(title="#{current_user.email}")
+          = current_user.name.first
+    .d-flex.flex-column.align-items-center.mt-4.pt-2(class="#{'current-page' if current_page?(subscriptions_today_path) || current_page?(root_path)}")
+      %h5
+        =link_to subscriptions_today_path, class: "text-decoration-none", title: "Subscriptions" do
+          %i.bi.bi-calendar2-check
+  %div
+    - if user_signed_in?
+      .d-flex.flex-column.align-items-center.pt-2(class="#{'current-page' if current_page?(admin_subscriptions_path)}")
+        %h5
+          =link_to admin_subscriptions_path, class: "text-decoration-none", title: "Subscriptions" do
+            %i.bi.bi-rss
+      .d-flex.flex-column.align-items-center.pt-2(class="#{'current-page' if current_page?(admin_discover_path) || current_page?(admin_discover_search_path)}")
+        %h5
+          =link_to admin_discover_path, class: "text-decoration-none", title: "Discover" do
+            %i.bi.bi-binoculars
+      .d-flex.flex-column.align-items-center.pt-2(class="#{'current-page' if current_page?(admin_rules_path)}")
+        %h5
+          =link_to admin_rules_path, class: "text-decoration-none", title: "Rules" do
+            %i.bi.bi-card-checklist
+      .d-flex.flex-column.align-items-center.pt-2(class="#{'current-page' if current_page?(new_admin_subscription_path)}")
+        %h5
+          =link_to new_admin_subscription_path, class: "text-decoration-none", title: "Add your own RSS subscription" do
+            %i.bi.bi-plus
+    - if user_signed_in?
+      .d-flex.flex-column.align-items-center.pt-2.pb-2.mt-2.mb-2
+        %h5
+          = link_to destroy_user_session_path, method: :delete, title: "Log out" do
+            %i.bi.bi-lock
+    - else
+      .d-flex.flex-column.align-items-center.pt-2.pb-2.mt-2.mb-2(class="#{'current-page' if current_page?(new_user_session_path )}")
+        %h5
+          = link_to new_user_session_path, title: "Log in" do
+            %i.bi.bi-unlock
+      

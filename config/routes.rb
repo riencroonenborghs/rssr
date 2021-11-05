@@ -12,6 +12,9 @@ Rails.application.routes.draw do
   end
   resources :search, only: [:new, :create]
 
+
+  get "today" => "subscriptions#today", as: :subscriptions_today
+
   devise_scope :user do
     namespace :admin do
       get "discover" => "discover#index"
@@ -26,23 +29,17 @@ Rails.application.routes.draw do
       post "unsubscribe/:subscription_id" => "subscriptions#unsubscribe", as: :unsubscribe
       
       resources :subscriptions, only: [:index, :new]
+      resources :rules
 
-      # resources :subscriptions do
-      #   member do 
+      # resources :entries, only: [:visit] do
+      #   collection do
       #     post :visit
       #   end
       # end
-      resources :rules
-
-      resources :entries, only: [:visit] do
-        collection do
-          post :visit
-        end
-      end
     end
   end
 
-  root to: "feeds#index"
+  root to: "subscriptions#today"
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

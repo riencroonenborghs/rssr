@@ -1,4 +1,7 @@
-#login.container.pt-2
+- content_for :title do
+  Log in
+
+#discover.container.pt-3
   %h2 Log in
     
   = form_for(resource, as: resource_name, url: session_path(resource_name)) do |form|

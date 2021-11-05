@@ -1,0 +1,8 @@
+- content_for :title do
+  Today
+
+#today.container.pt-3
+  %h1 Today
+
+  = render partial: "/shared/entries", locals: { entries: @entries }
+  

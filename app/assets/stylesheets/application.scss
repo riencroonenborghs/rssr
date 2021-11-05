@@ -103,10 +103,10 @@ body {
   }
 }
 
-.independent-scroll {
-  height: calc(100vh - 56px);
-  overflow: scroll;
-}
+// .independent-scroll {
+//   height: calc(100vh - 56px);
+//   overflow: scroll;
+// }
 
 
 #admin {
@@ -120,4 +120,12 @@ body {
       width: calc(100vw - 75px);
     }
   }
+}
+
+.current-page {
+  border-top: 1px solid #dee2e6;
+  border-bottom: 1px solid #dee2e6;
+  border-right: 1px solid white;
+  position: relative;
+  left: 1px;
 }
