@@ -1,6 +1,6 @@
 class ContinuousLoader < AppService
   def call
-    Feed.all.map(&:visit!)
+    Subscription.all.map(&:feed).map(&:visit!)
     queue
   end
 
