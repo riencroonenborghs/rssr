@@ -103,12 +103,6 @@ body {
   }
 }
 
-// .independent-scroll {
-//   height: calc(100vh - 56px);
-//   overflow: scroll;
-// }
-
-
 #desktop {
   #menu {
     position: fixed;
@@ -126,6 +120,7 @@ body {
   border-right: 1px solid white;
   position: relative;
   left: 1px;
+  @extend .bg-white;
 }
 
 .viewed {

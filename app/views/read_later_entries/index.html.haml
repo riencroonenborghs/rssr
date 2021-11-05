@@ -4,5 +4,13 @@
 #today.container.pt-3
   %h1 Read Later
 
-  = render partial: "/shared/entries", locals: { entries: @entries }
+  - if @entries.size > 0
+    = render partial: "/shared/entries", locals: { entries: @entries }
+  - else
+    %p
+      You can bookmark
+      = link_to "articles", root_path, class: "text-decoration-none"
+      and read them later here.
+      %br
+      Just click <i class="bi bi-bookmark"></i> and you're all set. It's easy as!
   
