@@ -17,7 +17,62 @@
       %button.btn(type="button" data-bs-dismiss="offcanvas" aria-label="Close")
         %i.bi.bi-x-lg
   .offcanvas-body
-    .row
+    .d-flex.flex-column.justify-content-between.h-100
+      %div
+        .row
+          .d-flex.mt-4.pt-2
+          %h5
+            =link_to subscriptions_today_path, class: "text-decoration-none", title: "Today" do
+              %i.bi.bi-calendar2-check
+              Today
+        -# if user_signed_in?
+          .row
+            .d-flex.pt-2
+              %h5
+                =link_to read_later_all_path, class: "text-decoration-none", title: "Read later" do
+                  %i.bi.bi-bookmark
+                  Read Later
+      %div
+        - if user_signed_in?
+          .row
+            .d-flex.pt-2
+              %h5
+                =link_to admin_subscriptions_path, class: "text-decoration-none", title: "Subscriptions" do
+                  %i.bi.bi-rss
+                  Subscriptions
+          .row
+            .d-flex.pt-2
+              %h5
+                =link_to admin_discover_path, class: "text-decoration-none", title: "Discover" do
+                  %i.bi.bi-binoculars
+                  Discover
+          .row
+            .d-flex.pt-2
+              %h5
+                =link_to admin_rules_path, class: "text-decoration-none", title: "Rules" do
+                  %i.bi.bi-card-checklist
+                  Rules
+          .row
+            .d-flex.pt-2
+              %h5
+                =link_to new_admin_subscription_path, class: "text-decoration-none", title: "Add your own RSS subscription" do
+                  %i.bi.bi-plus
+                  Add RSS Feed
+          .row
+            .d-flex.pt-2.pb-2.mt-2.mb-2
+              %h5
+                = link_to destroy_user_session_path, method: :delete, title: "Log out", class: "text-decoration-none" do
+                  %i.bi.bi-lock
+                  Log out
+        - else
+          .row
+            .d-flex.pt-2.pb-2.mt-2.mb-2
+              %h5
+                = link_to new_user_session_path, title: "Log in", class: "text-decoration-none"  do
+                  %i.bi.bi-unlock
+                  Log in
+      
+    -#
       -if user_signed_in?
         .d-flex.justify-content-between.w-100.align-items-center
           %h5 Subscriptions

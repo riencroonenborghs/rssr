@@ -6,12 +6,13 @@
           = current_user.name.first
     .d-flex.flex-column.align-items-center.mt-4.pt-2(class="#{'current-page' if current_page?(subscriptions_today_path) || current_page?(root_path)}")
       %h5
-        =link_to subscriptions_today_path, class: "text-decoration-none", title: "Subscriptions" do
+        =link_to subscriptions_today_path, class: "text-decoration-none", title: "Today" do
           %i.bi.bi-calendar2-check
-    .d-flex.flex-column.align-items-center.pt-2(class="#{'current-page' if current_page?(read_later_all_path)}")
-      %h5
-        =link_to read_later_all_path, class: "text-decoration-none", title: "Read later" do
-          %i.bi.bi-bookmark
+    - if user_signed_in?
+      .d-flex.flex-column.align-items-center.pt-2(class="#{'current-page' if current_page?(read_later_all_path)}")
+        %h5
+          =link_to read_later_all_path, class: "text-decoration-none", title: "Read later" do
+            %i.bi.bi-bookmark
   %div
     - if user_signed_in?
       .d-flex.flex-column.align-items-center.pt-2(class="#{'current-page' if current_page?(admin_subscriptions_path)}")
