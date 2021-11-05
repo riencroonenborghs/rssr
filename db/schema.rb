@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_01_073311) do
+ActiveRecord::Schema.define(version: 2021_11_05_031831) do
 
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
@@ -111,9 +111,21 @@ ActiveRecord::Schema.define(version: 2021_11_01_073311) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  create_table "viewed_entries", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "entry_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["entry_id"], name: "index_viewed_entries_on_entry_id"
+    t.index ["user_id", "entry_id"], name: "index_viewed_entries_on_user_id_and_entry_id"
+    t.index ["user_id"], name: "index_viewed_entries_on_user_id"
+  end
+
   add_foreign_key "entries", "feeds"
   add_foreign_key "filter_engine_rules", "users"
   add_foreign_key "subscriptions", "feeds"
   add_foreign_key "subscriptions", "users"
   add_foreign_key "taggings", "tags"
+  add_foreign_key "viewed_entries", "entries"
+  add_foreign_key "viewed_entries", "users"
 end

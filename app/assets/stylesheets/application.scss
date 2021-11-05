@@ -109,16 +109,14 @@ body {
 // }
 
 
-#admin {
-  #desktop {
-    #menu {
-      position: fixed;
-      width: 65px;
-    }
-    #view {
-      margin-left: 65px;
-      width: calc(100vw - 75px);
-    }
+#desktop {
+  #menu {
+    position: fixed;
+    width: 65px;
+  }
+  #view {
+    margin-left: 65px;
+    width: calc(100vw - 75px);
   }
 }
 
@@ -128,4 +126,13 @@ body {
   border-right: 1px solid white;
   position: relative;
   left: 1px;
+}
+
+.viewed {
+  .entry {
+    @extend .bg-light;
+    @extend .border-light;
+    @extend .border;
+    @extend .rounded;
+  }
 }

@@ -1,7 +1,7 @@
 .row
   - entries.each do |entry|
-    .col-12.col-lg-6.col-xl-4
-      .entry.d-flex.p-2.border.m-2.border-light.rounded
+    .col-12.col-lg-6.col-xl-4.entry-wrapper(class="#{'viewed' if user_signed_in? && entry.viewed_by?(current_user)}" data-entry-id="#{entry.id}")
+      .entry.d-flex.p-2.m-1
         - if entry.image_url
           .image.pe-2.pt-1
             =image_tag entry.image_url, width: "150px", class: "rounded"

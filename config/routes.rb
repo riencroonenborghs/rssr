@@ -14,6 +14,7 @@ Rails.application.routes.draw do
 
 
   get "today" => "subscriptions#today", as: :subscriptions_today
+  post "viewed/:entry_id" => "viewed_entries#create"
 
   devise_scope :user do
     namespace :admin do

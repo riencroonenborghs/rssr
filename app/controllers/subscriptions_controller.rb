@@ -3,7 +3,9 @@ class SubscriptionsController < ApplicationController
     @entries = offset_scope do
       filtered_scope do
         scope = Entry
+          .includes(:viewed_by)
           .most_recent_first
+          .today
           .joins(feed: { subscriptions: :user })
         scope = scope.merge(User.where(id: current_user.id)) if user_signed_in?
         scope
