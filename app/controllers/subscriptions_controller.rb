@@ -4,12 +4,11 @@ class SubscriptionsController < ApplicationController
       filtered_scope do
         scope = Entry
           .most_recent_first
-          .today
           .joins(feed: { subscriptions: :user })
         scope = scope.merge(User.where(id: current_user.id)) if user_signed_in?
         scope
       end
-    end.page(page)
+    end.page(page).per(24)
 
     paged_render
   end
