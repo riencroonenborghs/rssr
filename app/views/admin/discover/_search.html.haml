@@ -1,6 +1,6 @@
 = form_with(url: admin_discover_search_path, method: :get, local: true) do |form|
   .row
-    .col-6
+    .col-12.col-lg-6.col-xl-6
       = form.text_field :query, class: "form-control", placeholder: "Find feeds by title or tags", value: @query
     .col-6
       = form.submit "Search", class: "btn"

@@ -8,8 +8,6 @@
           %div= current_user.name
           .fs-11.fw-lighter=current_user.email
       %div
-        = link_to destroy_user_session_path, method: :delete, class: "btn" do
-          %i.bi.bi-lock
         %button.btn(type="button" data-bs-dismiss="offcanvas" aria-label="Close")
           %i.bi.bi-x-lg
     -else
@@ -25,13 +23,6 @@
             =link_to subscriptions_today_path, class: "text-decoration-none", title: "Today" do
               %i.bi.bi-calendar2-check
               Today
-        -# if user_signed_in?
-          .row
-            .d-flex.pt-2
-              %h5
-                =link_to read_later_all_path, class: "text-decoration-none", title: "Read later" do
-                  %i.bi.bi-bookmark
-                  Read Later
       %div
         - if user_signed_in?
           .row
@@ -71,39 +62,4 @@
                 = link_to new_user_session_path, title: "Log in", class: "text-decoration-none"  do
                   %i.bi.bi-unlock
                   Log in
-      
-    -#
-      -if user_signed_in?
-        .d-flex.justify-content-between.w-100.align-items-center
-          %h5 Subscriptions
-          %div
-            =# link_to visit_admin_entries_path(root: true), method: :post, class: "btn" do
-            -#  %i.bi.bi-arrow-counterclockwise
-            = link_to admin_discover_path, class: "btn" do
-              %i.bi.bi-gear
-        .d-flex.justify-content-between.w-100.align-items-center
-          %h5 Rules
-          %div
-            = link_to admin_rules_path, class: "btn" do
-              %i.bi.bi-gear
-      -@tags.each do |tag|
-        .row
-          .d-flex.justify-content-between.w-100.align-items-center.p-2.m-1.pt-4
-            %div.fw-lighter
-              - if current_page?(tagged_today_feeds_path(tag.name.upcase)) 
-                %i.bi.bi-chevron-right
-              =link_to tag.name.upcase, tagged_today_feeds_path(tag.name.upcase), class: "text-decoration-none"
-            .fs-10.fw-lighter
-              =@tag_count_by_tag[tag]
-        - @feeds_by_tag[tag].each do |feed|
-          .row
-            .d-flex.justify-content-between.w-100.align-items-center.border-bottom.p-2.m-1
-              %div
-                - if current_page?(today_feed_entries_path(feed)) 
-                  %i.bi.bi-chevron-right
-                = link_to today_feed_entries_path(feed), class: "text-decoration-none" do
-                  - if feed.youtube?
-                    %i.bi.bi-youtube
-                  =feed.name
-              .fs-10.fw-lighter
-                = @entries_by_tag_by_feed.dig(tag, feed).count
+                  

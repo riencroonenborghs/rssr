@@ -25,12 +25,6 @@
             %i.bi.bi-rss.p-3
           = link_to root_path, class: "navbar-brand" do
             RSSr
-        - if @mobile
-          %div
-            - unless user_signed_in?
-              = link_to new_user_session_path, title: "Log in" do
-                %i.bi.bi-unlock
-              
 
     = render partial: "/layouts/flash_messages"
     = render partial: "/layouts/async_flash_messages"

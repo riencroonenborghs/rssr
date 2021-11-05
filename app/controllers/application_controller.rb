@@ -1,8 +1,4 @@
 class ApplicationController < ActionController::Base
-  # # feeds
-  # before_action :set_signed_in_feeds, if: -> { user_signed_in? }
-  # before_action :set_global_feeds, if: -> { !user_signed_in? }
-
   before_action :set_offset
   # before_action :darkmode?
   before_action :mobile?
@@ -10,14 +6,6 @@ class ApplicationController < ActionController::Base
   before_action :tags, if: -> { mobile? }
 
   private
-
-  # def set_signed_in_feeds
-  #   @feeds = current_user.feeds.alphabetically.includes(:entries)
-  # end
-
-  # def set_global_feeds
-  #   @feeds = Feed.alphabetically.includes(:entries)
-  # end
 
   def set_offset
     @offset = params[:ts] ? Offset.to_datetime(offset: params[:ts]) : nil
@@ -37,11 +25,11 @@ class ApplicationController < ActionController::Base
     scope
   end
 
-  # def current_user_scope
-  #   scope = yield
-  #   scope = scope.joins(feed: { subscriptions: :user }).where("users.id = ?", current_user.id) if user_signed_in?
-  #   scope
-  # end
+  def current_user_scope
+    scope = yield
+    scope = scope.joins(feed: { subscriptions: :user }).where("users.id = ?", current_user.id) if user_signed_in?
+    scope
+  end
 
   def filtered_scope
     scope = yield
