@@ -3,8 +3,6 @@ class ApplicationController < ActionController::Base
   # before_action :darkmode?
   before_action :mobile?
 
-  before_action :tags, if: -> { mobile? }
-
   private
 
   def set_offset
@@ -41,14 +39,6 @@ class ApplicationController < ActionController::Base
 
   def darkmode?
     @darkmode = Darkmode.darkmode?
-  end
-
-  def tags
-    loader = LoadTodaysTags.call
-    @tags = loader.tags
-    @tag_count_by_tag = loader.tag_count_by_tag
-    @feeds_by_tag = loader.feeds_by_tag
-    @entries_by_tag_by_feed = loader.entries_by_tag_by_feed
   end
 
   def mobile?
