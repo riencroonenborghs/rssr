@@ -17,6 +17,7 @@ class ReadLaterEntriesController < ApplicationController
   end
 
   def destroy
+    @remove_from_list = request.referer == read_later_all_url
     @read_later = current_user.read_later_entries.find_by(entry_id: params[:entry_id])
     @read_later.destroy
   end

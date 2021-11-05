@@ -1,12 +1,22 @@
 <% if @read_later.valid? %>
-  function readLater () {
+  function readLaterReadIt () {
     const parent = document.getElementById("read-later-<%= @read_later.entry.id %>");
     const readLaterReadIt = parent.getElementsByClassName("read-later-read-it")[0];
     readLaterReadIt.classList.add("d-none");
     const readLater = parent.getElementsByClassName("read-later")[0];
     readLater.classList.remove("d-none");
   }
-  readLater();
+
+  function readLaterReadItAndRemove () {
+    const parent = document.getElementById("read-later-<%= @read_later.entry.id %>");
+    parent.closest(".entry-wrapper").replaceWith("");
+  }
+
+  <% if @remove_from_list %>
+    readLaterReadItAndRemove();
+  <% else %>
+    readLaterReadIt();
+  <% end %>  
 <% else %>
   function showMessage () {
     const alert = document.getElementById("async-flash-alert");
