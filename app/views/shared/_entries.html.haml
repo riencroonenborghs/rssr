@@ -1,12 +1,8 @@
-- if entries.size.zero?
-  .container.p-2
-    Nothing yet.
-- else
-  .d-flex.flex-column.entries
-    = render partial: "/shared/page", locals: { entries: entries }
+.d-flex.flex-column.entries
+  = render partial: "/shared/page", locals: { entries: entries }
 
-  -# if entries.size >= 25
-    .page-links.d-flex.justify-content-center.pt-4.pb-4
-      =link_to_previous_page entries, "<i class='bi bi-chevron-double-left'></i>".html_safe, class: "btn text-primary"
-      .page-loading.spinner-grow(role="status")
-      =link_to_next_page entries, "<i class='bi bi-chevron-double-right'></i>".html_safe, class: "btn text-primary"
+-# if entries.size >= 25
+  .page-links.d-flex.justify-content-center.pt-4.pb-4
+    =link_to_previous_page entries, "<i class='bi bi-chevron-double-left'></i>".html_safe, class: "btn text-primary"
+    .page-loading.spinner-grow(role="status")
+    =link_to_next_page entries, "<i class='bi bi-chevron-double-right'></i>".html_safe, class: "btn text-primary"

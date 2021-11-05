@@ -42,7 +42,7 @@ class EntriesController < ApplicationController
         @feed
           .entries
           .most_recent_first
-          .last_24h
+          .today
       end
     end.page(page)
   end

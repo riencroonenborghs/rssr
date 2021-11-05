@@ -1,42 +1,4 @@
-- entries.each do |entry|
-  .entry.d-flex.p-2
-    - if entry.image_url
-      .image.pe-2.pt-1
-        =image_tag entry.image_url, width: "150px", class: "rounded"
-    .text.d-flex.flex-column
-      .fs-11.fw-lighter= tag_links entry.feed
-      .title
-        - if entry.summary.blank?
-          =link_to entry.url, class: "text-decoration-none", target: "_blank" do
-            = entry.title
-        - else
-          =link_to "#", class: "text-decoration-none", "data-bs-toggle" => "modal", "data-bs-target" => "#entry-#{entry.id}" do
-            = entry.title
-      .meta.fs-11.fw-lighter
-        =link_to entry.feed.name, feed_entries_path(entry.feed), class: "text-decoration-none"
-        %span.ts(title="#{entry.published_at.in_time_zone("Pacific/Auckland").to_formatted_s(:long)}")
-          \\
-          =distance_of_time_in_words_to_now entry.published_at
-          ago
-  - unless entry.summary.blank?
-    .modal.fade(id="entry-#{entry.id}" tabindex="-1" aria-labelledby="entry-#{entry.id}-label" aria-hidden="true")
-      .modal-dialog.modal-dialog-scrollable.modal-dialog-centered.modal-fullscreen
-        .modal-content
-          .modal-header
-            .d-flex.flex-column.align-items-start
-              .fs-11.fw-lighter= tag_links entry.feed
-              .title
-                =link_to entry.url, class: "text-decoration-none", target: "_blank" do
-                  = entry.title
-              .meta.fs-11.fw-lighter
-                =link_to entry.feed.name, feed_entries_path(entry.feed), class: "text-decoration-none"
-                %span.ts(title="#{entry.published_at.in_time_zone("Pacific/Auckland").to_formatted_s(:long)}")
-                  \\
-                  =distance_of_time_in_words_to_now entry.published_at
-                  ago
-            =link_to "#", class: "btn", "data-bs-dismiss" => "modal", "aria-label" => "Close" do
-              %i.bi.bi-x-lg
-          .modal-body
-            - if entry.image_url
-              =image_tag entry.image_url, width: "100px", class: "rounded me-3", align: "left"
-            %p=raw clean_summary(entry)        
+- if @mobile
+  = render partial: "/shared/page/mobile", locals: { entries: entries }
+- else
+  = render partial: "/shared/page/desktop", locals: { entries: entries }

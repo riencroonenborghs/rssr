@@ -4,7 +4,7 @@ class SubscriptionsController < ApplicationController
       filtered_scope do
         scope = Entry
           .most_recent_first
-          .last_24h
+          .today
           .joins(feed: { subscriptions: :user })
         scope = scope.merge(User.where(id: current_user.id)) if user_signed_in?
         scope

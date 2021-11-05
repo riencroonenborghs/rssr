@@ -54,7 +54,7 @@ class FeedsController < ApplicationController
           .joins(:feed)
           .merge(Feed.active.tagged_with(@tag))
           .most_recent_first
-          .last_24h
+          .today
       end
     end
     @entries = scope.page(page)

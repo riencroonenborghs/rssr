@@ -16,7 +16,7 @@ class LoadTodaysTags < AppService
       .joins(feed: :base_tags)
       .merge(Feed.active)
       .most_recent_first
-      .last_24h
+      .today
   end
 
   def parse_entry_scope
