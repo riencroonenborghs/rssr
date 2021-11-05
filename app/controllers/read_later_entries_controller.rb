@@ -1,6 +1,13 @@
 class ReadLaterEntriesController < ApplicationController
   before_action :authenticate_user!
 
+  def index
+    @entries = Entry
+      .joins(feed: { subscriptions: :user})
+      .joins(:read_later)
+      .merge(current_user.read_later_entries)
+  end
+
   def create
     entry = Entry.find_by(id: params[:entry_id])
     return unless entry

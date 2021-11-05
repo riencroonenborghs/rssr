@@ -17,6 +17,8 @@ Rails.application.routes.draw do
 
   devise_scope :user do
     post "viewed/:entry_id" => "viewed_entries#create"
+
+    get "read_later" => "read_later_entries#index", as: :read_later_all
     post "read_later/:entry_id" => "read_later_entries#create", as: :read_later
     delete "read_later/:entry_id/read_it" => "read_later_entries#destroy", as: :read_later_read_it
 

@@ -23,9 +23,9 @@
         - if user_signed_in?
           .read-later(id="read-later-#{entry.id}")
             - if entry.read_it?(current_user)
-              %i.bi.bi-bookmark-check
-              =#link_to read_later_read_it_path(entry), remote: true, method: :delete, class: "text-decoration-none", target: "_blank" do
-              =#  %i.bi.bi-bookmark-check
+              -#%i.bi.bi-bookmark-check
+              =link_to read_later_read_it_path(entry), remote: true, method: :delete, class: "text-decoration-none", target: "_blank" do
+                %i.bi.bi-bookmark-check
             - else
               =link_to read_later_path(entry), remote: true, method: :post, class: "text-decoration-none", target: "_blank" do
                 %i.bi.bi-bookmark
