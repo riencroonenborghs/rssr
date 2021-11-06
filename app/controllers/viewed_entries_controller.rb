@@ -7,9 +7,9 @@ class ViewedEntriesController < ApplicationController
 
     object = current_user.viewed_entries.build(entry_id: entry.id)
     if object.valid? && object.save
-      render json: {success: true, viewed: entry.id}
+      render json: { success: true, viewed: entry.id }
     else
-      render json: {error: object.errors.full_messages.to_sentence}, status: 400
+      render json: { error: object.errors.full_messages.to_sentence }, status: 400
     end
   end
 end

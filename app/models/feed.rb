@@ -15,7 +15,7 @@ class Feed < ApplicationRecord
 
   scope :alphabetically, -> { order(name: :asc) }
   scope :active, -> { where(active: true) }
-  scope :not_subscribed, -> (user) { where.not(id: user.subscriptions.pluck(:feed_id))  }
+  scope :not_subscribed, ->(user) { where.not(id: user.subscriptions.pluck(:feed_id)) }
 
   def subscribed?(user)
     subscriptions.where(user_id: user.id).exists?
@@ -59,7 +59,7 @@ class Feed < ApplicationRecord
   end
 
   def valid_url?
-    validator = ActiveModel::Validations::UrlValidator.new({attributes:[1]})
+    validator = ActiveModel::Validations::UrlValidator.new({ attributes: [1] })
     feed = self.class.new
     validator.validate_each(feed, :url, url)
     !feed.errors[:url].present?

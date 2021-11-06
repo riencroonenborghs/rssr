@@ -1,12 +1,12 @@
 class SubscriptionsController < ApplicationController
-  def today
+  def today # rubocop:disable Metrics/MethodLength
     @entries = offset_scope do
       filtered_scope do
         scope = Entry
-          .includes(:viewed_by)
-          .most_recent_first
-          .today
-          .joins(feed: { subscriptions: :user })
+                .includes(:viewed_by)
+                .most_recent_first
+                .today
+                .joins(feed: { subscriptions: :user })
         scope = scope.merge(User.where(id: current_user.id)) if user_signed_in?
         scope
       end

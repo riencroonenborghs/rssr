@@ -9,7 +9,7 @@ module Admin
     end
 
     def tagged
-      @tag = params[:tag] 
+      @tag = params[:tag]
       @feeds = Feed.tagged_with(@tag).order(name: :asc).page(@page)
     end
 

@@ -1,7 +1,7 @@
 class SearchFeeds < AppService
   attr_reader :user, :query, :page, :feeds
 
-  def initialize(user:, query:, page: 1)
+  def initialize(user:, query:, page: 1) # rubocop:disable Lint/MissingSuper
     @user = user
     @query = query
     @page = page
@@ -30,12 +30,12 @@ class SearchFeeds < AppService
 
     query_strings = []
     values = []
-    
-    query.split(" ").map do |value|
+
+    query.split.map do |value|
       values << Array.new(2, "%#{value.upcase}%")
       query_strings << "(upper(name) like ? OR upper(description) like ?)"
     end
-    
+
     scope.where([query_strings.join(" OR "), values].flatten)
   end
 

@@ -1,16 +1,18 @@
 require "opml-parser"
-include OpmlParser
 
 namespace :feeds do
+  include OpmlParser
+
   desc "Import first batch of curated feeds"
   task import: :environment do
     data = HTTParty.get("https://raw.githubusercontent.com/m8/refined.blog/master/data.json").body
     data = JSON.parse(data)["data"]
     data.each do |item|
-      pp "Importing #{item["furl"]}"
+      pp "Importing #{item['furl']}"
       next unless item["furl"]
+
       if (feed = Feed.find_by(url: item["furl"]))
-        pp "-- exists, adding tags #{item["tags"]}"
+        pp "-- exists, adding tags #{item['tags']}"
         item["tags"].each do |tag|
           feed.tag_list.add(tag)
         end
@@ -21,7 +23,7 @@ namespace :feeds do
         pp "-- new!"
         Feed.create! url: item["furl"], name: item["name"], tag_list: item["tags"].join(", ")
       end
-    rescue => e
+    rescue StandardError => e
       pp "something happened"
       pp e.message
     end
@@ -91,12 +93,10 @@ namespace :feeds do
       "https://raw.githubusercontent.com/plenaryapp/awesome-rss-feeds/master/recommended/without_category/Web%20Development.opml",
       "https://raw.githubusercontent.com/plenaryapp/awesome-rss-feeds/master/recommended/without_category/iOS%20Development.opml"
     ].each do |url|
-      tag = URI.decode url.split("/").last.gsub(".opml","")
+      tag = URI.decode url.split("/").last.gsub(".opml", "") # rubocop:disable Lint/UriEscapeUnescape
       data = HTTParty.get(url).body
       list = OpmlParser.import data
-      list.select do |item|
-        item.attributes[:type] == "rss"
-      end.each do |item|
+      list.select { |item| item.attributes[:type] == "rss" }.each do |item|
         attributes = item.attributes
         pp "Importing #{attributes[:xmlUrl]}"
         if (feed = Feed.find_by(url: attributes[:xmlUrl]))
@@ -106,7 +106,33 @@ namespace :feeds do
         else
           Feed.create! url: attributes[:xmlUrl], name: attributes[:title], tag_list: tag
         end
-      rescue => e
+      rescue StandardError => e
+        pp "something happened"
+        pp e.message
+      end
+    end
+  end
+
+  desc "Import 3rd batch of curated feeds"
+  task import3: :environment do
+    [
+      "https://gist.githubusercontent.com/webpro/5907452/raw/a71a3b59c108267fb667510dbe91154035f1ed10/feeds.opml",
+      "https://pastebin.com/raw/teAMsvZK"
+    ].each do |url|
+      tag = "tech"
+      data = HTTParty.get(url).body
+      list = OpmlParser.import data
+      list.select { |item| item.attributes[:type] == "rss" }.each do |item|
+        attributes = item.attributes
+        pp "Importing #{attributes[:xmlUrl]}"
+        if (feed = Feed.find_by(url: attributes[:xmlUrl]))
+          feed.tag_list.add(tag)
+          feed.description = attributes[:description]
+          feed.save!
+        else
+          Feed.create! url: attributes[:xmlUrl], name: attributes[:title], tag_list: tag
+        end
+      rescue StandardError => e
         pp "something happened"
         pp e.message
       end

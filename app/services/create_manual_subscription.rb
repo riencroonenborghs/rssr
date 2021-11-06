@@ -1,7 +1,7 @@
 class CreateManualSubscription < AppService
   attr_reader :user, :name, :tag_list, :url, :description, :feed, :subscription
-  
-  def initialize(user:, name:, tag_list:, url:, description:)
+
+  def initialize(user:, name:, tag_list:, url:, description:) # rubocop:disable Lint/MissingSuper
     @user = user
     @name = name
     @tag_list = tag_list
@@ -17,7 +17,7 @@ class CreateManualSubscription < AppService
   private
 
   def find_or_create_feed
-    return if @feed = Feed.find_by(url: url)
+    return if (@feed = Feed.find_by(url: url))
 
     create_feed
   end
