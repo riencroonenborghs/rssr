@@ -19,7 +19,6 @@ class SearchFeeds < AppService
 
   def base
     Feed
-      .not_subscribed(user)
       .active
       .alphabetically
   end
