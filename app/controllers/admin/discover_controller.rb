@@ -17,6 +17,11 @@ module Admin
 
     def set_tags
       scope = ActsAsTaggableOn::Tag.most_used(ActsAsTaggableOn::Tag.count)
+      if user_signed_in?
+        tag_ids = ActsAsTaggableOn::Tagging.where(taggable_type: "Feed").where(id: current_user.feeds.select(:id).pluck(:id)).select(:tag_id).pluck(:tag_id)
+        scope = scope.where(id: tag_ids)
+      end
+
       @tags = Kaminari.paginate_array(scope).page(@page).per(5)
     end
 

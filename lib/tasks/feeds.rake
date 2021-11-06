@@ -169,12 +169,12 @@ namespace :feeds do
   task import_yaml: :environment do
     url = "https://raw.githubusercontent.com/tzano/wren/master/wren/config/rss_feeds.yml"
     data = HTTParty.get(url).body
-    yaml = YAML.load data
-    yaml.keys.each do |tag1|
+    yaml = YAML.safe_load data
+    yaml.each_key do |tag1|
       list = yaml[tag1]
-      list.keys.each do |tag2|
+      list.each_key do |tag2|
         list2 = list[tag2]
-        list2.keys.each do |tag3|
+        list2.each_key do |tag3|
           url = list2[tag3]
           pp "Importing #{url}"
           if (feed = Feed.find_by(url: url))
@@ -197,8 +197,9 @@ namespace :feeds do
       data = HTTParty.get(url).body
       csv = CSV.parse data
       csv.each_with_index do |line, index|
-        next if index == 0 # header
-        url, title, description, _, _ = line
+        next if index.zero? # header
+
+        url, title, description, = line
         url = url.slice(5, url.size) if url.starts_with?("feed:")
         url = url.slice(5, url.size) if url.starts_with?("feed:")
         url = "http:#{url}" if url.starts_with?("//")
@@ -208,7 +209,7 @@ namespace :feeds do
           feed.tag_list.add("various")
           feed.save!
         else
-          Feed.create! url: url, name: title, tag_list: "various"
+          Feed.create! url: url, name: title, tag_list: "various", description: description
         end
       rescue StandardError => e
         pp "something happened"
