@@ -3,7 +3,7 @@ require "opml-parser"
 namespace :feeds do
   include OpmlParser
 
-  desc "Import first batch of curated feeds"
+  desc "Import"
   task import: :environment do
     data = HTTParty.get("https://raw.githubusercontent.com/m8/refined.blog/master/data.json").body
     data = JSON.parse(data)["data"]
@@ -29,8 +29,8 @@ namespace :feeds do
     end
   end
 
-  desc "Import 2nd batch of curated feeds"
-  task import2: :environment do
+  desc "Import various"
+  task import_various: :environment do
     [
       "https://raw.githubusercontent.com/plenaryapp/awesome-rss-feeds/master/countries/without_category/Australia.opml",
       "https://raw.githubusercontent.com/plenaryapp/awesome-rss-feeds/master/countries/without_category/Bangladesh.opml",
@@ -113,13 +113,38 @@ namespace :feeds do
     end
   end
 
-  desc "Import 3rd batch of curated feeds"
-  task import3: :environment do
+  desc "Import tech"
+  task import_tech: :environment do
     [
       "https://gist.githubusercontent.com/webpro/5907452/raw/a71a3b59c108267fb667510dbe91154035f1ed10/feeds.opml",
       "https://pastebin.com/raw/teAMsvZK"
     ].each do |url|
       tag = "tech"
+      data = HTTParty.get(url).body
+      list = OpmlParser.import data
+      list.select { |item| item.attributes[:type] == "rss" }.each do |item|
+        attributes = item.attributes
+        pp "Importing #{attributes[:xmlUrl]}"
+        if (feed = Feed.find_by(url: attributes[:xmlUrl]))
+          feed.tag_list.add(tag)
+          feed.description = attributes[:description]
+          feed.save!
+        else
+          Feed.create! url: attributes[:xmlUrl], name: attributes[:title], tag_list: tag
+        end
+      rescue StandardError => e
+        pp "something happened"
+        pp e.message
+      end
+    end
+  end
+
+  desc "Import news"
+  task import_news: :environment do
+    [
+      "https://raw.githubusercontent.com/scripting/feedsForJournalists/master/list.opml"
+    ].each do |url|
+      tag = "news"
       data = HTTParty.get(url).body
       list = OpmlParser.import data
       list.select { |item| item.attributes[:type] == "rss" }.each do |item|
