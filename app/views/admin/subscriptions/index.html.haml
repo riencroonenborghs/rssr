@@ -14,7 +14,7 @@
             - if subscription.feed.description
               %p.fs-10.card-text=subscription.feed.description
             .fw-lighter Subscribed since #{subscription.created_at.strftime("%d %B %Y")}
-            .fw-lighter Last visited #{subscription.feed.last_visited.strftime("%d %B %Y at %H:%M")}
+            .fw-lighter Last visited #{subscription.feed.last_visited&.strftime("%d %B %Y at %H:%M")}
             .fs-11
               = tag_links subscription.feed
             .d-flex.justify-content-end

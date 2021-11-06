@@ -1,7 +1,7 @@
 .row
   - entries.each do |entry|
     .col-12.col-lg-6.col-xl-4.entry-wrapper(class="#{'viewed' if user_signed_in? && entry.viewed_by?(current_user)}" data-entry-id="#{entry.id}")
-      .entry.d-flex.p-2.m-1
+      .entry.d-flex.p-2.m-1.justify-content-between
         - if entry.image_url
           .image.pe-2.pt-1
             =image_tag entry.image_url, width: "150px", class: "rounded"
@@ -21,7 +21,7 @@
               =distance_of_time_in_words_to_now entry.published_at
               ago
         - if user_signed_in?
-          .read-later(id="read-later-#{entry.id}")
+          .read-later.ms-2.mb-2(id="read-later-#{entry.id}")
             %span.read-later-read-it(class="#{'d-none' unless entry.read_later?(current_user)}")
               =link_to read_later_read_it_path(entry), remote: true, method: :delete, class: "text-decoration-none", title: "I've read it", target: "_blank" do
                 %i.bi.bi-bookmark-check
