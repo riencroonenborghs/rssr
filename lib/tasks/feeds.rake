@@ -142,7 +142,8 @@ namespace :feeds do
   desc "Import news"
   task import_news: :environment do
     [
-      "https://raw.githubusercontent.com/scripting/feedsForJournalists/master/list.opml"
+      "https://raw.githubusercontent.com/scripting/feedsForJournalists/master/list.opml",
+      "https://raw.githubusercontent.com/newman8r/us-newspapers-opml/master/us-newspapers.opml"
     ].each do |url|
       tag = "news"
       data = HTTParty.get(url).body
@@ -156,6 +157,58 @@ namespace :feeds do
           feed.save!
         else
           Feed.create! url: attributes[:xmlUrl], name: attributes[:title], tag_list: tag
+        end
+      rescue StandardError => e
+        pp "something happened"
+        pp e.message
+      end
+    end
+  end
+
+  desc "Import yaml"
+  task import_yaml: :environment do
+    url = "https://raw.githubusercontent.com/tzano/wren/master/wren/config/rss_feeds.yml"
+    data = HTTParty.get(url).body
+    yaml = YAML.load data
+    yaml.keys.each do |tag1|
+      list = yaml[tag1]
+      list.keys.each do |tag2|
+        list2 = list[tag2]
+        list2.keys.each do |tag3|
+          url = list2[tag3]
+          pp "Importing #{url}"
+          if (feed = Feed.find_by(url: url))
+            feed.tag_list.add(tag1)
+            feed.tag_list.add(tag2)
+            feed.tag_list.add(tag3)
+            feed.save!
+          else
+            Feed.create! url: url, name: "#{tag2} - #{tag3}", tag_list: "#{tag1},#{tag2},#{tag3}"
+          end
+        end
+      end
+    end
+  end
+
+  desc "Import datorss"
+  task import_datorss: :environment do
+    (1..28).each do |page|
+      url = "https://www.datorss.com/feeds.csv?page=#{page}"
+      data = HTTParty.get(url).body
+      csv = CSV.parse data
+      csv.each_with_index do |line, index|
+        next if index == 0 # header
+        url, title, description, _, _ = line
+        url = url.slice(5, url.size) if url.starts_with?("feed:")
+        url = url.slice(5, url.size) if url.starts_with?("feed:")
+        url = "http:#{url}" if url.starts_with?("//")
+        title = title.force_encoding('utf-8').encode
+        pp "Importing #{page}/#{index} #{url}"
+        if (feed = Feed.find_by(url: url))
+          feed.tag_list.add("various")
+          feed.save!
+        else
+          Feed.create! url: url, name: title, tag_list: "various"
         end
       rescue StandardError => e
         pp "something happened"
