@@ -25,6 +25,8 @@
             %i.bi.bi-rss.p-3
           = link_to root_path, class: "navbar-brand" do
             RSSr
+        .page-links.d-flex.align-items-center
+          .page-loading.spinner-grow.spinner-grow-sm(role="status" style="display: none;")
 
     = render partial: "/layouts/flash_messages"
     = render partial: "/layouts/async_flash_messages"
