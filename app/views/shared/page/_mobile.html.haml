@@ -18,6 +18,14 @@
           \\
           =distance_of_time_in_words_to_now entry.published_at
           ago
+    - if user_signed_in?
+      .read-later.ms-2.mb-2(id="read-later-#{entry.id}")
+        %span.read-later-read-it(class="#{'d-none' unless entry.read_later?(current_user)}")
+          =link_to read_later_read_it_path(entry), remote: true, method: :delete, class: "text-decoration-none", title: "I've read it", target: "_blank" do
+            %i.bi.bi-bookmark-check
+        %span.read-later(class="#{'d-none' if entry.read_later?(current_user)}")
+          =link_to read_later_path(entry), remote: true, method: :post, title: "Read it later", class: "text-decoration-none", target: "_blank" do
+            %i.bi.bi-bookmark
   - unless entry.summary.blank?
     .modal.fade(id="entry-#{entry.id}" tabindex="-1" aria-labelledby="entry-#{entry.id}-label" aria-hidden="true")
       .modal-dialog.modal-dialog-scrollable.modal-dialog-centered.modal-fullscreen
