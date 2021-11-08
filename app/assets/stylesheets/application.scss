@@ -131,3 +131,14 @@ body {
     @extend .rounded;
   }
 }
+
+.entry-wrapper {
+  &.disable {
+    a {
+      @extend .text-secondary;
+      .badge.rounded-pill {
+        @extend .bg-secondary;
+      }
+    }
+  }
+}

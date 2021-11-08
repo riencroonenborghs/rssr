@@ -1,5 +1,5 @@
 - entries.each do |entry|
-  .entry.d-flex.p-2
+  .entry.d-flex.p-2.entry-wrapper
     - if entry.image_url
       .image.pe-2.pt-1
         =image_tag entry.image_url, width: "150px", class: "rounded"

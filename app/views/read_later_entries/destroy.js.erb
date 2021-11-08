@@ -7,13 +7,15 @@
     readLater.classList.remove("d-none");
   }
 
-  function readLaterReadItAndRemove () {
+  function readLaterReadItAndDisable () {
     const parent = document.getElementById("read-later-<%= @read_later.entry.id %>");
-    parent.closest(".entry-wrapper").replaceWith("");
+    parent.classList.add("d-none");
+    const wrapper = parent.closest(".entry-wrapper");
+    wrapper.classList.add("disable");
   }
 
   <% if @remove_from_list %>
-    readLaterReadItAndRemove();
+    readLaterReadItAndDisable();
   <% else %>
     readLaterReadIt();
   <% end %>  
