@@ -20,8 +20,8 @@ RSpec.describe FilterEngine::Engine, type: :model do
 
       # SELECT DISTINCT \"entries\".* FROM \"entries\" WHERE (NOT ((upper(entries.title) like '%FOO%')))
 
-      it "has no AND scope" do
-        expect(where_sql.match?("AND")).to be false
+      it "has no OR scope" do
+        expect(where_sql.match?("OR")).to be false
       end
 
       it "has a NOT scope" do
@@ -39,12 +39,12 @@ RSpec.describe FilterEngine::Engine, type: :model do
 
       # SELECT DISTINCT \"entries\".* FROM \"entries\" WHERE (NOT ((upper(entries.title) like '%FOO%') AND (upper(entries.title) like '%BAR%') AND (upper(entries.title) like '%OLAF%') AND (upper(entries.title) like '%POLAF%') AND (upper(entries.title) like '%QUUX%')))"
 
-      it "has a AND scope" do
-        expect(where_sql.match?("AND")).to be true
+      it "has a OR scope" do
+        expect(where_sql.match?("OR")).to be true
       end
 
-      it "has AND scopes" do
-        expect(where_sql.split("AND").count).to eq 4 + 1 # 1 for user id and 4 for AND between the rules
+      it "has OR scopes" do
+        expect(where_sql.split("OR").count).to eq 4 + 1 # 1 for user id and 4 for AND between the rules
       end
 
       it "has a NOT scope" do

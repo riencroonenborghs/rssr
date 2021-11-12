@@ -8,34 +8,31 @@ module FilterEngine
     end
 
     def call
-      return unless and_scope_where_clause.any?
+      return unless or_scope.where_clause.any?
 
-      @scope = scope.joins(joins_clauses)
-                    .where(and_scope_where_clause.ast.not.to_sql)
-                    .distinct
+      @scope = scope.where(or_scope.where_clause.ast.not.to_sql).distinct
+      @scope = scope.joins(joins_clause) if joins_clause.any?
     end
 
     private
 
-    def joins_clauses
-      joins_clauses = and_scope.map(&:joins_values).flatten
-      joins = joins_clauses.shift
-      joins_clauses.each do |joins_clause|
-        joins.update(joins_clause)
+    def or_scope
+      @or_scope ||= begin
+        scopes = user.filter_engine_rules.map do |filter_engine_rule|
+          filter_engine_rule.chain(Entry)
+        end
+
+        scope = scopes.shift
+        scopes.each do |other_scope|
+          scope = scope.or(other_scope)
+        end
+
+        scope
       end
-      joins
     end
 
-    def and_scope
-      scope = Entry
-      user.filter_engine_rules.each do |filter_engine_rule|
-        scope = filter_engine_rule.chain(scope)
-      end
-      scope
-    end
-
-    def and_scope_where_clause
-      @and_scope_where_clause ||= and_scope.where_clause
+    def joins_clause
+      @joins_clause ||= or_scope.joins_values
     end
   end
 end

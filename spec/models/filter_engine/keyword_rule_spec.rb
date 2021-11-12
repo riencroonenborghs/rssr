@@ -13,12 +13,12 @@ RSpec.describe FilterEngine::KeywordRule, type: :model do
       let(:value) { "foo,bar,baz" }
       let(:full_sql)  { subject.chain(scope).to_sql }
 
-      it "chains with OR" do
-        expect(full_sql.match?("OR")).to be true
+      it "chains with AND" do
+        expect(full_sql.match?("AND")).to be true
       end
 
-      it "has 3 OR parts" do
-        expect(full_sql.split("OR").count).to eq 3
+      it "has 3 AND parts" do
+        expect(full_sql.split("AND").count).to eq 3
       end
 
       it "has where cluase for each value" do

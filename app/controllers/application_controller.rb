@@ -63,6 +63,7 @@ class ApplicationController < ActionController::Base
     return scope unless user_signed_in?
 
     scope = FilterEngine::Engine.call(user: current_user, scope: scope).scope # rubocop:disable Style/RedundantAssignment
+
     scope
   end
 
