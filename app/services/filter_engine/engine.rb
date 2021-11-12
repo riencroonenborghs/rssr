@@ -8,23 +8,17 @@ module FilterEngine
     end
 
     def call
-      return unless or_scope
+      return unless and_scope_where_clause.any?
 
       @scope = scope.joins(joins_clauses)
-                    .where(or_scope.ast.not.to_sql)
+                    .where(and_scope_where_clause.ast.not.to_sql)
                     .distinct
     end
 
     private
 
-    def and_scopes
-      @and_scopes ||= user.filter_engine_rules.group_by(&:group_id).map do |_, filter_engine_rules|
-        and_scope_for(filter_engine_rules)
-      end
-    end
-
     def joins_clauses
-      joins_clauses = and_scopes.map(&:joins_values).flatten
+      joins_clauses = and_scope.map(&:joins_values).flatten
       joins = joins_clauses.shift
       joins_clauses.each do |joins_clause|
         joins.update(joins_clause)
@@ -32,23 +26,16 @@ module FilterEngine
       joins
     end
 
-    def and_scope_for(filter_engine_rules)
+    def and_scope
       scope = Entry
-      filter_engine_rules.each do |filter_engine_rule|
+      user.filter_engine_rules.each do |filter_engine_rule|
         scope = filter_engine_rule.chain(scope)
       end
       scope
     end
 
-    def or_scope
-      @or_scope ||= begin
-        and_where_clauses = and_scopes.map(&:where_clause)
-        scope = and_where_clauses.shift
-        and_where_clauses.each do |and_where_clause|
-          scope = scope.or(and_where_clause)
-        end
-        scope
-      end
+    def and_scope_where_clause
+      @and_scope_where_clause ||= and_scope.where_clause
     end
   end
 end

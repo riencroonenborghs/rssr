@@ -6,24 +6,20 @@
       %i.bi.bi-plus
       New Rule
 
-  .row
-    - @rules.group_by(&:group_id).each do |group_id, inner_rules|
-      .col-12.col-lg-4.col-xl-4
-        .card.m-2
-          .card-body
-            %h5.card-title
-              Rule #
-              =group_id              
-            .card-text
-              .d-flex.flex-column
-                - inner_rules.each_with_index do |rule, index|
-                  .d-flex.justify-content-between
-                    .d-flex.align-items-center
-                      =rule.human_readable
-                      - if index + 1 < inner_rules.size
-                        %strong.fw-lighter.fs-11 &nbsp;and
-                    .d-flex.justify-content-end
-                      = link_to edit_admin_rule_path(rule.id), class: "btn" do
-                        %i.bi.bi-pencil
-                      = link_to admin_rule_path(rule.id), method: :delete, data: { confirm: "Are you sure?" }, class: "btn" do
-                        %i.bi.bi-trash
+  %p
+    Filter out anything where
+  .row.pb-4
+    .col-5
+      %ul.list-group
+        - @rules.each_with_index do |rule, index|
+          %li.list-group-item
+            .d-flex.justify-content-between.align-items-center
+              %span
+                =rule.human_readable
+              %div
+                - if index + 1 < @rules.size
+                  %strong.fw-lighter &nbsp;OR
+                = link_to edit_admin_rule_path(rule.id), class: "btn" do
+                  %i.bi.bi-pencil
+                = link_to admin_rule_path(rule.id), method: :delete, data: { confirm: "Are you sure?" }, class: "btn" do
+                  %i.bi.bi-trash

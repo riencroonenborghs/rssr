@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_05_051929) do
+ActiveRecord::Schema.define(version: 2021_11_12_220756) do
 
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
@@ -58,7 +58,6 @@ ActiveRecord::Schema.define(version: 2021_11_05_051929) do
     t.string "value", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "group_id", null: false
     t.index ["user_id"], name: "index_filter_engine_rules_on_user_id"
   end
 

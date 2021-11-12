@@ -7,7 +7,7 @@ module Admin
     end
 
     def new
-      @rule = FilterEngine::KeywordRule.new user: current_user, group_id: 1
+      @rule = FilterEngine::KeywordRule.new user: current_user
     end
 
     def create
@@ -46,7 +46,7 @@ module Admin
     end
 
     def rule_params
-      params.require(:rule).permit(:id, :type, :comparison, :value, :group_id)
+      params.require(:rule).permit(:id, :type, :comparison, :value)
     end
   end
 end

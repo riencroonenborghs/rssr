@@ -10,21 +10,20 @@
           %li= message
 
   =form.hidden_field :id, value: rule.id
-  .row
-    .col-12.col-lg-2.col-xl-2
-      = form.label :group_id, "Group ID", class: "form-label"
-      = form.number_field :group_id, class: "form-control", value: rule.group_id
-  .row
+  
+  -#.row
     .col-12.col-lg-3.col-xl-3
       = form.label :type, class: "form-label"
       = form.select :type, [["Date", "FilterEngine::DateRule"], ["Feed", "FilterEngine::FeedRule"],["Keyword", "FilterEngine::KeywordRule"], ["Tag", "FilterEngine::TagRule"]], { selected: rule.type.to_s, include_blank: false }, { class: "form-select" }
-  .row
+  -#.row
     .col-12.col-lg-2.col-xl-2
       = form.label :comparison, class: "form-label"
       = form.select :comparison, [["equals","eq"], ["not equals", "ne"], ["less than", "lt"], ["less than equals", "lte"], ["greater than", "gt"], ["greater than equals", "gte"]], { selected: rule.comparison, include_blank: false }, class: "form-select"
+  .row
+    .col-12.col-lg-3.col-xl-3
+      = form.select :comparison, [["contains the word(s)","eq"], ["does not contain the word(s)", "ne"]], { selected: rule.comparison, include_blank: false }, class: "form-select"    
     .col-12.col-lg-6.col-xl-6
-      = form.label :value, class: "form-label"
-      = form.text_field :value, class: "form-control", value: rule.value
+      = form.text_field :value, class: "form-control", value: rule.value, placeholder: "e.g. facebook"
 
     .col-12.pt-2
       = form.submit "#{rule.new_record? ? "Create" : "Update"} rule", class: "btn"
