@@ -27,7 +27,7 @@ gem "RubySunrise"
 gem "sass-rails", ">= 6"
 gem "sqlite3", "~> 1.4"
 gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
-gem "valid_url"
+gem "valid_url", github: "ralovets/valid_url"
 gem "webpacker", "~> 4.0"
 
 group :development, :test do
