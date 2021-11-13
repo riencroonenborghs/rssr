@@ -7,6 +7,8 @@ class LoadFeed < AppService
 
   def call
     @loaded_feed = Feedjira.parse(data)
+  rescue StandardError => e
+    errors.add(:feed, "cannot load #{feed.url}: #{e.message}")
   end
 
   private

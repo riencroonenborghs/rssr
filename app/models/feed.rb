@@ -43,17 +43,13 @@ class Feed < ApplicationRecord
     self.name = loader.loaded_feed&.title
   end
 
-  def guess_image_url
+  def guess_image_url # rubocop:disable Metrics/CyclomaticComplexity
     return unless url.present?
     return if image_url.present?
+    return if Rails.env.test?
 
     loader = LoadFeed.call(feed: self)
-    if loader.failure?
-      errors.merge!(loader.errors)
-      return
-    end
-
-    self.image_url = loader.loaded_feed&.image&.url if loader.loaded_feed.respond_to?(:image)
+    self.image_url = loader.loaded_feed&.image&.url if loader.success? && loader.loaded_feed.respond_to?(:image)
   end
 
   def visit!
