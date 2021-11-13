@@ -9,14 +9,18 @@
       .col-12.col-xl-4.col-lg-6.p-2
         .card(id="subscription-#{subscription.id}")
           .card-body
-            %h5.card-title
-              =link_to subscription.feed.name, feed_entries_path(subscription.feed), class: "text-decoration-none"
-            - if subscription.feed.description
-              %p.fs-10.card-text=subscription.feed.description
-            .fw-lighter Subscribed since #{subscription.created_at.strftime("%d %B %Y")}
-            .fw-lighter Last visited #{subscription.feed.last_visited&.strftime("%d %B %Y at %H:%M")}
-            .fs-11
-              = tag_links subscription.feed
+            .d-flex.justify-content-between
+              %div
+                %h5.card-title
+                  =link_to subscription.feed.name, feed_entries_path(subscription.feed), class: "text-decoration-none"
+                - if subscription.feed.description
+                  %p.fs-10.card-text=subscription.feed.description
+                .fw-lighter Subscribed since #{subscription.created_at.strftime("%d %B %Y")}
+                .fw-lighter Last visited #{subscription.feed.last_visited&.strftime("%d %B %Y at %H:%M")}
+                .fs-11
+                  = tag_links subscription.feed
+              - if subscription.feed.valid_image_url?
+                = image_tag subscription.feed.image_url, class: "ps-2 pb-2 feed-image"
             .d-flex.justify-content-end
               = form_with url: admin_unsubscribe_path(subscription) do |form|
                 %button(type="submit" class="btn btn-sm btn-outline-primary") Unsubscribe

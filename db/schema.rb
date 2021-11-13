@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_12_220756) do
+ActiveRecord::Schema.define(version: 2021_11_13_001845) do
 
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 2021_11_12_220756) do
     t.datetime "updated_at", precision: 6, null: false
     t.text "error"
     t.text "description"
+    t.string "image_url"
   end
 
   create_table "filter_engine_rules", force: :cascade do |t|

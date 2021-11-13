@@ -1,9 +1,13 @@
 .col-12.col-lg-6.col-xl-4.p-2
   .card.feed
     .card-body
-      %h5.card-title=feed.name
-      - if feed.description
-        %p.fs-10.card-text=feed.description
+      .d-flex.justify-content-between
+        %div
+          %h5.card-title=feed.name
+          - if feed.description
+            %p.fs-10.card-text=feed.description
+        - if feed.valid_image_url?
+          = image_tag feed.image_url, class: "ps-2 pb-2 feed-image"
       .d-flex.justify-content-end(id="feed-#{feed.id}")
         - if feed.subscribed?(current_user)
           %i.bi.bi-check-lg

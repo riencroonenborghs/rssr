@@ -1,52 +1,51 @@
-.row
-  - entries.each do |entry|
-    .col-12.col-lg-6.col-xl-4.entry-wrapper(class="#{'viewed' if user_signed_in? && entry.viewed_by?(current_user)}" data-entry-id="#{entry.id}")
-      .entry.d-flex.p-2.m-1.justify-content-between
-        - if entry.image_url
-          .image.pe-2.pt-1
-            =image_tag entry.image_url, width: "150px", class: "rounded"
-        .text.d-flex.flex-column
-          .fs-11.fw-lighter= tag_links entry.feed
-          .title
-            - if entry.summary.blank?
-              =link_to entry.url, class: "text-decoration-none", target: "_blank" do
-                = entry.title
-            - else
-              =link_to "#", class: "text-decoration-none", "data-bs-toggle" => "modal", "data-bs-target" => "#entry-#{entry.id}" do
-                = entry.title
-          .meta.fs-11.fw-lighter
-            =link_to entry.feed.name, feed_entries_path(entry.feed), class: "text-decoration-none"
-            %span.ts(title="#{entry.published_at.in_time_zone("Pacific/Auckland").to_formatted_s(:long)}")
-              \\
-              =distance_of_time_in_words_to_now entry.published_at
-              ago
-        - if user_signed_in?
-          .read-later.ms-2.mb-2(id="read-later-#{entry.id}")
-            %span.read-later-read-it(class="#{'d-none' unless entry.read_later?(current_user)}")
-              =link_to read_later_read_it_path(entry), remote: true, method: :delete, class: "text-decoration-none", title: "I've read it", target: "_blank" do
-                %i.bi.bi-bookmark-check
-            %span.read-later(class="#{'d-none' if entry.read_later?(current_user)}")
-              =link_to read_later_path(entry), remote: true, method: :post, title: "Read it later", class: "text-decoration-none", target: "_blank" do
-                %i.bi.bi-bookmark
-      - unless entry.summary.blank?
-        .modal.fade(id="entry-#{entry.id}" tabindex="-1" aria-labelledby="entry-#{entry.id}-label" aria-hidden="true")
-          .modal-dialog.modal-dialog-scrollable.modal-dialog-centered.modal-fullscreen
-            .modal-content
-              .modal-header
-                .d-flex.flex-column.align-items-start
-                  .fs-11.fw-lighter= tag_links entry.feed
-                  .title
-                    =link_to entry.url, class: "text-decoration-none", target: "_blank" do
-                      = entry.title
-                  .meta.fs-11.fw-lighter
-                    =link_to entry.feed.name, feed_entries_path(entry.feed), class: "text-decoration-none"
-                    %span.ts(title="#{entry.published_at.in_time_zone("Pacific/Auckland").to_formatted_s(:long)}")
-                      \\
-                      =distance_of_time_in_words_to_now entry.published_at
-                      ago
-                =link_to "#", class: "btn", "data-bs-dismiss" => "modal", "aria-label" => "Close" do
-                  %i.bi.bi-x-lg
-              .modal-body
-                - if entry.image_url
-                  =image_tag entry.image_url, width: "100px", class: "rounded me-3", align: "left"
-                %p=raw clean_summary(entry)        
+- entries.each do |entry|
+  .col-12.col-lg-6.col-xl-4.entry-wrapper(class="#{'viewed' if user_signed_in? && entry.viewed_by?(current_user)}" data-entry-id="#{entry.id}")
+    .entry.d-flex.p-2.m-1.justify-content-between
+      - if entry.image_url
+        .image.pe-2.pt-1
+          =image_tag entry.image_url, width: "150px", class: "rounded"
+      .text.d-flex.flex-column
+        .fs-11.fw-lighter= tag_links entry.feed
+        .title
+          - if entry.summary.blank?
+            =link_to entry.url, class: "text-decoration-none", target: "_blank" do
+              = entry.title
+          - else
+            =link_to "#", class: "text-decoration-none", "data-bs-toggle" => "modal", "data-bs-target" => "#entry-#{entry.id}" do
+              = entry.title
+        .meta.fs-11.fw-lighter
+          =link_to entry.feed.name, feed_entries_path(entry.feed), class: "text-decoration-none"
+          %span.ts(title="#{entry.published_at.in_time_zone("Pacific/Auckland").to_formatted_s(:long)}")
+            \\
+            =distance_of_time_in_words_to_now entry.published_at
+            ago
+      - if user_signed_in?
+        .read-later.ms-2.mb-2(id="read-later-#{entry.id}")
+          %span.read-later-read-it(class="#{'d-none' unless entry.read_later?(current_user)}")
+            =link_to read_later_read_it_path(entry), remote: true, method: :delete, class: "text-decoration-none", title: "I've read it", target: "_blank" do
+              %i.bi.bi-bookmark-check
+          %span.read-later(class="#{'d-none' if entry.read_later?(current_user)}")
+            =link_to read_later_path(entry), remote: true, method: :post, title: "Read it later", class: "text-decoration-none", target: "_blank" do
+              %i.bi.bi-bookmark
+    - unless entry.summary.blank?
+      .modal.fade(id="entry-#{entry.id}" tabindex="-1" aria-labelledby="entry-#{entry.id}-label" aria-hidden="true")
+        .modal-dialog.modal-dialog-scrollable.modal-dialog-centered.modal-fullscreen
+          .modal-content
+            .modal-header
+              .d-flex.flex-column.align-items-start
+                .fs-11.fw-lighter= tag_links entry.feed
+                .title
+                  =link_to entry.url, class: "text-decoration-none", target: "_blank" do
+                    = entry.title
+                .meta.fs-11.fw-lighter
+                  =link_to entry.feed.name, feed_entries_path(entry.feed), class: "text-decoration-none"
+                  %span.ts(title="#{entry.published_at.in_time_zone("Pacific/Auckland").to_formatted_s(:long)}")
+                    \\
+                    =distance_of_time_in_words_to_now entry.published_at
+                    ago
+              =link_to "#", class: "btn", "data-bs-dismiss" => "modal", "aria-label" => "Close" do
+                %i.bi.bi-x-lg
+            .modal-body
+              - if entry.image_url
+                =image_tag entry.image_url, width: "100px", class: "rounded me-3", align: "left"
+              %p=raw clean_summary(entry)        

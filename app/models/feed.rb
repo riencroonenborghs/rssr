@@ -10,6 +10,7 @@ class Feed < ApplicationRecord
 
   before_validation :guess_url, if: -> { valid_url? }
   before_validation :guess_name, if: -> { valid_url? }
+  before_validation :guess_image_url, if: -> { valid_url? }
 
   acts_as_taggable_on :tags
 
@@ -42,6 +43,19 @@ class Feed < ApplicationRecord
     self.name = loader.loaded_feed&.title
   end
 
+  def guess_image_url
+    return unless url.present?
+    return if image_url.present?
+
+    loader = LoadFeed.call(feed: self)
+    if loader.failure?
+      errors.merge!(loader.errors)
+      return
+    end
+
+    self.image_url = loader.loaded_feed&.image&.url if loader.loaded_feed.respond_to?(:image)
+  end
+
   def visit!
     return unless active?
 
@@ -63,5 +77,9 @@ class Feed < ApplicationRecord
     feed = self.class.new
     validator.validate_each(feed, :url, url)
     !feed.errors[:url].present?
+  end
+
+  def valid_image_url?
+    image_url.present? && !image_url.starts_with?("..")
   end
 end
