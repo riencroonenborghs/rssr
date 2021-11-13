@@ -11,7 +11,7 @@ module Admin
     end
 
     def create
-      @rule = current_user.filter_engine_rules.new(rule_params)
+      @rule = current_user.filter_engine_rules.new(rule_params.to_h.update(type: FilterEngine::KeywordRule, user: current_user))
 
       respond_to do |format|
         if @rule.save
@@ -46,7 +46,7 @@ module Admin
     end
 
     def rule_params
-      params.require(:rule).permit(:id, :type, :comparison, :value)
+      params.require(:rule).permit(:id, :comparison, :value)
     end
   end
 end
