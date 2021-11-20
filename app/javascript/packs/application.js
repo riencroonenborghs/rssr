@@ -16,3 +16,4 @@ require("channels")
 import 'bootstrap'
 import "./viewed"
 import "./infiniteScroll"
+import "./readLater"
