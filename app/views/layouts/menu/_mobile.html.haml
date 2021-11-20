@@ -49,10 +49,11 @@
                   Discover
           .row
             .d-flex.pt-2
-              %h5
+              %h5.d-flex.justify-content-between.w-100.align-items-center
                 =link_to admin_rules_path, class: "text-decoration-none", title: "Rules" do
                   %i.bi.bi-card-checklist
                   Rules
+                .fw-lighter.fs-10 #{@rules_count}
           .row
             .d-flex.pt-2
               %h5

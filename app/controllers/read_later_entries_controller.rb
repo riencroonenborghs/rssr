@@ -11,11 +11,13 @@ class ReadLaterEntriesController < ApplicationController
 
     @read_later = current_user.read_later_entries.build(entry_id: entry.id)
     @read_later.save
+    @read_later_count = current_user.read_later_entries.count
   end
 
   def destroy
     @remove_from_list = request.referer == read_later_all_url
     @read_later = current_user.read_later_entries.find_by(entry_id: params[:entry_id])
     @read_later.destroy
+    @read_later_count = current_user.read_later_entries.count
   end
 end

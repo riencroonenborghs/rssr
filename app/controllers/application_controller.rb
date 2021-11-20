@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   before_action :set_today_count
   before_action :set_read_later_count
   before_action :set_subscription_count
+  before_action :set_rules_count
 
   def set_today_count
     @today_count = filtered_scope do
@@ -30,6 +31,12 @@ class ApplicationController < ActionController::Base
     @subscription_count = 0 and return unless user_signed_in?
 
     @subscription_count = current_user.subscriptions.count
+  end
+
+  def set_rules_count
+    @rules_count = 0 and return unless user_signed_in?
+
+    @rules_count = current_user.filter_engine_rules.count
   end
 
   private

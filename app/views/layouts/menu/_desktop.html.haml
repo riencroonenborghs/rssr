@@ -8,17 +8,25 @@
       %h5
         =link_to subscriptions_today_path, class: "text-decoration-none", title: "Today" do
           %i.bi.bi-calendar2-check
+          %div.badge.badge-pill.fw-lighter.fs-15.rounded-pill.count-badge
+            =@today_count
     - if user_signed_in?
       .d-flex.flex-column.align-items-center.pt-2(class="#{'current-page' if current_page?(read_later_all_path)}")
         %h5
           =link_to read_later_all_path, class: "text-decoration-none", title: "Read later" do
             %i.bi.bi-bookmark
+            - if @read_later_count > 0
+              %div.badge.badge-pill.fw-lighter.fs-15.rounded-pill.count-badge
+                =@read_later_count
   %div
     - if user_signed_in?
       .d-flex.flex-column.align-items-center.pt-2(class="#{'current-page' if current_page?(admin_subscriptions_path)}")
         %h5
           =link_to admin_subscriptions_path, class: "text-decoration-none", title: "Subscriptions" do
             %i.bi.bi-rss
+            - if @subscription_count > 0
+              %div.badge.badge-pill.fw-lighter.fs-15.rounded-pill.count-badge
+                =@subscription_count
       .d-flex.flex-column.align-items-center.pt-2(class="#{'current-page' if current_page?(admin_discover_path) || current_page?(admin_discover_search_path)}")
         %h5
           =link_to admin_discover_path, class: "text-decoration-none", title: "Discover" do
@@ -27,6 +35,8 @@
         %h5
           =link_to admin_rules_path, class: "text-decoration-none", title: "Rules" do
             %i.bi.bi-card-checklist
+            %div.badge.badge-pill.fw-lighter.fs-15.rounded-pill.count-badge
+              =@rules_count
       .d-flex.flex-column.align-items-center.pt-2(class="#{'current-page' if current_page?(new_admin_subscription_path)}")
         %h5
           =link_to new_admin_subscription_path, class: "text-decoration-none", title: "Add your own RSS subscription" do
