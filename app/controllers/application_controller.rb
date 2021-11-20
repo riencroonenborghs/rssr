@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
   def set_read_later_count
     @read_later_count = 0 and return unless user_signed_in?
 
-    @read_later_count = current_user.read_later_entries.count
+    @read_later_count = current_user.read_later_entries.unread.count
   end
 
   def set_subscription_count
