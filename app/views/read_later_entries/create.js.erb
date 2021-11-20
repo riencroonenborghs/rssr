@@ -7,8 +7,10 @@
     readLater.classList.add("d-none");
 
     const badge = document.getElementsByClassName("read-later-count-badge")[0];
-    badge.innerHTML = "<%= @read_later_count %>";
-    badge.classList.remove("d-none");
+    if (badge) {
+      badge.innerHTML = "<%= @read_later_count %>";
+      badge.classList.remove("d-none");
+    }
   }
 
 

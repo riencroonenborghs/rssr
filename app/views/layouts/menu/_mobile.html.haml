@@ -23,7 +23,8 @@
               =link_to subscriptions_today_path, class: "text-decoration-none", title: "Today" do
                 %i.bi.bi-calendar2-check
                 Today
-              .fw-lighter.fs-10 #{@today_count}
+              %div.badge.badge-pill.fw-lighter.fs-10.rounded-pill
+                =@today_count
         - if user_signed_in?
           .row
             .d-flex.pt-2
@@ -31,7 +32,8 @@
                 =link_to read_later_all_path, class: "text-decoration-none", title: "Read later" do
                   %i.bi.bi-bookmark     
                   Read Later  
-                .fw-lighter.fs-10 #{@read_later_count}
+                %div.badge.badge-pill.fw-lighter.fs-10.rounded-pill.read-later-count-badge(class="#{'d-none' if @read_later_count.zero?}")
+                  =@read_later_count
       %div
         - if user_signed_in?
           .row
@@ -40,7 +42,8 @@
                 =link_to admin_subscriptions_path, class: "text-decoration-none", title: "Subscriptions" do
                   %i.bi.bi-rss
                   Subscriptions
-                .fw-lighter.fs-10 #{@subscription_count}
+                %div.badge.badge-pill.fw-lighter.fs-10.rounded-pill
+                  =@subscription_count
           .row
             .d-flex.pt-2
               %h5
@@ -53,7 +56,8 @@
                 =link_to admin_rules_path, class: "text-decoration-none", title: "Rules" do
                   %i.bi.bi-card-checklist
                   Rules
-                .fw-lighter.fs-10 #{@rules_count}
+                %div.badge.badge-pill.fw-lighter.fs-10.rounded-pill
+                  =@rules_count
           .row
             .d-flex.pt-2
               %h5

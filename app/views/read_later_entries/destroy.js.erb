@@ -16,10 +16,12 @@
 
   function updateBadge () {
     const badge = document.getElementsByClassName("read-later-count-badge")[0];
-    badge.innerHTML = "<%= @read_later_count %>";
-    <% if @read_later_count.zero? %>
-      badge.classList.add("d-none");
-    <% end %>
+    if (badge) {
+      badge.innerHTML = "<%= @read_later_count %>";
+      <% if @read_later_count.zero? %>
+        badge.classList.add("d-none");
+      <% end %>
+    }
   }
 
   <% if @remove_from_list %>
