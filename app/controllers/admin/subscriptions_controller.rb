@@ -44,6 +44,14 @@ module Admin
       @subscription.destroy
     end
 
+    def fetch
+      current_user.feeds.map(&:visit!)
+
+      respond_to do |format|
+        format.html { redirect_to admin_subscriptions_path, notice: "Queued fetch all subscriptions." }
+      end
+    end
+
     private
 
     def set_page

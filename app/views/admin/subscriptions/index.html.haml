@@ -2,7 +2,11 @@
   Subscriptions
 
 #subscriptions.container.pt-3
-  %h1 Subscriptions
+  .d-flex.align-items-center
+    %h1
+      Subscriptions
+    = link_to fetch_admin_subscriptions_path, class: "ps-4 text-decoration-none", title: "Fetch latest" do
+      %i.bi.bi-arrow-clockwise
 
   .row.subscriptions
     - @subscriptions.each do |subscription|
