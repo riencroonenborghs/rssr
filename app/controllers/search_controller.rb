@@ -13,14 +13,10 @@ class SearchController < ApplicationController
   def perform_search
     @entries = [] and return if @query.blank?
 
-    name_scope = filtered_scope do
+    @entries = filtered_scope do
       current_user_scope do
-        Entry.where("upper(entries.name) like ?", "%#{@query.upcase}%")
+        Entry.where("upper(entries.title) like :query OR upper(entries.summary) like :query", query: "%#{@query.upcase}%").limit(100)
       end
     end
-
-    summary_scope = Entry.where("upper(entries.summary) like ?", "%#{@query.upcase}%")
-
-    @entries = name_scope.or(summary_scope)
   end
 end

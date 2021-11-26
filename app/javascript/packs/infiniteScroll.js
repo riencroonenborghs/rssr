@@ -24,20 +24,11 @@ $(function() {
     }, 250);
   }
 
-  $(".desktop-entries").on("scroll", function () {
-    var container = $(".desktop-entries")[0];
-    var scrollY = container.scrollHeight - container.scrollTop;
-    var height = container.offsetHeight;
-    var offset = height - scrollY;
-
-    if (offset == 0 || offset == 1) {
-      loadMoreContent();
-    }
-  });
-
   $(window).on("scroll", function () {
     if ($(window).scrollTop() >= $(document).height() - $(window).height()) {
-      loadMoreContent();
+      if ($(".entries").length > 0) { // only entries are infinite scrollable
+        loadMoreContent();
+      }
     }
   });
 });

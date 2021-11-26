@@ -30,7 +30,7 @@
             .d-flex.pt-2
               %h5.d-flex.justify-content-between.w-100.align-items-center
                 =link_to read_later_all_path, class: "text-decoration-none", title: "Read later" do
-                  %i.bi.bi-bookmark     
+                  %i.bi.bi-star     
                   Read Later  
                 %div.badge.badge-pill.fw-lighter.fs-10.rounded-pill.read-later-count-badge(class="#{'d-none' if @read_later_count.zero?}")
                   =@read_later_count
