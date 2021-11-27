@@ -315,6 +315,7 @@ DEPENDENCIES
   kaminari
   listen (~> 3.2)
   mina
+  nokogiri
   opml-parser
   puma (~> 5.5.1)
   rails (~> 6.0.4, >= 6.0.4.1)
