@@ -40,7 +40,7 @@ class SearchFeeds < AppService
 
     scope.where([query_strings.join(" OR "), values].flatten).or(
       scope.merge(ActsAsTaggableOn::Tag.where("upper(tags.name) = ?", query.upcase))
-    )
+    ).distinct
   end
   # rubocop:enable Metrics/MethodLength
   # rubocop:enable Metrics/Metrics/AbcSize
