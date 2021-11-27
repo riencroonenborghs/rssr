@@ -11,9 +11,12 @@ Ruby on Rails
 ## Functionality
 
   - authentication
+  - discover 1,000s of feeds
   - manage and tag feeds
-  - scheduled download of new entries
+  - manually add feeds
+  - hourly download of new entries
   - set up filter rules
   - infinite scrolling
-  - darkmode
+  - save entries for later reading
+  - ~~darkmode~~
   - search
