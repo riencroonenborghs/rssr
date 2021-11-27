@@ -19,10 +19,13 @@ class SearchFeeds < AppService
 
   def base
     Feed
+      .joins(taggings: :tag)
       .active
       .alphabetically
   end
 
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/Metrics/AbcSize
   def search
     scope = yield
     return scope unless query.present?
@@ -32,11 +35,15 @@ class SearchFeeds < AppService
 
     query.split.map do |value|
       values << Array.new(2, "%#{value.upcase}%")
-      query_strings << "(upper(name) like ? OR upper(description) like ?)"
+      query_strings << "(upper(feeds.name) like ? OR upper(feeds.description) like ?)"
     end
 
-    scope.where([query_strings.join(" OR "), values].flatten)
+    scope.where([query_strings.join(" OR "), values].flatten).or(
+      scope.merge(ActsAsTaggableOn::Tag.where("upper(tags.name) = ?", query.upcase))
+    )
   end
+  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/Metrics/AbcSize
 
   def paginate
     scope = yield
