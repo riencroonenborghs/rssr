@@ -37,6 +37,7 @@ module Admin
     def subscribe
       @subscription = current_user.subscriptions.new(feed_id: params[:feed_id])
       @subscription.save
+      @subscription.feed.visit! unless @subscription.feed.last_visited.present?
     end
 
     def unsubscribe
