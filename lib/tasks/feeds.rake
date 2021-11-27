@@ -217,4 +217,31 @@ namespace :feeds do
       end
     end
   end
+
+  desc "Import blog.feedspot.com URLs"
+  task import_blog_feedspot_url: :environment do
+    url = ARGV[1]
+    tag_list = ARGV[2]
+
+    service = LoadUrl.call(url: url)
+    response = Nokogiri::HTML service.data
+    as = response.css(".trow a")
+
+    rss = []
+    as.to_a.in_groups_of(3).each do |block|
+      rss << block[0].attributes["href"].value
+    end
+
+    rss.each do |rss_url|
+      pp "----- url: #{rss_url}"
+      next if Feed.exists?(url: rss_url)
+
+      pp "----- url: #{rss_url} -- adding"
+      Feed.create! url: url, tag_list: tag_list
+      sleep 1
+    rescue StandardError => e
+      pp "----- url: #{rss_url} -- ERROR"
+      pp e.message
+    end
+  end
 end
