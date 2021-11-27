@@ -17,6 +17,20 @@ module ApplicationHelper
     content_tag(:span, tag_name.upcase, class: "badge rounded-pill")
   end
 
+  def discover_tag_links(feed)
+    content_tag :span do
+      feed.tag_list.each do |tag|
+        concat(
+          discover_tag_link(tag, klass: "pe-1")
+        )
+      end
+    end
+  end
+
+  def discover_tag_link(tag, klass: "")
+    link_to content_tag(:span, tag.upcase, class: "badge rounded-pill"), admin_discover_tagged_path(tag.upcase), class: klass
+  end
+
   def clean_summary(entry)
     return unless entry.summary
 
