@@ -1,3 +1,8 @@
-#feed.ps-2.pt-2
-  %h2=@feed.name
-= render partial: "/shared/entries", locals: { entries: @entries }
+- content_for :title do
+  = @feed.name
+
+#search.container.pt-3
+  %h1=@feed.name
+
+  = render partial: "/shared/entries", locals: { entries: @entries }
+  

@@ -1,5 +1,8 @@
-#tagged.ps-2.pt-2
-  %h2 Tagged with "#{@tag}"
+- content_for :title do
+  Tagged with "#{@tag}"
 
-%ul.list-group.entries
+#search.container.pt-3
+  %h1 Tagged with "#{@tag}"
+
   = render partial: "/shared/page", locals: { entries: @entries }
+  
