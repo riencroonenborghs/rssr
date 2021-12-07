@@ -5,7 +5,7 @@
   %h1 Read Later
 
   - if @entries.size > 0
-    = render partial: "/shared/entries", locals: { entries: @entries }
+    = render partial: "/shared/page", locals: { entries: @entries }
   - else
     %p
       You can bookmark
