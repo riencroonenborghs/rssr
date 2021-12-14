@@ -13,6 +13,6 @@ class Entry < ApplicationRecord
   end
 
   def read_later?(user)
-    read_later.where(user_id: user.id).exists?
+    read_later.where(user_id: user.id, read: nil).exists?
   end
 end

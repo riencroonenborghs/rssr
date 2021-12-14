@@ -39,3 +39,4 @@ yarn-debug.log*
 
 config/deploy.rb
 db/production.*
+bin/fetch_prod_db.rb
