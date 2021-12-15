@@ -9,6 +9,39 @@
       %i.bi.bi-arrow-clockwise
 
   .row.subscriptions
+    %table.table.table-hover
+      %thead
+        %tr
+          %th
+          %th
+          %th
+            %i.bi.bi-star
+          %th
+            %i.bi.bi-eye
+          %th
+      %tbody
+        - @subscriptions.each do |subscription|
+          %tr
+            %td
+              - if subscription.feed.valid_image_url?
+                = image_tag subscription.feed.image_url, class: "feed-image #{'feed-image--admin--subscriptions' if @mobile}"
+            %td
+              .d-flex.flex-column
+                =link_to subscription.feed.name, feed_entries_path(subscription.feed), class: "text-decoration-none"
+                .fs-11
+                  = tag_links subscription.feed
+                .fs-11
+                  - if subscription.feed.description
+                    =subscription.feed.description
+            %td.fs-11=subscription.created_at.strftime("%d %b %y")
+            %td.fs-11=subscription.feed.last_visited&.strftime("%d %b %H:%M")
+            %td
+              = form_with url: admin_unsubscribe_path(subscription) do |form|
+                %button(type="submit" class="btn btn-sm btn-outline-primary")
+                  %i.bi.bi-star-fill
+
+
+  -#.row.subscriptions
     - @subscriptions.each do |subscription|
       .col-12.col-xl-4.col-lg-6.p-2
         .card(id="subscription-#{subscription.id}")
