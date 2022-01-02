@@ -1,17 +1,23 @@
 <% if @read_later.valid? %>
   function readLaterReadIt () {
-    const parent = document.getElementById("read-later-<%= @read_later.entry.id %>");
-    const readLaterReadIt = parent.getElementsByClassName("read-later-read-it")[0];
-    readLaterReadIt.classList.add("d-none");
-    const readLater = parent.getElementsByClassName("read-later")[0];
-    readLater.classList.remove("d-none");
+    const parents = document.getElementsByClassName("read-later-<%= @read_later.entry.id %>");
+    for(i = 0; i < parents.length; ++i) {
+      const parent = parents[i];
+      const readLaterReadIt = parent.getElementsByClassName("read-later-read-it")[0];
+      readLaterReadIt.classList.add("d-none");
+      const readLater = parent.getElementsByClassName("read-later")[0];
+      readLater.classList.remove("d-none");
+    }
   }
 
   function readLaterReadItAndDisable () {
-    const parent = document.getElementById("read-later-<%= @read_later.entry.id %>");
-    parent.classList.add("d-none");
-    const wrapper = parent.closest(".entry-wrapper");
-    wrapper.classList.add("disable");
+    const parents = document.getElementsByClassName("read-later-<%= @read_later.entry.id %>");
+    for(i = 0; i < parents.length; ++i) {
+      const parent = parents[i];
+      parent.classList.add("d-none");
+      const wrapper = parent.closest(".entry-wrapper");
+      wrapper.classList.add("disable");
+    }
   }
 
   function updateBadge () {

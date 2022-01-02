@@ -1,15 +1,18 @@
 <% if @read_later.valid? %>
   function readLater () {
-    const parent = document.getElementById("read-later-<%= @read_later.entry.id %>");
-    const readLaterReadIt = parent.getElementsByClassName("read-later-read-it")[0];
-    readLaterReadIt.classList.remove("d-none");
-    const readLater = parent.getElementsByClassName("read-later")[0];
-    readLater.classList.add("d-none");
+    const parents = document.getElementsByClassName("read-later-<%= @read_later.entry.id %>");
+    for(i = 0; i < parents.length; ++i) {
+      const parent = parents[i];
+      const readLaterReadIt = parent.getElementsByClassName("read-later-read-it")[0];
+      readLaterReadIt.classList.remove("d-none");
+      const readLater = parent.getElementsByClassName("read-later")[0];
+      readLater.classList.add("d-none");
 
-    const badge = document.getElementsByClassName("read-later-count-badge")[0];
-    if (badge) {
-      badge.innerHTML = "<%= @read_later_count %>";
-      badge.classList.remove("d-none");
+      const badge = document.getElementsByClassName("read-later-count-badge")[0];
+      if (badge) {
+        badge.innerHTML = "<%= @read_later_count %>";
+        badge.classList.remove("d-none");
+      }
     }
   }
 

@@ -11,4 +11,10 @@ class ReadLaterEntry < ApplicationRecord
 
     update!(read: Time.current)
   end
+
+  def unread!
+    return unless read.present?
+
+    update!(read: nil)
+  end
 end

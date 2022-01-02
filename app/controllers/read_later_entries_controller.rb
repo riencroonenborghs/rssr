@@ -9,8 +9,10 @@ class ReadLaterEntriesController < ApplicationController
     entry = Entry.find_by(id: params[:entry_id])
     return unless entry
 
-    @read_later = current_user.read_later_entries.build(entry_id: entry.id)
-    @read_later.save
+    unless (@read_later = current_user.read_later_entries.find_by(entry_id: entry.id))
+      @read_later = current_user.read_later_entries.create!(entry_id: entry.id)
+    end
+    @read_later.unread!
     @read_later_count = current_user.read_later_entries.unread.count
   end
 

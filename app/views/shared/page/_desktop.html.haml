@@ -20,19 +20,13 @@
             =distance_of_time_in_words_to_now entry.published_at
             ago
       - if user_signed_in?
-        .read-later-wrapper.ms-2.mb-2(id="read-later-#{entry.id}")
-          %span.spinner-grow.spinner-grow-sm.bg-primary.d-none
-          %span.read-later-read-it(class="#{'d-none' unless entry.read_later?(current_user)}")
-            =link_to read_later_read_it_path(entry), remote: true, method: :delete, class: "text-decoration-none read-later-read-it-link", title: "I've read it", target: "_blank" do
-              %i.bi.bi-star-fill
-          %span.read-later(class="#{'d-none' if entry.read_later?(current_user)}")
-            =link_to read_later_path(entry), remote: true, method: :post, title: "Read it later", class: "text-decoration-none read-later-link", target: "_blank" do
-              %i.bi.bi-star
+        .ms-2.mb-2
+          = render partial: "/shared/page/read_later_snippet", locals: { entry: entry }
     - unless entry.summary.blank?
       .modal.fade(id="entry-#{entry.id}" tabindex="-1" aria-labelledby="entry-#{entry.id}-label" aria-hidden="true")
-        .modal-dialog.modal-dialog-scrollable.modal-dialog-centered.modal-fullscreen
+        .modal-dialog.modal-dialog-scrollable.modal-dialog-centered
           .modal-content
-            .modal-header
+            .modal-header.d-flex.align-items-start
               .d-flex.flex-column.align-items-start
                 .fs-11.fw-lighter= tag_links entry.feed
                 .title
@@ -44,8 +38,10 @@
                     \\
                     =distance_of_time_in_words_to_now entry.published_at
                     ago
-              =link_to "#", class: "btn", "data-bs-dismiss" => "modal", "aria-label" => "Close" do
-                %i.bi.bi-x-lg
+              .d-flex.flex-column.align-items-center
+                =link_to "#", class: "btn", "data-bs-dismiss" => "modal", "aria-label" => "Close" do
+                  %i.bi.bi-x-lg
+                = render partial: "/shared/page/read_later_snippet", locals: { entry: entry }
             .modal-body
               - if entry.image_url
                 =image_tag entry.image_url, width: "100px", class: "rounded me-3", align: "left"
