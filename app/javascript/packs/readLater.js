@@ -1,30 +1,30 @@
 $(function() {
   const readLaterShowSpinner = function (link) {
     const wrapper = link.closest(".read-later-wrapper");
-    const spinner = wrapper.getElementsByClassName("spinner-grow")[0]
-    spinner.classList.remove("d-none");
-    link.classList.add("d-none");
+    const spinner = wrapper.getElementsByClassName("progress")[0]
+    spinner.classList.remove("is-hidden");
+    link.classList.add("is-hidden");
   }
 
   const readLaterHideSpinner = function (link) {
     const wrapper = link.closest(".read-later-wrapper");
-    const spinner = wrapper.getElementsByClassName("spinner-grow")[0]
-    spinner.classList.add("d-none");
-    link.classList.remove("d-none");
+    const spinner = wrapper.getElementsByClassName("progress")[0]
+    spinner.classList.add("is-hidden");
+    link.classList.remove("is-hidden");
   }
 
   const readLaterReadItShowSpinner = function (link) {
     const wrapper = link.closest(".read-later-wrapper");
-    const spinner = wrapper.getElementsByClassName("spinner-grow")[0]
-    spinner.classList.remove("d-none");
-    link.classList.add("d-none");
+    const spinner = wrapper.getElementsByClassName("progress")[0]
+    spinner.classList.remove("is-hidden");
+    link.classList.add("is-hidden");
   }
 
   const readLaterReadItHideSpinner = function (link) {
     const wrapper = link.closest(".read-later-wrapper");
-    const spinner = wrapper.getElementsByClassName("spinner-grow")[0]
-    spinner.classList.add("d-none");
-    link.classList.remove("d-none");
+    const spinner = wrapper.getElementsByClassName("progress")[0]
+    spinner.classList.add("is-hidden");
+    link.classList.remove("is-hidden");
   }
 
   document.body.addEventListener("ajax:before", (event) => {

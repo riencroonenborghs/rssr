@@ -33,7 +33,7 @@ class EntriesController < ApplicationController
           .entries
           .most_recent_first
       end
-    end.page(page)
+    end.page(page).per(@pagination_size)
   end
 
   def set_today_entries
@@ -44,6 +44,6 @@ class EntriesController < ApplicationController
           .most_recent_first
           .today
       end
-    end.page(page)
+    end.page(page).per(@pagination_size)
   end
 end

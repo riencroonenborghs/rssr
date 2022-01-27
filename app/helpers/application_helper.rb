@@ -9,6 +9,20 @@ module ApplicationHelper
     end
   end
 
+  def tag_links_v2(feed)
+    content_tag :span do
+      feed.tag_list.each do |tag|
+        concat(
+          tag_link_v2(tag, klass: "mr-1")
+        )
+      end
+    end
+  end 
+
+  def tag_link_v2(tag, klass: "")
+    link_to content_tag(:span, tag.upcase, class: "tag tag--small is-primary"), tagged_feeds_path(tag.upcase), class: klass
+  end
+
   def tag_link(tag, klass: "")
     link_to content_tag(:span, tag.upcase, class: "badge rounded-pill"), tagged_feeds_path(tag.upcase), class: klass
   end

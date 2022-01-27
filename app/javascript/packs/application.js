@@ -17,3 +17,5 @@ import 'bootstrap'
 import "./viewed"
 import "./infiniteScroll"
 import "./readLater"
+import "./mobileNavbar"
+import "./summaryModal"

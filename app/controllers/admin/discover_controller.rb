@@ -10,7 +10,7 @@ module Admin
 
     def tagged
       @tag = params[:tag]
-      @feeds = Feed.tagged_with(@tag).order(name: :asc).page(@page)
+      @feeds = Feed.tagged_with(@tag).order(name: :asc).page(@page).per(@pagination_size)
     end
 
     private

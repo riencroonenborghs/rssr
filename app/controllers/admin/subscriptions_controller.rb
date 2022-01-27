@@ -3,7 +3,7 @@ module Admin
     before_action :set_page, only: [:index]
 
     def index
-      @subscriptions = current_user.subscriptions.page(@page)
+      @subscriptions = current_user.subscriptions.page(@page).per(@pagination_size)
     end
 
     def new

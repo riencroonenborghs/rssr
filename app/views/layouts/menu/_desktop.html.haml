@@ -15,7 +15,7 @@
         %h5
           =link_to read_later_all_path, class: "text-decoration-none", title: "Read later" do
             %i.bi.bi-star
-            %div.badge.badge-pill.fw-lighter.fs-15.rounded-pill.count-badge.read-later-count-badge(class="#{'d-none' if @read_later_count.zero?}")
+            %div.badge.badge-pill.fw-lighter.fs-15.rounded-pill.count-badge.read-later-count-tag(class="#{'d-none' if @read_later_count.zero?}")
               =@read_later_count
     .d-flex.flex-column.align-items-center.pt-2(class="#{'current-page' if current_page?(new_search_path)}")
       %h5
@@ -50,7 +50,7 @@
           = link_to destroy_user_session_path, method: :delete, title: "Log out" do
             %i.bi.bi-lock
     - else
-      .d-flex.flex-column.align-items-center.pt-2.pb-2.mt-2.mb-2(class="#{'current-page' if current_page?(new_user_session_path )}")
+      .d-flex.flex-column.align-items-center.pt-2.pb-2.mt-2.mb-2(class="#{'current-page' if current_page?(new_user_session_path)}")
         %h5
           = link_to new_user_session_path, title: "Log in" do
             %i.bi.bi-unlock

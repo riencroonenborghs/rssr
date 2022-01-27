@@ -1,0 +1,163 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+
+ // Graphical variables
+@import "config/fonts";
+@import "config/colors";
+@import "config/bootstrap_variables";
+@import "kaminari";
+
+// External libraries
+@import "bootstrap/scss/bootstrap";
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css");
+
+body {
+  &.darkmode {
+    @extend .bg-dark;
+
+    nav.navbar,
+    .list-group-item,
+    .offcanvas,
+    .modal-content {
+      @extend .bg-dark;
+    }
+    
+    a,
+    h5,
+    .badge.rounded-pill,
+    .offcanvas,
+    .modal-content,
+    .page-loading,
+    #feed,
+    #tagged,
+    #admin,
+    #search,
+    #login,
+    .meta .ts,
+    i.bi,
+    .fw-lighter {
+      @extend .text-white;
+    }
+
+    .card {
+      @extend .bg-dark;
+      @extend .border-secondary;
+      a {
+        @extend .text-white;
+      }
+    }
+
+    .list-group-item {
+      border-color:rgba(256,256,256,0.15);
+      @extend .text-white;
+    }
+    
+    nav.navbar {
+      @extend .navbar-dark;
+    }
+
+    .badge.rounded-pill {
+      @extend .bg-secondary;
+    }
+
+    input[type=submit] {
+      @extend .btn-secondary;
+    }
+
+    .avatar {
+      @extend .bg-secondary;
+    }
+  }
+
+  .badge.rounded-pill {
+    @extend .bg-primary;
+  }
+
+  .page-loading {
+    @extend .text-primary;
+  }
+
+  input[type=submit] {
+    @extend .btn-primary;
+  }
+
+  .avatar {
+    position: relative;
+    top: 2px;
+    padding: 10px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+#desktop {
+  #menu {
+    position: fixed;
+    width: 65px;
+  }
+  #view {
+    margin-left: 65px;
+    width: calc(100vw - 75px);
+  }
+}
+
+.current-page {
+  border-top: 1px solid #dee2e6;
+  border-bottom: 1px solid #dee2e6;
+  border-right: 1px solid white;
+  position: relative;
+  left: 1px;
+  @extend .bg-white;
+}
+
+.viewed {
+  .entry {
+    @extend .bg-light;
+    @extend .border-light;
+    @extend .border;
+    @extend .rounded;
+  }
+}
+
+.entry-wrapper {
+  &.disable {
+    a {
+      @extend .text-secondary;
+      .badge.rounded-pill {
+        @extend .bg-secondary;
+      }
+    }
+  }
+}
+
+.feed-image {
+  max-height: 65px;
+  max-width: 130px;
+  &--admin {
+    &--subscriptions {
+      max-height: 30px;
+    }
+  }
+}
+
+.count-badge {
+  position: absolute;
+  right: 10px;
+}
+
+.menu-wrapper {
+  height: calc(100vh);
+}

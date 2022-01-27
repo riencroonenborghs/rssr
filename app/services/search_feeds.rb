@@ -47,6 +47,6 @@ class SearchFeeds < AppService
 
   def paginate
     scope = yield
-    scope.page(page)
+    scope.page(page).per(@pagination_size)
   end
 end

@@ -24,7 +24,7 @@
           = render partial: "/shared/page/read_later_snippet", locals: { entry: entry }
     - unless entry.summary.blank?
       .modal.fade(id="entry-#{entry.id}" tabindex="-1" aria-labelledby="entry-#{entry.id}-label" aria-hidden="true")
-        .modal-dialog.modal-dialog-scrollable.modal-dialog-centered(class="#{'modal-fullscreen' if @mobile}")
+        .modal-dialog.modal-dialog-scrollable.modal-dialog-centered(class="#{'modal-fullscreen' if mobile?}")
           .modal-content
             .modal-header.d-flex.align-items-start
               .d-flex.flex-column.align-items-start

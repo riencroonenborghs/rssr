@@ -4,9 +4,9 @@
     for(i = 0; i < parents.length; ++i) {
       const parent = parents[i];
       const readLaterReadIt = parent.getElementsByClassName("read-later-read-it")[0];
-      readLaterReadIt.classList.add("d-none");
+      readLaterReadIt.classList.add("is-hidden");
       const readLater = parent.getElementsByClassName("read-later")[0];
-      readLater.classList.remove("d-none");
+      readLater.classList.remove("is-hidden");
     }
   }
 
@@ -14,18 +14,18 @@
     const parents = document.getElementsByClassName("read-later-<%= @read_later.entry.id %>");
     for(i = 0; i < parents.length; ++i) {
       const parent = parents[i];
-      parent.classList.add("d-none");
+      parent.classList.add("is-hidden");
       const wrapper = parent.closest(".entry-wrapper");
       wrapper.classList.add("disable");
     }
   }
 
   function updateBadge () {
-    const badge = document.getElementsByClassName("read-later-count-badge")[0];
-    if (badge) {
-      badge.innerHTML = "<%= @read_later_count %>";
+    const tag = document.getElementsByClassName("read-later-count-tag")[0];
+    if (tag) {
+      tag.innerHTML = "<%= @read_later_count %>";
       <% if @read_later_count.zero? %>
-        badge.classList.add("d-none");
+        tag.classList.add("is-hidden");
       <% end %>
     }
   }

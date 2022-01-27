@@ -1,8 +1,8 @@
 - content_for :title do
   Tagged with "#{@tag}"
 
-#search.container.pt-3
-  %h1 Tagged with "#{@tag}"
+#tagged
+  .subtitle.pt-3 Tagged with "#{@tag}"
 
-  = render partial: "/shared/page", locals: { entries: @entries }
+  = render partial: "/sharedv2/entries", locals: { entries: @entries }
   

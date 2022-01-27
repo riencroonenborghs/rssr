@@ -1,0 +1,6 @@
+%table.table.entries--table
+  %tbody.entries
+    = render partial: "/sharedv2/page", locals: { entries: entries }
+
+- if entries.size >= 25
+  .page-loading

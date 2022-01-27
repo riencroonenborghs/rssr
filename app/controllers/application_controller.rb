@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   before_action :set_offset
   # before_action :darkmode?
   before_action :mobile?
+  before_action :set_pagination_size
 
   before_action :set_today_count
   before_action :set_read_later_count
@@ -39,6 +40,11 @@ class ApplicationController < ActionController::Base
     @rules_count = current_user.filter_engine_rules.count
   end
 
+  def mobile?
+    browser.device.mobile?
+  end
+  helper_method :mobile?
+
   private
 
   def set_offset
@@ -47,6 +53,10 @@ class ApplicationController < ActionController::Base
 
   def page
     params[:page]&.to_i || 1
+  end
+
+  def set_pagination_size
+    @pagination_size = mobile? ? 20 : 24
   end
 
   def paged_render
@@ -76,9 +86,5 @@ class ApplicationController < ActionController::Base
 
   def darkmode?
     @darkmode = Darkmode.darkmode?
-  end
-
-  def mobile?
-    @mobile = browser.device.mobile?
   end
 end

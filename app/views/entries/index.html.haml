@@ -1,8 +1,9 @@
 - content_for :title do
   = @feed.name
 
-#search.container.pt-3
-  %h1=@feed.name
+#feed
+  .subtitle.pt-3
+    = @feed.name
 
-  = render partial: "/shared/entries", locals: { entries: @entries }
-  
+  = render partial: "/sharedv2/entries", locals: { entries: @entries }
+    

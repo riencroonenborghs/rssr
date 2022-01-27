@@ -24,7 +24,7 @@
           %tr
             %td
               - if subscription.feed.valid_image_url?
-                = image_tag subscription.feed.image_url, class: "feed-image #{'feed-image--admin--subscriptions' if @mobile}"
+                = image_tag subscription.feed.image_url, class: "feed-image #{'feed-image--admin--subscriptions' if mobile?}"
             %td
               .d-flex.flex-column
                 =link_to subscription.feed.name, feed_entries_path(subscription.feed), class: "text-decoration-none"

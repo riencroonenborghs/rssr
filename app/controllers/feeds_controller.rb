@@ -28,7 +28,7 @@ class FeedsController < ApplicationController
             .most_recent_first
         end
       end
-    end.page(page)
+    end.page(page).per(@pagination_size)
   end
 
   def set_tag
@@ -44,7 +44,7 @@ class FeedsController < ApplicationController
           .most_recent_first
       end
     end
-    @entries = scope.page(page)
+    @entries = scope.page(page).per(@pagination_size)
   end
 
   def set_entries_tagged_today
@@ -57,6 +57,6 @@ class FeedsController < ApplicationController
           .today
       end
     end
-    @entries = scope.page(page)
+    @entries = scope.page(page).per(@pagination_size)
   end
 end

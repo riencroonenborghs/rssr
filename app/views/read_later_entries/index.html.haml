@@ -1,16 +1,18 @@
 - content_for :title do
   Read Later
 
-#today.container.pt-3
-  %h1 Read Later
+#read_later.mobile-padding
+  .subtitle.pt-3 Read Later
 
   - if @entries.size > 0
-    = render partial: "/shared/page", locals: { entries: @entries }
+    = render partial: "/sharedv2/entries", locals: { entries: @entries }
   - else
     %p
       You can bookmark
-      = link_to "articles", root_path, class: "text-decoration-none"
+      = link_to "posts", root_path
       and read them later here.
       %br
-      Just click <i class="bi bi-star"></i> and you're all set. It's easy as!
-  
+      Just click
+      = fa_solid "star", size: 1
+      and you're all set. It's easy as!
+      

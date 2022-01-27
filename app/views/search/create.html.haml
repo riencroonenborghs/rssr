@@ -10,7 +10,7 @@
     .row
       .col-12.col-xl-6
         = form.text_field :query, class: "form-control", placeholder: "Type your query", value: @query
-      .col-1(class="#{'pt-2' if @mobile}")
+      .col-1(class="#{'pt-2' if mobile?}")
         = form.submit "Search", class: "btn"
   
   = render partial: "/shared/page", locals: { entries: @entries }
