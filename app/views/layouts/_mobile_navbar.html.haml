@@ -12,8 +12,20 @@
       Today 
       %span.tag.is-complementary
         = @today_count
-    = link_to read_later_all_path, class: "navbar-item #{'is-active' if current_page?(read_later_all_path)}", title: "Read later" do
-      = fa_solid "star", size: 1
-      Read later
-      %span.tag.is-complementary.read-later-count-tag(class="#{'d-none' if @read_later_count.zero?}")
-        = @read_later_count
+    - if user_signed_in?
+      = link_to read_later_all_path, class: "navbar-item #{'is-active' if current_page?(read_later_all_path)}", title: "Read later" do
+        = fa_solid "star", size: 1
+        Read later
+        %span.tag.is-complementary.read-later-count-tag(class="#{'d-none' if @read_later_count.zero?}")
+          = @read_later_count
+    - if user_signed_in?
+      = link_to destroy_user_session_path, method: :delete, title: "Log out", class: "navbar-item" do
+        = fa_solid "lock", size: 1, options: { class: "pr-2" }
+        Log Out
+    - else
+      = link_to new_user_session_path, title: "Log in", class: "navbar-item #{'is-active' if current_page?(new_user_session_path)}" do
+        = fa_solid "lock-open", size: 1, options: { class: "pr-2" }
+        Log In
+          
+
+
