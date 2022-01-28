@@ -21,7 +21,7 @@
         %th
     %tbody
       - @subscriptions.each do |subscription|
-        %tr
+        %tr(id="subscription-#{subscription.id}" )
           %td
             .is-flex.is-flex-direction-column
               = link_to subscription.feed.name, feed_entries_path(subscription.feed)
@@ -32,7 +32,7 @@
                   = subscription.feed.description
           %td.fs-11=subscription.created_at.strftime("%d %b")
           %td.fs-11=subscription.feed.last_visited&.strftime("%d %b %H:%M")
-          %td
+          %td            
             = form_with url: admin_unsubscribe_path(subscription) do |form|
               %button(type="submit" class="button is-white")
                 = fa_solid "star", size: 1
