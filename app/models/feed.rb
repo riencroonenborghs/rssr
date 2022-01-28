@@ -52,7 +52,7 @@ class Feed < ApplicationRecord
     self.image_url = loader.loaded_feed&.image&.url if loader.success? && loader.loaded_feed.respond_to?(:image)
   end
 
-  def visit!
+  def sync!
     return unless active?
 
     loader = LoadEntries.call(feed: self)
@@ -62,7 +62,6 @@ class Feed < ApplicationRecord
   ensure
     update!(last_visited: Time.zone.now)
   end
-  handle_asynchronously :visit!
 
   def youtube?
     url.match?(/youtube\.com/)

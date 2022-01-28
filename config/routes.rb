@@ -1,3 +1,6 @@
+require 'sidekiq/web'
+require 'sidekiq/cron/web'
+
 Rails.application.routes.draw do
   devise_for :users
 
@@ -16,6 +19,10 @@ Rails.application.routes.draw do
   get "today" => "subscriptions#today", as: :subscriptions_today
 
   devise_scope :user do
+    authenticated :user do
+      mount Sidekiq::Web => '/sidekiq'
+    end
+    
     post "viewed/:entry_id" => "viewed_entries#create"
 
     get "read_later" => "read_later_entries#index", as: :read_later_all

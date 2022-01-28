@@ -35,6 +35,9 @@
           %li
             = link_to new_admin_subscription_path, class: "#{'is-active' if current_page?(new_admin_subscription_path)}", title: "Add RSS Feed" do
               = fa_solid "plus"
+          %li
+            = link_to "/sidekiq", title: "Sidekiq", target: "_blank" do
+              = fa_solid "sync"
         
         - if user_signed_in?
           %li

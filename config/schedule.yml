@@ -1,0 +1,4 @@
+sync_all_subscriptions:
+  cron: "*/30 * * * *"
+  class: "SyncAllSubscriptionsJob"
+  queue: default

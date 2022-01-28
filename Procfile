@@ -1,2 +1,2 @@
 web: bundle exec puma -C ./config/puma.rb
-workers: bundle exec rake jobs:work
+workers: RAILS_ENV=production bundle exec sidekiq -C config/sidekiq.yml

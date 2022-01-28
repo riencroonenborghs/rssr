@@ -37,7 +37,7 @@ module Admin
     def subscribe
       @subscription = current_user.subscriptions.new(feed_id: params[:feed_id])
       @subscription.save
-      @subscription.feed.visit! unless @subscription.feed.last_visited.present?
+      @subscription.feed.sync! unless @subscription.feed.last_visited.present?
     end
 
     def unsubscribe
@@ -46,7 +46,7 @@ module Admin
     end
 
     def fetch
-      current_user.feeds.map(&:visit!)
+      current_user.feeds.map(&:sync!)
 
       respond_to do |format|
         format.html { redirect_to admin_subscriptions_path, notice: "Queued fetch all subscriptions." }

@@ -20,11 +20,11 @@
           = @read_later_count
     - if user_signed_in?
       = link_to destroy_user_session_path, method: :delete, title: "Log out", class: "navbar-item" do
-        = fa_solid "lock", size: 1, options: { class: "pr-2" }
+        = fa_solid "lock", size: 1, options: { class: "pl-4 pr-4" }
         Log Out
     - else
       = link_to new_user_session_path, title: "Log in", class: "navbar-item #{'is-active' if current_page?(new_user_session_path)}" do
-        = fa_solid "lock-open", size: 1, options: { class: "pr-2" }
+        = fa_solid "lock-open", size: 1, options: { class: "pl-4 pr-4" }
         Log In
           
 
