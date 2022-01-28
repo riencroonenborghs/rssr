@@ -1,25 +1,29 @@
-#rules.container.pt-2
-  %h1 Rules
+- content_for :title do
+  Rules
 
-  .pt-3.pb-3
-    = link_to new_admin_rule_path, class: "text-decoration-none" do
-      %i.bi.bi-plus
-      New Rule
+#rules.mobile-padding
+  .subtitle.pt-3
+    Rules
 
   %p
+    = link_to new_admin_rule_path, class: "text-decoration-none" do
+      = fa_solid "plus", size: 1
+      New Rule
+
+  .pt-4
     Filter out anything where
-  .row.pb-4
-    .col-12.col-lg-5.col-xl-5
-      %ul.list-group
-        - @rules.each_with_index do |rule, index|
-          %li.list-group-item
-            .d-flex.justify-content-between.align-items-center
-              %span
-                =rule.human_readable
-              %div
-                - if index + 1 < @rules.size
-                  %strong.fw-lighter &nbsp;OR
-                = link_to edit_admin_rule_path(rule.id), class: "btn" do
-                  %i.bi.bi-pencil
-                = link_to admin_rule_path(rule.id), method: :delete, data: { confirm: "Are you sure?" }, class: "btn" do
-                  %i.bi.bi-trash
+
+  %table.table.is-hoverable
+    %tbody
+      - @rules.each_with_index do |rule, index|
+        %tr
+          %td
+            = link_to edit_admin_rule_path(rule.id) do
+              = fa_solid "edit", size: 1
+          %td
+            = link_to admin_rule_path(rule.id), method: :delete, data: { confirm: "Are you sure?" }, class: "has-text-danger" do
+              = fa_solid "trash", size: 1
+          %td
+            =rule.human_readable
+            - if index + 1 < @rules.size
+              %strong.fw-lighter &nbsp;OR

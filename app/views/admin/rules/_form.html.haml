@@ -1,30 +1,24 @@
-= form_with(scope: :rule, url: rule.id ? admin_rule_path(rule) : admin_rules_path, local: true, method: rule.id ? "patch" : "post") do |form|
-  - if rule.errors.any?
-    #error_explanation
-      %h2
-        = pluralize(rule.errors.count, "error")
-        prohibited this rule from being saved:
-
-      %ul
-        = rule.errors.full_messages.each do |message|
-          %li= message
-
-  =form.hidden_field :id, value: rule.id
+= form_with(scope: :rule, url: rule.id ? admin_rule_path(rule) : admin_rules_path, local: true, method: rule.id ? "patch" : "post") do |form|  
+  = form.hidden_field :id, value: rule.id
   
-  -#.row
-    .col-12.col-lg-3.col-xl-3
-      = form.label :type, class: "form-label"
-      = form.select :type, [["Date", "FilterEngine::DateRule"], ["Feed", "FilterEngine::FeedRule"],["Keyword", "FilterEngine::KeywordRule"], ["Tag", "FilterEngine::TagRule"]], { selected: rule.type.to_s, include_blank: false }, { class: "form-select" }
-  -#.row
-    .col-12.col-lg-2.col-xl-2
-      = form.label :comparison, class: "form-label"
-      = form.select :comparison, [["equals","eq"], ["not equals", "ne"], ["less than", "lt"], ["less than equals", "lte"], ["greater than", "gt"], ["greater than equals", "gte"]], { selected: rule.comparison, include_blank: false }, class: "form-select"
-  .row
-    .col-12.col-lg-3.col-xl-3
-      = form.select :comparison, [["contains the word(s)","eq"], ["does not contain the word(s)", "ne"]], { selected: rule.comparison, include_blank: false }, class: "form-select"    
-    .col-12.col-lg-6.col-xl-6
-      = form.text_field :value, class: "form-control", value: rule.value, placeholder: "e.g. facebook"
+  .columns
+    .column
+      .field
+        .control
+          .select
+            = form.select :comparison, [["contains the word(s)","eq"], ["does not contain the word(s)", "ne"]], { selected: rule.comparison, include_blank: false }
 
-    .col-12.pt-2
-      = form.submit "#{rule.new_record? ? "Create" : "Update"} rule", class: "btn"
+  .columns
+    .column.is-one-third
+      .field
+        .control
+          = form.text_field :value, class: "input #{'is-danger' if rule.errors[:value].any?}", value: rule.value, placeholder: "e.g. facebook"
+          - if rule.errors[:value].any?
+            .has-text-danger.is-size-7
+              = rule.errors[:value].join(', ')
+
+  .columns
+    .column.is-one-third
+      .field
+        = form.submit "#{rule.new_record? ? "Create" : "Update"} rule", class: "button is-primary"
 
