@@ -24,29 +24,4 @@
         .column
           = yield
 
-    -# if mobile?
-      %nav.navbar.sticky-top.border-bottom.navbar-light.bg-white
-        .container-fluid.ps-0
-          %div
-            - if mobile?
-              = link_to "#menuOffCancas", class: "btn pt-0", "data-bs-toggle" => "offcanvas" do
-                %i.bi.bi-list
-            - else
-              %i.bi.bi-rss.p-3
-            = link_to root_path, class: "navbar-brand" do
-              RSSr
-          .page-links.d-flex.align-items-center
-            .page-loading.spinner-grow.spinner-grow-sm(role="status" style="display: none;")
-
-    =# render partial: "/layouts/flash_messages"
-    =# render partial: "/layouts/async_flash_messages"
-
-    -# if mobile?
-      = render partial: "/layouts/menu/mobile"
-      = yield
-    -# else
-      #desktop.d-flex
-        #menu.bg-light
-          = render partial: "/layouts/menu/desktop"
-        #view
-          = yield
+    = render partial: "/layouts/flash_messages"

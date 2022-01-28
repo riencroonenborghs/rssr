@@ -1,32 +1,32 @@
 - content_for :title do
   Log in
 
-#discover.container.pt-3
-  %h2 Log in
-    
+#read_later.mobile-padding
+  .subtitle.pt-3 Log in
+
   = form_for(resource, as: resource_name, url: session_path(resource_name)) do |form|
-    - if resource.errors.any?
-      #error_explanation
-        %ul
-          = resource.errors.full_messages.each do |message|
-            %li= message
+    .columns
+      .column.is-one-third
+        .field
+          = form.label :email, class: "label"
+        .control
+          = form.email_field :email, autofocus: true, autocomplete: "email", class: "input"
 
-    .row
-      .col-12.col-lg-4
-        = form.label :email, class: "form-label"
-        = form.email_field :email, autofocus: true, autocomplete: "email", class: "form-control"
-
-    .row
-      .col-12.col-lg-4
-        = form.label :password, class: "form-label"
-        = form.password_field :password, autocomplete: "current-password", class: "form-control"
+    .columns
+      .column.is-one-third
+        .field
+          = form.label :password, class: "label"
+        .control
+          = form.password_field :password, autocomplete: "current-password", class: "input"
 
     - if devise_mapping.rememberable?
-      .row
-        .col-12.pt-2.pb-2
-          = form.check_box :remember_me, class: "form-check-input"
-          = form.label :remember_me, class: "form-check-label"
+      .columns
+        .column
+          .field
+            = form.label :remember_me, class: "checkbox" do              
+              = form.check_box :remember_me
+              Remember me
 
-    .row
-      .col-12
-        = form.submit "Log in", class: "btn btn-primary"
+    .columns
+      .column
+        = form.submit "Log in", class: "button is-primary"
