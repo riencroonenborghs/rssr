@@ -37,9 +37,7 @@
 yarn-debug.log*
 .yarn-integrity
 
-config/deploy.rb
-config/deploy_bulma.rb
-config/deploy_bulma_sidekiq.rb
+config/deploy*.rb
 db/production.*
 bin/fetch_prod_db.rb
 bin/export*.sh
