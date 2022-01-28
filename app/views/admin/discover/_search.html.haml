@@ -1,13 +1,17 @@
 = form_with(url: admin_discover_search_path, method: :get, local: true) do |form|
-  .row
-    .col-12.col-lg-6.col-xl-6
-      = form.text_field :query, class: "form-control", placeholder: "Find feeds by title or tags", value: @query
-    .col-6
-      = form.submit "Search", class: "btn"
+  .columns
+    .column.is-on-third
+      .field
+        .control
+          = form.text_field :query, class: "input", placeholder: "Find feeds by title or tags", value: @query
+    .column
+      .field
+        = form.submit "Search", class: "button is-primary"
+
   - if @query
-    .row.fw-lighter.fs-10
-      .col-6
+    .columns
+      .column.is-size-8
         Found
         #{pluralize @feeds.total_count, "result"}
         &dash;
-        =link_to "Clear", admin_discover_path, class: "text-decoration-none"
+        =link_to "Clear", admin_discover_path

@@ -1,12 +1,13 @@
 - content_for :title do
   Discover - Search for #{@query}
 
-#discover-search.container.pt-3
-  %h1 Discover
+#read_later.mobile-padding
+  .subtitle.pt-3
+    Discover - Search for #{@query}
 
   = render partial: "search"
   
-  .row.pt-4
+  .pt-4
     - @feeds.each do |feed|
       = render partial: "feed", locals: { feed: feed }
   

@@ -3,10 +3,20 @@
 
 - show_number_of_feeds = 5
 
-#discover.container.pt-3
-  %h1 Discover
+#read_later.mobile-padding
+  .subtitle.pt-3
+    Discover
 
   = render partial: "search"
+
+  .feeds
+    - @tags.each do |tag|
+      - taggings = tag.taggings
+      %h6.is-flex.is-align-items-center.pt-4
+        =link_to admin_discover_tagged_path(tag.name), class: "text-decoration-none" do
+          = tag_v2 tag.name
+        .pl-2.is-size-8 (#{tag.taggings_count})
+    
 
   .row.feeds
     - @tags.each do |tag|
@@ -14,7 +24,7 @@
       .col-12
         %h6.fw-lighter.d-flex.align-items-center.pt-4
           =link_to admin_discover_tagged_path(tag.name), class: "text-decoration-none" do
-            = tag_pill tag.name
+            = tag_v2 tag.name
           .ps-1.fs-10 (#{tag.taggings_count})
       - taggings.limit(show_number_of_feeds).each do |tagging|
         - feed = tagging.taggable

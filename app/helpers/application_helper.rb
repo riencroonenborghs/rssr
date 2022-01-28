@@ -31,6 +31,10 @@ module ApplicationHelper
     content_tag(:span, tag_name.upcase, class: "badge rounded-pill")
   end
 
+  def tag_v2(tag)
+    content_tag(:span, tag.upcase, class: "tag tag--small is-primary")
+  end
+
   def discover_tag_links(feed)
     content_tag :span do
       feed.tag_list.each do |tag|
