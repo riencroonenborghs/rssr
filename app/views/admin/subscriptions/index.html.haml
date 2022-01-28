@@ -1,65 +1,40 @@
 - content_for :title do
   Subscriptions
 
-#subscriptions.container.pt-3
-  .d-flex.align-items-center
-    %h1
-      Subscriptions
+#read_later.mobile-padding
+  .subtitle.pt-3
+    Subscriptions
+    
+  %p
     = link_to fetch_admin_subscriptions_path, class: "ps-4 text-decoration-none", title: "Fetch latest" do
-      %i.bi.bi-arrow-clockwise
+      = fa_solid "sync-alt", size: 1
+      Sync feeds
 
-  .row.subscriptions
-    %table.table.table-hover
-      %thead
+  %table.table.is-narrow.is-hoverable(style="width: calc(100% - 20px)")
+    %thead
+      %tr
+        %th
+        %th(style="width: 100px;")
+          = fa_solid "star", size: 1
+        %th(style="width: 150px;")
+          = fa_solid "sync-alt", size: 1
+        %th
+    %tbody
+      - @subscriptions.each do |subscription|
         %tr
-          %th
-          %th
-          %th
-            %i.bi.bi-star
-          %th
-            %i.bi.bi-eye
-          %th
-      %tbody
-        - @subscriptions.each do |subscription|
-          %tr
-            %td
-              - if subscription.feed.valid_image_url?
-                = image_tag subscription.feed.image_url, class: "feed-image #{'feed-image--admin--subscriptions' if mobile?}"
-            %td
-              .d-flex.flex-column
-                =link_to subscription.feed.name, feed_entries_path(subscription.feed), class: "text-decoration-none"
-                .fs-11
-                  = tag_links subscription.feed
-                .fs-11
-                  - if subscription.feed.description
-                    =subscription.feed.description
-            %td.fs-11=subscription.created_at.strftime("%d %b %y")
-            %td.fs-11=subscription.feed.last_visited&.strftime("%d %b %H:%M")
-            %td
-              = form_with url: admin_unsubscribe_path(subscription) do |form|
-                %button(type="submit" class="btn btn-sm btn-outline-primary")
-                  %i.bi.bi-star-fill
-
-
-  -#.row.subscriptions
-    - @subscriptions.each do |subscription|
-      .col-12.col-xl-4.col-lg-6.p-2
-        .card(id="subscription-#{subscription.id}")
-          .card-body
-            .d-flex.justify-content-between
-              %div
-                %h5.card-title
-                  =link_to subscription.feed.name, feed_entries_path(subscription.feed), class: "text-decoration-none"
+          %td
+            .is-flex.is-flex-direction-column
+              = link_to subscription.feed.name, feed_entries_path(subscription.feed)
+              .is-size-8
+                = tag_links_v2 subscription.feed
+              .is-size-8.pt-2
                 - if subscription.feed.description
-                  %p.fs-10.card-text=subscription.feed.description
-                .fw-lighter Subscribed since #{subscription.created_at.strftime("%d %B %Y")}
-                .fw-lighter Last visited #{subscription.feed.last_visited&.strftime("%d %B %Y at %H:%M")}
-                .fs-11
-                  = tag_links subscription.feed
-              - if subscription.feed.valid_image_url?
-                = image_tag subscription.feed.image_url, class: "ps-2 pb-2 feed-image"
-            .d-flex.justify-content-end
-              = form_with url: admin_unsubscribe_path(subscription) do |form|
-                %button(type="submit" class="btn btn-sm btn-outline-primary") Unsubscribe
+                  = subscription.feed.description
+          %td.fs-11=subscription.created_at.strftime("%d %b")
+          %td.fs-11=subscription.feed.last_visited&.strftime("%d %b %H:%M")
+          %td
+            = form_with url: admin_unsubscribe_path(subscription) do |form|
+              %button(type="submit" class="button is-white")
+                = fa_solid "star", size: 1
 
-  = render partial: "/admin/shared/pagination", locals: { list: @subscriptions }
+= render partial: "/admin/shared/pagination", locals: { list: @subscriptions }
