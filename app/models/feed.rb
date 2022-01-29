@@ -55,6 +55,7 @@ class Feed < ApplicationRecord
   def sync!
     return unless active?
 
+    update!(error: nil)
     loader = LoadEntries.call(feed: self)
     update!(error: loader.errors.full_messages.to_sentence) if loader.failure?
   rescue StandardError => e

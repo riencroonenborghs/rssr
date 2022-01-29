@@ -18,7 +18,7 @@
           = fa_solid "star", size: 1
         %th(style="width: 150px;")
           = fa_solid "sync-alt", size: 1
-        %th
+        %th(style="width: 50px;")
     %tbody
       - @subscriptions.each do |subscription|
         %tr(id="subscription-#{subscription.id}" )
@@ -30,6 +30,9 @@
               .is-size-8.pt-2
                 - if subscription.feed.description
                   = subscription.feed.description
+              - if subscription.feed.error
+                .is-size-8.has-text-danger.pt-2
+                  = subscription.feed.error
           %td.fs-11=subscription.created_at.strftime("%d %b")
           %td.fs-11=subscription.feed.last_visited&.strftime("%d %b %H:%M")
           %td            
