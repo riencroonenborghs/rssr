@@ -16,7 +16,8 @@
                 - else
                   = link_to entry.url, class: "entries--title", target: "_blank" do
                     = entry.title
-                = render partial: "/sharedv2/read_later", locals: { entry: entry }
+                - if user_signed_in?
+                  = render partial: "/sharedv2/read_later", locals: { entry: entry }
               .is-flex.is-align-items-center
                 .is-size-7.pr-1
                   = link_to entry.feed.name, feed_entries_path(entry.feed)            
