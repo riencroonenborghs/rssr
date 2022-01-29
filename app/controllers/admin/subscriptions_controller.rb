@@ -45,11 +45,11 @@ module Admin
       @subscription.destroy
     end
 
-    def fetch
-      current_user.feeds.map(&:sync!)
+    def sync
+      SyncAllSubscriptionsJob.perform_later
 
       respond_to do |format|
-        format.html { redirect_to admin_subscriptions_path, notice: "Queued fetch all subscriptions." }
+        format.html { redirect_to admin_subscriptions_path, notice: "All subscriptions queued for syncing." }
       end
     end
 
