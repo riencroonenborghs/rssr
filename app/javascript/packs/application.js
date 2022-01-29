@@ -14,8 +14,7 @@ require("channels")
 // const imagePath = (name) => images(name, true)
 
 import 'bootstrap'
-import "./viewed"
 import "./infiniteScroll"
 import "./readLater"
 import "./mobileNavbar"
-import "./summaryModal"
+import "./entries"

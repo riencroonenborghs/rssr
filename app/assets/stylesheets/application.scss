@@ -55,6 +55,10 @@ a { color: $primary-dark; }
   &--table {
     width: calc(100% - 1.5rem);
   }
+
+  &--viewed {
+    background: rgba(0, 209, 178, 0.04)
+  }
 }
 
 @include mobile {
