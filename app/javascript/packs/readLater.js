@@ -1,30 +1,22 @@
 $(function() {
   const readLaterShowSpinner = function (link) {
-    const wrapper = link.closest(".read-later-wrapper");
-    const spinner = wrapper.getElementsByClassName("progress")[0]
-    spinner.classList.remove("is-hidden");
-    link.classList.add("is-hidden");
+    const icon = link.getElementsByClassName("far")[0];
+    icon.classList.add("fa-spin");
   }
 
   const readLaterHideSpinner = function (link) {
-    const wrapper = link.closest(".read-later-wrapper");
-    const spinner = wrapper.getElementsByClassName("progress")[0]
-    spinner.classList.add("is-hidden");
-    link.classList.remove("is-hidden");
+    const icon = link.getElementsByClassName("far")[0];
+    icon.classList.remove("fa-spin");
   }
 
   const readLaterReadItShowSpinner = function (link) {
-    const wrapper = link.closest(".read-later-wrapper");
-    const spinner = wrapper.getElementsByClassName("progress")[0]
-    spinner.classList.remove("is-hidden");
-    link.classList.add("is-hidden");
+    const icon = link.getElementsByClassName("fas")[0];
+    icon.classList.add("fa-spin");
   }
 
   const readLaterReadItHideSpinner = function (link) {
-    const wrapper = link.closest(".read-later-wrapper");
-    const spinner = wrapper.getElementsByClassName("progress")[0]
-    spinner.classList.add("is-hidden");
-    link.classList.remove("is-hidden");
+    const icon = link.getElementsByClassName("fas")[0];
+    icon.classList.remove("fa-spin");
   }
 
   document.body.addEventListener("ajax:before", (event) => {
