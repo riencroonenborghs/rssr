@@ -7,8 +7,11 @@
 
   = render partial: "search"
   
-  .pt-4
-    - @feeds.each do |feed|
-      = render partial: "feed", locals: { feed: feed }
+  .pt-4.is-flex.is-flex-direction-column
+    - @feeds.in_groups_of(5).each do |group|
+      .is-flex
+        - group.compact.each do |feed|
+          = render partial: "feed", locals: { feed: feed }
   
-  = render partial: "/admin/shared/pagination", locals: { list: @feeds }
+  .pt-4
+    = render partial: "/admin/shared/pagination", locals: { list: @feeds }

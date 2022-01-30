@@ -45,8 +45,22 @@ module ApplicationHelper
     end
   end
 
+  def discover_tag_links_v2(feed)
+    content_tag :span do
+      feed.tag_list.each do |tag|
+        concat(
+          discover_tag_link_v2(tag, klass: "pr-1")
+        )
+      end
+    end
+  end
+
   def discover_tag_link(tag, klass: "")
     link_to content_tag(:span, tag.upcase, class: "badge rounded-pill"), admin_discover_tagged_path(tag.upcase), class: klass
+  end
+
+  def discover_tag_link_v2(tag, klass: "")
+    link_to content_tag(:span, tag.upcase, class: "tag tag--small is-primary"), admin_discover_tagged_path(tag.upcase), class: klass
   end
 
   def clean_summary(entry)

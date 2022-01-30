@@ -9,30 +9,26 @@
 
   = render partial: "search"
 
-  .feeds
+  %div
     - @tags.each do |tag|
       - taggings = tag.taggings
-      %h6.is-flex.is-align-items-center.pt-4
-        =link_to admin_discover_tagged_path(tag.name), class: "text-decoration-none" do
+      .is-flex.is-align-items-center.pt-4
+        =link_to admin_discover_tagged_path(tag.name) do
           = tag_v2 tag.name
         .pl-2.is-size-8 (#{tag.taggings_count})
-    
-
-  .row.feeds
-    - @tags.each do |tag|
-      - taggings = tag.taggings
-      .col-12
-        %h6.fw-lighter.d-flex.align-items-center.pt-4
-          =link_to admin_discover_tagged_path(tag.name), class: "text-decoration-none" do
-            = tag_v2 tag.name
-          .ps-1.fs-10 (#{tag.taggings_count})
-      - taggings.limit(show_number_of_feeds).each do |tagging|
-        - feed = tagging.taggable
-        = render partial: "feed", locals: { feed: feed }
+      .is-flex.pt-4
+        - taggings.limit(show_number_of_feeds).each do |tagging|
+          - feed = tagging.taggable
+          = render partial: "feed", locals: { feed: feed }
       - if taggings.count > show_number_of_feeds
-        .col-12.col-lg-6.col-xl-4.p-2.fs-10.fw-lighter.d-flex.align-items-center
+        .is-flex.align-items-center.is-size-7.pt-2
           =link_to admin_discover_tagged_path(tag.name), class: "text-decoration-none" do
             and #{taggings.count - show_number_of_feeds} more ...
+
+  .pt-4
+    = render partial: "cant_find_it", locals: { list: @tags }
   
-  = render partial: "/admin/shared/pagination", locals: { list: @tags }
-  = render partial: "cant_find_it", locals: { list: @tags }
+  .pt-4
+    = render partial: "/admin/shared/pagination", locals: { list: @tags }
+  
+  
