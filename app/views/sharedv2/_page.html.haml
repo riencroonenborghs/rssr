@@ -8,7 +8,7 @@
               .image.is-128x128
                 = image_tag entry.image_url
           .media-content
-            .title.is-6
+            .title.is-6.is-flex.is-align-items-flex-start.is-justify-content-space-between
               - if entry.summary
                 = link_to "#", class: "summary entries--title", data: { id: entry.id } do
                   = entry.title
@@ -16,7 +16,8 @@
                 = link_to entry.url, class: "entries--title", target: "_blank" do
                   = entry.title
               - if user_signed_in?
-                = render partial: "/sharedv2/read_later", locals: { entry: entry }
+                .pl-2
+                  = render partial: "/sharedv2/read_later", locals: { entry: entry }
         .card-content(style="padding: 0px;")
           .is-flex.is-align-items-center
             .is-size-7.pr-1
