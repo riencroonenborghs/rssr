@@ -33,6 +33,9 @@ const handleModal = function (entryId) {
 const entryTitles = function() {
   $(".entries .entries--title").off("click");
   $(".entries .entries--title").on("click", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    
     const title = this;
     const entry = title.closest(".entry-wrapper");
     const entryId = entry.dataset.entryId;

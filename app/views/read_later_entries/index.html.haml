@@ -2,8 +2,6 @@
   Read Later
 
 #read_later.mobile-padding
-  .subtitle.pt-3 Read Later
-
   - if @entries.size > 0
     = render partial: "/sharedv2/entries", locals: { entries: @entries }
   - else
