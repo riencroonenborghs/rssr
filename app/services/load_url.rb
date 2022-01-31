@@ -6,7 +6,7 @@ class LoadUrl < AppService
   end
 
   def call
-    @data = HTTParty.get(url, headers: headers, verify: false)&.body
+    @data = HTTParty.get(url, verify: false)&.body
   end
 
   private
