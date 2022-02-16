@@ -5,4 +5,6 @@ class Subscription < ApplicationRecord
   delegate :name, :url, :tag_list, :description, to: :feed, allow_nil: true
 
   validates :feed, uniqueness: { scope: %i[user feed] }
+
+  scope :active, -> { where(active: true) }
 end

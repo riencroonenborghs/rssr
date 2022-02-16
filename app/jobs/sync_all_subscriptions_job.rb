@@ -3,7 +3,7 @@ class SyncAllSubscriptionsJob < ApplicationJob
 
   def perform
     User.all.each do |user|
-      user.subscriptions.each do |subscription|
+      user.subscriptions.active.each do |subscription|
         SyncFeedJob.perform_later(subscription.feed_id)
       end
     end
