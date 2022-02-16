@@ -53,6 +53,12 @@ module Admin
       end
     end
 
+    def toggle_active
+      subscription = current_user.subscriptions.find(params[:id])
+      subscription.toggle_active!
+      redirect_to request.referer
+    end
+
     private
 
     def set_page

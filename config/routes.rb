@@ -45,6 +45,9 @@ Rails.application.routes.draw do
         collection do
           get :sync
         end
+        member do
+          get :toggle_active
+        end
       end
 
       resources :rules

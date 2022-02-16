@@ -7,4 +7,8 @@ class Subscription < ApplicationRecord
   validates :feed, uniqueness: { scope: %i[user feed] }
 
   scope :active, -> { where(active: true) }
+
+  def toggle_active!
+    update(active: !active)
+  end
 end
