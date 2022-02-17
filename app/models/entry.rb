@@ -1,7 +1,7 @@
 class Entry < ApplicationRecord
   belongs_to :feed
-  has_many :viewed_by, class_name: "ViewedEntry"
-  has_many :read_later, class_name: "ReadLaterEntry"
+  has_many :viewed_by, class_name: "ViewedEntry", dependent: :destroy
+  has_many :read_later, class_name: "ReadLaterEntry", dependent: :destroy
 
   validates :entry_id, :url, :title, :published_at, presence: true
 

@@ -2,3 +2,8 @@ sync_all_subscriptions:
   cron: "*/30 * * * *"
   class: "SyncAllSubscriptionsJob"
   queue: default
+
+sync_all_subscriptions:
+  cron: "0 0 * * *"
+  class: "RemoveOldEntriesJob"
+  queue: default
