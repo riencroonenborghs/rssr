@@ -31,6 +31,8 @@ class EntriesController < ApplicationController
       filtered_scope do
         @feed
           .entries
+          .joins(feed: :subscriptions)
+          .merge(Subscription.active)
           .most_recent_first
       end
     end.page(page).per(@pagination_size)
@@ -41,6 +43,8 @@ class EntriesController < ApplicationController
       filtered_scope do
         @feed
           .entries
+          .joins(feed: :subscriptions)
+          .merge(Subscription.active)
           .most_recent_first
           .today
       end

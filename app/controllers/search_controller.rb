@@ -15,7 +15,11 @@ class SearchController < ApplicationController
 
     @entries = filtered_scope do
       current_user_scope do
-        Entry.where("upper(entries.title) like :query OR upper(entries.summary) like :query", query: "%#{@query.upcase}%").limit(100)
+        Entry
+          .where("upper(entries.title) like :query OR upper(entries.summary) like :query", query: "%#{@query.upcase}%")
+          .joins(feed: :subscriptions)
+          .merge(Subscription.active)
+          .limit(100)
       end
     end
   end

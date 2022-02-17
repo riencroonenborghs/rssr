@@ -25,6 +25,8 @@ class FeedsController < ApplicationController
           Entry
             .joins(:feed)
             .merge(Feed.active)
+            .joins(feed: :subscriptions)
+            .merge(Subscription.active)
             .most_recent_first
         end
       end
@@ -41,6 +43,8 @@ class FeedsController < ApplicationController
         Entry
           .joins(:feed)
           .merge(Feed.active.tagged_with(@tag))
+          .joins(feed: :subscriptions)
+          .merge(Subscription.active)
           .most_recent_first
       end
     end
@@ -53,6 +57,8 @@ class FeedsController < ApplicationController
         Entry
           .joins(:feed)
           .merge(Feed.active.tagged_with(@tag))
+          .joins(feed: :subscriptions)
+          .merge(Subscription.active)
           .most_recent_first
           .today
       end
