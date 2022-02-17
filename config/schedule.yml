@@ -3,7 +3,7 @@ sync_all_subscriptions:
   class: "SyncAllSubscriptionsJob"
   queue: default
 
-sync_all_subscriptions:
+remove_old_entries:
   cron: "0 0 * * *"
   class: "RemoveOldEntriesJob"
   queue: default
