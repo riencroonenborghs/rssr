@@ -1,6 +1,6 @@
 module Backfill
   class SetImageUrlOnFeeds < AppService
-    def call # rubocop:disable Metrics/MethodLength
+    def call
       Feed.where(image_url: nil).each do |feed|
         pp "feed #{feed.name} (#{feed.url})"
         feed.guess_image_url

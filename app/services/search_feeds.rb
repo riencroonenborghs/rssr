@@ -24,8 +24,6 @@ class SearchFeeds < AppService
       .alphabetically
   end
 
-  # rubocop:disable Metrics/MethodLength
-  # rubocop:disable Metrics/Metrics/AbcSize
   def search
     scope = yield
     return scope unless query.present?
@@ -42,8 +40,6 @@ class SearchFeeds < AppService
       scope.merge(ActsAsTaggableOn::Tag.where("upper(tags.name) = ?", query.upcase))
     ).distinct
   end
-  # rubocop:enable Metrics/MethodLength
-  # rubocop:enable Metrics/Metrics/AbcSize
 
   def paginate
     scope = yield

@@ -10,7 +10,6 @@ module FilterEngine
 
     private
 
-    # rubocop:disable Metrics/MethodLength
     def sql_comparison
       @sql_comparison ||= case comparison
                           when "ne"
@@ -27,6 +26,5 @@ module FilterEngine
                             "="
                           end
     end
-    # rubocop:enable Metrics/MethodLength
   end
 end

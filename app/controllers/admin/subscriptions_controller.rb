@@ -10,8 +10,6 @@ module Admin
       @subscription = current_user.subscriptions.new(feed: Feed.new)
     end
 
-    # rubocop:disable Metrics/MethodLength
-    # rubocop:disable Metrics/AbcSize
     def create
       service = CreateManualSubscription.call(
         user: current_user,
@@ -31,8 +29,6 @@ module Admin
         end
       end
     end
-    # rubocop:enable Metrics/AbcSize
-    # rubocop:enable Metrics/MethodLength
 
     def subscribe
       @subscription = current_user.subscriptions.new(feed_id: params[:feed_id])

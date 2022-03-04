@@ -9,9 +9,11 @@ class ReadLaterEntriesController < ApplicationController
     entry = Entry.find_by(id: params[:entry_id])
     return unless entry
 
+    # rubocop:disable Style/IfUnlessModifier
     unless (@read_later = current_user.read_later_entries.find_by(entry_id: entry.id))
       @read_later = current_user.read_later_entries.create!(entry_id: entry.id)
     end
+    # rubocop:enable Style/IfUnlessModifier
     @read_later.unread!
     @read_later_count = current_user.read_later_entries.unread.count
   end

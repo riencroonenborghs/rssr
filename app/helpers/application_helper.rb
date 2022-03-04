@@ -17,7 +17,7 @@ module ApplicationHelper
         )
       end
     end
-  end 
+  end
 
   def tag_link_v2(tag, klass: "")
     link_to content_tag(:span, tag.upcase, class: "tag tag--small is-primary"), tagged_feeds_path(tag.upcase), class: klass

@@ -1,6 +1,6 @@
 module IconsHelper
   def fa_solid(icon, size: 2, options: {})
-    tag.span(class: "#{options.dig(:class)} icon") do
+    tag.span(class: "#{options[:class]} icon") do
       tag.i(class: "fas fa-#{icon} fa-size-#{size}")
     end
   end

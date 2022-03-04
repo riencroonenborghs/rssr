@@ -1,5 +1,5 @@
 class SubscriptionsController < ApplicationController
-  def today # rubocop:disable Metrics/MethodLength
+  def today
     @entries = offset_scope do
       filtered_scope do
         scope = Entry
