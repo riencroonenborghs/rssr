@@ -1,5 +1,5 @@
-class RemoveOldEntriesJob < ApplicationJob
-  queue_as :default
+class RemoveOldEntriesJob
+  include Sidekiq::Job
 
   def perform
     Entry

@@ -46,7 +46,7 @@ module Admin
     end
 
     def sync
-      SyncAllSubscriptionsJob.perform_later
+      SyncAllSubscriptionsJob.perform_async
 
       respond_to do |format|
         format.html { redirect_to admin_subscriptions_path, notice: "All subscriptions queued for syncing." }

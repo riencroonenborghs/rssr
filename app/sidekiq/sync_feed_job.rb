@@ -1,5 +1,5 @@
-class SyncFeedJob < ApplicationJob
-  queue_as :default
+class SyncFeedJob
+  include Sidekiq::Job
 
   def perform(feed_id)
     # only when the corresponding subscription is active
