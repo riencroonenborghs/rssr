@@ -19,6 +19,7 @@ class SearchController < ApplicationController
           .where("upper(entries.title) like :query OR upper(entries.summary) like :query", query: "%#{@query.upcase}%")
           .joins(feed: :subscriptions)
           .merge(Subscription.active)
+          .most_recent_first
           .limit(100)
       end
     end

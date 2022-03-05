@@ -10,10 +10,10 @@
           .media-content
             .title.is-6.is-flex.is-align-items-flex-start.is-justify-content-space-between
               - if entry.summary
-                = link_to "#", class: "summary entries--title", data: { id: entry.id } do
+                = link_to "#", class: "summary entries--title entries--modal", data: { id: entry.id } do
                   = entry.title
               - else
-                = link_to entry.url, class: "entries--title", target: "_blank" do
+                = link_to entry.url, class: "entries--title entries--no-modal", target: "_blank" do
                   = entry.title
               - if user_signed_in?
                 .pl-2

@@ -4,6 +4,7 @@ class ViewedEntriesController < ApplicationController
   def create
     entry = Entry.find_by(id: params[:entry_id])
     return unless entry
+    return if current_user.viewed_entries.exists?(entry_id: entry.id)
 
     object = current_user.viewed_entries.build(entry_id: entry.id)
     if object.valid? && object.save

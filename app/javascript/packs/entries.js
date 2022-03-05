@@ -32,7 +32,14 @@ const handleModal = function (entryId) {
 
 const entryTitles = function() {
   $(".entries .entries--title").off("click");
+
   $(".entries .entries--title").on("click", function(e) {
+    const entry = this.closest(".entry-wrapper");
+    const entryId = entry.dataset.entryId;
+    handleViewed(entryId, entry);
+  });
+
+  $(".entries .entries--title.entries--modal").on("click", function(e) {
     e.preventDefault();
     e.stopPropagation();
     
@@ -40,7 +47,6 @@ const entryTitles = function() {
     const entry = title.closest(".entry-wrapper");
     const entryId = entry.dataset.entryId;
 
-    handleViewed(entryId, entry);
     if (title.classList.contains("summary")) {
       handleModal(entryId);
     }
