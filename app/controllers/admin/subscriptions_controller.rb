@@ -22,7 +22,7 @@ module Admin
 
       respond_to do |format|
         if service.success?
-          format.html { redirect_to admin_discover_path, notice: "You're suscribed to '#{@subscription.feed.name}'." }
+          format.html { redirect_to admin_subscriptions_path, notice: "You're suscribed to '#{@subscription.feed.name}'." }
         else
           @subscription.feed = service.feed
           format.html { render :new, status: :unprocessable_entity }

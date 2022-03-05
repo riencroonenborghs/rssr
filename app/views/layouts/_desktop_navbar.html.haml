@@ -24,7 +24,7 @@
               - if @subscription_count > 0
                 %span.tag.is-complementary
                   = @subscription_count
-          %li
+          -#%li
             = link_to admin_discover_path, class: "#{'is-active' if current_page?(admin_discover_path)}", title: "Discover" do
               = fa_solid "eye"
           %li
