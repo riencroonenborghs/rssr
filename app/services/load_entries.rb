@@ -34,7 +34,7 @@ class LoadEntries < AppService
     feed.entries.create!(
       entry_id: entry_id,
       url: entry.url,
-      title: entry.title || "No title :(",
+      title: entry.title || entry.summary.split(".").first || "No title :(",
       summary: entry.summary,
       published_at: entry.published.in_time_zone,
       image_url: entry.image
