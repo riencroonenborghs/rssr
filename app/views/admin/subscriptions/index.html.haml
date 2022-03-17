@@ -43,4 +43,5 @@
               = link_to toggle_active_admin_subscription_path(subscription), class: "button is-white #{subscription.active? ? 'has-text-success' : 'has-text-danger'}" do
                 = fa_solid "dot-circle", size: 1
 
-= render partial: "/admin/shared/pagination", locals: { list: @subscriptions }
+%div(class="#{'pt-4 mt-4' if mobile?}")
+  = render partial: "/admin/shared/pagination", locals: { list: @subscriptions }

@@ -18,7 +18,11 @@
         Read later
         %span.tag.is-complementary.read-later-count-tag(class="#{'d-none' if @read_later_count.zero?}")
           = @read_later_count
-    - if user_signed_in?
+      = link_to admin_subscriptions_path, class: "navbar-item #{'is-active' if current_page?(admin_subscriptions_path)}", title: "Subscriptions" do
+        = fa_solid "star", size: 1
+        Subscriptions
+        %span.tag.is-complementary.read-later-count-tag(class="#{'d-none' if @subscription_count.zero?}")
+          = @subscription_count
       = link_to destroy_user_session_path, method: :delete, title: "Log out", class: "navbar-item" do
         = fa_solid "lock", size: 1, options: { class: "pl-4 pr-4" }
         Log Out
