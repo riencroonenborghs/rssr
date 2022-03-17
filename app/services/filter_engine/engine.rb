@@ -8,6 +8,7 @@ module FilterEngine
     end
 
     def call
+      return unless user.filter_engine_rules.any?
       return unless or_scope.where_clause.any?
 
       @scope = scope.where(or_scope.where_clause.ast.not.to_sql).distinct
