@@ -23,6 +23,11 @@
         Subscriptions
         %span.tag.is-complementary.read-later-count-tag(class="#{'d-none' if @subscription_count.zero?}")
           = @subscription_count
+      = link_to admin_rules_path, class: "navbar-item #{'is-active' if current_page?(admin_rules_path)}", title: "Filters" do
+        = fa_solid "star", size: 1
+        Filters
+        %span.tag.is-complementary.read-later-count-tag(class="#{'d-none' if @rules_count.zero?}")
+          = @rules_count
       = link_to destroy_user_session_path, method: :delete, title: "Log out", class: "navbar-item" do
         = fa_solid "lock", size: 1, options: { class: "pl-4 pr-4" }
         Log Out
