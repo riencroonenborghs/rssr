@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 2022_02_16_090910) do
   end
 
   create_table "entries", force: :cascade do |t|
-    t.integer "feed_id", null: false
+    t.bigint "feed_id", null: false
     t.string "entry_id", null: false
     t.string "url", null: false
     t.string "title", null: false
@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(version: 2022_02_16_090910) do
   end
 
   create_table "filter_engine_rules", force: :cascade do |t|
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.string "type", default: "keyword", null: false
     t.string "comparison", default: "eq", null: false
     t.string "value", null: false
@@ -63,8 +63,8 @@ ActiveRecord::Schema.define(version: 2022_02_16_090910) do
   end
 
   create_table "read_later_entries", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "entry_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "entry_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "read"
@@ -74,8 +74,8 @@ ActiveRecord::Schema.define(version: 2022_02_16_090910) do
   end
 
   create_table "subscriptions", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "feed_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "feed_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "active", default: true, null: false
@@ -84,7 +84,7 @@ ActiveRecord::Schema.define(version: 2022_02_16_090910) do
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end
 
-  create_table "taggings", force: :cascade do |t|
+  create_table "taggings", id: :serial, force: :cascade do |t|
     t.integer "tag_id"
     t.string "taggable_type"
     t.integer "taggable_id"
@@ -105,7 +105,7 @@ ActiveRecord::Schema.define(version: 2022_02_16_090910) do
     t.index ["tenant"], name: "index_taggings_on_tenant"
   end
 
-  create_table "tags", force: :cascade do |t|
+  create_table "tags", id: :serial, force: :cascade do |t|
     t.string "name"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -124,8 +124,8 @@ ActiveRecord::Schema.define(version: 2022_02_16_090910) do
   end
 
   create_table "viewed_entries", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "entry_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "entry_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["entry_id"], name: "index_viewed_entries_on_entry_id"
