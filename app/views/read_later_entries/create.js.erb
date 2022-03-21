@@ -4,14 +4,14 @@
     for(i = 0; i < parents.length; ++i) {
       const parent = parents[i];
       const readLaterReadIt = parent.getElementsByClassName("read-later-read-it")[0];
-      readLaterReadIt.classList.remove("is-hidden");
+      readLaterReadIt.classList.remove("d-none");
       const readLater = parent.getElementsByClassName("read-later")[0];
-      readLater.classList.add("is-hidden");
+      readLater.classList.add("d-none");
 
       const tag = document.getElementsByClassName("read-later-count-tag")[0];
       if (tag) {
-        tag.innerHTML = "<%= @read_later_count %>";
-        tag.classList.remove("is-hidden");
+        tag.innerHTML = "<div class='fs-15'><%= @read_later_count %></div>";
+        tag.classList.remove("d-none");
       }
     }
   }

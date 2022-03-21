@@ -1,0 +1,15 @@
+= form_with(scope: :filter, url: filter.id ? admin_filter_path(filter) : admin_filters_path, local: true, method: filter.id ? "patch" : "post") do |form|  
+  = form.hidden_field :id, value: filter.id
+  
+  .row
+    .col-12.col-xl-3.mb-3
+      = form.select :comparison, [["contains the word(s)","eq"], ["does not contain the word(s)", "ne"]], { selected: filter.comparison, include_blank: false }, class: "form-select"
+    .col-12.col-xl-4.mb-3
+      = form.text_field :value, class: "form-control #{'border-danger' if filter.errors[:value].any?}", value: filter.value, placeholder: "e.g. facebook"
+      - if filter.errors[:value].any?
+        .text-danger.fs-11
+          = filter.errors[:value].join(', ')
+  .row
+    .col-12.col-xl-4
+      = form.submit "#{filter.new_record? ? "Create" : "Update"} Filter", class: "btn btn-primary"
+      

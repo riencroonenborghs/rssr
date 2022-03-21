@@ -1,0 +1,14 @@
+- content_for :title do
+  Edit Filter
+
+#edit-filter
+  %h6.pb-2
+    Edit Filter
+
+  %p
+    = link_to admin_filters_path do
+      = fa_solid "chevron-left", size: 1
+      Back
+
+  .pt-4
+    = render 'form', filter: @filter

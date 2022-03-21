@@ -10,22 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_16_090910) do
+ActiveRecord::Schema.define(version: 2022_03_22_040009) do
 
-  create_table "delayed_jobs", force: :cascade do |t|
-    t.integer "priority", default: 0, null: false
-    t.integer "attempts", default: 0, null: false
-    t.text "handler", null: false
-    t.text "last_error"
-    t.datetime "run_at"
-    t.datetime "locked_at"
-    t.datetime "failed_at"
-    t.string "locked_by"
-    t.string "queue"
-    t.datetime "created_at", precision: 6
-    t.datetime "updated_at", precision: 6
-    t.index ["priority", "run_at"], name: "delayed_jobs_priority"
-  end
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "entries", force: :cascade do |t|
     t.bigint "feed_id", null: false
@@ -37,7 +25,10 @@ ActiveRecord::Schema.define(version: 2022_02_16_090910) do
     t.string "image_url"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["entry_id"], name: "index_entries_on_entry_id"
+    t.index ["feed_id", "entry_id"], name: "index_entries_on_feed_id_and_entry_id"
     t.index ["feed_id"], name: "index_entries_on_feed_id"
+    t.index ["published_at"], name: "index_entries_on_published_at"
   end
 
   create_table "feeds", force: :cascade do |t|
@@ -50,16 +41,19 @@ ActiveRecord::Schema.define(version: 2022_02_16_090910) do
     t.text "error"
     t.text "description"
     t.string "image_url"
+    t.index ["active"], name: "index_feeds_on_active"
+    t.index ["last_visited"], name: "index_feeds_on_last_visited"
+    t.index ["url"], name: "index_feeds_on_url"
   end
 
-  create_table "filter_engine_rules", force: :cascade do |t|
+  create_table "filters", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.string "type", default: "keyword", null: false
     t.string "comparison", default: "eq", null: false
     t.string "value", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_id"], name: "index_filter_engine_rules_on_user_id"
+    t.index ["user_id"], name: "index_filters_on_user_id"
+    t.index ["value", "user_id"], name: "uniq_filter_val_usr_type"
   end
 
   create_table "read_later_entries", force: :cascade do |t|
@@ -69,6 +63,8 @@ ActiveRecord::Schema.define(version: 2022_02_16_090910) do
     t.datetime "updated_at", precision: 6, null: false
     t.datetime "read"
     t.index ["entry_id"], name: "index_read_later_entries_on_entry_id"
+    t.index ["read"], name: "index_read_later_entries_on_read"
+    t.index ["user_id", "entry_id", "read"], name: "readltr_usr_entry_rd"
     t.index ["user_id", "entry_id"], name: "index_read_later_entries_on_user_id_and_entry_id"
     t.index ["user_id"], name: "index_read_later_entries_on_user_id"
   end
@@ -79,7 +75,9 @@ ActiveRecord::Schema.define(version: 2022_02_16_090910) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "active", default: true, null: false
+    t.index ["active"], name: "index_subscriptions_on_active"
     t.index ["feed_id"], name: "index_subscriptions_on_feed_id"
+    t.index ["user_id", "feed_id", "active"], name: "sub_usr_fd_actv"
     t.index ["user_id", "feed_id"], name: "index_subscriptions_on_user_id_and_feed_id", unique: true
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end
@@ -134,7 +132,7 @@ ActiveRecord::Schema.define(version: 2022_02_16_090910) do
   end
 
   add_foreign_key "entries", "feeds"
-  add_foreign_key "filter_engine_rules", "users"
+  add_foreign_key "filters", "users"
   add_foreign_key "read_later_entries", "entries"
   add_foreign_key "read_later_entries", "users"
   add_foreign_key "subscriptions", "feeds"

@@ -1,32 +1,26 @@
 - content_for :title do
-  Log in
+  Sign in
 
-#read_later.mobile-padding
-  .subtitle.pt-3 Log in
+#read_later
+  %h6.pb-2 Sign in
 
   = form_for(resource, as: resource_name, url: session_path(resource_name)) do |form|
-    .columns
-      .column.is-one-third
-        .field
-          = form.label :email, class: "label"
-        .control
-          = form.email_field :email, autofocus: true, autocomplete: "email", class: "input"
+    .row
+      .col-12.col-xl-4.mb-3
+        = form.label :email, class: "form-label"
+        = form.email_field :email, autofocus: true, autocomplete: "email", class: "form-control"
 
-    .columns
-      .column.is-one-third
-        .field
-          = form.label :password, class: "label"
-        .control
-          = form.password_field :password, autocomplete: "current-password", class: "input"
+    .row
+      .col-12.col-xl-4.mb-3
+        = form.label :password, class: "form-label"
+        = form.password_field :password, autocomplete: "current-password", class: "form-control"
+        
+    .row
+      .col-12.col-xl-4.mb-3
+        = form.check_box :remember_me, class: "form-check-input"
+        = form.label :remember_me, class: "form-check-label" do              
+          Remember me
 
-    - if devise_mapping.rememberable?
-      .columns
-        .column
-          .field
-            = form.label :remember_me, class: "checkbox" do              
-              = form.check_box :remember_me
-              Remember me
-
-    .columns
-      .column
-        = form.submit "Log in", class: "button is-primary"
+    .row
+      .col-12.col-xl-4
+        = form.submit "Log in", class: "btn btn-primary"

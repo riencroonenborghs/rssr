@@ -1,46 +1,46 @@
 - content_for :title do
   Subscriptions
 
-#read_later.mobile-padding
-  .subtitle.pt-3
+#read_later
+  %h6.pb-2
     Subscriptions
     
   %p
-    = link_to sync_admin_subscriptions_path, class: "ps-4 text-decoration-none", title: "Fetch latest" do
+    = link_to sync_admin_subscriptions_path, title: "Fetch latest" do
       = fa_solid "sync-alt", size: 1
       Sync feeds
 
-  %table.table.is-narrow.is-hoverable(style="width: calc(100% - 20px)")
+  %table.table.table-hover
     %thead
       %tr
         %th
-        %th(style="width: 100px;")
+        %th(style="width: 50px;")
           = fa_solid "star", size: 1
-        %th(style="width: 150px;")
+        %th(style="width: 75px;")
           = fa_solid "sync-alt", size: 1
-        %th(style="width: 100px;")
+        %th(style="width: 75px;")
     %tbody
       - @subscriptions.each do |subscription|
         %tr(id="subscription-#{subscription.id}" )
           %td
-            .is-flex.is-flex-direction-column
+            .d-flex.flex-column
               = link_to subscription.feed.name, feed_entries_path(subscription.feed)
-              .is-size-8
-                = tag_links_v2 subscription.feed
-              .is-size-8.pt-2
+              .fs-11
+                = bootstrap_tags subscription.feed
+              .fs-11.pt-2
                 - if subscription.feed.description
                   = subscription.feed.description
               - if subscription.feed.error
-                .is-size-8.has-text-danger.pt-2
+                .fs-11.text-danger.pt-2
                   = subscription.feed.error
           %td.fs-11=subscription.created_at.strftime("%d %b")
           %td.fs-11=subscription.feed.last_visited&.strftime("%d %b %H:%M")
           %td
-            .is-flex         
+            .d-flex         
               = form_with url: admin_unsubscribe_path(subscription) do |form|
-                %button(type="submit" class="button is-white")
-                  = fa_solid "star", size: 1
-              = link_to toggle_active_admin_subscription_path(subscription), class: "button is-white #{subscription.active? ? 'has-text-success' : 'has-text-danger'}" do
+                %button(type="submit" class="btn text-danger")
+                  = fa_solid "trash", size: 1
+              = link_to toggle_active_admin_subscription_path(subscription), class: "btn btn-white #{subscription.active? ? 'text-success' : 'text-warning'}" do
                 = fa_solid "dot-circle", size: 1
 
 %div(class="#{'pt-4 mt-4' if mobile?}")

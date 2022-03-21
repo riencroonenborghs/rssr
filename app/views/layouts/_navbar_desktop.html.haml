@@ -1,0 +1,53 @@
+.d-flex.flex-row.align-items-start
+  %nav.navbar.border-end.border-secondary.flex-column.justify-content-between.position-fixed(style="width: 75px; height: calc(100vh);")
+    -# ----- TOP -----
+    %ul.navbar-nav
+      %li.nav-item
+        = link_to subscriptions_today_path, class: "nav-link #{'active' if active_page?(subscriptions_today_path) || current_page?(root_path)}", title: "Today" do
+          = fa_solid "calendar-check"
+          %span.badge.rounded-pill.position-absolute(style="left: 10px;")
+            .fs-15
+              = @today_count
+      - if user_signed_in?
+        %li.nav-item
+          = link_to read_later_all_path, class: "nav-link #{'active' if active_page?(read_later_all_path)}", title: "Read later" do
+            = fa_solid "star"
+            %span.badge.rounded-pill.position-absolute.read-later-count-tag(style="left: 10px;" class="#{'d-none' if @read_later_count.zero?}")
+              .fs-15
+                = @read_later_count
+        %li.nav-item
+          = link_to new_search_path, class: "nav-link #{'active' if active_page?(search_index_path)}", title: "Search" do
+            = fa_solid "search"
+    -# ----- BOTTOM -----
+    %ul.navbar-nav
+      - if user_signed_in?
+        %li.nav-item
+          = link_to admin_subscriptions_path, class: "nav-link #{'active' if active_page?(admin_subscriptions_path)}", title: "Subscriptions" do
+            = fa_solid "rss"
+            - if @subscription_count > 0
+              %span.badge.rounded-pill.position-absolute(style="left: 10px;")
+                .fs-15
+                  = @subscription_count
+        %li.nav-item
+          = link_to admin_filters_path, class: "nav-link #{'active' if active_page?(admin_filters_path)}", title: "Filters" do
+            = fa_solid "list"
+            %span.badge.rounded-pill.position-absolute(style="left: 10px;")
+              .fs-15
+                = @filters_count
+        %li.nav-item
+          = link_to new_admin_subscription_path, class: "nav-link #{'active' if active_page?(new_admin_subscription_path)}", title: "Add RSS Feed" do
+            = fa_solid "plus"
+        %li.nav-item
+          = link_to "/sidekiq", title: "Sidekiq", target: "_blank", class: "nav-link" do
+            = fa_solid "sync"
+            
+      - if user_signed_in?
+        %li.nav-item
+          = link_to destroy_user_session_path, method: :delete, title: "Log out", class: "nav-link" do
+            = fa_solid "lock", size: 2
+      - else
+        %li.nav-item
+          = link_to new_user_session_path, title: "Log in", class: "nav-link #{'active' if active_page?(new_user_session_path)}" do
+            = fa_solid "lock-open", size: 2
+  .content.p-4(style="width: calc(100vw - 75px); position: relative; left: 75px;")
+    = yield

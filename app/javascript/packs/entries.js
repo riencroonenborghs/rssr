@@ -6,29 +6,29 @@ const handleViewed = function (entryId, entry) {
   });
 }
 
-const handleModal = function (entryId) {
-  const modal = $(`#modal-entry-${entryId}`);
-  modal.addClass("is-active");
-  modal.addClass("is-clipped");
+// const handleModal = function (entryId) {
+//   const modal = $(`#modal-entry-${entryId}`);
+//   modal.addClass("is-active");
+//   modal.addClass("is-clipped");
   
-  modal.find("button").on("click", function(e) {
-    modal.removeClass("is-active");
-    modal.removeClass("is-clipped");
-    modal.off("click");
-  });
+//   modal.find("button").on("click", function(e) {
+//     modal.removeClass("is-active");
+//     modal.removeClass("is-clipped");
+//     modal.off("click");
+//   });
 
-  $(document).on("keydown", function (event) {
-    const e = event || window.event;
+//   $(document).on("keydown", function (event) {
+//     const e = event || window.event;
 
-    // Escape key
-    if (e.keyCode === 27) {
-      modal.removeClass("is-active");
-      modal.removeClass("is-clipped");
+//     // Escape key
+//     if (e.keyCode === 27) {
+//       modal.removeClass("is-active");
+//       modal.removeClass("is-clipped");
 
-      $(document).off("keydown");
-    }
-  });
-}
+//       $(document).off("keydown");
+//     }
+//   });
+// }
 
 const entryTitles = function() {
   $(".entries .entries--title").off("click");
@@ -39,18 +39,18 @@ const entryTitles = function() {
     handleViewed(entryId, entry);
   });
 
-  $(".entries .entries--title.entries--modal").on("click", function(e) {
-    e.preventDefault();
-    e.stopPropagation();
+  // $(".entries .entries--title.entries--modal").on("click", function(e) {
+  //   e.preventDefault();
+  //   e.stopPropagation();
     
-    const title = this;
-    const entry = title.closest(".entry-wrapper");
-    const entryId = entry.dataset.entryId;
+  //   const title = this;
+  //   const entry = title.closest(".entry-wrapper");
+  //   const entryId = entry.dataset.entryId;
 
-    if (title.classList.contains("summary")) {
-      handleModal(entryId);
-    }
-  });
+  //   if (title.classList.contains("summary")) {
+  //     handleModal(entryId);
+  //   }
+  // });
 }
 
 $(function() {

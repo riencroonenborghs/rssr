@@ -1,4 +1,12 @@
-.read-later-wrapper.is-flex.is-flex-direction-column.is-justify-content-center(class="read-later-#{entry.id}")
+.read-later-wrapper.D-flex.flex-column.justify-content-center(class="read-later-#{entry.id}")
+  %span.read-later-read-it(class="#{'d-none' unless user_signed_in? && entry.read_later?(current_user)}")
+    = link_to read_later_read_it_path(entry), remote: true, method: :delete, class: "read-later-read-it-link", title: "I've read it" do
+      = fa_solid "star", size: 1
+  %span.read-later(class="#{'d-none' if user_signed_in? && entry.read_later?(current_user)}")
+    = link_to read_later_path(entry), remote: true, method: :post, title: "Read it later", class: "read-later-link" do
+      = fa_regular "star", size: 1
+
+-#.read-later-wrapper.is-flex.is-flex-direction-column.is-justify-content-center(class="read-later-#{entry.id}")
   %span.read-later-read-it(class="#{'is-hidden' unless user_signed_in? && entry.read_later?(current_user)}")
     = link_to read_later_read_it_path(entry), remote: true, method: :delete, class: "read-later-read-it-link", title: "I've read it" do
       = fa_solid "star", size: 1

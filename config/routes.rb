@@ -30,14 +30,6 @@ Rails.application.routes.draw do
     delete "read_later/:entry_id/read_it" => "read_later_entries#destroy", as: :read_later_read_it
 
     namespace :admin do
-      get "discover" => "discover#index"
-      get "discover/search" => "discover#search", as: :discover_search
-      get "discover/tag/:tag" => "discover#tagged", as: :discover_tagged
-
-      get "discover/page/:page" => "discover#index"
-      get "discover/search/page/:page" => "discover#search"
-      get "discover/tag/:tag/page/:page" => "discover#tagged"
-
       post "subscribe/:feed_id" => "subscriptions#subscribe", as: :subscribe
       post "unsubscribe/:subscription_id" => "subscriptions#unsubscribe", as: :unsubscribe
       
@@ -50,13 +42,7 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :rules
-
-      # resources :entries, only: [:visit] do
-      #   collection do
-      #     get :visit
-      #   end
-      # end
+      resources :filters
     end
   end
 

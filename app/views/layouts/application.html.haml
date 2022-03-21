@@ -15,13 +15,8 @@
 
   %body(id="#{'admin' if user_signed_in?}" class="c_#{controller_name} a_#{action_name} #{'darkmode' if darkmode?}")
     - if mobile?
-      = render "/layouts/mobile_navbar"
-      = yield
+      = render "/layouts/navbar_mobile"
     - else
-      .columns
-        .column.is-1
-          = render "/layouts/desktop_navbar"
-        .column
-          = yield
-
+      = render "/layouts/navbar_desktop"
+    
     = render partial: "/layouts/flash_messages"

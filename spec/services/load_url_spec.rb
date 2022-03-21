@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe LoadUrl, type: :model do
+RSpec.describe LoadUrl, type: :service do
   subject { described_class.new(url: anything) }
 
   describe ".call" do

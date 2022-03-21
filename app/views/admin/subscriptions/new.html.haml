@@ -1,61 +1,49 @@
 - content_for :title do
   Add your own RSS subscription
 
-#new-rule.mobile-padding
-  .subtitle.pt-3
+#new-sub
+  %h6.pb-2
     Add your own RSS subscription
 
   = form_with(model: @subscription, url: [:admin, @subscription], method: :post, local: true) do |form|
-    .columns
-      .column.is-half
-        .field
-          = form.label :url, class: "label"
-        .control
-          = form.text_field :url, class: "input #{'is-danger' if @subscription.feed.errors[:url].present?}", required: true
-          - if @subscription.feed.errors[:url].present?
-            %small.has-text-danger=@subscription.feed.errors[:url].to_sentence
-            %br
-          %small We support regular RSS and atom feeds, as well as Youtube channels.
+    .row
+      .col-12.col-xl-6.mb-3
+        = form.label :url, class: "form-label"
+        = form.text_field :url, class: "form-control #{'text-danger' if @subscription.feed.errors[:url].present?}", required: true
+        - if @subscription.feed.errors[:url].present?
+          %small.text-danger=@subscription.feed.errors[:url].to_sentence
+          %br
+        .fs-11 Supports: RSS &amp; atom feeds, Youtube channels.
 
-    .columns
-      .column.is-half
-        .field
-          = form.label :name, class: "label"
-        .control
-          = form.text_field :name, class: "input #{'is-danger' if @subscription.feed.errors[:name].present?}"
-          - if @subscription.feed.errors[:name].present?
-            %small.has-text-danger=@subscription.feed.errors[:name].to_sentence
-            %br
-          %small Stumped for words? We'll use the RSS feed's title if you leave this empty.
+    .row
+      .col-12.col-xl-6.mb-3
+        = form.label :name, class: "form-label"
+        = form.text_field :name, class: "form-control #{'text-danger' if @subscription.feed.errors[:name].present?}"
+        - if @subscription.feed.errors[:name].present?
+          %small.text-danger=@subscription.feed.errors[:name].to_sentence
+          %br
+        .fs-11 Feed title is used if left empty.
     
-    .columns
-      .column.is-half
-        .field
-          = form.label :tag_list, class: "label"
-        .control
-          = form.text_field :tag_list, class: "input #{'is-danger' if @subscription.feed.errors[:tag_list].present?}"
-          - if @subscription.feed.errors[:tag_list].present?
-            %small.has-text-danger=@subscription.feed.errors[:tag_list].to_sentence
-            %br
-          %small
-            A comma-separated list of tags. Like 
-            %strong "news, world, uplifting"
-            or 
-            %strong "geekery, tech"
+    .row
+      .col-12.col-xl-6.mb-3
+        = form.label :tag_list, class: "form-label"
+        = form.text_field :tag_list, class: "form-control #{'text-danger' if @subscription.feed.errors[:tag_list].present?}"
+        - if @subscription.feed.errors[:tag_list].present?
+          %small.text-danger=@subscription.feed.errors[:tag_list].to_sentence
+          %br
+        .fs-11
+          A comma-separated.
     
-    .columns
-      .column.is-half
-        .field
-          = form.label :description, class: "label"
-        .control
-          = form.text_area :description, class: "input #{'is-danger' if @subscription.feed.errors[:description].present?}"
-          - if @subscription.feed.errors[:description].present?
-            %small.has-text-danger=@subscription.feed.errors[:description].to_sentence
-            %br
-          %small.fw-lighter What's this RSS feed all about?
+    .row
+      .col-12.col-xl-6.mb-3
+        = form.label :description, class: "form-label"
+        = form.text_area :description, class: "form-control #{'text-danger' if @subscription.feed.errors[:description].present?}"
+        - if @subscription.feed.errors[:description].present?
+          %small.text-danger=@subscription.feed.errors[:description].to_sentence
+          %br
+        .fs-11 What's this RSS feed all about?
       
-    .columns
-      .column.is-one-third
-        .field
-          = form.submit "Subscribe", class: "button is-primary"
+    .row
+      .col-12.col-xl-4
+        = form.submit "Add Feed", class: "btn btn-primary"
           

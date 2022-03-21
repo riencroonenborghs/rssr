@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe CreateManualSubscription, type: :model do
+RSpec.describe CreateManualSubscription, type: :service do
   shared_examples "the service fails" do
     it "copies the errors" do
       expect(subject.errors.full_messages.to_sentence).to_not eq ""

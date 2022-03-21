@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe YoutubeFeedUrl, type: :model do
+RSpec.describe YoutubeFeedUrl, type: :service do
   subject { described_class.new(url: anything) }
 
   describe ".call" do

@@ -2,8 +2,8 @@
   = @feed.name
 
 #feed
-  .subtitle.pt-3
+  %h6.pb-2
     = @feed.name
 
   = render partial: "/sharedv2/entries", locals: { entries: @entries }
-    
+  

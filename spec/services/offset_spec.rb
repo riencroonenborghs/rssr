@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Offset, type: :model do
+RSpec.describe Offset, type: :service do
   let(:now) { Time.zone.parse("28 Octover 2021, 18:01") }
   let(:hex) { "617A2E8C" }
 

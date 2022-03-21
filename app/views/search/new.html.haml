@@ -1,15 +1,7 @@
 - content_for :title do
   Search
 
-#search.mobile-padding
-  .subtitle.pt-3 Search
+#search
+  %h6.pb-2 Search
 
-  = form_with url: search_index_path, method: :post, local: true do |form|
-    .columns
-      .column.is-one-third
-        .field
-          .control
-            = form.text_field :query, class: "input", placeholder: "Type your query"
-    .columns
-      .column
-        = form.submit "Search", class: "button is-primary"
+  = render "form"

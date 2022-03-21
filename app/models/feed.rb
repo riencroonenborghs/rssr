@@ -14,9 +14,7 @@ class Feed < ApplicationRecord
 
   acts_as_taggable_on :tags
 
-  scope :alphabetically, -> { order(name: :asc) }
   scope :active, -> { where(active: true) }
-  scope :not_subscribed, ->(user) { where.not(id: user.subscriptions.pluck(:feed_id)) }
 
   def subscribed?(user)
     subscriptions.where(user_id: user.id).exists?

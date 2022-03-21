@@ -1,16 +1,16 @@
 - content_for :title do
   Read Later
 
-#read_later.mobile-padding
+#read_later
   - if @entries.size > 0
     = render partial: "/sharedv2/entries", locals: { entries: @entries }
   - else
-    .p-3
+    %p
       You can bookmark
-      = link_to "posts", root_path
+      = link_to "articles", root_path
       and read them later here.
       %br
-      Just click
-      = fa_solid "star", size: 1
-      and you're all set. It's easy as!
+      Click
+      = fa_regular "star", size: 1
+      to toggle.
       

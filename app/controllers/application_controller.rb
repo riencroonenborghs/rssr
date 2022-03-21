@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   before_action :set_today_count
   before_action :set_read_later_count
   before_action :set_subscription_count
-  before_action :set_rules_count
+  before_action :set_filters_count
 
   def set_today_count
     @today_count = filtered_scope do
@@ -34,10 +34,10 @@ class ApplicationController < ActionController::Base
     @subscription_count = current_user.subscriptions.count
   end
 
-  def set_rules_count
-    @rules_count = 0 and return unless user_signed_in?
+  def set_filters_count
+    @filters_count = 0 and return unless user_signed_in?
 
-    @rules_count = current_user.filter_engine_rules.count
+    @filters_count = current_user.filters.count
   end
 
   def mobile?
@@ -79,7 +79,7 @@ class ApplicationController < ActionController::Base
     scope = yield
     return scope unless user_signed_in?
 
-    scope = FilterEngine::Engine.call(user: current_user, scope: scope).scope # rubocop:disable Style/RedundantAssignment
+    scope = FilterService.call(user: current_user, scope: scope).scope # rubocop:disable Style/RedundantAssignment
 
     scope
   end

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe Darkmode, type: :model do
+RSpec.describe Darkmode, type: :service do
   let(:morning) { Time.zone.parse("28 Oct 2021, 06:00 am") }
   let(:noonish) { Time.zone.parse("28 Oct 2021, 1:00 pm") }
   let(:evening) { Time.zone.parse("28 Oct 2021, 09:00 pm") }

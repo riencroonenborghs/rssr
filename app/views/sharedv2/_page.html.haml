@@ -1,31 +1,29 @@
 - entries.in_groups_of(mobile? ? 1 : 3) do |group|
-  .is-flex.is-justify-content-center
+  .d-flex.justify-content-start
     - group.compact.each do |entry|
-      .card.entry-wrapper(style="padding: 0px;" class="#{'entries--viewed' if user_signed_in? && entry.viewed_by?(current_user)}" data-entry-id="#{entry.id}" style="width: calc((100% / #{mobile? ? 1 : 3})); #{'margin-right: 10px;' unless mobile?} margin-bottom: 10px;  padding: 16px;")
-        .media(style="margin-bottom: 0px;")
-          - if entry.image_url
-            .media-left
-              .image.is-128x128
-                = image_tag entry.image_url
-          .media-content
-            .title.is-6.is-flex.is-align-items-flex-start.is-justify-content-space-between
+      .shadow-sm.rounded.entry-wrapper(style="padding: 0px;" class="#{'entries--viewed' if user_signed_in? && entry.viewed_by?(current_user)}" data-entry-id="#{entry.id}" style="width: calc((100% / #{mobile? ? 1 : 3})); #{'margin-right: 10px;' unless mobile?} margin-bottom: 10px;  padding: 16px;")
+        .d-flex.flex-column.justify-content-between.h-100
+          .d-flex.flex-row
+            - if entry.image_url
+              = image_tag entry.image_url, width: 128, class: "me-3 mb-3"
+            .title.fs-6
               - if entry.summary
-                = link_to "#", class: "summary entries--title entries--modal", data: { id: entry.id } do
+                = link_to "#", class: "summary entries--title entries--modal", data: { "bs-toggle" => "modal", "bs-target" => "#modal-#{entry.id}" } do
                   = entry.title
               - else
                 = link_to entry.url, class: "entries--title entries--no-modal", target: "_blank" do
                   = entry.title
-              - if user_signed_in?
-                .pl-2
-                  = render partial: "/sharedv2/read_later", locals: { entry: entry }
-        .card-content(style="padding: 0px;")
-          .is-flex.is-align-items-center
-            .is-size-7.pr-1
-              = link_to entry.feed.name, feed_entries_path(entry.feed)            
-            .is-size-8
-              \\
-              = distance_of_time_in_words_to_now entry.published_at
-              ago
-          = tag_links_v2 entry.feed
-          - if entry.summary
-            = render partial: "/sharedv2/summary", locals: { entry: entry }
+            - if user_signed_in?
+              .ps-3
+                = render partial: "/sharedv2/read_later", locals: { entry: entry }
+          %div
+            .d-flex.align-items-center
+              .fs-10.pe-1
+                = link_to entry.feed.name, feed_entries_path(entry.feed)            
+              .fs-11
+                \\
+                = distance_of_time_in_words_to_now entry.published_at
+                ago
+            = bootstrap_tags entry.feed
+            - if entry.summary
+              = render partial: "/sharedv2/modal", locals: { entry: entry }

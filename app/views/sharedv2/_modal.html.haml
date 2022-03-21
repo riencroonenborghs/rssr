@@ -1,0 +1,17 @@
+.modal.fade(id="modal-#{entry.id}" tabindex="-1" aria-labelledby="modal-#{entry.id}-label" aria-hidden="true" data-bs-backdrop="static")
+  .modal-dialog.modal-dialog-scrollable.modal-dialog-centered
+    .modal-content
+      .modal-body
+        .d-flex.justify-content-between
+          .fs-6
+            = link_to entry.url, target: "_blank" do
+              = entry.title
+          %button.btn-close.ms-2(type="button" data-bs-dismiss="modal" aria-label="Close")
+        .d-flex.align-items-center
+          .fs-10.pe-1
+            = link_to entry.feed.name, feed_entries_path(entry.feed)            
+          .fs-11
+            \\
+            = distance_of_time_in_words_to_now entry.published_at
+            ago
+        %p.pt-2=raw clean_summary(entry) 

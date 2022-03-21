@@ -4,7 +4,9 @@ RSS reader
 
 ## Tech
 
-Ruby on Rails
+  - Ruby on Rails 6
+  - PostgreSQL
+  - Sidekiq
 
 [![Ruby on Rails - Install dependencies, run security checks, linters and tests](https://github.com/riencroonenborghs/rssr/actions/workflows/rubyonrails.yml/badge.svg)](https://github.com/riencroonenborghs/rssr/actions/workflows/rubyonrails.yml)
 
