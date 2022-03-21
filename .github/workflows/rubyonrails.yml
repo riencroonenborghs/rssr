@@ -1,17 +1,42 @@
-name: Ruby on Rails - Install dependencies, run security checks, linters and tests
-
+name: "Ruby on Rails CI"
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
 jobs:
-  run-checks-lint-tests:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:11-alpine
+        ports:
+          - "5432:5432"
+        env:
+          POSTGRES_DB: rails_test
+          POSTGRES_USER: rails
+          POSTGRES_PASSWORD: password
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: "postgres://rails:password@localhost:5432/rails_test"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install Ruby and gems
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Set up database schema
+        run: bin/rails db:schema:load
+      - name: Rub tests
+        run: |
+          bundle exec rspec spec --format documentation
+  lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Setup Ruby and install gems
+      - name: Install Ruby and gems
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
@@ -22,6 +47,3 @@ jobs:
       - name: Run linters
         run: |
           bundle exec rubocop --parallel
-      - name: Rub tests
-        run: |
-          bundle exec rspec spec --format documentation

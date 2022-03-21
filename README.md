@@ -11,12 +11,12 @@ Ruby on Rails
 ## Functionality
 
   - authentication
-  - discover 1,000s of feeds
-  - manage and tag feeds
-  - manually add feeds
-  - hourly download of new entries
-  - set up filter rules
+  - manage RSS feeds
+  - refresh every 30 minutes
+  - 2 week data retention
+  - article filtering
+  - article bookmarking
   - infinite scrolling
-  - save entries for later reading
-  - ~~darkmode~~
+  - darkmode
   - search
+ 
