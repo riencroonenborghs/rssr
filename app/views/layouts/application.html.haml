@@ -13,7 +13,7 @@
     = stylesheet_link_tag 'application', media: 'all'
     = javascript_pack_tag 'application'
 
-  %body(id="#{'admin' if user_signed_in?}" class="c_#{controller_name} a_#{action_name}")
+  %body(id="#{'admin' if user_signed_in?}" class="c_#{controller_name} a_#{action_name} #{'darkmode' if darkmode?}")
     - if mobile?
       = render "/layouts/mobile_navbar"
       = yield

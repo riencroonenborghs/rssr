@@ -1,6 +1,5 @@
-user = User.create!(email: ENV['EMAIL'], password: ENV['PASSWORD'], password_confirmation: ENV['PASSWORD'])
+User.create!(email: ENV['EMAIL'], password: ENV['PASSWORD'], password_confirmation: ENV['PASSWORD'])
 
-# rubocop:disable Layout/ArrayAlignment
 # [["https://www.standaard.be/rss/section/1f2838d4-99ea-49f0-9102-138784c7ea7c", "news, national, België"],
 #   ["https://www.standaard.be/rss/section/e70ccf13-a2f0-42b0-8bd3-e32d424a0aa0", "news, world, België"],
 #   ["https://www.hbvl.be/rss/section/0DB351D4-B23C-47E4-AEEB-09CF7DD521F9", "news, national, Limburg, België"],
@@ -34,4 +33,3 @@ user = User.create!(email: ENV['EMAIL'], password: ENV['PASSWORD'], password_con
 # rescue StandardError => e
 #   pp e.message
 # end
-# rubocop:enable Layout/ArrayAlignment

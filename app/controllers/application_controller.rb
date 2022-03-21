@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   before_action :set_offset
-  # before_action :darkmode?
+  before_action :darkmode?
   before_action :mobile?
   before_action :set_pagination_size
 
@@ -87,4 +87,5 @@ class ApplicationController < ActionController::Base
   def darkmode?
     @darkmode = Darkmode.darkmode?
   end
+  helper_method :darkmode?
 end

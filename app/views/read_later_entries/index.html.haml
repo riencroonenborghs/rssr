@@ -5,7 +5,7 @@
   - if @entries.size > 0
     = render partial: "/sharedv2/entries", locals: { entries: @entries }
   - else
-    %p
+    .p-3
       You can bookmark
       = link_to "posts", root_path
       and read them later here.
