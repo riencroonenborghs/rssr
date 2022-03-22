@@ -1,4 +1,4 @@
-class ReadLaterEntriesController < ApplicationController
+class BookmarksController < ApplicationController
   before_action :authenticate_user!
 
   def index
@@ -19,7 +19,7 @@ class ReadLaterEntriesController < ApplicationController
   end
 
   def destroy
-    @remove_from_list = request.referer == read_later_all_url
+    @remove_from_list = request.referer == all_bookmarks_url
     @read_later = current_user.read_later_entries.find_by(entry_id: params[:entry_id])
     @read_later.read!
     @read_later_count = current_user.read_later_entries.unread.count

@@ -17,7 +17,7 @@
                   = @today_count
           - if user_signed_in?
             %li.nav-item
-              = link_to read_later_all_path, class: "nav-link #{'active' if active_page?(read_later_all_path)}", title: "Read later" do
+              = link_to all_bookmarks_path, class: "nav-link #{'active' if active_page?(all_bookmarks_path)}", title: "Read later" do
                 = fa_solid "star", size: :half
                 Read Later
                 %span.badge.rounded-pill.read-later-count-tag(class="#{'d-none' if @read_later_count.zero?}")

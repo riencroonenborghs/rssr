@@ -25,9 +25,9 @@ Rails.application.routes.draw do
     
     post "viewed/:entry_id" => "viewed_entries#create"
 
-    get "read_later" => "read_later_entries#index", as: :read_later_all
-    post "read_later/:entry_id" => "read_later_entries#create", as: :read_later
-    delete "read_later/:entry_id/read_it" => "read_later_entries#destroy", as: :read_later_read_it
+    get "bookmarks" => "bookmarks#index", as: :all_bookmarks
+    post "bookmarks/:entry_id" => "bookmarks#create", as: :add_bookmark
+    delete "bookmarks/:entry_id" => "bookmarks#destroy", as: :remove_bookmark
 
     namespace :admin do
       post "subscribe/:feed_id" => "subscriptions#subscribe", as: :subscribe
