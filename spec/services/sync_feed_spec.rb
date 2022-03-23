@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe LoadEntries, type: :service do
+RSpec.describe SyncFeed, type: :service do
   let(:feed) { create :feed }
   let(:data) { load_file_data("rss_data.xml") }
 

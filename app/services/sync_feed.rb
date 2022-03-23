@@ -1,4 +1,4 @@
-class LoadEntries < AppService
+class SyncFeed < AppService
   attr_reader :feed
 
   def initialize(feed:) # rubocop:disable Lint/MissingSuper
@@ -27,6 +27,10 @@ class LoadEntries < AppService
     loader.loaded_feed.entries
   end
 
+  def title_for(entry)
+    ActionController::Base.helpers.strip_tags(entry.title || entry.summary.split(".").first || "No title :(")
+  end
+
   def create_new_entry(entry)
     entry_id = entry.entry_id || entry.url
     return if @entries_by_entry_id[entry_id]
@@ -34,7 +38,7 @@ class LoadEntries < AppService
     feed.entries.create!(
       entry_id: entry_id,
       url: entry.url,
-      title: entry.title || entry.summary.split(".").first || "No title :(",
+      title: title_for(entry),
       summary: entry.summary,
       published_at: entry.published.in_time_zone,
       image_url: entry.image
