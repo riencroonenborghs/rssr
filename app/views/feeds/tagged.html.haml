@@ -2,7 +2,8 @@
   Tagged with "#{@tag}"
 
 #tagged
-  %h6.pb-2 Tagged with "#{@tag}"
+  - unless mobile?
+    %h6.pb-2 Tagged with "#{@tag}"
 
   = render partial: "/sharedv2/entries", locals: { entries: @entries }
   

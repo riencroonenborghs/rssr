@@ -2,9 +2,12 @@
   Search results for "#{@query}"
 
 #search
-  %h6.pb-2
-    Search results
-    .fs-11 ... capped at first 100 results
+  - if mobile?
+    .pb-2.fs-11 ... capped at first 100 results
+  - else
+    %h6.pb-2
+      Search results
+      .fs-11 ... capped at first 100 results
 
   = render "form"
   

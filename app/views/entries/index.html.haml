@@ -2,8 +2,9 @@
   = @feed.name
 
 #feed
-  %h6.pb-2
-    = @feed.name
+  - unless mobile?
+    %h6.pb-2
+      = @feed.name
 
   = render partial: "/sharedv2/entries", locals: { entries: @entries }
   

@@ -2,6 +2,7 @@
   Search
 
 #search
-  %h6.pb-2 Search
+  - unless mobile?
+    %h6.pb-2 Search
 
   = render "form"
