@@ -16,7 +16,7 @@ class SearchController < ApplicationController
     @entries = filtered_scope do
       current_user_scope do
         Entry
-          .where("upper(entries.title) like :query OR upper(entries.summary) like :query", query: "%#{@query.upcase}%")
+          .where("upper(entries.title) like :query OR upper(entries.description) like :query", query: "%#{@query.upcase}%")
           .joins(feed: :subscriptions)
           .merge(Subscription.active)
           .most_recent_first

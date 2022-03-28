@@ -54,7 +54,7 @@ class Feed < ApplicationRecord
     return unless active?
 
     update!(error: nil)
-    loader = SyncFeed.call(feed: self)
+    loader = ::CreateEntriesService.call(feed: self)
     update!(error: loader.errors.full_messages.to_sentence) if loader.failure?
   rescue StandardError => e
     update!(error: e.message)

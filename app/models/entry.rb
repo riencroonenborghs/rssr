@@ -3,7 +3,7 @@ class Entry < ApplicationRecord
   has_many :viewed_by, class_name: "ViewedEntry", dependent: :destroy
   has_many :read_later, class_name: "ReadLaterEntry", dependent: :destroy
 
-  validates :entry_id, :url, :title, :published_at, presence: true
+  validates :guid, :link, :title, :published_at, presence: true
 
   scope :most_recent_first, -> { order(published_at: :desc) }
   scope :today, -> { most_recent_first.where(published_at: 24.hours.ago..) }

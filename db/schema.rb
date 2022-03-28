@@ -10,24 +10,42 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_22_040009) do
+ActiveRecord::Schema.define(version: 2022_03_28_045545) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "entries", force: :cascade do |t|
     t.bigint "feed_id", null: false
-    t.string "entry_id", null: false
-    t.string "url", null: false
+    t.string "guid", null: false
+    t.string "link", null: false
     t.string "title", null: false
-    t.string "summary"
+    t.string "description"
     t.datetime "published_at", null: false
-    t.string "image_url"
+    t.string "image"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["entry_id"], name: "index_entries_on_entry_id"
-    t.index ["feed_id", "entry_id"], name: "index_entries_on_feed_id_and_entry_id"
+    t.string "media_title"
+    t.string "media_url"
+    t.string "media_type"
+    t.integer "media_width"
+    t.integer "media_height"
+    t.string "media_thumbnail_url"
+    t.integer "media_thumbnail_height"
+    t.integer "media_thumbnail_width"
+    t.integer "enclosure_length"
+    t.string "enclosure_type"
+    t.string "enclosure_url"
+    t.string "itunes_duration"
+    t.string "itunes_episode_type"
+    t.string "itunes_author"
+    t.boolean "itunes_explicit"
+    t.string "itunes_image"
+    t.string "itunes_title"
+    t.string "itunes_summary"
+    t.index ["feed_id", "guid"], name: "index_entries_on_feed_id_and_guid"
     t.index ["feed_id"], name: "index_entries_on_feed_id"
+    t.index ["guid"], name: "index_entries_on_guid"
     t.index ["published_at"], name: "index_entries_on_published_at"
   end
 
