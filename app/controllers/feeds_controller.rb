@@ -1,18 +1,24 @@
 class FeedsController < ApplicationController
   def index
     set_entries
+    set_bookmarks
+    set_viewed
     paged_render
   end
 
   def tagged
     set_tag
     set_entries_tagged
+    set_bookmarks
+    set_viewed
     paged_render
   end
 
   def tagged_today
     set_tag
     set_entries_tagged_today
+    set_bookmarks
+    set_viewed
     paged_render
   end
 

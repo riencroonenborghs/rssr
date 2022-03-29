@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   def set_today_count
     @today_count = filtered_scope do
       scope = Entry
-              .includes(:viewed_by)
+              .includes(:viewed_entries)
               .most_recent_first
               .today
               .joins(feed: { subscriptions: :user })
@@ -44,6 +44,14 @@ class ApplicationController < ActionController::Base
     browser.device.mobile?
   end
   helper_method :mobile?
+
+  def set_bookmarks
+    @bookmarks = user_signed_in? ? Bookmark.unread.where(user_id: current_user.id, entry_id: @entries.map(&:id)).map(&:entry_id) : []
+  end
+
+  def set_viewed
+    @viewed = user_signed_in? ? ViewedEntry.where(user_id: current_user.id, entry_id: @entries.map(&:id)).map(&:entry_id) : []
+  end
 
   private
 

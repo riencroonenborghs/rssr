@@ -3,7 +3,7 @@
 
 #bookmarks
   - if @entries.size > 0
-    = render partial: "/shared/entries", locals: { entries: @entries }
+    = render "/shared/entries", entries: @entries, bookmarks: @bookmarks, viewed: @viewed
   - else
     %p
       You can bookmark

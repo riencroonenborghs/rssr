@@ -1,6 +1,5 @@
 class CreateEntriesService < AppService
-
-  def initialize(feed:)
+  def initialize(feed:) # rubocop:disable Lint/MissingSuper
     @feed = feed
     @last_visited = feed.last_visited
   end
@@ -48,8 +47,7 @@ class CreateEntriesService < AppService
             description: description,
             guid: entry_guid(entry)
           }
-          %i[image media_title media_url media_type media_width media_height media_thumbnail_url media_thumbnail_width media_thumbnail_height enclosure_length enclosure_type enclosure_url itunes_duration itunes_episode_type itunes_author itunes_explicit itunes_image itunes_title
-          itunes_summary].each do |media|
+          %i[image media_title media_url media_type media_width media_height media_thumbnail_url media_thumbnail_width media_thumbnail_height enclosure_length enclosure_type enclosure_url itunes_duration itunes_episode_type itunes_author itunes_explicit itunes_image itunes_title itunes_summary].each do |media|
             hash[media] = entry.send(media) if entry.respond_to?(media)
           end
 

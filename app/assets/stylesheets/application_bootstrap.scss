@@ -36,6 +36,10 @@ a {
   }
 }
 
+.toast {
+  z-index: 10;
+}
+
 .btn.btn-primary {
   background-color: $link;
   border-color: $link;

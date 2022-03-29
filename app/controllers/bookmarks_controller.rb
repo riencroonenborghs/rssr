@@ -3,6 +3,8 @@ class BookmarksController < ApplicationController
 
   def index
     @entries = Entry.joins(feed: { subscriptions: :user }).joins(:bookmarks).merge(current_user.bookmarks.unread).order("bookmarks.created_at" => :asc)
+    set_bookmarks
+    set_viewed
   end
 
   def create

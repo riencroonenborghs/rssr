@@ -33,8 +33,10 @@
               - if subscription.feed.error
                 .fs-11.text-danger.pt-2
                   = subscription.feed.error
-          %td.fs-11=subscription.created_at.strftime("%d %b")
-          %td.fs-11=subscription.feed.last_visited&.strftime("%d %b %H:%M")
+          %td.fs-11(valign="middle")
+            =subscription.created_at.strftime("%d %b")
+          %td.fs-11(valign="middle")
+            =subscription.feed.last_visited&.strftime("%d %b %H:%M")
           %td
             .d-flex         
               = form_with url: admin_unsubscribe_path(subscription) do |form|
@@ -44,4 +46,4 @@
                 = fa_solid "dot-circle", size: 1
 
 %div(class="#{'pt-4 mt-4' if mobile?}")
-  = render partial: "/admin/shared/pagination", locals: { list: @subscriptions }
+  = render "/admin/shared/pagination", list: @subscriptions

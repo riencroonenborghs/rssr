@@ -1,5 +1,5 @@
 .d-flex.flex-column.entries--table.entries
-  = render partial: "/shared/page", locals: { entries: entries }
+  = render "/shared/page", entries: entries, bookmarks: bookmarks, viewed: viewed
 
 - if entries.size >= 25
   .page-loading  

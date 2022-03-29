@@ -1,9 +1,18 @@
 class SubscriptionsController < ApplicationController
   def today
+    set_entries
+    set_bookmarks
+    set_viewed
+    paged_render
+  end
+
+  private
+
+  def set_entries
     @entries = offset_scope do
       filtered_scope do
         scope = Entry
-                .includes(:viewed_by)
+                .includes(:viewed_entries)
                 .most_recent_first
                 .today
                 .joins(feed: { subscriptions: :user })
@@ -13,11 +22,7 @@ class SubscriptionsController < ApplicationController
         scope
       end
     end.page(page).per(@pagination_size)
-
-    paged_render
   end
-
-  private
 
   def set_page
     @page = param

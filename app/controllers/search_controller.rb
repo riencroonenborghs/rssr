@@ -2,6 +2,8 @@ class SearchController < ApplicationController
   def create
     set_query
     perform_search
+    set_bookmarks
+    set_viewed
   end
 
   private

@@ -12,6 +12,6 @@
   = render "form"
   
   .pt-4
-    = render partial: "/shared/entries", locals: { entries: @entries }
+    = render "/shared/entries", entries: @entries, bookmarks: @bookmarks, viewed: @viewed
 
   

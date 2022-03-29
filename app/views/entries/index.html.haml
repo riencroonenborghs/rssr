@@ -6,5 +6,5 @@
     %h6.pb-2
       = @feed.name
 
-  = render partial: "/shared/entries", locals: { entries: @entries }
+  = render "/shared/entries", entries: @entries, bookmarks: @bookmarks, viewed: @viewed
   

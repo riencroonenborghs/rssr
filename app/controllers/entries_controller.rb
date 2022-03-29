@@ -4,11 +4,15 @@ class EntriesController < ApplicationController
 
   def index
     set_entries
+    set_bookmarks
+    set_viewed
     paged_render
   end
 
   def today
     set_today_entries
+    set_bookmarks
+    set_viewed
     paged_render
   end
 
