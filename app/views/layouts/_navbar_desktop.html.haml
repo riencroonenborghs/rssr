@@ -12,9 +12,9 @@
         %li.nav-item
           = link_to all_bookmarks_path, class: "nav-link #{'active' if active_page?(all_bookmarks_path)}", title: "Bookmarks" do
             = fa_solid "star"
-            %span.badge.rounded-pill.position-absolute.read-later-count-tag(style="left: 10px;" class="#{'d-none' if @read_later_count.zero?}")
+            %span.badge.rounded-pill.position-absolute.read-later-count-tag(style="left: 10px;" class="#{'d-none' if @bookmarks_count.zero?}")
               .fs-15
-                = @read_later_count
+                = @bookmarks_count
         %li.nav-item
           = link_to new_search_path, class: "nav-link #{'active' if active_page?(search_index_path)}", title: "Search" do
             = fa_solid "search"

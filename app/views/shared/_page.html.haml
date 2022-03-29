@@ -15,7 +15,7 @@
                   = entry.title
             - if user_signed_in?
               .ps-3
-                = render partial: "/shared/read_later", locals: { entry: entry }
+                = render partial: "/shared/bookmark", locals: { entry: entry }
           %div
             .d-flex.align-items-center
               .fs-10.pe-1

@@ -10,10 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_28_045545) do
+ActiveRecord::Schema.define(version: 2022_03_29_070157) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "bookmarks", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "entry_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "read"
+    t.index ["entry_id"], name: "index_bookmarks_on_entry_id"
+    t.index ["read"], name: "index_bookmarks_on_read"
+    t.index ["user_id", "entry_id", "read"], name: "readltr_usr_entry_rd"
+    t.index ["user_id", "entry_id"], name: "index_bookmarks_on_user_id_and_entry_id"
+    t.index ["user_id"], name: "index_bookmarks_on_user_id"
+  end
 
   create_table "entries", force: :cascade do |t|
     t.bigint "feed_id", null: false
@@ -72,19 +85,6 @@ ActiveRecord::Schema.define(version: 2022_03_28_045545) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_filters_on_user_id"
     t.index ["value", "user_id"], name: "uniq_filter_val_usr_type"
-  end
-
-  create_table "read_later_entries", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "entry_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.datetime "read"
-    t.index ["entry_id"], name: "index_read_later_entries_on_entry_id"
-    t.index ["read"], name: "index_read_later_entries_on_read"
-    t.index ["user_id", "entry_id", "read"], name: "readltr_usr_entry_rd"
-    t.index ["user_id", "entry_id"], name: "index_read_later_entries_on_user_id_and_entry_id"
-    t.index ["user_id"], name: "index_read_later_entries_on_user_id"
   end
 
   create_table "subscriptions", force: :cascade do |t|
@@ -149,10 +149,10 @@ ActiveRecord::Schema.define(version: 2022_03_28_045545) do
     t.index ["user_id"], name: "index_viewed_entries_on_user_id"
   end
 
+  add_foreign_key "bookmarks", "entries"
+  add_foreign_key "bookmarks", "users"
   add_foreign_key "entries", "feeds"
   add_foreign_key "filters", "users"
-  add_foreign_key "read_later_entries", "entries"
-  add_foreign_key "read_later_entries", "users"
   add_foreign_key "subscriptions", "feeds"
   add_foreign_key "subscriptions", "users"
   add_foreign_key "taggings", "tags"

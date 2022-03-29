@@ -1,7 +1,7 @@
 - content_for :title do
   Read Later
 
-#read_later
+#bookmarks
   - if @entries.size > 0
     = render partial: "/shared/entries", locals: { entries: @entries }
   - else

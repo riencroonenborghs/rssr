@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :read_later_entry do
+  factory :bookmark do
     user { nil }
     entry { nil }
   end

@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   before_action :set_pagination_size
 
   before_action :set_today_count
-  before_action :set_read_later_count
+  before_action :set_bookmarks_count
   before_action :set_subscription_count
   before_action :set_filters_count
 
@@ -22,10 +22,10 @@ class ApplicationController < ActionController::Base
     end.count
   end
 
-  def set_read_later_count
-    @read_later_count = 0 and return unless user_signed_in?
+  def set_bookmarks_count
+    @bookmarks_count = 0 and return unless user_signed_in?
 
-    @read_later_count = current_user.read_later_entries.unread.count
+    @bookmarks_count = current_user.bookmarks.unread.count
   end
 
   def set_subscription_count

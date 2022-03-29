@@ -1,7 +1,7 @@
 class Entry < ApplicationRecord
   belongs_to :feed
   has_many :viewed_by, class_name: "ViewedEntry", dependent: :destroy
-  has_many :read_later, class_name: "ReadLaterEntry", dependent: :destroy
+  has_many :bookmarks, dependent: :destroy
 
   validates :guid, :link, :title, :published_at, presence: true
 
@@ -12,8 +12,8 @@ class Entry < ApplicationRecord
     viewed_by.where(user_id: user.id).exists?
   end
 
-  def read_later?(user)
-    read_later.where(user_id: user.id, read: nil).exists?
+  def bookmarked?(user)
+    bookmarks.where(user_id: user.id, read: nil).exists?
   end
 
   def media?
