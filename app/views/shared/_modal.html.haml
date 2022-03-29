@@ -14,4 +14,7 @@
             \\
             = distance_of_time_in_words_to_now entry.published_at
             ago
+        - if entry.enclosure_mp3?
+          .pt-4.pb-4
+            = link_to "MP3", entry.enclosure_url, target: "_blank"
         %p.pt-2=raw clean_description(entry) 

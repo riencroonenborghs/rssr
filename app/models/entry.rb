@@ -15,4 +15,28 @@ class Entry < ApplicationRecord
   def read_later?(user)
     read_later.where(user_id: user.id, read: nil).exists?
   end
+
+  def media?
+    media_url.present?
+  end
+
+  def enclosure?
+    enclosure_url.present?
+  end
+
+  def enclosure_mp3?
+    return false unless enclosure?
+
+    parsed = URI.parse enclosure_url
+    parsed.path.split(".")&.last == "mp3"
+  end
+
+  def youtube?
+    itemable_type == "YoutubeChannel"
+    # xmlns:yt=\"http://www.youtube.com/xml/schemas/2015\"
+  end
+
+  def itunes?
+    itemable_type == "ItunesPodcast"
+  end
 end

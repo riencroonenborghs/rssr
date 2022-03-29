@@ -3,7 +3,7 @@
 
 #read_later
   - if @entries.size > 0
-    = render partial: "/sharedv2/entries", locals: { entries: @entries }
+    = render partial: "/shared/entries", locals: { entries: @entries }
   - else
     %p
       You can bookmark

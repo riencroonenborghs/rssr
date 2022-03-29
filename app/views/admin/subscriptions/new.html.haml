@@ -9,7 +9,7 @@
     .row
       .col-12.col-xl-6.mb-3
         = form.label :url, class: "form-label"
-        = form.text_field :url, class: "form-control #{'text-danger' if @subscription.feed.errors[:url].present?}", required: true
+        = form.text_field :url, class: "form-control #{'text-danger' if @subscription.feed.errors[:url].present?}", required: true, autofocus: true
         - if @subscription.feed.errors[:url].present?
           %small.text-danger=@subscription.feed.errors[:url].to_sentence
           %br

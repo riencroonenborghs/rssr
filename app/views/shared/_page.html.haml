@@ -15,7 +15,7 @@
                   = entry.title
             - if user_signed_in?
               .ps-3
-                = render partial: "/sharedv2/read_later", locals: { entry: entry }
+                = render partial: "/shared/read_later", locals: { entry: entry }
           %div
             .d-flex.align-items-center
               .fs-10.pe-1
@@ -26,4 +26,4 @@
                 ago
             = bootstrap_tags entry.feed
             - if entry.description
-              = render partial: "/sharedv2/modal", locals: { entry: entry }
+              = render partial: "/shared/modal", locals: { entry: entry }

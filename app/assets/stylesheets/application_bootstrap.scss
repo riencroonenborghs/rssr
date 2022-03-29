@@ -82,6 +82,9 @@ nav {
   &--viewed {
     background-color: $entries-viewed;
   }
+  &--title {
+    word-break: break-word;
+  }
 }
 
 .badge.tag {
