@@ -18,3 +18,12 @@ import "./infiniteScroll"
 import "./readLater"
 import "./mobileNavbar"
 import "./entries"
+
+import Plyr from 'plyr';
+
+$(function() {
+  $("audio").each(function(i, elt) {
+    const id = elt.id;
+    const player = new Plyr(id);
+  });
+});

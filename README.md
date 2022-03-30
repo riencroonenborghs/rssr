@@ -21,4 +21,5 @@ RSS reader
   - infinite scrolling
   - darkmode
   - search
+  - integrated MP3 audio player
  
