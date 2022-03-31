@@ -33,9 +33,10 @@ Rails.application.routes.draw do
       post "subscribe/:feed_id" => "subscriptions#subscribe", as: :subscribe
       post "unsubscribe/:subscription_id" => "subscriptions#unsubscribe", as: :unsubscribe
       
-      resources :subscriptions, only: [:index, :new, :sync, :create] do
+      resources :subscriptions, only: [:index, :new, :sync, :create, :search] do
         collection do
           get :sync
+          get :search
         end
         member do
           get :toggle_active

@@ -1,6 +1,6 @@
 module Admin
   class SubscriptionsController < AdminController
-    before_action :set_page, only: [:index]
+    before_action :set_page, only: %i[index search]
 
     def index
       @subscriptions = current_user.subscriptions.joins(:feed).order(active: :desc, "feeds.name" => :asc).page(@page).per(@pagination_size)
@@ -53,6 +53,17 @@ module Admin
       subscription = current_user.subscriptions.find(params[:id])
       subscription.toggle_active!
       redirect_to request.referer
+    end
+
+    def search
+      @query = params[:query]
+      unless @query.present?
+        redirect_to action: :index
+        return
+      end
+
+      @subscriptions = current_user.subscriptions.joins(:feed).where("upper(feeds.name) like ?", "%#{@query.upcase}%").order(active: :desc, "feeds.name" => :asc).page(@page).per(@pagination_size)
+      render :index
     end
 
     private
