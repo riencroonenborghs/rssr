@@ -6,7 +6,7 @@
     Subscriptions
     
   %p
-    = link_to refresh_admin_subscriptions_path, title: "Fetch latest" do
+    = link_to refresh_all_admin_subscriptions_path, title: "Fetch latest" do
       = fa_solid "sync-alt", size: 1
       Refresh feeds
 
@@ -43,6 +43,8 @@
             =subscription.feed.refresh_at&.strftime("%d %b %H:%M")
           %td
             .d-flex         
+              = link_to refresh_admin_subscription_path(subscription), class: "btn btn-white text-primary" do
+                = fa_solid "sync-alt", size: 1
               = form_with url: admin_unsubscribe_path(subscription) do |form|
                 %button(type="submit" class="btn text-danger")
                   = fa_solid "trash", size: 1

@@ -35,11 +35,12 @@ Rails.application.routes.draw do
       
       resources :subscriptions, only: [:index, :new, :refresh, :create, :search] do
         collection do
-          get :refresh
+          get :refresh_all
           get :search
         end
         member do
           get :toggle_active
+          get :refresh
         end
       end
 

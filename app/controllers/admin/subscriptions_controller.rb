@@ -41,11 +41,26 @@ module Admin
       @subscription.destroy
     end
 
-    def refresh
+    def refresh_all
       RefreshSubscriptionsJob.perform_async
 
       respond_to do |format|
         format.html { redirect_to admin_subscriptions_path, notice: "Subscriptions queued for refresh." }
+      end
+    end
+
+    def refresh
+      subscription = current_user.subscriptions.find_by(id: params[:id])
+      unless subscription
+        flash[:alert] = "Could not find subscription"
+        redirect_to request.referer
+        return
+      end
+
+      RefreshFeedJob.perform_async(subscription.feed_id)
+
+      respond_to do |format|
+        format.html { redirect_to request.referer, notice: "Subscription queued for refresh." }
       end
     end
 
