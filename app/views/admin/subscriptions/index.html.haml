@@ -6,9 +6,9 @@
     Subscriptions
     
   %p
-    = link_to sync_admin_subscriptions_path, title: "Fetch latest" do
+    = link_to refresh_admin_subscriptions_path, title: "Fetch latest" do
       = fa_solid "sync-alt", size: 1
-      Sync feeds
+      Refresh feeds
 
   %table.table.table-hover
     %thead

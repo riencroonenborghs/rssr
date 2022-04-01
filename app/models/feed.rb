@@ -8,7 +8,6 @@ class Feed < ApplicationRecord
   validates :url, url: true
   validates :url, uniqueness: true
 
-  before_validation :guess_url, if: -> { valid_url? }
   before_validation :guess_name, if: -> { valid_url? }
   before_validation :guess_image_url, if: -> { valid_url? }
 
@@ -20,25 +19,17 @@ class Feed < ApplicationRecord
     subscriptions.where(user_id: user.id).exists?
   end
 
-  def guess_url
-    return unless url.present?
-    return unless url.match?(/youtube\.com/)
-    return if url.match?(/feed/)
-
-    self.url = YoutubeFeedUrl.call(url: url).feed_url
-  end
-
   def guess_name
     return unless url.present?
     return if name.present?
 
-    loader = LoadFeed.call(feed: self)
+    loader = GetFeedDataService.call(feed: self)
     if loader.failure?
       errors.merge!(loader.errors)
       return
     end
 
-    self.name = loader.loaded_feed&.title
+    self.name = loader.feed_data&.title
   end
 
   def guess_image_url # rubocop:disable Metrics/CyclomaticComplexity
@@ -46,11 +37,11 @@ class Feed < ApplicationRecord
     return if image_url.present?
     return if Rails.env.test?
 
-    loader = LoadFeed.call(feed: self)
-    self.image_url = loader.loaded_feed&.image&.url if loader.success? && loader.loaded_feed.respond_to?(:image)
+    loader = GetFeedDataService.call(feed: self)
+    self.image_url = loader.feed_data&.image&.url if loader.success? && loader.feed_data.respond_to?(:image)
   end
 
-  def sync!
+  def refresh!
     return unless active?
 
     update!(error: nil)

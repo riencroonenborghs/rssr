@@ -11,7 +11,7 @@ module Admin
     end
 
     def create
-      service = CreateManualSubscription.call(
+      service = CreateSubscriptionService.call(
         user: current_user,
         name: subscription_params[:name],
         tag_list: subscription_params[:tag_list],
@@ -22,7 +22,7 @@ module Admin
 
       respond_to do |format|
         if service.success?
-          format.html { redirect_to admin_subscriptions_path, notice: "You're suscribed to '#{@subscription.feed.name}'." }
+          format.html { redirect_to admin_subscriptions_path, notice: "Added #{@subscription.feed.name}." }
         else
           @subscription.feed = service.feed
           format.html { render :new, status: :unprocessable_entity }
@@ -33,7 +33,7 @@ module Admin
     def subscribe
       @subscription = current_user.subscriptions.new(feed_id: params[:feed_id])
       @subscription.save
-      @subscription.feed.sync! unless @subscription.feed.last_visited.present?
+      @subscription.feed.refresh! unless @subscription.feed.last_visited.present?
     end
 
     def unsubscribe
@@ -41,11 +41,11 @@ module Admin
       @subscription.destroy
     end
 
-    def sync
-      SyncAllSubscriptionsJob.perform_async
+    def refresh
+      RefreshSubscriptionsJob.perform_async
 
       respond_to do |format|
-        format.html { redirect_to admin_subscriptions_path, notice: "All subscriptions queued for syncing." }
+        format.html { redirect_to admin_subscriptions_path, notice: "Subscriptions queued for refresh." }
       end
     end
 

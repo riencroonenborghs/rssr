@@ -1,6 +1,6 @@
-sync_all_subscriptions:
+refresh_subscriptions:
   cron: "*/30 * * * *"
-  class: "SyncAllSubscriptionsJob"
+  class: "RefreshSubscriptionsJob"
   queue: default
 
 remove_old_entries:

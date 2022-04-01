@@ -1,7 +1,9 @@
-class FilterService < AppService
+class FilterService
+  include AppService
+
   attr_reader :user, :scope
 
-  def initialize(user:, scope:) # rubocop:disable Lint/MissingSuper
+  def initialize(user:, scope:)
     @user = user
     @scope = scope
   end

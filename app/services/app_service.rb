@@ -1,15 +1,18 @@
-class AppService
+module AppService
+  extend ActiveSupport::Concern
   include ActiveModel::Validations
 
-  def self.call(*args, &block)
-    new(*args, &block).tap(&:call)
+  module ClassMethods
+    def call(...)
+      new(...).tap(&:call)
+    end
   end
 
   def success?
-    errors.full_messages.none?
+    errors.none?
   end
 
   def failure?
-    errors.full_messages.any?
+    !success?
   end
 end

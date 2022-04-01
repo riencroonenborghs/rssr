@@ -2,7 +2,7 @@ development:
   adapter: postgresql
   encoding: unicode
   database: <%= ENV['PG_DEVELOPMENT_DATABASE'] %>
-  pool: 5
+  pool: 10
   username: <%= ENV['PG_DEVELOPMENT_USERNAME'] %>
   password: <%= ENV['PG_DEVELOPMENT_PASSWORD'] %>
   

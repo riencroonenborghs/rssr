@@ -13,7 +13,7 @@
         - if @subscription.feed.errors[:url].present?
           %small.text-danger=@subscription.feed.errors[:url].to_sentence
           %br
-        .fs-11 Supports: RSS &amp; atom feeds, Youtube channels.
+        .fs-11 Supports: RSS &amp; atom feeds
 
     .row
       .col-12.col-xl-6.mb-3
@@ -32,7 +32,7 @@
           %small.text-danger=@subscription.feed.errors[:tag_list].to_sentence
           %br
         .fs-11
-          A comma-separated.
+          A comma-separated list.
     
     .row
       .col-12.col-xl-6.mb-3

@@ -1,5 +1,7 @@
-class CreateEntriesService < AppService
-  def initialize(feed:) # rubocop:disable Lint/MissingSuper
+class CreateEntriesService
+  include AppService
+
+  def initialize(feed:)
     @feed = feed
     @last_visited = feed.last_visited
   end
@@ -19,10 +21,10 @@ class CreateEntriesService < AppService
   attr_reader :feed, :last_visited, :new_entries
 
   def load_new_entries
-    loader = LoadFeed.call(feed: feed)
+    loader = GetFeedDataService.call(feed: feed)
     errors.merge!(loader.errors) and return unless loader.success?
 
-    @new_entries = loader.loaded_feed.entries
+    @new_entries = loader.feed_data.entries
   end
 
   def entries_to_add
