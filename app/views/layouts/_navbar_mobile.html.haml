@@ -19,7 +19,7 @@
             %li.nav-item
               = link_to all_bookmarks_path, class: "nav-link #{'active' if active_page?(all_bookmarks_path)}", title: "Bookmarks" do
                 = fa_solid "star", size: :half
-                Read Later
+                Bookmarks
                 %span.badge.rounded-pill.read-later-count-tag(class="#{'d-none' if @bookmarks_count.zero?}")
                   .fs-15
                     = @bookmarks_count

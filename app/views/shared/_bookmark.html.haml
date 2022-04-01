@@ -3,6 +3,6 @@
     = link_to remove_bookmark_path(entry), remote: true, method: :delete, class: "read-later-read-it-link", title: "I've read it" do
       = fa_solid "star", size: 1
   %span.read-later(class="#{'d-none' if user_signed_in? && bookmarked}")
-    = link_to add_bookmark_path(entry), remote: true, method: :post, title: "Read it later", class: "read-later-link" do
+    = link_to add_bookmark_path(entry), remote: true, method: :post, title: "Bookmark it", class: "read-later-link" do
       = fa_regular "star", size: 1
       
