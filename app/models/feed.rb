@@ -50,7 +50,7 @@ class Feed < ApplicationRecord
   rescue StandardError => e
     update!(error: e.message)
   ensure
-    update!(last_visited: Time.zone.now)
+    update!(refresh_at: Time.zone.now)
   end
 
   def youtube?

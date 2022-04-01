@@ -1,4 +1,6 @@
 require "rails_helper"
+require "sidekiq/testing"
+Sidekiq::Testing.fake!
 
 RSpec.describe CreateSubscriptionService, type: :service do
   let(:user) { create :user }

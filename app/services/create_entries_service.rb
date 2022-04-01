@@ -3,7 +3,7 @@ class CreateEntriesService
 
   def initialize(feed:)
     @feed = feed
-    @last_visited = feed.last_visited
+    @refresh_at = feed.refresh_at
   end
 
   def call
@@ -13,12 +13,12 @@ class CreateEntriesService
     create_new_rss_items
     return unless success?
 
-    feed.update(last_visited: Time.zone.now)
+    feed.update(refresh_at: Time.zone.now)
   end
 
   private
 
-  attr_reader :feed, :last_visited, :new_entries
+  attr_reader :feed, :refresh_at, :new_entries
 
   def load_new_entries
     loader = GetFeedDataService.call(feed: feed)

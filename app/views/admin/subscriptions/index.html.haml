@@ -40,7 +40,7 @@
           %td.fs-11(valign="middle")
             =subscription.created_at.strftime("%d %b")
           %td.fs-11(valign="middle")
-            =subscription.feed.last_visited&.strftime("%d %b %H:%M")
+            =subscription.feed.refresh_at&.strftime("%d %b %H:%M")
           %td
             .d-flex         
               = form_with url: admin_unsubscribe_path(subscription) do |form|

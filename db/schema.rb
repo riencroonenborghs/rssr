@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_29_070157) do
+ActiveRecord::Schema.define(version: 2022_04_01_212917) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,14 +66,14 @@ ActiveRecord::Schema.define(version: 2022_03_29_070157) do
     t.string "url", null: false
     t.string "name", null: false
     t.boolean "active", default: true, null: false
-    t.datetime "last_visited"
+    t.datetime "refresh_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "error"
     t.text "description"
     t.string "image_url"
     t.index ["active"], name: "index_feeds_on_active"
-    t.index ["last_visited"], name: "index_feeds_on_last_visited"
+    t.index ["refresh_at"], name: "index_feeds_on_refresh_at"
     t.index ["url"], name: "index_feeds_on_url"
   end
 

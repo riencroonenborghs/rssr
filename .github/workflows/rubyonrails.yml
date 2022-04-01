@@ -28,7 +28,7 @@ jobs:
           bundler-cache: true
       - name: Set up database schema
         run: bin/rails db:schema:load
-      - name: Rub tests
+      - name: Ruby on Rails tests
         run: |
           bundle exec rspec spec --format documentation
   lint:
