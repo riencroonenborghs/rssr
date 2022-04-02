@@ -76,6 +76,7 @@ class CreateEntriesService
   def entry_link(entry)
     return entry.url if entry.respond_to?(:url)
     return entry.link if entry.respond_to?(:link)
+    return entry.media_url if entry.respond_to?(:media_url)
 
     nil
   end
@@ -90,6 +91,7 @@ class CreateEntriesService
   def entry_guid(entry)
     return entry.guid if entry.respond_to?(:guid)
     return entry.entry_id if entry.respond_to?(:entry_id)
+    return entry.id if entry.respond_to?(:id)
 
     nil
   end
