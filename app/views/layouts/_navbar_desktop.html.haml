@@ -11,7 +11,7 @@
       - if user_signed_in?
         %li.nav-item
           = link_to all_bookmarks_path, class: "nav-link #{'active' if active_page?(all_bookmarks_path)}", title: "Bookmarks" do
-            = fa_solid "star"
+            = fa_regular "bookmark"
             %span.badge.rounded-pill.position-absolute.read-later-count-tag(style="left: 10px;" class="#{'d-none' if @bookmarks_count.zero?}")
               .fs-15
                 = @bookmarks_count
