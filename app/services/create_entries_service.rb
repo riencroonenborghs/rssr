@@ -74,11 +74,11 @@ class CreateEntriesService
   end
 
   def entry_link(entry)
-    return entry.url if entry.respond_to?(:url)
-    return entry.link if entry.respond_to?(:link)
-    return entry.media_url if entry.respond_to?(:media_url)
+    url = entry.url if entry.respond_to?(:url)
+    link = entry.link if entry.respond_to?(:link)
+    media_url = entry.media_url if entry.respond_to?(:media_url)
 
-    nil
+    url || link || media_url
   end
 
   def entry_published_at(entry)
@@ -89,10 +89,10 @@ class CreateEntriesService
   end
 
   def entry_guid(entry)
-    return entry.guid if entry.respond_to?(:guid)
-    return entry.entry_id if entry.respond_to?(:entry_id)
-    return entry.id if entry.respond_to?(:id)
+    guid = entry.guid if entry.respond_to?(:guid)
+    entry_id = entry.entry_id if entry.respond_to?(:entry_id)
+    id = entry.id if entry.respond_to?(:id)
 
-    nil
+    guid || entry_id || id
   end
 end
