@@ -1,7 +1,7 @@
 class Entry < ApplicationRecord
   include PgSearch::Model
   pg_search_scope :search,
-                  against: %i[title description],
+                  against: [:title, :description],
                   using: {
                     tsearch: {
                       dictionary: "english", tsvector_column: "searchable",
@@ -11,7 +11,7 @@ class Entry < ApplicationRecord
                   }
 
   pg_search_scope :filter,
-                  against: %i[title description],
+                  against: [:title, :description],
                   using: {
                     tsearch: {
                       dictionary: "english", tsvector_column: "searchable",

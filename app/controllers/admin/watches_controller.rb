@@ -1,5 +1,5 @@
 module Admin
-  class WatchesController < AdminController
+  class WatchesController < AdminController    
     before_action :set_watch, only: %i[update destroy]
     before_action :my_group?, only: %i[add_to_group edit_group remove_group]
 
@@ -62,7 +62,7 @@ module Admin
     def next_group_id
       (current_user.watches.order(group_id: :desc).limit(1).first&.group_id || 0) + 1
     end
-
+  
     def set_watch
       @watch = current_user.watches.find(params[:id])
     end
