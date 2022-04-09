@@ -7,6 +7,6 @@ class User < ApplicationRecord
   has_many :feeds, through: :subscriptions
   has_many :viewed_entries
   has_many :bookmarks, dependent: :destroy
-
   has_many :filters, dependent: :destroy
+  has_many :watches, dependent: :destroy
 end

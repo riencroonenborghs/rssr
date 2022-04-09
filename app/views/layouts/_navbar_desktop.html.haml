@@ -35,6 +35,9 @@
               .fs-15
                 = @filters_count
         %li.nav-item
+          = link_to admin_watches_path, class: "nav-link #{'active' if active_page?(admin_watches_path)}", title: "Watches" do
+            = fa_solid "eye"
+        %li.nav-item
           = link_to new_admin_subscription_path, class: "nav-link #{'active' if active_page?(new_admin_subscription_path)}", title: "Add RSS Feed" do
             = fa_solid "plus"
         %li.nav-item

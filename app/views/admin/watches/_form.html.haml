@@ -1,0 +1,27 @@
+- @current_watches.each.with_index do |watch, index|
+  = watch.human_readable
+  - if index + 1 < @current_watches.size
+    %strong.fw-lighter &nbsp;and
+
+= form_with(scope: :watch, url: watch.id ? admin_watch_path(watch) : admin_watches_path, local: true, method: watch.id ? "patch" : "post") do |form|  
+  = form.hidden_field :id, value: watch.id
+  = form.hidden_field :group_id, value: watch.group_id
+  
+  .row
+    .col-12.col-xl-3.mb-3
+      = form.select :watch_type, [["entry title contains", "entry_title"], ["entry description contains", "entry_description"], ["is tagged with", "feed_tag"]], { selected: watch.watch_type, include_blank: false }, class: "form-select"
+    .col-12.col-xl-4.mb-3
+      = form.text_field :value, class: "form-control #{'border-danger' if watch.errors[:value].any?}", value: watch.value
+      - if watch.errors[:value].any?
+        .text-danger.fs-11
+          = watch.errors[:value].join(', ')
+    .col-12.col-xl-2.mb-3
+      .d-flex.align-items-center
+        = link_to "#", class: "btn btn-white text-white" do
+          = fa_solid "plus", size: 1
+          Add
+          
+  .row
+    .col-12.col-xl-4
+      = form.submit "#{watch.new_record? ? "Create" : "Update"} Watch", class: "btn btn-primary"
+      

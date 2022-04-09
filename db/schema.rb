@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_01_212917) do
+ActiveRecord::Schema.define(version: 2022_04_02_021705) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -149,6 +149,17 @@ ActiveRecord::Schema.define(version: 2022_04_01_212917) do
     t.index ["user_id"], name: "index_viewed_entries_on_user_id"
   end
 
+  create_table "watches", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "watch_type", null: false
+    t.string "value", null: false
+    t.integer "group_id", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_watches_on_user_id"
+    t.index ["value", "watch_type", "user_id"], name: "uniq_watch_combniation"
+  end
+
   add_foreign_key "bookmarks", "entries"
   add_foreign_key "bookmarks", "users"
   add_foreign_key "entries", "feeds"
@@ -158,4 +169,5 @@ ActiveRecord::Schema.define(version: 2022_04_01_212917) do
   add_foreign_key "taggings", "tags"
   add_foreign_key "viewed_entries", "entries"
   add_foreign_key "viewed_entries", "users"
+  add_foreign_key "watches", "users"
 end

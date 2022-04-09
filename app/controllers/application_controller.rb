@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   before_action :set_bookmarks_count
   before_action :set_subscription_count
   before_action :set_filters_count
+  before_action :set_watches_count
 
   def set_today_count
     @today_count = filtered_scope do
@@ -38,6 +39,12 @@ class ApplicationController < ActionController::Base
     @filters_count = 0 and return unless user_signed_in?
 
     @filters_count = current_user.filters.count
+  end
+
+  def set_watches_count
+    @watches_count = 0 and return unless user_signed_in?
+
+    @watches_count = current_user.watches.count
   end
 
   def mobile?

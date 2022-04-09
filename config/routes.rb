@@ -45,6 +45,10 @@ Rails.application.routes.draw do
       end
 
       resources :filters
+      resources :watches, only: [:index, :new, :create, :edit, :update, :destroy]
+      get "watches/group/:group_id/add" => "watches#add_to_group", as: :add_to_watch_group
+      get "watches/group/:group_id/edit" => "watches#edit_group", as: :edit_watch_group
+      delete "watches/group/:group_id/remove" => "watches#remove_group", as: :remove_watch_group
     end
   end
 
