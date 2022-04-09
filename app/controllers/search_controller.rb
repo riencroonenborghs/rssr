@@ -15,15 +15,13 @@ class SearchController < ApplicationController
   def perform_search
     @entries = [] and return if @query.blank?
 
-    @entries = filtered_scope do
-      current_user_scope do
-        Entry
-          .search(@query)
-          .joins(feed: :subscriptions)
-          .merge(Subscription.active)
-          .most_recent_first
-          .limit(100)
-      end
+    @entries = current_user_scope do
+      Entry
+        .search(@query)
+        .joins(feed: :subscriptions)
+        .merge(Subscription.active)
+        .most_recent_first
+        .limit(100)
     end
   end
 end
