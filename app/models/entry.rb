@@ -1,15 +1,4 @@
 class Entry < ApplicationRecord
-  include PgSearch::Model
-  pg_search_scope :search,
-                  against: [:title, :description],
-                  using: {
-                    tsearch: {
-                      dictionary: "english", tsvector_column: "searchable",
-                      prefix: true,
-                      any_word: true
-                    }
-                  }
-
   belongs_to :feed
   has_many :viewed_entries, dependent: :destroy
   has_many :bookmarks, dependent: :destroy

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_09_011107) do
+ActiveRecord::Schema.define(version: 2022_04_02_021705) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,12 +56,10 @@ ActiveRecord::Schema.define(version: 2022_04_09_011107) do
     t.string "itunes_image"
     t.string "itunes_title"
     t.string "itunes_summary"
-    t.tsvector "searchable"
     t.index ["feed_id", "guid"], name: "index_entries_on_feed_id_and_guid"
     t.index ["feed_id"], name: "index_entries_on_feed_id"
     t.index ["guid"], name: "index_entries_on_guid"
     t.index ["published_at"], name: "index_entries_on_published_at"
-    t.index ["searchable"], name: "index_entries_on_searchable", using: :gin
   end
 
   create_table "feeds", force: :cascade do |t|
