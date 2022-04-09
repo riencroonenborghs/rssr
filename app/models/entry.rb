@@ -10,17 +10,6 @@ class Entry < ApplicationRecord
                     }
                   }
 
-  pg_search_scope :filter,
-                  against: [:title, :description],
-                  using: {
-                    tsearch: {
-                      dictionary: "english", tsvector_column: "searchable",
-                      prefix: true,
-                      any_word: true,
-                      negation: true
-                    }
-                  }
-
   belongs_to :feed
   has_many :viewed_entries, dependent: :destroy
   has_many :bookmarks, dependent: :destroy
