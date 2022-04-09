@@ -10,30 +10,20 @@ class FilterService
 
   def call
     return unless user.filters.any?
-    return unless or_scope.where_clause.any?
 
-    @scope = scope.where(or_scope.where_clause.ast.not.to_sql).distinct
-    @scope = scope.joins(joins_clause) if joins_clause.any?
+    @scope = Entry.filter(filter_terms).merge(scope)
   end
 
   private
 
-  def or_scope
-    @or_scope ||= begin
-      scopes = user.filters.map do |filter|
-        filter.chain(Entry)
+  def filter_terms
+    user.filters.map do |filter|
+      case filter.comparison
+      when "eq"
+        "!#{filter.value}"
+      when "ne"
+        filter.value
       end
-
-      scope = scopes.shift
-      scopes.each do |other_scope|
-        scope = scope.or(other_scope)
-      end
-
-      scope
-    end
-  end
-
-  def joins_clause
-    @joins_clause ||= or_scope.joins_values
+    end.join(" ")
   end
 end

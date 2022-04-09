@@ -17,7 +17,6 @@ class ApplicationController < ActionController::Base
               .most_recent_first
               .today
               .joins(feed: { subscriptions: :user })
-              .distinct
       scope = scope.merge(User.where(id: current_user.id)) if user_signed_in?
       scope
     end.count

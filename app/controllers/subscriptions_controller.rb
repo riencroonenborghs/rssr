@@ -17,7 +17,6 @@ class SubscriptionsController < ApplicationController
                 .today
                 .joins(feed: { subscriptions: :user })
                 .merge(Subscription.active)
-                .distinct
         scope = scope.merge(User.where(id: current_user.id)) if user_signed_in?
         scope
       end
