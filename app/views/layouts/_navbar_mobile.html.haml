@@ -24,6 +24,22 @@
                   .fs-15
                     = @bookmarks_count
             %li.nav-item
+              = link_to watches_path, class: "nav-link #{'active' if active_page?(watches_path)}", title: "Watches" do
+                = fa_solid "eye", size: :half
+                Watches
+                %span.badge.rounded-pill.read-later-count-tag(class="#{'d-none' if @watches_count.zero?}")
+                  .fs-15
+                    = @watches_count
+            - if @watches_and_totals
+              - @watches_and_totals.each do |group_id, watch_count|
+                %li.nav-item
+                  = link_to watches_group_path(group_id: group_id), class: "ms-4 nav-link #{'active' if active_page?(watches_group_path(group_id: group_id))}", title: "Watch ##{group_id}" do
+                    = fa_regular "eye", size: :half
+                    Watch ##{group_id}
+                    %span.badge.rounded-pill.read-later-count-tag
+                      .fs-15
+                        = watch_count
+            %li.nav-item
               = link_to admin_subscriptions_path, class: "nav-link #{'active' if active_page?(admin_subscriptions_path)}", title: "Subscriptions" do
                 = fa_solid "rss", size: :half
                 Subscriptions

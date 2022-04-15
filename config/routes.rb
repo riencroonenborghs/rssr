@@ -29,6 +29,10 @@ Rails.application.routes.draw do
     post "bookmarks/:entry_id" => "bookmarks#create", as: :add_bookmark
     delete "bookmarks/:entry_id" => "bookmarks#destroy", as: :remove_bookmark
 
+    get "watches" => "watches#index", as: :watches
+    get "watches/group/:group_id" => "watches#show", as: :watches_group
+    
+
     namespace :admin do
       post "subscribe/:feed_id" => "subscriptions#subscribe", as: :subscribe
       post "unsubscribe/:subscription_id" => "subscriptions#unsubscribe", as: :unsubscribe

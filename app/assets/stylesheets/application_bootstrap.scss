@@ -82,6 +82,13 @@ nav {
   }
 }
 
+#mobile-2nd-nav {
+  .badge {
+    background: $nav-badge-bg;
+    @extend .text-dark;
+  }
+}
+
 .entries {
   &--viewed {
     background-color: $entries-viewed;

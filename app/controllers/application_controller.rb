@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   before_action :set_subscription_count
   before_action :set_filters_count
   before_action :set_watches_count
+  before_action :set_watches_entries_count
 
   def set_today_count
     @today_count = filtered_scope do
@@ -44,7 +45,17 @@ class ApplicationController < ActionController::Base
   def set_watches_count
     @watches_count = 0 and return unless user_signed_in?
 
-    @watches_count = current_user.watches.count
+    @watches_count = current_user.watches.select(:group_id).distinct.count
+  end
+
+  def set_watches_entries_count
+    @watches_entries_count = 0 and return unless user_signed_in?
+
+    scope = Entry.joins(feed: { subscriptions: :user }).where("users.id = ?", current_user.id)
+
+    @watches_entries_count = current_user.watches.group_by(&:group_id).sum do |_, group|
+      WatchesService.call(watches: group, scope: scope.dup).scope.count
+    end
   end
 
   def mobile?

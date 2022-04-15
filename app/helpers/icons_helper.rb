@@ -11,6 +11,12 @@ module IconsHelper
     end
   end
 
+  def fa_light(icon, size: 1)
+    tag.span(class: "icon") do
+      tag.i(class: "fal fa-#{icon} fa-size-#{size}")
+    end
+  end
+
   def fa_brands(icon, size: 1)
     tag.span(class: "icon") do
       tag.i(class: "fab fa-#{icon} fa-size-#{size}")

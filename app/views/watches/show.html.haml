@@ -1,0 +1,14 @@
+- content_for :title do
+  Watches
+
+= render "menu", watches_and_totals: @watches_and_totals
+
+%div(style="#{'position: relative; left: 80px;' unless mobile?}")
+  %h6.pb-2
+    - @watches.sort_by(&:watch_type).each.with_index do |watch, index|
+      = watch.human_readable
+      - if index + 1 < @watches.size
+        %strong.fw-lighter &nbsp;and
+
+  #watched-entries
+    = render "/shared/entries", entries: @entries, bookmarks: @bookmarks, viewed: @viewed
