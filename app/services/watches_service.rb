@@ -13,7 +13,7 @@ class WatchesService
 
     watches.each { |watch| add_watch_scope(watch: watch) }
 
-    @scope = scope.distinct
+    @scope = scope.most_recent_first.distinct
   end
 
   private
