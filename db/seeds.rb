@@ -1,4 +1,4 @@
-User.create!(email: ENV['EMAIL'], password: ENV['PASSWORD'], password_confirmation: ENV['PASSWORD'])
+User.create!(email: ENV.fetch('EMAIL'), password: ENV.fetch('PASSWORD'), password_confirmation: ENV.fetch('PASSWORD'))
 
 # [["https://www.standaard.be/rss/section/1f2838d4-99ea-49f0-9102-138784c7ea7c", "news, national, België"],
 #   ["https://www.standaard.be/rss/section/e70ccf13-a2f0-42b0-8bd3-e32d424a0aa0", "news, world, België"],
