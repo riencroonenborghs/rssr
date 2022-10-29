@@ -28,7 +28,7 @@ $(function() {
     }, 250);
   }
 
-  const canScroll = $("body").hasClass("c_subscriptions") || $("body").hasClass("c_entries") || $("body").hasClass("c_feeds");
+  const canScroll = $("body").hasClass("c_subscriptions") || $("body").hasClass("c_entries") || $("body").hasClass("c_feeds") || $("body").hasClass("c_watches");
   
   if (canScroll) {
     $(window).on("scroll", function () {

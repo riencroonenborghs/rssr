@@ -1,11 +1,13 @@
 class WatchesService
   include AppService
 
-  attr_reader :scope, :watches
+  attr_reader :scope, :watches, :page, :pagination_size, :offset
 
-  def initialize(scope:, watches:)
+  def initialize(scope:, watches:, page: nil, pagination_size: nil, offset: nil)
     @scope = scope
     @watches = watches
+    @page = page
+    @offset = offset
   end
 
   def call
@@ -13,7 +15,9 @@ class WatchesService
 
     watches.each { |watch| add_watch_scope(watch: watch) }
 
-    @scope = scope.most_recent_first.distinct
+    @scope = scope.most_recent_first.distinct.page(page) if page
+    @scope = scope.per(pagination_size) if pagination_size
+    @scope = scope.where("entries.created_at <= ?", offset) if offset
   end
 
   private

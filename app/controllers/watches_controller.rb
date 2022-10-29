@@ -10,11 +10,19 @@ class WatchesController < ApplicationController
 
   def show
     @watches = current_user.watches.where(group_id: params[:group_id])
-    @entries = WatchesService.call(watches: @watches, scope: base_scope.dup).scope
+    @entries = WatchesService.call(
+      watches: @watches,
+      scope: base_scope.dup,
+      page: page,
+      pagination_size: @pagination_size,
+      offset: @offset
+    ).scope
 
     set_watches_and_totals
     set_bookmarks
     set_viewed
+
+    paged_render
   end
 
   private
