@@ -30,6 +30,28 @@ module Admin
       end
     end
 
+    def edit
+      @subscription = current_user.subscriptions.find_by(id: params[:id])
+    end
+
+    def update
+      service = UpdateSubscriptionService.call(
+        user: current_user,
+        id: params[:id],
+        params: subscription_params
+      )
+
+      respond_to do |format|
+        if service.success?
+          subscription = service.subscription
+          format.html { redirect_to admin_subscriptions_path, notice: "Updated #{subscription.feed.name}." }
+        else
+          @subscription = service.subscription
+          format.html { render :edit, status: :unprocessable_entity }
+        end
+      end
+    end
+
     def subscribe
       @subscription = current_user.subscriptions.new(feed_id: params[:feed_id])
       @subscription.save

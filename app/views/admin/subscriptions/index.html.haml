@@ -43,6 +43,8 @@
             =subscription.feed.refresh_at&.strftime("%d %b %H:%M")
           %td
             .d-flex         
+              = link_to edit_admin_subscription_path(subscription), class: "btn btn-white text-primary" do
+                = fa_solid "edit", size: 1
               = link_to refresh_admin_subscription_path(subscription), class: "btn btn-white text-primary" do
                 = fa_solid "sync-alt", size: 1
               = form_with url: admin_unsubscribe_path(subscription) do |form|
