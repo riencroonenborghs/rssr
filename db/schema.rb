@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_02_021705) do
+ActiveRecord::Schema.define(version: 2022_10_29_215849) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -93,9 +93,11 @@ ActiveRecord::Schema.define(version: 2022_04_02_021705) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "active", default: true, null: false
+    t.boolean "hide_from_main_page", default: false
     t.index ["active"], name: "index_subscriptions_on_active"
     t.index ["feed_id"], name: "index_subscriptions_on_feed_id"
-    t.index ["user_id", "feed_id", "active"], name: "sub_usr_fd_actv"
+    t.index ["hide_from_main_page"], name: "index_subscriptions_on_hide_from_main_page"
+    t.index ["user_id", "feed_id", "active", "hide_from_main_page"], name: "sub_u_f_a_hfmp"
     t.index ["user_id", "feed_id"], name: "index_subscriptions_on_user_id_and_feed_id", unique: true
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end

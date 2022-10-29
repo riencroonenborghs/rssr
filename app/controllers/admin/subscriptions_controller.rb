@@ -18,7 +18,11 @@ module Admin
         url: subscription_params[:url],
         description: subscription_params[:description]
       )
-      @subscription = service.subscription
+      default_subscription = current_user.subscriptions.build(
+        feed: Feed.new(name: subscription_params[:name], url: subscription_params[:url], tag_list: subscription_params[:tag_list], description: subscription_params[:description])
+      )
+      default_subscription.hide_from_main_page = subscription_params[:hide_from_main_page]
+      @subscription = service.subscription || default_subscription
 
       respond_to do |format|
         if service.success?
@@ -110,7 +114,7 @@ module Admin
     end
 
     def subscription_params
-      params.require(:subscription).permit(:name, :tag_list, :url, :description)
+      params.require(:subscription).permit(:name, :tag_list, :url, :description, :hide_from_main_page)
     end
   end
 end

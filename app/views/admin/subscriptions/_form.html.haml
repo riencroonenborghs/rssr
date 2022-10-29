@@ -1,0 +1,46 @@
+.row
+  .col-12.col-xl-6.mb-3
+    = form.label :url, class: "form-label"
+    = form.text_field :url, class: "form-control #{'text-danger' if subscription.feed.errors[:url].present?}", required: true, autofocus: true
+    - if subscription.feed.errors[:url].present?
+      %small.text-danger=subscription.feed.errors[:url].to_sentence
+      %br
+    .fs-11 Supports: RSS &amp; atom feeds
+
+.row
+  .col-12.col-xl-6.mb-3
+    = form.label :name, class: "form-label"
+    = form.text_field :name, class: "form-control #{'text-danger' if subscription.feed.errors[:name].present?}"
+    - if subscription.feed.errors[:name].present?
+      %small.text-danger=subscription.feed.errors[:name].to_sentence
+      %br
+    .fs-11 Feed title is used if left empty.
+
+.row
+  .col-12.col-xl-6.mb-3
+    = form.label :tag_list, class: "form-label"
+    = form.text_field :tag_list, value: @subscription.tag_list.join(", "), class: "form-control #{'text-danger' if subscription.feed.errors[:tag_list].present?}"
+    - if subscription.feed.errors[:tag_list].present?
+      %small.text-danger=subscription.feed.errors[:tag_list].to_sentence
+      %br
+    .fs-11
+      A comma-separated list.
+
+.row
+  .col-12.col-xl-6.mb-3
+    = form.check_box :hide_from_main_page, class: "form-check-input"
+    = form.label :hide_from_main_page, class: "form-check-label" do              
+      Hide from main page
+
+.row
+  .col-12.col-xl-6.mb-3
+    = form.label :description, class: "form-label"
+    = form.text_area :description, class: "form-control #{'text-danger' if subscription.feed.errors[:description].present?}"
+    - if subscription.feed.errors[:description].present?
+      %small.text-danger=subscription.feed.errors[:description].to_sentence
+      %br
+    .fs-11 What's this RSS feed all about?
+  
+.row
+  .col-12.col-xl-4
+    = form.submit "#{subscription.persisted? ? 'Update' : 'Add'} Feed", class: "btn btn-primary"

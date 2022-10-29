@@ -11,17 +11,17 @@ RSpec.describe UpdateSubscriptionService, type: :service do
   let(:tag_list) { "foo,bar,baz" }
   let(:url) { Faker::Internet.url }
   let(:description) { "description" }
+  let(:hide_from_main_page) { true }
 
   let(:params) do
     {
       name: name,
       tag_list: tag_list,
       url: url,
-      description: description
+      description: description,
+      hide_from_main_page: hide_from_main_page
     }
   end
-
-  let(:expected_attributes) { params.update(tag_list: tag_list.split(",")) }
 
   subject { described_class.new(user: user, id: id, params: params) }
 
@@ -34,10 +34,9 @@ RSpec.describe UpdateSubscriptionService, type: :service do
 
     context "when saving the feed fails" do
       before do
-        object = User.new
-        object.errors.add(:base, "some feed error")
-
-        feed = instance_double(Feed, save: false, assign_attributes: proc {}, errors: object.errors, url_changed?: true)
+        feed = Feed.new
+        allow(feed).to receive(:save).and_return(false)
+        feed.errors.add(:base, "some feed error")
         allow(subject).to receive(:subscription).and_return(subscription)
         allow(subscription).to receive(:feed).and_return(feed)
       end
@@ -50,7 +49,15 @@ RSpec.describe UpdateSubscriptionService, type: :service do
       expect(subject).to be_success
     end
 
+    it "updates the susbcription" do
+      expected_attributes = { hide_from_main_page: hide_from_main_page }      
+      subject.call
+      expect(subscription.reload).to have_attributes(expected_attributes)
+    end
+
     it "updates the feed" do
+      params.delete(:hide_from_main_page)
+      expected_attributes = params.update(tag_list: tag_list.split(","))
       subject.call
       expect(subscription.feed.reload).to have_attributes(expected_attributes)
     end
