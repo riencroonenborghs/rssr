@@ -24,6 +24,9 @@
         %li.nav-item
           = link_to new_search_path, class: "nav-link #{'active' if active_page?(search_index_path)}", title: "Search" do
             = fa_solid "search"
+        %li.nav-item
+          = link_to tags_path, class: "nav-link #{'active' if active_page?(tags_path)}", title: "Tags" do
+            = fa_solid "tags"
     -# ----- BOTTOM -----
     %ul.navbar-nav
       - if user_signed_in?

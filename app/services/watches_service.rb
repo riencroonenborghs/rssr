@@ -7,6 +7,7 @@ class WatchesService
     @scope = scope
     @watches = watches
     @page = page
+    @pagination_size = pagination_size
     @offset = offset
   end
 

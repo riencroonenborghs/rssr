@@ -40,6 +40,10 @@
                       .fs-15
                         = watch_count
             %li.nav-item
+              = link_to tags_path, class: "nav-link #{'active' if active_page?(tags_path)}", title: "Tags" do
+                = fa_solid "tags", size: :half
+                Tags
+            %li.nav-item
               = link_to admin_subscriptions_path, class: "nav-link #{'active' if active_page?(admin_subscriptions_path)}", title: "Subscriptions" do
                 = fa_solid "rss", size: :half
                 Subscriptions

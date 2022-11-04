@@ -50,7 +50,7 @@ RSpec.describe UpdateSubscriptionService, type: :service do
     end
 
     it "updates the susbcription" do
-      expected_attributes = { hide_from_main_page: hide_from_main_page }      
+      expected_attributes = { hide_from_main_page: hide_from_main_page }
       subject.call
       expect(subscription.reload).to have_attributes(expected_attributes)
     end
