@@ -80,5 +80,5 @@
               = link_to new_user_session_path, title: "Log in", class: "nav-link #{'active' if active_page?(new_user_session_path)}" do
                 = fa_solid "lock-open", size: :half
                 Log in
-.d-flex.flex-row(style="position: relative; top: 56px;")
+%div(style="position: relative; top: 56px;")
   = yield
