@@ -1,4 +1,4 @@
-%nav.navbar.navbar-expand-lg.bg-white
+%nav.navbar.navbar-expand-lg.bg-white(style="position: fixed; z-index: 2; width: 100%;")
   .container-fluid
     = link_to "RSSr", root_path, class: "navbar-brand"
     = yield :title 
@@ -80,5 +80,5 @@
               = link_to new_user_session_path, title: "Log in", class: "nav-link #{'active' if active_page?(new_user_session_path)}" do
                 = fa_solid "lock-open", size: :half
                 Log in
-.d-flex.flex-row
+.d-flex.flex-row(style="position: relative; top: 56px;")
   = yield

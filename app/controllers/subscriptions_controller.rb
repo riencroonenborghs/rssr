@@ -31,7 +31,7 @@ class SubscriptionsController < ApplicationController
                     .distinct
             scope = scope.merge(User.where(id: current_user.id)) if user_signed_in?
             scope
-          end.page(1).per(10)
+          end.page(1).per(5)
         end
       end
     end
