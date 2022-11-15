@@ -2,35 +2,32 @@
   Add Watch
 
 #new-watch
-  %h6.pb-2
-    Add Watch
+  .p-4.w-100
+    %h4
+      = link_to "Watches", admin_watches_path
+      &gt; Add
 
-  %p
-    = link_to admin_watches_path do
-      = fa_solid "chevron-left", size: 1
-      Back
-
-  - if @current_watches.any?
+    - if @current_watches.any?
+      .pt-4
+        - @current_watches.each.with_index do |watch, index|
+          = watch.human_readable
+          - if index + 1 < @current_watches.size
+            %strong.fw-lighter &nbsp;and
+    
     .pt-4
-      - @current_watches.each.with_index do |watch, index|
-        = watch.human_readable
-        - if index + 1 < @current_watches.size
-          %strong.fw-lighter &nbsp;and
-  
-  .pt-4
-    = form_with(scope: :watch, url: admin_watches_path, local: true, method: "post") do |form|  
-      = form.hidden_field :group_id, value: @watch.group_id
-      
-      .row
-        .col-12.col-xl-3.mb-3
-          = form.select :watch_type, [["entry title contains", "entry_title"], ["entry description contains", "entry_description"], ["is tagged with", "feed_tag"]], { selected: @watch.watch_type, include_blank: false }, class: "form-select"
-        .col-12.col-xl-4.mb-3
-          = form.text_field :value, class: "form-control #{'border-danger' if @watch.errors[:value].any?}", value: @watch.value
-          - if @watch.errors[:value].any?
-            .text-danger.fs-11
-              = @watch.errors[:value].join(', ')
-              
-      .row
-        .col-12.col-xl-4
-          = form.submit "Add Watch", class: "btn btn-primary"
-          
+      = form_with(scope: :watch, url: admin_watches_path, local: true, method: "post") do |form|  
+        = form.hidden_field :group_id, value: @watch.group_id
+        
+        .row
+          .col-12.col-xl-3.mb-3
+            = form.select :watch_type, [["entry title contains", "entry_title"], ["entry description contains", "entry_description"], ["is tagged with", "feed_tag"]], { selected: @watch.watch_type, include_blank: false }, class: "form-select"
+          .col-12.col-xl-4.mb-3
+            = form.text_field :value, class: "form-control #{'border-danger' if @watch.errors[:value].any?}", value: @watch.value
+            - if @watch.errors[:value].any?
+              .text-danger.fs-11
+                = @watch.errors[:value].join(', ')
+                
+        .row
+          .col-12.col-xl-4
+            = form.submit "Add Watch", class: "btn btn-primary"
+            

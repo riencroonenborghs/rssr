@@ -10,16 +10,19 @@
 @import "tags.scss";
 
 $cyan-50: rgba(25, 135, 84, 0.05);
+$gray-50: rgba(129, 129, 129, 0.05);
 
 $nav-bg: $cyan-800;
-$nav-color: $cyan-100;
-$nav-color-active: $orange-200;
-$link: $cyan-700;
-$link-hover: $cyan-900;
+$nav-color: $gray-500;
+$nav-color-active: $gray-600;
 $nav-badge-bg: $orange-500;
-$entries-badge-bg: $cyan-700;
-$entries-badge-hover-bg: $cyan-800;
-$entries-viewed: $cyan-50;
+
+$link: $gray-700;
+$link-hover: $gray-900;
+
+$entries-badge-bg: $gray-500;
+$entries-badge-hover-bg: $gray-600;
+$entries-viewed: $gray-50;
 
 $dark-bg: $cyan-900;
 $dark-link-hover: rgba(red($link), green($link), blue($link), 0.8);
@@ -47,11 +50,11 @@ a {
 }
 
 nav {
-  background-color: $nav-bg;
-  color: $nav-color;
-  z-index: 2;
+  // background-color: $nav-bg;
+  // color: $nav-color;
+  // z-index: 2;
 
-  a { color: $nav-color; }
+  // a { color: $nav-color; }
   .navbar-toggler { color: $nav-color; }
 
   .nav-link {
@@ -70,6 +73,8 @@ nav {
     background-color: unset;
 
     .first, .prev, .page, .next, .last {
+      background-color: $link;
+      a { color: $gray-200; }
       @extend .btn;
       @extend .btn-primary;
       @extend .m-1;
@@ -92,7 +97,7 @@ nav {
 
 .entries {
   &--viewed {
-    background-color: $entries-viewed;
+    text-decoration: line-through;
   }
   &--title {
     word-break: break-word;
@@ -147,4 +152,8 @@ body.darkmode {
     color: white;
     background-color: $dark-input-bg;
   }
+}
+
+.fs-8 {
+  font-size: 0.8rem !important;
 }

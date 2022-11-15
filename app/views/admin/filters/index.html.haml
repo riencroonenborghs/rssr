@@ -2,29 +2,30 @@
   Filters
 
 #filters
-  %h6.pb-2
-    filters
+  .p-4.w-100
+    %h4
+      Filters
 
-  %p
-    = link_to new_admin_filter_path do
-      = fa_solid "plus", size: 1
-      New Filter
+    %p
+      = link_to new_admin_filter_path do
+        = fa_solid "plus", size: 1
+        New Filter
 
-  .pt-4
-    Filter out anything where
+    .pt-4
+      Filter out anything where
 
-  %div(class="#{'w-50' unless mobile?}")
-    %table.table.is-hoverable
-      %tbody
-        - @filters.each_with_index do |filter, index|
-          %tr
-            %td(style="width: 25px;")
-              = link_to edit_admin_filter_path(filter.id) do
-                = fa_solid "edit", size: 1
-            %td(style="width: 25px;")
-              = link_to admin_filter_path(filter.id), method: :delete, data: { confirm: "Are you sure?" }, class: "text-danger" do
-                = fa_solid "trash", size: 1
-            %td
-              =filter.human_readable
-              - if index + 1 < @filters.size
-                %strong.fw-lighter &nbsp;OR
+    %div(class="#{'w-50' unless mobile?}")
+      %table.table.is-hoverable
+        %tbody
+          - @filters.each_with_index do |filter, index|
+            %tr
+              %td(style="width: 25px;")
+                = link_to edit_admin_filter_path(filter.id) do
+                  = fa_solid "edit", size: 1
+              %td(style="width: 25px;")
+                = link_to admin_filter_path(filter.id), method: :delete, data: { confirm: "Are you sure?" }, class: "text-danger" do
+                  = fa_solid "trash", size: 1
+              %td
+                =filter.human_readable
+                - if index + 1 < @filters.size
+                  %strong.fw-lighter &nbsp;OR

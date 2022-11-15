@@ -10,6 +10,6 @@ module BootstrapHelper
   end
 
   def bootstrap_tag(tag, klass: "")
-    link_to content_tag(:span, tag.upcase, class: "badge tag fs-11"), tagged_feeds_path(tag.upcase), class: klass
+    link_to content_tag(:span, tag.upcase, class: "badge tag fs-15"), tagged_feeds_path(tag.upcase), class: klass
   end
 end

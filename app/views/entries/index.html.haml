@@ -2,9 +2,8 @@
   = @feed.name
 
 #feed
-  - unless mobile?
-    %h6.pb-2
-      = @feed.name
+  .p-4.w-100
+    %h4= @feed.name
 
-  = render "/shared/entries", entries: @entries, bookmarks: @bookmarks, viewed: @viewed
+    = render "/shared/entries", entries: @entries, bookmarks: @bookmarks, viewed: @viewed
   

@@ -2,25 +2,26 @@
   Sign in
 
 #sign-in
-  %h6.pb-2 Sign in
+  .p-4.w-100
+    %h4 Sign in
 
-  = form_for(resource, as: resource_name, url: session_path(resource_name)) do |form|
-    .row
-      .col-12.col-xl-4.mb-3
-        = form.label :email, class: "form-label"
-        = form.email_field :email, autofocus: true, autocomplete: "email", class: "form-control"
+    = form_for(resource, as: resource_name, url: session_path(resource_name)) do |form|
+      .row
+        .col-12.col-xl-4.mb-3
+          = form.label :email, class: "form-label"
+          = form.email_field :email, autofocus: true, autocomplete: "email", class: "form-control"
 
-    .row
-      .col-12.col-xl-4.mb-3
-        = form.label :password, class: "form-label"
-        = form.password_field :password, autocomplete: "current-password", class: "form-control"
-        
-    .row
-      .col-12.col-xl-4.mb-3
-        = form.check_box :remember_me, class: "form-check-input"
-        = form.label :remember_me, class: "form-check-label" do              
-          Remember me
+      .row
+        .col-12.col-xl-4.mb-3
+          = form.label :password, class: "form-label"
+          = form.password_field :password, autocomplete: "current-password", class: "form-control"
+          
+      .row
+        .col-12.col-xl-4.mb-3
+          = form.check_box :remember_me, class: "form-check-input"
+          = form.label :remember_me, class: "form-check-label" do              
+            Remember me
 
-    .row
-      .col-12.col-xl-4
-        = form.submit "Log in", class: "btn btn-primary"
+      .row
+        .col-12.col-xl-4
+          = form.submit "Log in", class: "btn btn-primary"

@@ -1,68 +1,73 @@
-.d-flex.flex-row.align-items-start
-  %nav.navbar.border-end.border-secondary.flex-column.justify-content-between.position-fixed(style="width: 75px; height: calc(100vh);")
-    -# ----- TOP -----
-    %ul.navbar-nav
-      %li.nav-item
-        = link_to subscriptions_today_path, class: "nav-link #{'active' if active_page?(subscriptions_today_path) || current_page?(root_path)}", title: "Today" do
-          = fa_solid "calendar-check"
-          %span.badge.rounded-pill.position-absolute(style="left: 10px;")
-            .fs-15
-              = @today_count
+%nav.navbar.navbar-expand-lg.bg-white
+  .container-fluid
+    .collapse.navbar-collapse#navbarSupportedContent
+      = link_to "RSSr", root_path, class: "navbar-brand"
+      %ul.navbar-nav.me-auto.mb-2.mb-lg-0
+        %li.nav-item
+          = link_to subscriptions_today_path, class: "nav-link #{'active' if active_page?(subscriptions_today_path) || current_page?(root_path)}", title: "Today" do
+            = fa_solid "calendar-check", size: 1
+            Today
+            %span.badge.rounded-pill.position-relative(style="right: 10px; bottom: 10px;")
+              .fs-15
+                = @today_count
+        %li.nav-item
+          = link_to subscriptions_yesterday_path, class: "nav-link #{'active' if active_page?(subscriptions_yesterday_path)}", title: "Yesterday" do
+            = fa_solid "calendar-check", size: 1
+            Yesterday
+            %span.badge.rounded-pill.position-relative(style="right: 10px; bottom: 10px;")
+              .fs-15
+                = @yesterday_count
       - if user_signed_in?
-        %li.nav-item
-          = link_to all_bookmarks_path, class: "nav-link #{'active' if active_page?(all_bookmarks_path)}", title: "Bookmarks" do
-            = fa_regular "bookmark"
-            %span.badge.rounded-pill.position-absolute.read-later-count-tag(style="left: 10px;" class="#{'d-none' if @bookmarks_count.zero?}")
-              .fs-15
-                = @bookmarks_count
-        %li.nav-item
-          = link_to watches_path, class: "nav-link #{'active' if active_page?(watches_path)}", title: "Watches" do
-            = fa_solid "eye"
-            %span.badge.rounded-pill.position-absolute.read-later-count-tag(style="left: 10px;" class="#{'d-none' if @watches_entries_count.zero?}")
-              .fs-15
-                = @watches_entries_count
-        %li.nav-item
-          = link_to new_search_path, class: "nav-link #{'active' if active_page?(search_index_path)}", title: "Search" do
-            = fa_solid "search"
-        %li.nav-item
-          = link_to tags_path, class: "nav-link #{'active' if active_page?(tags_path)}", title: "Tags" do
-            = fa_solid "tags"
-    -# ----- BOTTOM -----
-    %ul.navbar-nav
-      - if user_signed_in?
-        %li.nav-item
-          = link_to admin_subscriptions_path, class: "nav-link #{'active' if active_page?(admin_subscriptions_path)}", title: "Subscriptions" do
-            = fa_solid "rss"
-            - if @subscription_count > 0
-              %span.badge.rounded-pill.position-absolute(style="left: 10px;")
-                .fs-15
-                  = @subscription_count
-        %li.nav-item
-          = link_to admin_filters_path, class: "nav-link #{'active' if active_page?(admin_filters_path)}", title: "Filters" do
-            = fa_solid "list"
-            %span.badge.rounded-pill.position-absolute(style="left: 10px;")
-              .fs-15
-                = @filters_count
-        %li.nav-item
-          = link_to admin_watches_path, class: "nav-link #{'active' if active_page?(admin_watches_path)}", title: "Watches" do
-            = fa_solid "eye"
-            %span.badge.rounded-pill.position-absolute.read-later-count-tag(style="left: 10px;" class="#{'d-none' if @watches_count.zero?}")
-              .fs-15
-                = @watches_count
-        %li.nav-item
-          = link_to new_admin_subscription_path, class: "nav-link #{'active' if active_page?(new_admin_subscription_path)}", title: "Add RSS Feed" do
-            = fa_solid "plus"
-        %li.nav-item
-          = link_to "/sidekiq", title: "Sidekiq", target: "_blank", class: "nav-link" do
-            = fa_solid "sync"
-            
-      - if user_signed_in?
-        %li.nav-item
-          = link_to destroy_user_session_path, method: :delete, title: "Log out", class: "nav-link" do
-            = fa_solid "lock", size: 2
+        .d-flex
+          %ul.navbar-nav.me-auto.mb-2.mb-lg-0
+            %li.nav-item
+              = link_to all_bookmarks_path, class: "nav-link #{'active' if active_page?(all_bookmarks_path)}", title: "Bookmarks" do
+                = fa_regular "bookmark", size: 1
+                -# Bookmarks
+                %span.badge.rounded-pill.position-relative.read-later-count-tag(style="right: 10px; bottom: 10px;" class="#{'d-none' if @bookmarks_count.zero?}")
+                  .fs-15
+                    = @bookmarks_count
+            %li.nav-item
+              = link_to watches_path, class: "nav-link #{'active' if active_page?(watches_path)}", title: "Watches" do
+                = fa_solid "eye", size: 1
+                -# Watches
+                %span.badge.rounded-pill.position-relative.read-later-count-tag(style="right: 10px; bottom: 10px;" class="#{'d-none' if @watches_entries_count.zero?}")
+                  .fs-15
+                    = @watches_entries_count
+
+            %li.nav-item
+              = link_to admin_subscriptions_path, class: "nav-link #{'active' if active_page?(admin_subscriptions_path)}", title: "Subscriptions" do
+                = fa_solid "rss", size: 1
+                - if @subscription_count > 0
+                  %span.badge.rounded-pill.position-relative(style="right: 10px; bottom: 10px;")
+                    .fs-15
+                      = @subscription_count
+            %li.nav-item
+              = link_to admin_filters_path, class: "nav-link #{'active' if active_page?(admin_filters_path)}", title: "Filters" do
+                = fa_solid "list", size: 1
+                %span.badge.rounded-pill.position-relative(style="right: 10px; bottom: 10px;")
+                  .fs-15
+                    = @filters_count
+            %li.nav-item
+              = link_to admin_watches_path, class: "nav-link #{'active' if active_page?(admin_watches_path)}", title: "Watches" do
+                = fa_solid "eye", size: 1
+                %span.badge.rounded-pill.position-relative.read-later-count-tag(style="right: 10px; bottom: 10px;" class="#{'d-none' if @watches_count.zero?}")
+                  .fs-15
+                    = @watches_count
+            %li.nav-item
+              = link_to new_admin_subscription_path, class: "nav-link #{'active' if active_page?(new_admin_subscription_path)}", title: "Add RSS Feed" do
+                = fa_solid "plus", size: 1
+            %li.nav-item
+              = link_to "/sidekiq", title: "Sidekiq", target: "_blank", class: "ps-4 nav-link" do
+                = fa_solid "sync", size: :half
+            %li.nav-item
+              = link_to destroy_user_session_path, method: :delete, title: "Log out", class: "ps-4 nav-link" do
+                = fa_solid "lock", size: :half
       - else
-        %li.nav-item
-          = link_to new_user_session_path, title: "Log in", class: "nav-link #{'active' if active_page?(new_user_session_path)}" do
-            = fa_solid "lock-open", size: 2
-  .content.p-4(style="width: calc(100vw - 75px); position: relative; left: 75px;")
-    = yield
+        .d-flex
+          %ul.navbar-nav.me-auto.mb-2.mb-lg-0
+            %li.nav-item
+              = link_to new_user_session_path, title: "Log in", class: "nav-link #{'active' if active_page?(new_user_session_path)}" do
+                = fa_solid "lock-open", size: :half
+.d-flex.flex-row.justify-content-center
+  = yield

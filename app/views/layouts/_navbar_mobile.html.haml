@@ -1,74 +1,84 @@
-.d-flex.flex-column
-  %nav.navbar.position-fixed.w-100
-    .container-fluid
-      = link_to root_path do
-        = fa_solid "rss", size: 1
-      = yield :title
-      %button.navbar-toggler(type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation")
-        = fa_solid "bars", size: 1
-      .collapse.navbar-collapse#navbarSupportedContent
-        %ul.navbar-nav.me-auto.mb-2.mb-lg-0
-          %li.nav-item
-            = link_to subscriptions_today_path, class: "nav-link #{'active' if active_page?(subscriptions_today_path) || current_page?(root_path)}", title: "Today" do
-              = fa_solid "calendar-check", size: :half
-              Today
-              %span.badge.rounded-pill
-                .fs-15
-                  = @today_count
-          - if user_signed_in?
+%nav.navbar.navbar-expand-lg.bg-white
+  .container-fluid
+    = link_to "RSSr", root_path, class: "navbar-brand"
+    = yield :title 
+    %button.navbar-toggler(type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation")
+      = fa_solid "bars", size: 1
+      
+    .collapse.navbar-collapse#navbarSupportedContent
+      %ul.navbar-nav.me-auto.mb-2.mb-lg-0
+        %li.nav-item
+          = link_to subscriptions_today_path, class: "nav-link #{'active' if active_page?(subscriptions_today_path) || current_page?(root_path)}", title: "Today" do
+            = fa_solid "calendar-check", size: 1
+            Today
+            %span.badge.rounded-pill.position-relative(style="right: 10px; bottom: 10px;")
+              .fs-15
+                = @today_count
+        %li.nav-item
+          = link_to subscriptions_yesterday_path, class: "nav-link #{'active' if active_page?(subscriptions_yesterday_path)}", title: "Yesterday" do
+            = fa_solid "calendar-check", size: 1
+            Yesterday
+            %span.badge.rounded-pill.position-relative(style="right: 10px; bottom: 10px;")
+              .fs-15
+                = @yesterday_count
+      - if user_signed_in?
+        .d-flex
+          %ul.navbar-nav.me-auto.mb-2.mb-lg-0
             %li.nav-item
               = link_to all_bookmarks_path, class: "nav-link #{'active' if active_page?(all_bookmarks_path)}", title: "Bookmarks" do
-                = fa_regular "bookmark", size: :half
+                = fa_regular "bookmark", size: 1
                 Bookmarks
-                %span.badge.rounded-pill.read-later-count-tag(class="#{'d-none' if @bookmarks_count.zero?}")
+                %span.badge.rounded-pill.position-relative.read-later-count-tag(style="right: 10px; bottom: 10px;" class="#{'d-none' if @bookmarks_count.zero?}")
                   .fs-15
                     = @bookmarks_count
             %li.nav-item
               = link_to watches_path, class: "nav-link #{'active' if active_page?(watches_path)}", title: "Watches" do
-                = fa_solid "eye", size: :half
+                = fa_solid "eye", size: 1
                 Watches
-                %span.badge.rounded-pill.read-later-count-tag(class="#{'d-none' if @watches_count.zero?}")
+                %span.badge.rounded-pill.position-relative.read-later-count-tag(style="right: 10px; bottom: 10px;" class="#{'d-none' if @watches_entries_count.zero?}")
                   .fs-15
-                    = @watches_count
-            - if @watches_and_totals
-              - @watches_and_totals.each do |group_id, watch_count|
-                %li.nav-item
-                  = link_to watches_group_path(group_id: group_id), class: "ms-4 nav-link #{'active' if active_page?(watches_group_path(group_id: group_id))}", title: "Watch ##{group_id}" do
-                    = fa_regular "eye", size: :half
-                    Watch ##{group_id}
-                    %span.badge.rounded-pill.read-later-count-tag
-                      .fs-15
-                        = watch_count
-            %li.nav-item
-              = link_to tags_path, class: "nav-link #{'active' if active_page?(tags_path)}", title: "Tags" do
-                = fa_solid "tags", size: :half
-                Tags
+                    = @watches_entries_count
+
             %li.nav-item
               = link_to admin_subscriptions_path, class: "nav-link #{'active' if active_page?(admin_subscriptions_path)}", title: "Subscriptions" do
-                = fa_solid "rss", size: :half
-                Subscriptions
+                = fa_solid "rss", size: 1
+                Subscription
                 - if @subscription_count > 0
-                  %span.badge.rounded-pill
+                  %span.badge.rounded-pill.position-relative(style="right: 10px; bottom: 10px;")
                     .fs-15
                       = @subscription_count
             %li.nav-item
               = link_to admin_filters_path, class: "nav-link #{'active' if active_page?(admin_filters_path)}", title: "Filters" do
-                = fa_solid "list", size: :half
+                = fa_solid "list", size: 1
                 Filters
-                %span.badge.rounded-pill
+                %span.badge.rounded-pill.position-relative(style="right: 10px; bottom: 10px;")
                   .fs-15
                     = @filters_count
-
-          - if user_signed_in?
+            %li.nav-item
+              = link_to admin_watches_path, class: "nav-link #{'active' if active_page?(admin_watches_path)}", title: "Watches" do
+                = fa_solid "eye", size: 1
+                Watches
+                %span.badge.rounded-pill.position-relative.read-later-count-tag(style="right: 10px; bottom: 10px;" class="#{'d-none' if @watches_count.zero?}")
+                  .fs-15
+                    = @watches_count
+            %li.nav-item
+              = link_to new_admin_subscription_path, class: "nav-link #{'active' if active_page?(new_admin_subscription_path)}", title: "Add RSS Feed" do
+                = fa_solid "plus", size: 1
+                Add new feed
+            %li.nav-item
+              = link_to "/sidekiq", title: "Sidekiq", target: "_blank", class: "nav-link" do
+                = fa_solid "sync", size: :half
+                Sidekiq
             %li.nav-item
               = link_to destroy_user_session_path, method: :delete, title: "Log out", class: "nav-link" do
                 = fa_solid "lock", size: :half
-                Sign Out
-          - else
+                Log out
+      - else
+        .d-flex
+          %ul.navbar-nav.me-auto.mb-2.mb-lg-0
             %li.nav-item
               = link_to new_user_session_path, title: "Log in", class: "nav-link #{'active' if active_page?(new_user_session_path)}" do
                 = fa_solid "lock-open", size: :half
-                Sign In
-  .content
-    .pe-2.ps-2.position-absolute.w-100(style="top: 68px;")
-      = yield
+                Log in
+.d-flex.flex-row.justify-content-center
+  = yield

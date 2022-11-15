@@ -1,30 +1,59 @@
 - entries.in_groups_of(mobile? ? 1 : 3) do |group|
-  .d-flex.justify-content-start
-    - group.compact.each do |entry|
+  .row
+    - group.compact.each.with_index do |entry, index|
       - mark_viewed = viewed.include?(entry.id)
-      .shadow-sm.rounded.entry-wrapper(style="padding: 0px;" class="#{'entries--viewed' if user_signed_in? && mark_viewed}" data-entry-id="#{entry.id}" style="width: calc((100% / #{mobile? ? 1 : 3})); #{'margin-right: 10px;' unless mobile?} margin-bottom: 10px;  padding: 16px;")
-        .d-flex.flex-column.justify-content-between.h-100
+      .col-sm-6.col-lg-4.entry-wrapper(class="#{'entries--viewed' if user_signed_in? && mark_viewed}" data-entry-id="#{entry.id}")
+        .p-2.ps-0.pe-0(class="#{'border-bottom' if index + 1 < @entries.size}")
+          .fs-15.pb-2
+            = link_to entry.feed.name, feed_entries_path(entry.feed)
+            \\
+            = distance_of_time_in_words_to_now entry.published_at
+            ago 
           .d-flex.flex-row.justify-content-between
-            - if entry.image
-              = image_tag entry.image, width: 128, class: "me-3 mb-3"
-            .title.fs-6
-              - if entry.description
-                = link_to "#", class: "description entries--title entries--modal", data: { "bs-toggle" => "modal", "bs-target" => "#modal-#{entry.id}" } do
-                  = entry.title
-              - else
-                = link_to entry.link, class: "entries--title entries--no-modal", target: "_blank" do
-                  = entry.title
+            .d-flex.flex-row
+              - if entry.image && !entry.image.ends_with?("torrent")
+                = image_tag entry.image, height: 80, class: "me-2"
+              .fs-6(style="word-break: break-word;")
+                - if entry.description
+                  = link_to "#", class: "entries--title entries--modal", data: { "bs-toggle" => "modal", "bs-target" => "#modal-#{entry.id}" } do
+                    = entry.title
+                - else
+                  = link_to entry.link, class: "entries--title entries--no-modal", target: "_blank" do
+                    = entry.title
             - if user_signed_in?
-              .ps-3
-                = render "/shared/bookmark", entry: entry, bookmarked: bookmarks.include?(entry.id)
-          %div
-            .d-flex.align-items-center
-              .fs-10.pe-1
-                = link_to entry.feed.name, feed_entries_path(entry.feed)            
-              .fs-11
-                \\
-                = distance_of_time_in_words_to_now entry.published_at
-                ago
-            = bootstrap_tags entry.feed
-            - if entry.description
-              = render "/shared/modal", entry: entry
+              .ps-2
+                = render "/shared/bookmark", entry: entry, bookmarked: @bookmarks.include?(entry.id)
+          = bootstrap_tags entry.feed
+          - if entry.description
+            = render "/shared/modal", entry: entry
+
+-# - entries.in_groups_of(mobile? ? 1 : 3) do |group|
+-#   .d-flex.justify-content-start
+-#     - group.compact.each do |entry|
+-#       - mark_viewed = viewed.include?(entry.id)
+-#       .shadow-sm.rounded.entry-wrapper(style="padding: 0px;" class="#{'entries--viewed' if user_signed_in? && mark_viewed}" data-entry-id="#{entry.id}" style="width: calc((100% / #{mobile? ? 1 : 3})); #{'margin-right: 10px;' unless mobile?} margin-bottom: 10px;  padding: 16px;")
+-#         .d-flex.flex-column.justify-content-between.h-100
+-#           .d-flex.flex-row.justify-content-between
+-#             - if entry.image
+-#               = image_tag entry.image, width: 128, class: "me-3 mb-3"
+-#             .title.fs-6
+-#               - if entry.description
+-#                 = link_to "#", class: "description entries--title entries--modal", data: { "bs-toggle" => "modal", "bs-target" => "#modal-#{entry.id}" } do
+-#                   = entry.title
+-#               - else
+-#                 = link_to entry.link, class: "entries--title entries--no-modal", target: "_blank" do
+-#                   = entry.title
+-#             - if user_signed_in?
+-#               .ps-3
+-#                 = render "/shared/bookmark", entry: entry, bookmarked: bookmarks.include?(entry.id)
+-#           %div
+-#             .d-flex.align-items-center
+-#               .fs-10.pe-1
+-#                 = link_to entry.feed.name, feed_entries_path(entry.feed)            
+-#               .fs-11
+-#                 \\
+-#                 = distance_of_time_in_words_to_now entry.published_at
+-#                 ago
+-#             = bootstrap_tags entry.feed
+-#             - if entry.description
+-#               = render "/shared/modal", entry: entry

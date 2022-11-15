@@ -2,32 +2,29 @@
   Edit Watches
 
 #new-watch
-  %h6.pb-2
-    Edit Watches
+  .p-4.w-100
+    %h4
+      = link_to "Watches", admin_watches_path
+      &gt; Edit
 
-  %p
-    = link_to admin_watches_path do
-      = fa_solid "chevron-left", size: 1
-      Back
-
-  .pt-4
-    - @watches.each do |watch|
-      .row
-        .col-12.col-xl-10.mb-3
-          = form_with(scope: :watch, url: admin_watch_path(watch), local: true, method: "patch") do |form|  
-            = form.hidden_field :id, value: watch.id
-            = form.hidden_field :group_id, value: watch.group_id
-            .row
-              .col-12.col-xl-3.mb-3
-                = form.select :watch_type, [["entry title contains", "entry_title"], ["entry description contains", "entry_description"], ["is tagged with", "feed_tag"]], { selected: watch.watch_type, include_blank: false }, class: "form-select"
-              .col-12.col-xl-8.mb-3
-                = form.text_field :value, class: "form-control #{'border-danger' if watch.errors[:value].any?}", value: watch.value
-                - if watch.errors[:value].any?
-                  .text-danger.fs-11
-                    = watch.errors[:value].join(', ')
-              .col-12.col-xl-1.mb-3
-                = form.submit "Update", class: "btn btn-primary"
-                
-        .col-12.col-xl-1.mb-3
-          = button_to admin_watch_path(watch), method: :delete, data: { confirm: "Are you sure?" }, class: "btn text-danger" do
-            = fa_solid "trash", size: 1
+    .pt-4
+      - @watches.each do |watch|
+        .row
+          .col-12.col-xl-10.mb-3
+            = form_with(scope: :watch, url: admin_watch_path(watch), local: true, method: "patch") do |form|  
+              = form.hidden_field :id, value: watch.id
+              = form.hidden_field :group_id, value: watch.group_id
+              .row
+                .col-12.col-xl-3.mb-3
+                  = form.select :watch_type, [["entry title contains", "entry_title"], ["entry description contains", "entry_description"], ["is tagged with", "feed_tag"]], { selected: watch.watch_type, include_blank: false }, class: "form-select"
+                .col-12.col-xl-8.mb-3
+                  = form.text_field :value, class: "form-control #{'border-danger' if watch.errors[:value].any?}", value: watch.value
+                  - if watch.errors[:value].any?
+                    .text-danger.fs-11
+                      = watch.errors[:value].join(', ')
+                .col-12.col-xl-1.mb-3
+                  = form.submit "Update", class: "btn btn-primary"
+                  
+          .col-12.col-xl-1.mb-3
+            = button_to admin_watch_path(watch), method: :delete, data: { confirm: "Are you sure?" }, class: "btn text-danger" do
+              = fa_solid "trash", size: 1

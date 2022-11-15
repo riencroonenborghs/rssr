@@ -2,8 +2,10 @@
   Add your own RSS subscription
 
 #new-sub
-  %h6.pb-2
-    Add your own RSS subscription
+  .p-4.w-100
+    %h4
+      = link_to "Subscriptions", admin_subscriptions_path
+      &gt; New
 
-  = form_with(model: @subscription, url: [:admin, @subscription], method: :post, local: true) do |form|
-    = render form, subscription: @subscription
+    = form_with(model: @subscription, url: [:admin, @subscription], method: :post, local: true) do |form|
+      = render form, subscription: @subscription

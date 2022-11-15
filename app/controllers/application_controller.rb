@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   before_action :set_pagination_size
 
   before_action :set_today_count
+  before_action :set_yesterday_count
   before_action :set_bookmarks_count
   before_action :set_subscription_count
   before_action :set_filters_count
@@ -17,6 +18,19 @@ class ApplicationController < ActionController::Base
               .includes(:viewed_entries)
               .most_recent_first
               .today
+              .joins(feed: { subscriptions: :user })
+              .distinct
+      scope = scope.merge(User.where(id: current_user.id)) if user_signed_in?
+      scope
+    end.count
+  end
+
+  def set_yesterday_count
+    @yesterday_count = filtered_scope do
+      scope = Entry
+              .includes(:viewed_entries)
+              .most_recent_first
+              .yesterday
               .joins(feed: { subscriptions: :user })
               .distinct
       scope = scope.merge(User.where(id: current_user.id)) if user_signed_in?
@@ -64,11 +78,17 @@ class ApplicationController < ActionController::Base
   helper_method :mobile?
 
   def set_bookmarks
-    @bookmarks = user_signed_in? ? Bookmark.unread.where(user_id: current_user.id, entry_id: @entries.map(&:id)).map(&:entry_id) : []
+    # @bookmarks = user_signed_in? ? Bookmark.unread.where(user_id: current_user.id, entry_id: @entries.map(&:id)).map(&:entry_id) : []
+    @bookmarks = user_signed_in? ? Bookmark.unread.where(user_id: current_user.id).map(&:entry_id) : []
   end
 
   def set_viewed
-    @viewed = user_signed_in? ? ViewedEntry.where(user_id: current_user.id, entry_id: @entries.map(&:id)).map(&:entry_id) : []
+    entry_ids = if @entries_by_tag
+      @entries_by_tag.values.flatten.map(&:id).uniq
+    else
+      @entries.map(&:id).uniq
+    end
+    @viewed = user_signed_in? ? ViewedEntry.where(user_id: current_user.id, entry_id: entry_ids).map(&:entry_id) : []
   end
 
   private
@@ -111,7 +131,7 @@ class ApplicationController < ActionController::Base
   end
 
   def darkmode?
-    @darkmode = Darkmode.darkmode?
+    @darkmode = false # Darkmode.darkmode?
   end
   helper_method :darkmode?
 end
