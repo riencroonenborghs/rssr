@@ -45,3 +45,4 @@ bin/export*.sh
 bin/import*.sh
 db/sqlite-csv
 .env
+db/v3

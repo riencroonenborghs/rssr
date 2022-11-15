@@ -22,10 +22,10 @@ class SubscriptionsController < ApplicationController
         ret[tag] = offset_scope do
           filtered_scope do
             scope = Entry
-                    .includes(:viewed_entries)
                     .most_recent_first
                     .send(timespan)
                     .joins(feed: { subscriptions: :user })
+                    .includes(feed: :taggings)
                     .merge(Subscription.active.not_hidden_from_main_page)
                     .merge(Feed.tagged_with(tag))
                     .distinct
@@ -38,6 +38,6 @@ class SubscriptionsController < ApplicationController
   end
 
   def set_tags
-    @tags = @entries_by_tag.select { |tag, entries| !entries.count.zero? }.keys
+    @tags = @entries_by_tag.select { |tag, entries| entries.exists? }.keys
   end
 end

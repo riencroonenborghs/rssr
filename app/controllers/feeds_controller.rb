@@ -47,9 +47,9 @@ class FeedsController < ApplicationController
     scope = filtered_scope do
       current_user_scope do
         Entry
-          .joins(:feed)
+          .includes(feed: :taggings)
           .merge(Feed.active.tagged_with(@tag))
-          .joins(feed: :subscriptions)
+          .joins(feed: [:subscriptions, :taggings])
           .merge(Subscription.active)
           .most_recent_first
       end
