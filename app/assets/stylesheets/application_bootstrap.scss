@@ -103,6 +103,13 @@ nav {
     word-break: break-word;
   }
 }
+#bookmarks {
+  .entries {
+    &--viewed {
+      text-decoration: unset;
+    }
+  }
+}
 
 .badge.tag {
   background-color: $entries-badge-bg;

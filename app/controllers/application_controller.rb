@@ -78,7 +78,6 @@ class ApplicationController < ActionController::Base
   helper_method :mobile?
 
   def set_bookmarks
-    # @bookmarks = user_signed_in? ? Bookmark.unread.where(user_id: current_user.id, entry_id: @entries.map(&:id)).map(&:entry_id) : []
     @bookmarks = user_signed_in? ? Bookmark.unread.where(user_id: current_user.id).map(&:entry_id) : []
   end
 
