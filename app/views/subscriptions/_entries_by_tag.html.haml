@@ -1,10 +1,11 @@
 .entries--table.entries.row(data-masonry='{"percentPosition": true }')
   - @tags.each do |tag|
+    - entries = @entries_by_tag[tag]
+    - next if entries.count.zero?
     .col-sm-6.col-lg-4.mb-4
       %h4
         = link_to tag, tagged_feeds_path(tag)
       %ul.list-group
-        - entries = @entries_by_tag[tag]
         - has_more = entries.total_pages > 1
         - entries.each.with_index do |entry, index|
           - mark_viewed = @viewed.include?(entry.id)
@@ -36,6 +37,6 @@
             .fs-8
               = link_to tagged_feeds_path(tag) do
                 \... and
-                = entries.total_count - 10
+                = entries.total_count - 5
                 more
                 

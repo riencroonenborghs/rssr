@@ -4,13 +4,13 @@ class ApplicationController < ActionController::Base
   before_action :mobile?
   before_action :set_pagination_size
 
-  before_action :set_today_count
-  before_action :set_yesterday_count
-  before_action :set_bookmarks_count
-  before_action :set_subscription_count
-  before_action :set_filters_count
-  before_action :set_watches_count
-  before_action :set_watches_entries_count
+  # before_action :set_today_count
+  # before_action :set_yesterday_count
+  # before_action :set_bookmarks_count
+  # before_action :set_subscription_count
+  # before_action :set_filters_count
+  # before_action :set_watches_count
+  # before_action :set_watches_entries_count
 
   def set_today_count
     @today_count = filtered_scope do
