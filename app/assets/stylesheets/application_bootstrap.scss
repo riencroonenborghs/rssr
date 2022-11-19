@@ -6,8 +6,8 @@
 @import "fontawesome/regular.scss";
 
 @import "fonts.scss";
-@import "icons.scss";
 @import "tags.scss";
+@import "icons.scss";
 
 $cyan-50: rgba(25, 135, 84, 0.05);
 $gray-50: rgba(129, 129, 129, 0.05);
@@ -103,6 +103,7 @@ nav {
     word-break: break-word;
   }
 }
+
 #bookmarks {
   .entries {
     &--viewed {
@@ -163,4 +164,11 @@ body.darkmode {
 
 .fs-8 {
   font-size: 0.8rem !important;
+}
+
+#watches-menu {
+  a {
+    color: $nav-color;
+    &.active { color: $nav-color-active; }
+  }
 }

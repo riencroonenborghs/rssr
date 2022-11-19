@@ -7,53 +7,29 @@
           = link_to subscriptions_today_path, class: "nav-link #{'active' if active_page?(subscriptions_today_path) || current_page?(root_path)}", title: "Today" do
             = fa_solid "calendar-check", size: 1
             Today
-            -# %span.badge.rounded-pill.position-relative(style="right: 10px; bottom: 10px;")
-            -#   .fs-15
-            -#     = @today_count
         %li.nav-item
           = link_to subscriptions_yesterday_path, class: "nav-link #{'active' if active_page?(subscriptions_yesterday_path)}", title: "Yesterday" do
             = fa_solid "calendar-check", size: 1
             Yesterday
-            -# %span.badge.rounded-pill.position-relative(style="right: 10px; bottom: 10px;")
-            -#   .fs-15
-            -#     = @yesterday_count
       - if user_signed_in?
         .d-flex
           %ul.navbar-nav.me-auto.mb-2.mb-lg-0
             %li.nav-item
               = link_to all_bookmarks_path, class: "nav-link #{'active' if active_page?(all_bookmarks_path)}", title: "Bookmarks" do
                 = fa_regular "bookmark", size: 1
-                -# Bookmarks
-                -# %span.badge.rounded-pill.position-relative.read-later-count-tag(style="right: 10px; bottom: 10px;" class="#{'d-none' if @bookmarks_count.zero?}")
-                -#   .fs-15
-                -#     = @bookmarks_count
             %li.nav-item
               = link_to watches_path, class: "nav-link #{'active' if active_page?(watches_path)}", title: "Watches" do
                 = fa_solid "eye", size: 1
-                -# Watches
-                -# %span.badge.rounded-pill.position-relative.read-later-count-tag(style="right: 10px; bottom: 10px;" class="#{'d-none' if @watches_entries_count.zero?}")
-                -#   .fs-15
-                -#     = @watches_entries_count
 
             %li.nav-item
               = link_to admin_subscriptions_path, class: "nav-link #{'active' if active_page?(admin_subscriptions_path)}", title: "Subscriptions" do
                 = fa_solid "rss", size: 1
-                -# - if @subscription_count > 0
-                -#   %span.badge.rounded-pill.position-relative(style="right: 10px; bottom: 10px;")
-                -#     .fs-15
-                -#       = @subscription_count
             %li.nav-item
               = link_to admin_filters_path, class: "nav-link #{'active' if active_page?(admin_filters_path)}", title: "Filters" do
                 = fa_solid "list", size: 1
-                -# %span.badge.rounded-pill.position-relative(style="right: 10px; bottom: 10px;")
-                -#   .fs-15
-                -#     = @filters_count
             %li.nav-item
               = link_to admin_watches_path, class: "nav-link #{'active' if active_page?(admin_watches_path)}", title: "Watches" do
                 = fa_solid "eye", size: 1
-                -# %span.badge.rounded-pill.position-relative.read-later-count-tag(style="right: 10px; bottom: 10px;" class="#{'d-none' if @watches_count.zero?}")
-                -#   .fs-15
-                -#     = @watches_count
             %li.nav-item
               = link_to new_admin_subscription_path, class: "nav-link #{'active' if active_page?(new_admin_subscription_path)}", title: "Add RSS Feed" do
                 = fa_solid "plus", size: 1

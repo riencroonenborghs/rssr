@@ -45,6 +45,6 @@ class WatchesService
   end
 
   def add_feed_tag_scope(tag:)
-    @scope = scope.joins(feed: { taggings: :tag }).merge(Feed.tagged_with(tag.upcase))
+    @scope = scope.joins(feed: { taggings: :tag }).includes([:feed]).merge(Feed.tagged_with(tag.upcase))
   end
 end

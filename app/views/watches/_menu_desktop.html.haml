@@ -1,10 +1,6 @@
-.d-flex.flex-row.align-items-start(style="position: relative; top: -1.5rem; left: -1.6rem;")
-  %nav.navbar.border-end.border-secondary.flex-column.justify-content-between.position-fixed(style="width: 75px; height: calc(100vh);")
-    %ul.navbar-nav
-      - watches_and_totals.each do |group_id, watch_count|
-        %li.nav-item
-          = link_to watches_group_path(group_id: group_id), class: "nav-link #{'active' if active_page?(watches_group_path(group_id: group_id))}", title: "Watch ##{group_id}" do
-            = fa_regular "eye"
-            %span.badge.rounded-pill.position-absolute(style="left: 10px;")
-              .fs-15
-                = watch_count
+#watches-menu.d-flex.flex-row.justify-content-end.pt-2(style="padding-right: 218px; border-top: 1px solid #f7f7f7; border-bottom: 1px solid #f7f7f7;")
+  %ul.d-flex.flex-row(style="list-style: none;")
+    - watches_by_group.each do |group_id|
+      %li.ms-2.me-2
+        = link_to watches_group_path(group_id: group_id), class: "#{'active' if active_page?(watches_group_path(group_id: group_id))}", title: "Watch ##{group_id}" do
+          = fa_regular "eye", size: "one-and-half"

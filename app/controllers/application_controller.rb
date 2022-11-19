@@ -3,74 +3,7 @@ class ApplicationController < ActionController::Base
   before_action :darkmode?
   before_action :mobile?
   before_action :set_pagination_size
-
-  # before_action :set_today_count
-  # before_action :set_yesterday_count
-  # before_action :set_bookmarks_count
-  # before_action :set_subscription_count
-  # before_action :set_filters_count
-  # before_action :set_watches_count
-  # before_action :set_watches_entries_count
-
-  def set_today_count
-    @today_count = filtered_scope do
-      scope = Entry
-              .includes(:viewed_entries)
-              .most_recent_first
-              .today
-              .joins(feed: { subscriptions: :user })
-              .distinct
-      scope = scope.merge(User.where(id: current_user.id)) if user_signed_in?
-      scope
-    end.count
-  end
-
-  def set_yesterday_count
-    @yesterday_count = filtered_scope do
-      scope = Entry
-              .includes(:viewed_entries)
-              .most_recent_first
-              .yesterday
-              .joins(feed: { subscriptions: :user })
-              .distinct
-      scope = scope.merge(User.where(id: current_user.id)) if user_signed_in?
-      scope
-    end.count
-  end
-
-  def set_bookmarks_count
-    @bookmarks_count = 0 and return unless user_signed_in?
-
-    @bookmarks_count = current_user.bookmarks.unread.count
-  end
-
-  def set_subscription_count
-    @subscription_count = 0 and return unless user_signed_in?
-
-    @subscription_count = current_user.subscriptions.count
-  end
-
-  def set_filters_count
-    @filters_count = 0 and return unless user_signed_in?
-
-    @filters_count = current_user.filters.count
-  end
-
-  def set_watches_count
-    @watches_count = 0 and return unless user_signed_in?
-
-    @watches_count = current_user.watches.select(:group_id).distinct.count
-  end
-
-  def set_watches_entries_count
-    @watches_entries_count = 0 and return unless user_signed_in?
-
-    scope = Entry.joins(feed: { subscriptions: :user }).where("users.id = ?", current_user.id)
-
-    @watches_entries_count = current_user.watches.group_by(&:group_id).sum do |_, group|
-      WatchesService.call(watches: group, scope: scope.dup).scope.count
-    end
-  end
+  before_action :set_watches_by_group, if: -> { mobile? }
 
   def mobile?
     browser.device.mobile?
@@ -133,4 +66,8 @@ class ApplicationController < ActionController::Base
     @darkmode = false # Darkmode.darkmode?
   end
   helper_method :darkmode?
+
+  def set_watches_by_group
+    @watches_by_group = current_user.watches.select(:group_id).distinct.pluck(:group_id)
+  end
 end
