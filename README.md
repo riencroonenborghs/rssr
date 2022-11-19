@@ -20,6 +20,6 @@ RSS reader
   - article bookmarking
   - infinite scrolling
   - darkmode
-  - search
+  - ~~search~~
   - integrated MP3 audio player
  
