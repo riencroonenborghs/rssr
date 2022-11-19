@@ -3,7 +3,7 @@ module Admin
     before_action :set_filter, only: %i[edit update destroy]
 
     def index
-      @filters = current_user.filters
+      @filters = current_user.filters.order(value: :asc)
     end
 
     def new

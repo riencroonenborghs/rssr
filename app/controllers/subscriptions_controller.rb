@@ -17,7 +17,7 @@ class SubscriptionsController < ApplicationController
 
   private
 
-  def set_entries_by_tag(timespan:)
+  def set_entries_by_tag(timespan:) # rubocop:disable Naming/AccessorMethodName
     scope = offset_scope do
       filtered_scope do
         scope = Entry

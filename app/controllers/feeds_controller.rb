@@ -49,7 +49,7 @@ class FeedsController < ApplicationController
         Entry
           .includes(feed: :taggings)
           .merge(Feed.active.tagged_with(@tag))
-          .joins(feed: [:subscriptions, :taggings])
+          .joins(feed: %i[subscriptions taggings])
           .merge(Subscription.active)
           .most_recent_first
       end
