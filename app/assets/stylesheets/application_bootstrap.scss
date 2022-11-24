@@ -37,6 +37,7 @@ $dark-tag-hover: #2e2e2e;
 
 a {
   color: $link;
+  
   @extend .text-decoration-none;
   &:hover {
     color: $link-hover;
@@ -118,6 +119,12 @@ nav {
 .badge.tag {
   background-color: $entries-badge-bg;
   &:hover { background-color: $entries-badge-hover-bg; }
+}
+
+.modal {
+  a {
+    border-bottom: 1px dashed #d4dde6;
+  }
 }
 
 body.darkmode {
