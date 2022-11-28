@@ -64,6 +64,6 @@ class ApplicationController < ActionController::Base
   helper_method :darkmode?
 
   def set_watches_by_group
-    @watches_by_group = current_user.watches.select(:group_id).distinct.pluck(:group_id)
+    @watches_by_group = current_user ? current_user.watches.select(:group_id).distinct.pluck(:group_id) : {}
   end
 end
