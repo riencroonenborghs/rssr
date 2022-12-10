@@ -1,5 +1,5 @@
 module Admin
-  class SubscriptionsController < AdminController
+  class SubscriptionsController < AdminController # rubocop:disable Metrics/ClassLength
     before_action :set_page, only: %i[index search]
 
     def index
