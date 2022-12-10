@@ -153,8 +153,13 @@ body.darkmode {
 
   a {
     color: $dark-link;
+
     &:hover {
       color: $dark-link-hover;
+    }
+    &.active {
+      color: $dark-link;
+      border-bottom: 2px solid $dark-link;
     }
   }
 
