@@ -57,9 +57,14 @@ RSpec.describe UpdateSubscriptionService, type: :service do
 
     it "updates the feed" do
       params.delete(:hide_from_main_page)
-      expected_attributes = params.update(tag_list: tag_list.split(","))
+      expected_attributes = params
       subject.call
-      expect(subscription.feed.reload).to have_attributes(expected_attributes)
+      tag_list = params.delete(:tag_list)
+      feed = subscription.feed.reload
+      expect(feed).to have_attributes(expected_attributes)
+      tag_list.split(",").each do |tag|
+        expect(feed.tag_list).to include tag
+      end
     end
 
     context "when url changes" do
