@@ -3,7 +3,12 @@ module Admin
     before_action :set_page, only: %i[index search]
 
     def index
-      @subscriptions = current_user.subscriptions.joins(:feed).order(active: :desc, "feeds.name" => :asc).page(@page).per(@pagination_size)
+      @subscriptions = current_user
+        .subscriptions
+        .joins(feed: { taggings: :tag })
+        .includes(feed: { taggings: :tag })
+        .order(active: :desc, "feeds.name" => :asc)
+        .page(@page).per(@pagination_size)
     end
 
     def new

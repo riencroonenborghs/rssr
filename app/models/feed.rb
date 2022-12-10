@@ -67,4 +67,10 @@ class Feed < ApplicationRecord
   def valid_image_url?
     image_url.present? && !image_url.starts_with?("..")
   end
+
+  def tag_list
+    return super unless taggings.loaded?
+
+    taggings.map(&:tag).map(&:name)
+  end
 end
