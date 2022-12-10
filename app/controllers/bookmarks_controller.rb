@@ -7,7 +7,7 @@ class BookmarksController < ApplicationController
       .joins(feed: { subscriptions: :user })
       .joins(:bookmarks)
       .merge(current_user.bookmarks.unread)
-      .order("bookmarks.created_at" => :asc)
+      .order("bookmarks.created_at" => :desc)
     set_bookmarks
     set_viewed
   end
