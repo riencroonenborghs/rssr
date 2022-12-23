@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class FilterService
+class FilterEntries
   include Base
 
   attr_reader :user, :scope

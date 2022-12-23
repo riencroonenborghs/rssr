@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class WatchesService
+class WatchedEntries
   include Base
 
   attr_reader :scope, :watches, :page, :pagination_size, :offset

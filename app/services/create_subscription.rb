@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateSubscriptionService
+class CreateSubscription
   include Base
 
   attr_reader :user, :name, :tag_list, :url, :description,

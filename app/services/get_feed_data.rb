@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class GetFeedDataService
+class GetFeedData
   include Base
 
   attr_reader :feed, :feed_data
@@ -23,7 +23,7 @@ class GetFeedDataService
   attr_reader :data
 
   def load_url_data
-    service = GetUrlDataService.perform(url: feed.url)
+    service = GetUrlData.perform(url: feed.url)
     errors.merge!(service.errors) and return unless service.success?
 
     @data = service.data

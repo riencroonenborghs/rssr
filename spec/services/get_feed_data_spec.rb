@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe GetFeedDataService, type: :service do
+RSpec.describe GetFeedData, type: :service do
   let(:feed) { create :feed }
   let(:data) { load_file_data("rss_data.xml") }
   let(:feed_data) { double }
@@ -9,8 +9,8 @@ RSpec.describe GetFeedDataService, type: :service do
 
   describe "#perform" do
     before do
-      service = instance_double(GetUrlDataService, success?: true, data: data)
-      allow(GetUrlDataService).to receive(:perform).with(url: feed.url).and_return(service)
+      service = instance_double(GetUrlData, success?: true, data: data)
+      allow(GetUrlData).to receive(:perform).with(url: feed.url).and_return(service)
       allow(Feedjira).to receive(:parse).with(data).and_return(feed_data)
     end
 
@@ -19,8 +19,8 @@ RSpec.describe GetFeedDataService, type: :service do
         object = User.new
         object.errors.add(:base, "Some URL data error")
 
-        service = instance_double(GetUrlDataService, success?: false, errors: object.errors)
-        allow(GetUrlDataService).to receive(:perform).with(url: feed.url).and_return(service)
+        service = instance_double(GetUrlData, success?: false, errors: object.errors)
+        allow(GetUrlData).to receive(:perform).with(url: feed.url).and_return(service)
       end
 
       it_behaves_like "the service fails with error", "Some URL data error"

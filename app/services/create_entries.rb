@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateEntriesService
+class CreateEntries
   include Base
 
   def initialize(feed:)
@@ -23,7 +23,7 @@ class CreateEntriesService
   attr_reader :feed, :refresh_at, :new_entries
 
   def load_new_entries
-    loader = GetFeedDataService.perform(feed: feed)
+    loader = GetFeedData.perform(feed: feed)
     errors.merge!(loader.errors) and return unless loader.success?
 
     @new_entries = loader.feed_data.entries

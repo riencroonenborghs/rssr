@@ -16,7 +16,7 @@ module Admin
     end
 
     def create
-      service = CreateSubscriptionService.perform(
+      service = CreateSubscription.perform(
         user: current_user,
         name: subscription_params[:name],
         tag_list: subscription_params[:tag_list],
@@ -44,7 +44,7 @@ module Admin
     end
 
     def update
-      service = UpdateSubscriptionService.perform(
+      service = UpdateSubscription.perform(
         user: current_user,
         id: params[:id],
         params: subscription_params

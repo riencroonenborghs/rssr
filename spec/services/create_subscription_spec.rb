@@ -2,7 +2,7 @@ require "rails_helper"
 require "sidekiq/testing"
 Sidekiq::Testing.fake!
 
-RSpec.describe CreateSubscriptionService, type: :service do
+RSpec.describe CreateSubscription, type: :service do
   let(:user) { create :user }
   let(:name) { "Name" }
   let(:tag_list) { "foo,bar,baz" }

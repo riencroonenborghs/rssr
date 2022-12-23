@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe FilterService, type: :service do
+RSpec.describe FilterEntries, type: :service do
   # let(:user) { create :user }
 
   # let!(:feed) { create :feed }

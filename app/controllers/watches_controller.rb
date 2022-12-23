@@ -10,7 +10,7 @@ class WatchesController < ApplicationController
 
   def show
     @watches = current_user.watches.where(group_id: params[:group_id])
-    @entries = WatchesService.perform(
+    @entries = WatchedEntries.perform(
       watches: @watches,
       scope: base_scope.dup,
       page: page,

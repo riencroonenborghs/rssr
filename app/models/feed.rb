@@ -23,7 +23,7 @@ class Feed < ApplicationRecord
     return unless url.present?
     return if name.present?
 
-    loader = GetFeedDataService.perform(feed: self)
+    loader = GetFeedData.perform(feed: self)
     if loader.failure?
       errors.merge!(loader.errors)
       return
@@ -37,7 +37,7 @@ class Feed < ApplicationRecord
     return if image_url.present?
     return if Rails.env.test?
 
-    loader = GetFeedDataService.perform(feed: self)
+    loader = GetFeedData.perform(feed: self)
     self.image_url = loader.feed_data&.image&.url if loader.success? && loader.feed_data.respond_to?(:image)
   end
 
@@ -45,7 +45,7 @@ class Feed < ApplicationRecord
     return unless active?
 
     update!(error: nil)
-    loader = ::CreateEntriesService.perform(feed: self)
+    loader = ::CreateEntries.perform(feed: self)
     update!(error: loader.errors.full_messages.to_sentence) if loader.failure?
   rescue StandardError => e
     update!(error: e.message)

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe GetUrlDataService, type: :service do
+RSpec.describe GetUrlData, type: :service do
   let(:url) { Faker::Internet.url }
   let(:body) { "body" }
   let(:response) { instance_double(HTTParty::Response, body: body) }

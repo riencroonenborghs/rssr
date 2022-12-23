@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class UpdateSubscriptionService
+class UpdateSubscription
   include Base
 
   attr_reader :subscription

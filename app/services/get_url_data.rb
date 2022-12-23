@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class GetUrlDataService
+class GetUrlData
   include Base
 
   attr_reader :url, :data
