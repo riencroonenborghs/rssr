@@ -1,4 +1,4 @@
-.entries--table.entries.row(data-masonry='{"percentPosition": true }')
+- content_for :entries do
   - @tags.each do |tag|
     - entries = @entries_by_tag[tag]
     - next if entries.count.zero?
@@ -41,3 +41,10 @@
                 = entries.total_count - 5
                 more
                 
+
+- if mobile?
+  .entries--table.entries.row
+    = yield :entries
+- else
+  .entries--table.entries.row(data-masonry='{"percentPosition": true }')
+    = yield :entries
