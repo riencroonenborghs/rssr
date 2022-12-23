@@ -13,7 +13,7 @@ class WatchesService
     @offset = offset
   end
 
-  def call
+  def perform
     return unless watches.any?
 
     watches.each { |watch| add_watch_scope(watch: watch) }

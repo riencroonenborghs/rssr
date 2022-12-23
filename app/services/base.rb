@@ -5,8 +5,8 @@ module Base
   include ActiveModel::Validations
 
   module ClassMethods
-    def call(...)
-      new(...).tap(&:call)
+    def perform(...)
+      new(...).tap(&:perform)
     end
   end
 

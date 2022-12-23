@@ -7,10 +7,10 @@ RSpec.describe GetFeedDataService, type: :service do
 
   subject { described_class.new(feed: feed) }
 
-  describe "#call" do
+  describe "#perform" do
     before do
       service = instance_double(GetUrlDataService, success?: true, data: data)
-      allow(GetUrlDataService).to receive(:call).with(url: feed.url).and_return(service)
+      allow(GetUrlDataService).to receive(:perform).with(url: feed.url).and_return(service)
       allow(Feedjira).to receive(:parse).with(data).and_return(feed_data)
     end
 
@@ -20,7 +20,7 @@ RSpec.describe GetFeedDataService, type: :service do
         object.errors.add(:base, "Some URL data error")
 
         service = instance_double(GetUrlDataService, success?: false, errors: object.errors)
-        allow(GetUrlDataService).to receive(:call).with(url: feed.url).and_return(service)
+        allow(GetUrlDataService).to receive(:perform).with(url: feed.url).and_return(service)
       end
 
       it_behaves_like "the service fails with error", "Some URL data error"
@@ -35,7 +35,7 @@ RSpec.describe GetFeedDataService, type: :service do
     end
 
     it "has feed data" do
-      subject.call
+      subject.perform
       expect(subject.feed_data).to eq feed_data
     end
   end

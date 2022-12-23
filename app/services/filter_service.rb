@@ -10,7 +10,7 @@ class FilterService
     @scope = scope
   end
 
-  def call
+  def perform
     return unless user.filters.any?
 
     generate_filters

@@ -11,7 +11,7 @@ RSpec.describe CreateSubscriptionService, type: :service do
 
   subject { described_class.new(user: user, name: name, tag_list: tag_list, url: url, description: description) }
 
-  describe "#call" do
+  describe "#perform" do
     context "when the feed is new" do
       context "when saving the feed fails" do
         before do
@@ -26,7 +26,7 @@ RSpec.describe CreateSubscriptionService, type: :service do
       end
 
       it "creates the feed" do
-        expect { subject.call }.to change(Feed, :count).by(1)
+        expect { subject.perform }.to change(Feed, :count).by(1)
       end
     end
 
@@ -34,7 +34,7 @@ RSpec.describe CreateSubscriptionService, type: :service do
       let!(:feed) { create :feed, url: url }
 
       it "does not creates the feed" do
-        expect { subject.call }.to_not change(Feed, :count)
+        expect { subject.perform }.to_not change(Feed, :count)
       end
     end
 
@@ -52,7 +52,7 @@ RSpec.describe CreateSubscriptionService, type: :service do
       end
 
       it "creates the subscription" do
-        expect { subject.call }.to change(Subscription, :count).by(1)
+        expect { subject.perform }.to change(Subscription, :count).by(1)
       end
     end
 
@@ -68,7 +68,7 @@ RSpec.describe CreateSubscriptionService, type: :service do
     feed = create :feed, url: url
     travel_to Time.zone.now do
       expect(RefreshFeedJob).to receive(:perform_in).with(5.seconds, feed.id)
-      subject.call
+      subject.perform
     end
   end
 end

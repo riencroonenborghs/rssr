@@ -8,7 +8,7 @@ class CreateEntriesService
     @refresh_at = feed.refresh_at
   end
 
-  def call
+  def perform
     load_new_entries
     return unless success?
 
@@ -23,7 +23,7 @@ class CreateEntriesService
   attr_reader :feed, :refresh_at, :new_entries
 
   def load_new_entries
-    loader = GetFeedDataService.call(feed: feed)
+    loader = GetFeedDataService.perform(feed: feed)
     errors.merge!(loader.errors) and return unless loader.success?
 
     @new_entries = loader.feed_data.entries

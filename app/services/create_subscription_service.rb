@@ -14,7 +14,7 @@ class CreateSubscriptionService
     @description = description
   end
 
-  def call
+  def perform
     ActiveRecord::Base.transaction do
       find_or_create_feed
       return unless success?

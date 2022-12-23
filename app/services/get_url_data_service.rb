@@ -9,7 +9,7 @@ class GetUrlDataService
     @url = url
   end
 
-  def call
+  def perform
     load_response
     return unless success?
 

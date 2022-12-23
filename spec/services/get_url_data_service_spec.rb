@@ -6,7 +6,7 @@ RSpec.describe GetUrlDataService, type: :service do
   let(:response) { instance_double(HTTParty::Response, body: body) }
   subject { described_class.new(url: url) }
 
-  describe "#call" do
+  describe "#perform" do
     before { allow(HTTParty).to receive(:get).and_return(response) }
 
     context "when HTTParty fails" do
@@ -18,17 +18,17 @@ RSpec.describe GetUrlDataService, type: :service do
     context "when HTTParty is called" do
       it "is called with headers" do
         expect(HTTParty).to receive(:get).with(url, { header: subject.send(:headers), verify: false })
-        subject.call
+        subject.perform
       end
 
       it "skips HTTPS verification" do
         expect(HTTParty).to receive(:get).with(url, { header: anything, verify: false })
-        subject.call
+        subject.perform
       end
     end
 
     it "returns data" do
-      subject.call
+      subject.perform
       expect(subject.data).to eq body
     end
   end

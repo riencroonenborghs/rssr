@@ -10,9 +10,9 @@ RSpec.describe FilterService, type: :service do
   # let!(:entry4) { create :entry, feed: feed, published_at: 7.days.ago }
   # let!(:entry5) { create :entry, feed: feed, published_at: 6.days.ago }
 
-  # subject { described_class.call user: user, scope: Entry }
+  # subject { described_class.perform user: user, scope: Entry }
 
-  # describe ".call" do
+  # describe ".perform" do
   #   context "when there's one filter" do
   #     let!(:filter1) { create :filter, user: user, value: "foo" }
   #     let(:full_sql) { subject.scope.to_sql }

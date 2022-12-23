@@ -13,7 +13,7 @@ class UpdateSubscriptionService
     @params = params
   end
 
-  def call
+  def perform
     find_subscription
     return unless success?
 

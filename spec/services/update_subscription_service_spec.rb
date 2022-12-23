@@ -25,7 +25,7 @@ RSpec.describe UpdateSubscriptionService, type: :service do
 
   subject { described_class.new(user: user, id: id, params: params) }
 
-  describe "#call" do
+  describe "#perform" do
     context "when the subscription does not exist" do
       let(:id) { "lolwut?!" }
 
@@ -45,20 +45,20 @@ RSpec.describe UpdateSubscriptionService, type: :service do
     end
 
     it "succeeds" do
-      subject.call
+      subject.perform
       expect(subject).to be_success
     end
 
     it "updates the susbcription" do
       expected_attributes = { hide_from_main_page: hide_from_main_page }
-      subject.call
+      subject.perform
       expect(subscription.reload).to have_attributes(expected_attributes)
     end
 
     it "updates the feed" do
       params.delete(:hide_from_main_page)
       expected_attributes = params
-      subject.call
+      subject.perform
       tag_list = params.delete(:tag_list)
       feed = subscription.feed.reload
       expect(feed).to have_attributes(expected_attributes)
@@ -71,7 +71,7 @@ RSpec.describe UpdateSubscriptionService, type: :service do
       it "queues a feed refresh job for later" do
         travel_to Time.zone.now do
           expect(RefreshFeedJob).to receive(:perform_in).with(5.seconds, subscription.feed.id)
-          subject.call
+          subject.perform
         end
       end
     end
@@ -80,7 +80,7 @@ RSpec.describe UpdateSubscriptionService, type: :service do
       let(:url) { subscription.feed.url }
 
       it "does not queue a feed refresh job" do
-        subject.call
+        subject.perform
         expect(RefreshFeedJob).to_not receive(:perform_in)
       end
     end

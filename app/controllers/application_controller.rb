@@ -53,7 +53,7 @@ class ApplicationController < ActionController::Base
     scope = yield
     return scope unless user_signed_in?
 
-    scope = FilterService.call(user: current_user, scope: scope).scope # rubocop:disable Style/RedundantAssignment
+    scope = FilterService.perform(user: current_user, scope: scope).scope # rubocop:disable Style/RedundantAssignment
 
     scope
   end

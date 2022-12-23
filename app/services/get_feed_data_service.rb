@@ -9,7 +9,7 @@ class GetFeedDataService
     @feed = feed
   end
 
-  def call
+  def perform
     load_url_data
     return unless success?
 
@@ -23,7 +23,7 @@ class GetFeedDataService
   attr_reader :data
 
   def load_url_data
-    service = GetUrlDataService.call(url: feed.url)
+    service = GetUrlDataService.perform(url: feed.url)
     errors.merge!(service.errors) and return unless service.success?
 
     @data = service.data
