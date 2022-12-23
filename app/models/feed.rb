@@ -41,18 +41,6 @@ class Feed < ApplicationRecord
     self.image_url = loader.feed_data&.image&.url if loader.success? && loader.feed_data.respond_to?(:image)
   end
 
-  def refresh!
-    return unless active?
-
-    update!(error: nil)
-    loader = Entries::CreateEntries.perform(feed: self)
-    update!(error: loader.errors.full_messages.to_sentence) if loader.failure?
-  rescue StandardError => e
-    update!(error: e.message)
-  ensure
-    update!(refresh_at: Time.zone.now)
-  end
-
   def youtube?
     url.match?(/youtube\.com/)
   end
