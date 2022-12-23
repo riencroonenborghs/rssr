@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Offset
   def self.to_offset(datetime: Time.zone.now)
     datetime.to_i.to_s(16).upcase

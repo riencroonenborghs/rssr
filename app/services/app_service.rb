@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module AppService
   extend ActiveSupport::Concern
   include ActiveModel::Validations
