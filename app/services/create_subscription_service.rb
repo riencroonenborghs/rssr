@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CreateSubscriptionService
-  include AppService
+  include Base
 
   attr_reader :user, :name, :tag_list, :url, :description,
               :feed, :subscription

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class GetUrlDataService
-  include AppService
+  include Base
 
   attr_reader :url, :data
 

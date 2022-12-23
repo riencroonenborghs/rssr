@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class GetFeedDataService
-  include AppService
+  include Base
 
   attr_reader :feed, :feed_data
 

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CreateEntriesService
-  include AppService
+  include Base
 
   def initialize(feed:)
     @feed = feed

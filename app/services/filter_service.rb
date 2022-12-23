@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class FilterService
-  include AppService
+  include Base
 
   attr_reader :user, :scope
 

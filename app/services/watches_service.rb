@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class WatchesService
-  include AppService
+  include Base
 
   attr_reader :scope, :watches, :page, :pagination_size, :offset
 
