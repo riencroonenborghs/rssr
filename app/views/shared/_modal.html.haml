@@ -16,7 +16,5 @@
             ago
         - if entry.enclosure_mp3?
           .pt-4.pb-4
-            %audio.w-100(id="audio-player-#{entry.id}" controls)            
-              %source( src="#{entry.enclosure_url}" type="audio/mp3")
             = link_to "MP3", entry.enclosure_url, target: "_blank"
         %p.pt-2=raw clean_description(entry) 
