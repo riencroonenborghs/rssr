@@ -1,7 +1,0 @@
-- content_for :title do
-  Tags
-
-#tags
-  - tag_cloud(@tags, %w(css1 css2 css3 css4 css5 css6 css7 css8)) do |tag, css_class|
-    = link_to tag.name.upcase, tagged_feeds_path(tag.name.upcase), class: "mb-2 badge tag #{css_class}"
-    
