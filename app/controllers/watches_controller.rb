@@ -27,7 +27,10 @@ class WatchesController < ApplicationController
   private
 
   def base_scope
-    @base_scope ||= Entry.joins(feed: { subscriptions: :user }).where("users.id = ?", current_user.id)
+    @base_scope ||= Entry
+      .joins(feed: { subscriptions: :user })
+      .includes(feed: { taggings: :tag })
+      .where("users.id = ?", current_user.id)
   end
 
   def my_group?

@@ -3,7 +3,7 @@ class BookmarksController < ApplicationController
 
   def index
     @entries = Entry
-      .includes(feed: :taggings)
+      .includes(feed: { taggings: :tag })
       .joins(feed: { subscriptions: :user })
       .joins(:bookmarks)
       .merge(current_user.bookmarks.unread)

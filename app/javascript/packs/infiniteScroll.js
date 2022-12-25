@@ -19,9 +19,7 @@ $(function() {
           // no more data? turn off scrolling
           if (data === "\n") { $(window).off("scroll"); }
           else {
-            console.log("appending")
             $(".entries").append(data);
-            console.log("appended ---")
           }
         }
       });
