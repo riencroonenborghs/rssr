@@ -1,4 +1,9 @@
+# frozen_string_literal: true
+
 class Feed < ApplicationRecord
+  RSS = "rss"
+  SUBREDDIT = "subreddit"
+
   has_many :subscriptions, foreign_key: :feed_id
   has_many :users, through: :subscriptions
 
@@ -8,41 +13,12 @@ class Feed < ApplicationRecord
   validates :url, url: true
   validates :url, uniqueness: true
 
-  before_validation :guess_name, if: -> { valid_url? }
-  before_validation :guess_image_url, if: -> { valid_url? }
-
   acts_as_taggable_on :tags
 
   scope :active, -> { where(active: true) }
 
   def subscribed?(user)
     subscriptions.where(user_id: user.id).exists?
-  end
-
-  def guess_name
-    return unless url.present?
-    return if name.present?
-
-    loader = Feeds::GetFeedData.perform(feed: self)
-    if loader.failure?
-      errors.merge!(loader.errors)
-      return
-    end
-
-    self.name = loader.feed_data&.title
-  end
-
-  def guess_image_url # rubocop:disable Metrics/CyclomaticComplexity
-    return unless url.present?
-    return if image_url.present?
-    return if Rails.env.test?
-
-    loader = Feeds::GetFeedData.perform(feed: self)
-    self.image_url = loader.feed_data&.image&.url if loader.success? && loader.feed_data.respond_to?(:image)
-  end
-
-  def youtube?
-    url.match?(/youtube\.com/)
   end
 
   def valid_url?

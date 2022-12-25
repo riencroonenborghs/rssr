@@ -108,7 +108,13 @@ module Admin
         return
       end
 
-      @subscriptions = current_user.subscriptions.joins(:feed).where("upper(feeds.name) like ?", "%#{@query.upcase}%").order(active: :desc, "feeds.name" => :asc).page(@page).per(@pagination_size)
+      @subscriptions = current_user
+        .subscriptions
+        .joins(:feed)
+        .includes(feed: { taggings: :tag })
+        .where("upper(feeds.name) like ?", "%#{@query.upcase}%")
+        .order(active: :desc, "feeds.name" => :asc)
+        .page(@page).per(@pagination_size)
       render :index
     end
 

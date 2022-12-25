@@ -38,7 +38,7 @@ module Subscriptions
     def find_or_create_feed
       return if (@feed = Feed.find_by(url: url))
 
-      @feed = Feed.new(name: name, url: url, tag_list: tag_list, description: description)
+      build_feed
       errors.merge!(feed.errors) unless feed.save
     end
 
@@ -46,6 +46,19 @@ module Subscriptions
       return unless user.subscriptions.exists?(feed_id: @feed.id)
 
       errors.add(:base, "subscription already exists")
+    end
+
+    def build_feed
+      @feed = Feed.new(name: name, url: url, tag_list: tag_list, description: description)
+      feed.feed_type =  case url
+                        when /reddit\.com/
+                          Feed::SUBREDDIT
+                        else
+                          Feed::RSS
+                        end
+
+      loader = Feeds::GuessDetails.perform(feed: feed)
+      feed.name = loader.name if loader.success?
     end
   end
 end

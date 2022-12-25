@@ -4,22 +4,32 @@ Sidekiq::Testing.fake!
 
 module Subscriptions
   RSpec.describe CreateSubscription, type: :service do
+    subject { described_class.new(user: user, name: name, tag_list: tag_list, url: url, description: description) }
+
     let(:user) { create :user }
     let(:name) { "Name" }
     let(:tag_list) { "foo,bar,baz" }
     let(:url) { Faker::Internet.url }
     let(:description) { "description" }
 
-    subject { described_class.new(user: user, name: name, tag_list: tag_list, url: url, description: description) }
+    let(:mock_guess_success) { true }
+    let(:mock_guess_name) { "name" }
+    let(:mock_guess_errors) { nil }
+    let(:mock_guess) { instance_double(Feeds::GuessDetails, success?: mock_guess_success, name: mock_guess_name, errors: mock_guess_errors) }
+
+    before do
+      allow(Feeds::GuessDetails).to receive(:perform).and_return(mock_guess)
+    end
 
     describe "#perform" do
       context "when the feed is new" do
         context "when saving the feed fails" do
           before do
-            object = User.new
-            object.errors.add(:base, "some feed error")
-
-            feed = instance_double(Feed, save: false, errors: object.errors)
+            errors = ActiveModel::Errors.new(Feed)
+            errors.add(:base, "some feed error")
+            feed = build :feed
+            allow(feed).to receive(:save).and_return false
+            allow(feed).to receive(:errors).and_return errors
             allow(Feed).to receive(:new).and_return(feed)
           end
 
@@ -28,6 +38,11 @@ module Subscriptions
 
         it "creates the feed" do
           expect { subject.perform }.to change(Feed, :count).by(1)
+        end
+
+        it "guesses the name" do
+          expect(Feeds::GuessDetails).to receive(:perform)
+          subject.perform
         end
       end
 
