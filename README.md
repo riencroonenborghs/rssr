@@ -13,11 +13,12 @@ RSS reader
 ## Functionality
 
   - authentication
-  - manage RSS feeds
+  - manage feeds:
+    - RSS
+    - Subreddit .json
   - refresh every 30 minutes
   - 2 week data retention
   - article filtering
   - article bookmarking
   - infinite scrolling
   - darkmode
-
