@@ -23,13 +23,4 @@ class Entry < ApplicationRecord
     parsed = URI.parse enclosure_url
     parsed.path.split(".")&.last == "mp3"
   end
-
-  def youtube?
-    itemable_type == "YoutubeChannel"
-    # xmlns:yt=\"http://www.youtube.com/xml/schemas/2015\"
-  end
-
-  def itunes?
-    itemable_type == "ItunesPodcast"
-  end
 end

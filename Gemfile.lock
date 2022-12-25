@@ -71,6 +71,7 @@ GEM
     addressable (2.8.1)
       public_suffix (>= 2.0.2, < 6.0)
     ast (2.4.2)
+    awesome_print (1.9.2)
     bcrypt (3.1.18)
     bindex (0.8.1)
     bootsnap (1.15.0)
@@ -338,6 +339,7 @@ PLATFORMS
 DEPENDENCIES
   RubySunrise
   acts-as-taggable-on
+  awesome_print
   bootsnap (>= 1.4.2)
   brakeman
   browser
