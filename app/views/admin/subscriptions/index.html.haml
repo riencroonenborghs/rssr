@@ -48,7 +48,7 @@
             %td.fs-11(valign="middle")
               =subscription.feed.refresh_at&.strftime("%d %b %H:%M")
             %td
-              .d-flex    
+              .d-flex
                 = link_to refresh_admin_subscription_path(subscription), class: "btn btn-white text-primary" do
                   = fa_solid "sync-alt", size: 1
                 = link_to edit_admin_subscription_path(subscription), class: "btn btn-white text-primary" do
