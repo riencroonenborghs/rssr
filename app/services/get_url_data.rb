@@ -21,7 +21,8 @@ class GetUrlData
   attr_reader :response
 
   def headers
-    { "User-agent" => "linux:RSSr:1.0" }
+    user_agent = url.match?(/reddit/) ? "RSSr v1.0 (by #{ENV.fetch("REDDIT_USERNAME")})" : "linux:RSSr:1.0"
+    { "User-agent" => user_agent }
   end
 
   def load_response

@@ -5,7 +5,7 @@
     - if subscription.feed.errors[:url].present?
       %small.text-danger=subscription.feed.errors[:url].to_sentence
       %br
-    - if service.errors[:base].present?
+    - if service && service.errors[:base].present?
       %small.text-danger=service.errors[:base].to_sentence
       %br
     .fs-11 Supports: RSS &amp; atom feeds, subreddit (ending in .json)

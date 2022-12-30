@@ -14,7 +14,7 @@ module Feeds
       load_url_data
       return unless success?
 
-      load_feed_data
+      parse_feed_data
     end
 
     private
@@ -28,22 +28,22 @@ module Feeds
       @data = service.data
     end
 
-    def load_feed_data
+    def parse_feed_data
       case feed.feed_type
       when Feed::RSS
-        load_rss_data
+        parse_rss_data
       when Feed::SUBREDDIT
-        load_subreddit_data
+        parse_subreddit_data
       end
     end
 
-    def load_rss_data
+    def parse_rss_data
       @feed_data = Feedjira.parse(data)
     rescue StandardError => e
       errors.add(:base, e.message)
     end
 
-    def load_subreddit_data
+    def parse_subreddit_data
       @feed_data = JSON.parse(data).deep_symbolize_keys
     rescue StandardError => e
       errors.add(:base, e.message)
