@@ -16,7 +16,7 @@ module Admin
     end
 
     def create
-      service = Subscriptions::CreateSubscription.perform(
+      @service = Subscriptions::CreateSubscription.perform(
         user: current_user,
         name: subscription_params[:name],
         tag_list: subscription_params[:tag_list],
@@ -27,13 +27,13 @@ module Admin
         feed: Feed.new(name: subscription_params[:name], url: subscription_params[:url], tag_list: subscription_params[:tag_list], description: subscription_params[:description])
       )
       default_subscription.hide_from_main_page = subscription_params[:hide_from_main_page]
-      @subscription = service.subscription || default_subscription
+      @subscription = @service.subscription || default_subscription
 
       respond_to do |format|
-        if service.success?
+        if @service.success?
           format.html { redirect_to admin_subscriptions_path, notice: "Added #{@subscription.feed.name}." }
         else
-          @subscription.feed = service.feed
+          @subscription.feed = @service.feed
           format.html { render :new, status: :unprocessable_entity }
         end
       end
@@ -44,18 +44,18 @@ module Admin
     end
 
     def update
-      service = Subscriptions::UpdateSubscription.perform(
+      @service = Subscriptions::UpdateSubscription.perform(
         user: current_user,
         id: params[:id],
         params: subscription_params
       )
 
       respond_to do |format|
-        if service.success?
-          subscription = service.subscription
+        if @service.success?
+          subscription = @service.subscription
           format.html { redirect_to admin_subscriptions_path, notice: "Updated #{subscription.feed.name}." }
         else
-          @subscription = service.subscription
+          @subscription = @service.subscription
           format.html { render :edit, status: :unprocessable_entity }
         end
       end

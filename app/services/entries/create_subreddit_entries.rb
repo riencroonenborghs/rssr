@@ -48,22 +48,22 @@ module Entries
     def entry_description(entry)
       ActionController::Base.helpers.strip_tags(entry.dig(:data, :selftext))
     end
-  
-    def entry_title(entry, description)
+
+    def entry_title(entry, _description)
       entry.dig(:data, :title)
     end
-  
+
     def entry_link(entry)
       entry.dig(:data, :url)
     end
-  
+
     def entry_published_at(entry)
       created_utc = entry.dig(:data, :created_utc)
       Time.at(created_utc)
-    rescue
+    rescue StandardError
       nil
     end
-  
+
     def entry_guid(entry)
       entry.dig(:data, :id)
     end

@@ -11,7 +11,7 @@ module Feeds
     end
 
     def perform
-      get_feed_data
+      set_feed_data
       return unless success?
 
       guess_name
@@ -21,7 +21,7 @@ module Feeds
 
     attr_reader :feed, :feed_data
 
-    def get_feed_data
+    def set_feed_data
       loader = Feeds::GetFeedData.perform(feed: feed)
       errors.merge!(loader.errors) and return unless loader.success?
 

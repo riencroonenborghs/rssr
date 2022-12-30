@@ -10,7 +10,6 @@ shared_examples "the service fails with error" do |error|
   end
 end
 
-
 shared_examples "the service fails" do
   it "fails" do
     subject.perform

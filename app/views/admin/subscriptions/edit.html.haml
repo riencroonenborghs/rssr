@@ -8,5 +8,5 @@
       &gt; Edit
 
     = form_with(model: @subscription, url: admin_subscription_path(@subscription), method: :patch, local: true) do |form|
-      = render form, subscription: @subscription
+      = render form, subscription: @subscription, service: @service
       
