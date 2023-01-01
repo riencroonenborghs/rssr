@@ -2,7 +2,7 @@ require "rails_helper"
 require "sidekiq/testing"
 Sidekiq::Testing.fake!
 
-module Subscriptions
+module Subscriptions # rubocop:disable Metrics/ModuleLength
   RSpec.describe CreateSubscription, type: :service do
     subject { described_class.perform(user: user, name: name, tag_list: tag_list, url: url, description: description, hide_from_main_page: hide_from_main_page) }
 
@@ -119,7 +119,7 @@ module Subscriptions
               errors.add(:base, error_message)
               errors
             end
-  
+
             it "leaves the name blank" do
               expect(subject.feed.name).to be_nil
             end

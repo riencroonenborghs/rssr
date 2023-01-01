@@ -25,7 +25,7 @@ module Admin
         description: subscription_params[:description],
         hide_from_main_page: subscription_params[:hide_from_main_page]
       )
-            
+
       @subscription = @service.subscription || @service.default_subscription
       @feed = @service.feed || service.default_feed
 

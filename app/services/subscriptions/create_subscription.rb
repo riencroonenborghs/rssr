@@ -4,10 +4,9 @@ module Subscriptions
   class CreateSubscription
     include Base
 
-    attr_reader :feed, :subscription
-    attr_reader :default_feed, :default_subscription
+    attr_reader :feed, :subscription, :default_feed, :default_subscription
 
-    def initialize(user:, name:, tag_list:, url:, description:, hide_from_main_page:)
+    def initialize(user:, name:, tag_list:, url:, description:, hide_from_main_page:) # rubocop:disable Metrics/ParameterLists
       @user = user
       @name = name
       @tag_list = tag_list
@@ -44,12 +43,11 @@ module Subscriptions
 
     private
 
-    attr_reader :user, :name, :tag_list, :url, :description, :hide_from_main_page
-    attr_reader :rss_feeds, :guesser
+    attr_reader :user, :name, :tag_list, :url, :description, :hide_from_main_page, :rss_feeds, :guesser
 
     def find_or_create_feed
       return if (@feed = Feed.find_by(url: url))
-      
+
       create_feed
     end
 

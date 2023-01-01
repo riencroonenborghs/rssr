@@ -17,6 +17,8 @@ class FindRssFeeds
     @rss_feeds = []
   end
 
+  # rubocop:disable Metrics/PerceivedComplexity
+  # rubocop:disable Metrics/CyclomaticComplexity
   def perform
     find_tumblr and return if tumblr?
     find_blogger and return if blogger?
@@ -27,8 +29,11 @@ class FindRssFeeds
     return unless success?
 
     rss_feeds.push(RssFeed.new(href: url)) and return if rss?
+
     find_alternate_link
   end
+  # rubocop:enable Metrics/PerceivedComplexity
+  # rubocop:enable Metrics/CyclomaticComplexity
 
   private
 
@@ -80,7 +85,7 @@ class FindRssFeeds
   end
 
   def rss?
-    url_loader.headers["content-type"].match?(/application\/(rss|xml)/)
+    url_loader.headers["content-type"].match?(/application\/(rss|xml)/) # rubocop:disable Style/RegexpLiteral
   end
 
   def find_alternate_link
