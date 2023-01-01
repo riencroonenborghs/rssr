@@ -12,7 +12,8 @@ module Admin
     end
 
     def new
-      @subscription = current_user.subscriptions.new(feed: Feed.new)
+      @feed = Feed.new
+      @subscription = current_user.subscriptions.new(feed: @feed)
     end
 
     def create
@@ -21,19 +22,17 @@ module Admin
         name: subscription_params[:name],
         tag_list: subscription_params[:tag_list],
         url: subscription_params[:url],
-        description: subscription_params[:description]
+        description: subscription_params[:description],
+        hide_from_main_page: subscription_params[:hide_from_main_page]
       )
-      default_subscription = current_user.subscriptions.build(
-        feed: Feed.new(name: subscription_params[:name], url: subscription_params[:url], tag_list: subscription_params[:tag_list], description: subscription_params[:description])
-      )
-      default_subscription.hide_from_main_page = subscription_params[:hide_from_main_page]
-      @subscription = @service.subscription || default_subscription
+            
+      @subscription = @service.subscription || @service.default_subscription
+      @feed = @service.feed || service.default_feed
 
       respond_to do |format|
         if @service.success?
           format.html { redirect_to admin_subscriptions_path, notice: "Added #{@subscription.feed.name}." }
         else
-          @subscription.feed = @service.feed
           format.html { render :new, status: :unprocessable_entity }
         end
       end

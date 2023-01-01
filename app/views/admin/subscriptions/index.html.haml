@@ -34,10 +34,6 @@
                       = fa_solid "eye-slash", size: 1
                     - else
                       = fa_solid "eye", size: 1
-                    - if subscription.feed.feed_type == Feed::RSS
-                      = fa_solid "rss", size: 1
-                    - elsif subscription.feed.feed_type == Feed::SUBREDDIT
-                      = fa_brands "reddit", size: 1
                   = link_to subscription.feed.name, feed_entries_path(subscription.feed)
                 .fs-11
                   = bootstrap_tags subscription.feed

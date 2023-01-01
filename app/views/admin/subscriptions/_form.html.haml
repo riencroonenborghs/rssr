@@ -1,9 +1,9 @@
 .row
   .col-12.col-xl-6.mb-3
     = form.label :url, class: "form-label"
-    = form.text_field :url, class: "form-control #{'text-danger' if subscription.feed.errors[:url].present?}", required: true, autofocus: true
-    - if subscription.feed.errors[:url].present?
-      %small.text-danger=subscription.feed.errors[:url].to_sentence
+    = form.text_field :url, class: "form-control #{'text-danger' if feed.errors[:url].present?}", required: true, autofocus: true
+    - if feed.errors[:url].present?
+      %small.text-danger=feed.errors[:url].to_sentence
       %br
     - if service && service.errors[:base].present?
       %small.text-danger=service.errors[:base].to_sentence
@@ -13,18 +13,18 @@
 .row
   .col-12.col-xl-6.mb-3
     = form.label :name, class: "form-label"
-    = form.text_field :name, class: "form-control #{'text-danger' if subscription.feed.errors[:name].present?}"
-    - if subscription.feed.errors[:name].present?
-      %small.text-danger=subscription.feed.errors[:name].to_sentence
+    = form.text_field :name, class: "form-control #{'text-danger' if feed.errors[:name].present?}"
+    - if feed.errors[:name].present?
+      %small.text-danger=feed.errors[:name].to_sentence
       %br
     .fs-11 Feed title is used if left empty.
 
 .row
   .col-12.col-xl-6.mb-3
     = form.label :tag_list, class: "form-label"
-    = form.text_field :tag_list, value: @subscription.tag_list.join(", "), class: "form-control #{'text-danger' if subscription.feed.errors[:tag_list].present?}"
-    - if subscription.feed.errors[:tag_list].present?
-      %small.text-danger=subscription.feed.errors[:tag_list].to_sentence
+    = form.text_field :tag_list, value: feed.tag_list.join(", "), class: "form-control #{'text-danger' if feed.errors[:tag_list].present?}"
+    - if feed.errors[:tag_list].present?
+      %small.text-danger=feed.errors[:tag_list].to_sentence
       %br
     .fs-11
       A comma-separated list.
@@ -38,9 +38,9 @@
 .row
   .col-12.col-xl-6.mb-3
     = form.label :description, class: "form-label"
-    = form.text_area :description, class: "form-control #{'text-danger' if subscription.feed.errors[:description].present?}"
-    - if subscription.feed.errors[:description].present?
-      %small.text-danger=subscription.feed.errors[:description].to_sentence
+    = form.text_area :description, class: "form-control #{'text-danger' if feed.errors[:description].present?}"
+    - if feed.errors[:description].present?
+      %small.text-danger=feed.errors[:description].to_sentence
       %br
     .fs-11 What's this RSS feed all about?
   
