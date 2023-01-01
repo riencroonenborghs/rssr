@@ -22,29 +22,14 @@ module Feeds
     attr_reader :feed, :data
 
     def load_url_data
-      service = GetUrlData.perform(url: feed.url)
+      service = GetUrlData.perform(url: feed.rss_url)
       errors.merge!(service.errors) and return unless service.success?
 
       @data = service.data
     end
 
     def parse_feed_data
-      case feed.feed_type
-      when Feed::RSS
-        parse_rss_data
-      when Feed::SUBREDDIT
-        parse_subreddit_data
-      end
-    end
-
-    def parse_rss_data
       @feed_data = Feedjira.parse(data)
-    rescue StandardError => e
-      errors.add(:base, e.message)
-    end
-
-    def parse_subreddit_data
-      @feed_data = JSON.parse(data).deep_symbolize_keys
     rescue StandardError => e
       errors.add(:base, e.message)
     end

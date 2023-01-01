@@ -32,50 +32,24 @@ module Feeds
         it_behaves_like "the service fails"
       end
 
-      it "loads URL data" do
-        expect(GetUrlData).to receive(:perform).with(url: feed.url)
+      it "loads RSS URL data" do
+        expect(GetUrlData).to receive(:perform).with(url: feed.rss_url)
         subject.perform
       end
 
-      context "when feed is RSS feed" do
-        context "when Feedjira parsing fails" do
-          let(:error_message) { "Some Feedjira eror" }
+      context "when Feedjira parsing fails" do
+        let(:error_message) { "Some Feedjira eror" }
 
-          before do
-            allow(Feedjira).to receive(:parse).and_raise(StandardError, error_message)
-          end
-
-          it_behaves_like "the service fails"
+        before do
+          allow(Feedjira).to receive(:parse).and_raise(StandardError, error_message)
         end
 
-        it "parses with Feedjira" do
-          expect(Feedjira).to receive(:parse)
-          subject.perform
-        end
+        it_behaves_like "the service fails"
       end
 
-      context "when feed is subreddit feed" do
-        let(:feed) { create :feed, :subreddit }
-
-        context "when JSON parsing fails" do
-          let(:error_message) { "Some JSON eror" }
-
-          before do
-            allow(JSON).to receive(:parse).and_raise(StandardError, error_message)
-          end
-
-          it_behaves_like "the service fails"
-        end
-
-        it "parses with JSON" do
-          expect(JSON).to receive(:parse)
-          subject.perform
-        end
-
-        it "has symbols as keys" do
-          subject.perform
-          expect(subject.feed_data.keys.first.is_a?(Symbol)).to be_truthy
-        end
+      it "parses with Feedjira" do
+        expect(Feedjira).to receive(:parse)
+        subject.perform
       end
     end
   end
