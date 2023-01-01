@@ -4,7 +4,7 @@ module Feeds
   class GuessDetails
     include Base
 
-    attr_reader :name, :image_url
+    attr_reader :name
 
     def initialize(feed:)
       @feed = feed
@@ -29,12 +29,7 @@ module Feeds
     end
 
     def guess_name
-      @name = case feed.feed_type
-              when Feed::RSS
-                feed_data&.title
-              when Feed::SUBREDDIT
-                feed_data.dig(:data, :children, 0, :data, :subreddit_name_prefixed)
-              end
+      @name = feed_data&.title
     end
   end
 end
