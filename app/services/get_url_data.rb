@@ -3,7 +3,7 @@
 class GetUrlData
   include Base
 
-  attr_reader :url, :data
+  attr_reader :url, :data, :headers
 
   def initialize(url:)
     @url = url
@@ -13,6 +13,7 @@ class GetUrlData
     load_response
     return unless success?
 
+    @headers = response.headers
     @data = response.body
   end
 
@@ -20,13 +21,15 @@ class GetUrlData
 
   attr_reader :response
 
-  def headers
-    user_agent = url.match?(/reddit/) ? "RSSr v1.0 (by #{ENV.fetch("REDDIT_USERNAME")})" : "linux:RSSr:1.0"
-    { "User-agent" => user_agent }
+  def request_headers
+    user_agent = "linux:RSSr:v1.0"
+    user_agent += " (by #{ENV.fetch("REDDIT_USERNAME")})" if url.match?(/reddit\.com/)
+    pp user_agent
+    { "User-Agent" => user_agent }
   end
 
   def load_response
-    @response = HTTParty.get(url, header: headers, verify: false)
+    @response = HTTParty.get(url, header: request_headers, verify: false)
   rescue StandardError => e
     errors.add(:base, e.message)
   end
