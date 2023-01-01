@@ -34,12 +34,7 @@ module Entries
     end
 
     def set_entries_creator
-      @entries_creator =  case feed.feed_type
-                          when Feed::RSS
-                            CreateRssEntries.perform(feed: feed, feed_data: feed_data)
-                          when Feed::SUBREDDIT
-                            CreateSubredditEntries.perform(feed: feed, feed_data: feed_data)
-                          end
+      @entries_creator = CreateRssEntries.perform(feed: feed, feed_data: feed_data)
       errors.merge!(entries_creator.errors) unless entries_creator.success?
     end
 

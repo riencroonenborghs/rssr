@@ -34,7 +34,7 @@ RSpec.describe GetUrlData, type: :service do
 
       context "when URL is not a reddit URL" do
         it "is called with the correct headers" do
-          expect(HTTParty).to receive(:get).with(url, { header: { "User-Agent" => "linux:RSSr:1.0" }, verify: false })
+          expect(HTTParty).to receive(:get).with(url, { header: { "User-Agent" => "linux:RSSr:v1.0" }, verify: false })
           subject.perform
         end
       end
