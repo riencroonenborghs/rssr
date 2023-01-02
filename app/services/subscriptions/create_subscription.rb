@@ -14,13 +14,7 @@ module Subscriptions
       @description = description
       @hide_from_main_page = hide_from_main_page
 
-      @default_feed = Feed.new(
-        name: name,
-        url: url,
-        tag_list: tag_list,
-        description: description
-      )
-      @default_subscription = user.subscriptions.build(feed: default_feed, hide_from_main_page: hide_from_main_page)
+      build_defaults
     end
 
     def perform
@@ -31,19 +25,31 @@ module Subscriptions
         subscription_exists?
         return unless success?
 
-        @subscription = user.subscriptions.build(feed_id: feed.id, hide_from_main_page: hide_from_main_page)
+        build_subscription
+        persist_subscription
+        return unless success?
 
-        if subscription.save
-          RefreshFeedJob.perform_in(5.seconds, @feed.id)
-        else
-          errors.merge!(subscription.errors)
-        end
+        RefreshFeedJob.perform_in(5.seconds, feed.id)
       end
     end
 
     private
 
     attr_reader :user, :name, :tag_list, :url, :description, :hide_from_main_page, :rss_feeds, :guesser
+
+    def build_defaults
+      @default_feed = Feed.new(
+        name: name,
+        url: url,
+        tag_list: tag_list,
+        description: description
+      )
+
+      @default_subscription = user.subscriptions.build(
+        feed: default_feed,
+        hide_from_main_page: hide_from_main_page
+      )
+    end
 
     def find_or_create_feed
       return if (@feed = Feed.find_by(url: url))
@@ -52,8 +58,7 @@ module Subscriptions
     end
 
     def create_feed
-      @feed = Feed.new(name: name, url: url, tag_list: tag_list, description: description)
-
+      build_feed
       find_rss_feeds
       return unless success?
 
@@ -66,12 +71,20 @@ module Subscriptions
       errors.merge!(feed.errors) unless feed.save
     end
 
+    def build_feed
+      @feed = Feed.new(name: name, url: url, tag_list: tag_list, description: description)
+    end
+
     def find_rss_feeds
       finder = FindRssFeeds.perform(url: url)
-      errors.merge!(finder.errors) unless finder.success?
+      errors.merge!(finder.errors) and return unless finder.success?
       errors.add(:base, "no RSS feeds found") and return unless finder.rss_feeds.any?
 
       @rss_feeds = finder.rss_feeds
+    end
+
+    def guess_details
+      @guesser = Feeds::GuessDetails.perform(feed: feed)
     end
 
     def subscription_exists?
@@ -80,8 +93,12 @@ module Subscriptions
       errors.add(:base, "subscription already exists")
     end
 
-    def guess_details
-      @guesser = Feeds::GuessDetails.perform(feed: feed)
+    def build_subscription
+      @subscription = user.subscriptions.build(feed_id: feed.id, hide_from_main_page: hide_from_main_page)
+    end
+
+    def persist_subscription
+      errors.merge!(subscription.errors) unless subscription.save
     end
   end
 end

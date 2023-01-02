@@ -31,7 +31,7 @@ module Admin
 
       respond_to do |format|
         if @service.success?
-          format.html { redirect_to admin_subscriptions_path, notice: "Added #{@subscription.feed.name}." }
+          format.html { redirect_to admin_subscriptions_path, notice: "Added #{@feed.name}." }
         else
           format.html { render :new, status: :unprocessable_entity }
         end
