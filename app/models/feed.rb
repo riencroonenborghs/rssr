@@ -15,17 +15,15 @@ class Feed < ApplicationRecord
   validates :url, uniqueness: true
   validates :rss_url, uniqueness: true
 
-  acts_as_taggable_on :tags
-
   scope :active, -> { where(active: true) }
 
   def subscribed?(user)
     subscriptions.where(user_id: user.id).exists?
   end
 
-  def tag_list
-    return super unless persisted? && taggings.loaded?
+  def subscription_for(user)
+    return Subscription.new unless user
 
-    taggings.map(&:tag).map(&:name)
+    subscriptions.find_by(user_id: user.id)
   end
 end

@@ -85,7 +85,7 @@ class FindRssFeeds
   end
 
   def rss?
-    url_loader.headers["content-type"].match?(/application\/(rss|xml)/) # rubocop:disable Style/RegexpLiteral
+    url_loader.headers["content-type"].match?(/rss|xml/) # rubocop:disable Style/RegexpLiteral
   end
 
   def find_alternate_link

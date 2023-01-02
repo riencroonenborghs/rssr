@@ -22,9 +22,9 @@
 .row
   .col-12.col-xl-6.mb-3
     = form.label :tag_list, class: "form-label"
-    = form.text_field :tag_list, value: feed.tag_list.join(", "), class: "form-control #{'text-danger' if feed.errors[:tag_list].present?}"
-    - if feed.errors[:tag_list].present?
-      %small.text-danger=feed.errors[:tag_list].to_sentence
+    = form.text_field :tag_list, value: subscription.tag_list.join(", "), class: "form-control #{'text-danger' if subscription.errors[:tag_list].present?}"
+    - if subscription.errors[:tag_list].present?
+      %small.text-danger=subscription.errors[:tag_list].to_sentence
       %br
     .fs-11
       A comma-separated list.

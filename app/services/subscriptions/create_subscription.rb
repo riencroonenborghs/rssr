@@ -41,13 +41,13 @@ module Subscriptions
       @default_feed = Feed.new(
         name: name,
         url: url,
-        tag_list: tag_list,
         description: description
       )
 
       @default_subscription = user.subscriptions.build(
         feed: default_feed,
-        hide_from_main_page: hide_from_main_page
+        hide_from_main_page: hide_from_main_page,
+        tag_list: tag_list
       )
     end
 
@@ -72,7 +72,7 @@ module Subscriptions
     end
 
     def build_feed
-      @feed = Feed.new(name: name, url: url, tag_list: tag_list, description: description)
+      @feed = Feed.new(name: name, url: url, description: description)
     end
 
     def find_rss_feeds
@@ -94,7 +94,11 @@ module Subscriptions
     end
 
     def build_subscription
-      @subscription = user.subscriptions.build(feed_id: feed.id, hide_from_main_page: hide_from_main_page)
+      @subscription = user.subscriptions.build(
+        feed_id: feed.id,
+        hide_from_main_page: hide_from_main_page,
+        tag_list: tag_list
+      )
     end
 
     def persist_subscription

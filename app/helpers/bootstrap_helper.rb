@@ -1,7 +1,7 @@
 module BootstrapHelper
-  def bootstrap_tags(feed)
+  def bootstrap_tags(subscription)
     content_tag :span do
-      feed.tag_list.each do |tag|
+      subscription.tag_list.each do |tag|
         concat(
           bootstrap_tag(tag, klass: "me-1")
         )

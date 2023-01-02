@@ -54,18 +54,17 @@ module Subscriptions
         expected_attributes = { hide_from_main_page: hide_from_main_page }
         subject.perform
         expect(subscription.reload).to have_attributes(expected_attributes)
+        tag_list.split(",").each do |tag|
+          expect(subscription.tag_list).to include tag
+        end
       end
 
       it "updates the feed" do
         params.delete(:hide_from_main_page)
         expected_attributes = params
         subject.perform
-        tag_list = params.delete(:tag_list)
         feed = subscription.feed.reload
         expect(feed).to have_attributes(expected_attributes)
-        tag_list.split(",").each do |tag|
-          expect(feed.tag_list).to include tag
-        end
       end
 
       context "when url changes" do

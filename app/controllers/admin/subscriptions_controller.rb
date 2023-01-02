@@ -5,8 +5,8 @@ module Admin
     def index
       @subscriptions = current_user
         .subscriptions
-        .joins(feed: { taggings: :tag })
-        .includes(feed: { taggings: :tag })
+        .joins(feed: { subscriptions: { taggings: :tag } })
+        .includes(feed: { subscriptions: { taggings: :tag } })
         .order(active: :desc, "feeds.name" => :asc)
         .page(@page).per(@pagination_size)
     end
@@ -110,7 +110,7 @@ module Admin
       @subscriptions = current_user
         .subscriptions
         .joins(:feed)
-        .includes(feed: { taggings: :tag })
+        .includes(feed: { subscriptions: { taggings: :tag } })
         .where("upper(feeds.name) like ?", "%#{@query.upcase}%")
         .order(active: :desc, "feeds.name" => :asc)
         .page(@page).per(@pagination_size)

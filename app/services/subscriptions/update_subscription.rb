@@ -11,6 +11,7 @@ module Subscriptions
       @id = id
 
       @hide_from_main_page = params.delete(:hide_from_main_page)
+      @tag_list = params.delete(:tag_list)
       @params = params
     end
 
@@ -26,7 +27,7 @@ module Subscriptions
 
     private
 
-    attr_reader :user, :id, :params, :url_changed, :hide_from_main_page
+    attr_reader :user, :id, :params, :url_changed, :hide_from_main_page, :tag_list
 
     def find_subscription
       @subscription = user.subscriptions.find_by(id: id)
@@ -35,6 +36,7 @@ module Subscriptions
 
     def update_subscriptions
       subscription.hide_from_main_page = hide_from_main_page
+      subscription.tag_list = tag_list
       subscription.feed.assign_attributes(params)
       @url_changed = subscription.feed.url_changed?
       errors.merge!(subscription.errors) unless subscription.save

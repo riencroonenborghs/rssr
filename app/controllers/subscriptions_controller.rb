@@ -24,12 +24,12 @@ class SubscriptionsController < ApplicationController
                 .most_recent_first
                 .send(timespan)
                 .joins(feed: { subscriptions: :user })
-                .joins(feed: { taggings: :tag })
-                .includes(feed: { taggings: :tag })
+                .joins(feed: { subscriptions: { taggings: :tag } })
+                .includes(feed: { subscriptions: { taggings: :tag } })
                 .merge(Subscription.active.not_hidden_from_main_page)
                 .distinct
                 .select("ARRAY_AGG(tags.name), entries.*")
-                .group("entries.id, feeds.id, taggings.id, tags.id")
+                .group("entries.id, feeds.id, subscriptions.id, taggings.id, tags.id")
         scope = scope.merge(User.where(id: current_user.id)) if user_signed_in?
         scope
       end

@@ -24,7 +24,7 @@ class EntriesController < ApplicationController
         @feed
           .entries
           .joins(feed: :subscriptions)
-          .includes(feed: { taggings: :tag })
+          .includes(feed: { subscriptions: { taggings: :tag } })
           .merge(Subscription.active)
           .most_recent_first
           .distinct

@@ -24,6 +24,6 @@
               - if user_signed_in?
                 .ps-2
                   = render "/shared/bookmark", entry: entry, bookmarked: @bookmarks.include?(entry.id)
-            = bootstrap_tags entry.feed
+            = bootstrap_tags entry.feed.subscription_for(current_user)
             - if entry.description
               = render "/shared/modal", entry: entry

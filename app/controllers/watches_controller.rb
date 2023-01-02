@@ -29,7 +29,7 @@ class WatchesController < ApplicationController
   def base_scope
     @base_scope ||= Entry
       .joins(feed: { subscriptions: :user })
-      .includes(feed: { taggings: :tag })
+      .includes(feed: { subscriptions: { taggings: :tag } })
       .where("users.id = ?", current_user.id)
   end
 

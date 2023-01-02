@@ -36,7 +36,7 @@
                       = fa_solid "eye", size: 1
                   = link_to subscription.feed.name, feed_entries_path(subscription.feed)
                 .fs-11
-                  = bootstrap_tags subscription.feed
+                  = bootstrap_tags subscription
                 .fs-11.pt-2
                   - if subscription.feed.description
                     = subscription.feed.description
