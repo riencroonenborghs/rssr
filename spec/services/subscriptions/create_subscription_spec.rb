@@ -2,7 +2,7 @@ require "rails_helper"
 require "sidekiq/testing"
 Sidekiq::Testing.fake!
 
-module Subscriptions # rubocop:disable Metrics/ModuleLength
+module Subscriptions
   RSpec.describe CreateSubscription, type: :service do
     subject { described_class.perform(user: user, name: name, tag_list: tag_list, url: url, rss_url: rss_url, description: description, hide_from_main_page: hide_from_main_page) }
 

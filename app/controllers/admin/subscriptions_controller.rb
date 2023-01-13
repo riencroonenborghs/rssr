@@ -14,39 +14,39 @@ module Admin
     def new
       @feed = Feed.new
       @subscription = current_user.subscriptions.new(feed: @feed)
-      @step = :step_1
+      @step = :step_1 # rubocop:disable Naming/VariableNumber
 
       render :new
     end
 
-    def step_1
+    def step_1 # rubocop:disable Naming/VariableNumber
       @feed = Feed.new url: subscription_params[:url]
       @subscription = current_user.subscriptions.new(feed: @feed)
       @service = FindRssFeeds.perform(url: subscription_params[:url])
 
       respond_to do |format|
         if @service.success?
-          @step = :step_2
+          @step = :step_2 # rubocop:disable Naming/VariableNumber
           format.html { render :new }
         else
-          @step = :step_1
+          @step = :step_1 # rubocop:disable Naming/VariableNumber
           format.html { render :new, status: :unprocessable_entity }
         end
       end
     end
 
-    def step_2
+    def step_2 # rubocop:disable Naming/VariableNumber
       @feed = Feed.new url: subscription_params[:url], rss_url: subscription_params[:rss_url]
       @subscription = current_user.subscriptions.new(feed: @feed)
       @service = Feeds::GuessDetails.perform(feed: @feed)
-      @step = :step_3
-          
+      @step = :step_3 # rubocop:disable Naming/VariableNumber
+
       respond_to do |format|
         format.html { render :new }
       end
     end
 
-    def step_3
+    def step_3 # rubocop:disable Naming/VariableNumber
       @service = Subscriptions::CreateSubscription.perform(
         user: current_user,
         url: subscription_params[:url],
