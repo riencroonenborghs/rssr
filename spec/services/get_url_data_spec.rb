@@ -8,6 +8,8 @@ RSpec.describe GetUrlData, type: :service do
   let(:headers) { { "content-type" => "" } }
   let(:response) { instance_double(HTTParty::Response, body: body, headers: headers) }
 
+  before { ENV["REDDIT_USERNAME"]= "foo" }
+
   describe "#perform" do
     before do
       allow(HTTParty).to receive(:get).and_return(response)
