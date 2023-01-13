@@ -176,6 +176,10 @@ body.darkmode {
   #today, #yesterday {
     ul, li { background-color: $dark-modal-bg; }
   }
+
+  .card {
+    background-color: #22373c;
+  }
 }
 
 .fs-8 {
