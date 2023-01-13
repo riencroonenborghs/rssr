@@ -1,0 +1,16 @@
+.pt-2
+  = form_with(model: @subscription, url: [:admin, @subscription], method: :post, local: true) do |form|
+    = form.hidden_field :step, value: @step
+    .row.pt-4
+      .col-12.col-xl-6.mb-3
+        = form.label :url, "Website", class: "form-label"
+        = form.text_field :url, class: "form-control #{'text-danger' if @feed.errors[:url].present?}", required: true, autofocus: true, placeholder: "https://news.ycombinator.com/"
+        - if @service && @service.errors[:url].present?
+          %small.text-danger=@service.errors[:url].to_sentence
+          %br
+        - if @service && @service.errors[:base].present?
+          %small.text-danger=@service.errors[:base].to_sentence
+
+    .row
+      .col-12.col-xl-4
+        = form.submit "Next", class: "btn btn-primary"

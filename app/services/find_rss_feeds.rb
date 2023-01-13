@@ -12,6 +12,8 @@ class FindRssFeeds
 
   attr_reader :rss_feeds
 
+  validates :url, url: true
+
   def initialize(url:)
     @url = url
     @rss_feeds = []
@@ -20,6 +22,8 @@ class FindRssFeeds
   # rubocop:disable Metrics/PerceivedComplexity
   # rubocop:disable Metrics/CyclomaticComplexity
   def perform
+    return unless valid?
+
     find_tumblr and return if tumblr?
     find_blogger and return if blogger?
     find_medium and return if medium?

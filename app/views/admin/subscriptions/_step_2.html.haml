@@ -1,0 +1,22 @@
+.row.pt-4.mt-1
+  .col-12.col-xl-6.mb-3
+    .display-6
+      = link_to @feed.url, @feed.url
+
+.row.pt-1
+  .col-12.col-xl-6.mb-3
+    Found 
+    = pluralize @service.rss_feeds.size, "RSS feed"
+
+- @service.rss_feeds.each.with_index do |rss_feed, index|
+  .row.ps-4
+    .col-12.col-xl-6.mb-3
+      .d-flex.flex-row.align-items-center
+        .pe-2 &rarr;
+        .pe-2= rss_feed.href
+        .pe-2= rss_feed.title
+        = form_with(model: @subscription, url: [:admin, @subscription], method: :post, local: true) do |form|
+          = form.hidden_field :step, value: @step
+          = form.hidden_field :url, value: @feed.url
+          = form.hidden_field :rss_url, value: rss_feed.href
+          = form.submit "Next", class: "btn btn-primary"

@@ -14,27 +14,69 @@ module Admin
     def new
       @feed = Feed.new
       @subscription = current_user.subscriptions.new(feed: @feed)
+      @step = :step_1
+
+      render :new
     end
 
-    def create
+    def step_1
+      @feed = Feed.new url: subscription_params[:url]
+      @subscription = current_user.subscriptions.new(feed: @feed)
+      @service = FindRssFeeds.perform(url: subscription_params[:url])
+
+      respond_to do |format|
+        if @service.success?
+          @step = :step_2
+          format.html { render :new }
+        else
+          @step = :step_1
+          format.html { render :new, status: :unprocessable_entity }
+        end
+      end
+    end
+
+    def step_2
+      @feed = Feed.new url: subscription_params[:url], rss_url: subscription_params[:rss_url]
+      @subscription = current_user.subscriptions.new(feed: @feed)
+      @service = Feeds::GuessDetails.perform(feed: @feed)
+      @step = :step_3
+          
+      respond_to do |format|
+        format.html { render :new }
+      end
+    end
+
+    def step_3
       @service = Subscriptions::CreateSubscription.perform(
         user: current_user,
+        url: subscription_params[:url],
+        rss_url: subscription_params[:rss_url],
         name: subscription_params[:name],
         tag_list: subscription_params[:tag_list],
-        url: subscription_params[:url],
         description: subscription_params[:description],
         hide_from_main_page: subscription_params[:hide_from_main_page]
       )
 
-      @subscription = @service.subscription || @service.default_subscription
       @feed = @service.feed || service.default_feed
+      @subscription = @service.subscription || @service.default_subscription
 
       respond_to do |format|
         if @service.success?
-          format.html { redirect_to admin_subscriptions_path, notice: "Added #{@feed.name}." }
+          format.html { redirect_to admin_subscriptions_path, notice: "Subscribed to #{@feed.name}." }
         else
           format.html { render :new, status: :unprocessable_entity }
         end
+      end
+    end
+
+    def create
+      case subscription_params[:step]
+      when "step_1"
+        step_1
+      when "step_2"
+        step_2
+      when "step_3"
+        step_3
       end
     end
 
@@ -124,7 +166,7 @@ module Admin
     end
 
     def subscription_params
-      params.require(:subscription).permit(:name, :tag_list, :url, :description, :hide_from_main_page)
+      params.require(:subscription).permit(:step, :url, :rss_url, :name, :tag_list, :description, :hide_from_main_page)
     end
   end
 end

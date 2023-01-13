@@ -6,11 +6,12 @@ module Subscriptions
 
     attr_reader :feed, :subscription, :default_feed, :default_subscription
 
-    def initialize(user:, name:, tag_list:, url:, description:, hide_from_main_page:) # rubocop:disable Metrics/ParameterLists
+    def initialize(user:, url:, rss_url:, name:, tag_list:, description:, hide_from_main_page:) # rubocop:disable Metrics/ParameterLists
+      @url = url
+      @rss_url = rss_url
       @user = user
       @name = name
       @tag_list = tag_list
-      @url = url
       @description = description
       @hide_from_main_page = hide_from_main_page
 
@@ -35,12 +36,13 @@ module Subscriptions
 
     private
 
-    attr_reader :user, :name, :tag_list, :url, :description, :hide_from_main_page, :rss_feeds, :guesser
+    attr_reader :url, :rss_url, :user, :name, :tag_list, :description, :hide_from_main_page, :rss_feeds, :guesser
 
     def build_defaults
       @default_feed = Feed.new(
-        name: name,
         url: url,
+        rss_url: rss_url,
+        name: name,
         description: description
       )
 
@@ -58,33 +60,8 @@ module Subscriptions
     end
 
     def create_feed
-      build_feed
-      find_rss_feeds
-      return unless success?
-
-      feed.rss_url = rss_feeds.first.href
-      feed.name = rss_feeds.first.title if feed.name.blank?
-
-      guess_details
-      feed.name = guesser.name if guesser.success? && feed.name.blank?
-
-      errors.merge!(feed.errors) unless feed.save
-    end
-
-    def build_feed
       @feed = Feed.new(name: name, url: url, description: description)
-    end
-
-    def find_rss_feeds
-      finder = FindRssFeeds.perform(url: url)
-      errors.merge!(finder.errors) and return unless finder.success?
-      errors.add(:base, "no RSS feeds found") and return unless finder.rss_feeds.any?
-
-      @rss_feeds = finder.rss_feeds
-    end
-
-    def guess_details
-      @guesser = Feeds::GuessDetails.perform(feed: feed)
+      errors.merge!(feed.errors) unless feed.save
     end
 
     def subscription_exists?

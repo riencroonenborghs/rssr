@@ -7,5 +7,10 @@
       = link_to "Subscriptions", admin_subscriptions_path
       &gt; New
 
-    = form_with(model: @subscription, url: [:admin, @subscription], method: :post, local: true) do |form|
-      = render form, subscription: @subscription, feed: @feed, service: @service
+    = render "/admin/subscriptions/steps"
+
+    = render "/admin/subscriptions/#{@step}"
+
+
+    -# = form_with(model: @subscription, url: [:admin, @subscription], method: :post, local: true) do |form|
+    -#   = render form, subscription: @subscription, feed: @feed, service: @service

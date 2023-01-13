@@ -1,23 +1,21 @@
-.row
+.row.pt-4.mt-1
   .col-12.col-xl-6.mb-3
-    = form.label :url, class: "form-label"
-    = form.text_field :url, class: "form-control #{'text-danger' if feed.errors[:url].present?}", required: true, autofocus: true
-    - if feed.errors[:url].present?
-      %small.text-danger=feed.errors[:url].to_sentence
-      %br
-    - if service && service.errors[:base].present?
-      %small.text-danger=service.errors[:base].to_sentence
-      %br
-    .fs-11 Supports: RSS &amp; atom feeds, subreddit (ending in .json)
+    .display-6
+      = feed.name
 
 .row
   .col-12.col-xl-6.mb-3
-    = form.label :name, class: "form-label"
-    = form.text_field :name, class: "form-control #{'text-danger' if feed.errors[:name].present?}"
-    - if feed.errors[:name].present?
-      %small.text-danger=feed.errors[:name].to_sentence
-      %br
-    .fs-11 Feed title is used if left empty.
+    .d-flex.flex-row.align-items-center
+      .me-2
+        = fa_solid "link", size: 1
+      = link_to feed.url, feed.url
+
+.row
+  .col-12.col-xl-6.mb-3
+    .d-flex.flex-row.align-items-center
+      .me-2
+        = fa_solid "rss", size: 1
+      = link_to feed.rss_url, feed.rss_url
 
 .row
   .col-12.col-xl-6.mb-3
