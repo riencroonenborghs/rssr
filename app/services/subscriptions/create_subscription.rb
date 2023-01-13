@@ -60,7 +60,7 @@ module Subscriptions
     end
 
     def create_feed
-      @feed = Feed.new(name: name, url: url, description: description)
+      @feed = Feed.new(name: name, url: url, rss_url: rss_url, description: description)
       errors.merge!(feed.errors) unless feed.save
     end
 
