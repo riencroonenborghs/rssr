@@ -1,11 +1,7 @@
-class RefreshSubscriptionsJob
-  include Sidekiq::Job
-
-  def perform
-    User.all.each do |user|
-      user.subscriptions.active.each do |subscription|
-        RefreshFeedJob.perform_async(subscription.feed_id)
-      end
+class RefreshSubscriptionsJob < ActiveJob::Base
+  def perform(*args)
+    Subscription.active.distinct(:feed_id).pluck(&:feed_id).each do |feed_id|
+      RefreshFeedJob.perform_later(feed_id)
     end
   end
 end
