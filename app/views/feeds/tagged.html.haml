@@ -5,7 +5,7 @@
   %nav(aria-label="breadcrumb")
     %ol.breadcrumb
       %li.breadcrumb-item
-        Tags
+        = link_to "Tags", tags_path
       %li.breadcrumb-item.active
         = @tag
   = render "/shared/page", entries: @entries, bookmarks: @bookmarks, viewed: @viewed

@@ -14,6 +14,8 @@ Rails.application.routes.draw do
     get "tagged/:tag/today" => "feeds#tagged_today", on: :collection, as: :tagged_today
   end
 
+  get "tags" => "tags#index", as: :tags
+
   get "today" => "subscriptions#today", as: :subscriptions_today
   get "yesterday" => "subscriptions#yesterday", as: :subscriptions_yesterday
 

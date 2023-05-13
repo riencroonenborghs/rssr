@@ -203,8 +203,9 @@ body.darkmode {
     color: $nav-color;
     &.active { color: $nav-color-active; }
   }
+
   ul.list-unstyled {
-    li  {
+    li:not(:last-child)  {
       border-bottom: 1px solid lightgrey;
     }
   }

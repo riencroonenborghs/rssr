@@ -1,4 +1,6 @@
 class FeedsController < ApplicationController
+  before_action :authenticate_user!
+  
   def tagged
     set_tag
     set_entries_tagged

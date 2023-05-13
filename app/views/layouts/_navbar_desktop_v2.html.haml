@@ -19,19 +19,27 @@
 %div
   .row
     .col-1.bg-light.sticky-top#left-menu
-      %ul.list-unstyled
-        %li.p-2.ms-2
-          = link_to subscriptions_today_path, class: "nav-link text-center #{'active' if active_page?(subscriptions_today_path) || current_page?(root_path)}", title: "Today" do
-            = fa_solid "calendar-day", size: 1
-        %li.p-2.ms-2
-          = link_to subscriptions_yesterday_path, class: "nav-link text-center #{'active' if active_page?(subscriptions_yesterday_path)}", title: "Yesterday" do
-            = fa_solid "calendar-week", size: 1
-        %li.p-2.ms-2
-          = link_to all_bookmarks_path, class: "nav-link text-center #{'active' if active_page?(all_bookmarks_path)}", title: "Bookmarks" do
-            = fa_regular "bookmark", size: 1
-        %li.p-2.ms-2
-          = link_to watches_path, class: "nav-link text-center #{'active' if active_page?(watches_path)}", title: "Watches" do
-            = fa_solid "eye", size: 1
+      .d-flex.flex-column.justify-content-between(style="height: calc(100vh - 56px);")
+        %ul.list-unstyled
+          %li.p-2.ms-2
+            = link_to subscriptions_today_path, class: "nav-link text-center #{'active' if active_page?(subscriptions_today_path) || current_page?(root_path)}", title: "Today" do
+              = fa_solid "calendar-day", size: 1
+          %li.p-2.ms-2
+            = link_to subscriptions_yesterday_path, class: "nav-link text-center #{'active' if active_page?(subscriptions_yesterday_path)}", title: "Yesterday" do
+              = fa_solid "calendar-week", size: 1
+          %li.p-2.ms-2
+            = link_to watches_path, class: "nav-link text-center #{'active' if active_page?(watches_path)}", title: "Watches" do
+              = fa_solid "rss", size: 1
+          %li.p-2.ms-2
+            = link_to tags_path, class: "nav-link text-center #{'active' if active_page?(tags_path)}", title: "Watches" do
+              = fa_solid "tag", size: 1
+        %ul.list-unstyled
+          %li.p-2.ms-2
+            = link_to all_bookmarks_path, class: "nav-link text-center #{'active' if active_page?(all_bookmarks_path)}", title: "Bookmarks" do
+              = fa_regular "bookmark", size: 1
+          %li.p-2.ms-2
+            = link_to watches_path, class: "nav-link text-center #{'active' if active_page?(watches_path)}", title: "Watches" do
+              = fa_solid "eye", size: 1
 
     .col-11#entries
       = yield
