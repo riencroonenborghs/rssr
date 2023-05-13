@@ -192,3 +192,25 @@ body.darkmode {
     &.active { color: $nav-color-active; }
   }
 }
+
+// ------- v2
+
+#left-menu {
+  height: calc(100vh - 56px);
+  top: 56px; // override from .sticky-top
+
+  a {
+    color: $nav-color;
+    &.active { color: $nav-color-active; }
+  }
+  ul.list-unstyled {
+    li  {
+      border-bottom: 1px solid lightgrey;
+    }
+  }
+}
+
+.entries {
+  height: calc(100vh - 56px);
+  overflow: scroll;
+}

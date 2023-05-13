@@ -1,8 +1,12 @@
 - content_for :title do
   = @tag
 
-#tagged
-  .p-4.w-100
-    %h4=@tag
-
-    = render "/shared/entries", entries: @entries, bookmarks: @bookmarks, viewed: @viewed
+#tagged.p-4.w-100.entries
+  %nav(aria-label="breadcrumb")
+    %ol.breadcrumb
+      %li.breadcrumb-item
+        Tags
+      %li.breadcrumb-item.active
+        = @tag
+  = render "/shared/page", entries: @entries, bookmarks: @bookmarks, viewed: @viewed
+  

@@ -1,24 +1,28 @@
 class SubscriptionsController < ApplicationController
+  before_action :authenticate_user!
+
   def today
-    set_entries_by_tag(timespan: :today)
+    set_entries(timespan: :today)
     set_tags
-    set_paged_entries_by_tag
     set_bookmarks
     set_viewed
+
+    return paged_render if params.key?(:page)
   end
 
   def yesterday
-    set_entries_by_tag(timespan: :yesterday)
+    set_entries(timespan: :yesterday)
     set_tags
-    set_paged_entries_by_tag
     set_bookmarks
     set_viewed
+
+    return paged_render if params.key?(:page)
   end
 
   private
 
-  def set_entries_by_tag(timespan:)
-    scope = offset_scope do
+  def set_entries(timespan:)
+    @entries = offset_scope do
       filtered_scope do
         scope = Entry
                 .most_recent_first
@@ -28,33 +32,18 @@ class SubscriptionsController < ApplicationController
                 .includes(feed: { subscriptions: { taggings: :tag } })
                 .merge(Subscription.active.not_hidden_from_main_page)
                 .distinct
-                .select("ARRAY_AGG(tags.name), entries.*")
-                .group("entries.id, feeds.id, subscriptions.id, taggings.id, tags.id")
-        scope = scope.merge(User.where(id: current_user.id)) if user_signed_in?
+        scope = scope.merge(User.where(id: current_user.id))# if user_signed_in?
         scope
       end
-    end
-
-    @entries_by_tag = {}.tap do |ret|
-      scope.each do |entry|
-        entry["array_agg"].each do |tag|
-          tag.upcase!
-          ret[tag] ||= []
-          ret[tag] << entry
-        end
-      end
-    end
+    end.page(page).per(@pagination_size)
   end
 
   def set_tags
-    @tags = @entries_by_tag.keys.sort
-  end
-
-  def set_paged_entries_by_tag
-    @entries_by_tag = {}.tap do |ret|
-      @entries_by_tag.each do |tag, scope|
-        ret[tag] = Kaminari.paginate_array(scope).page(1).per(5)
-      end
-    end
+    # @tags = @entries_by_tag.keys.sort
+    @tags = ActsAsTaggableOn::Tag.where(id: 
+      ActsAsTaggableOn::Tagging.where(taggable_type: "Subscription", taggable_id: 
+        Subscription.active.where(user_id: current_user.id).select(&:id)
+      ).select(:tag_id)
+    ).distinct(:name).pluck(:name).sort.map(&:upcase)
   end
 end

@@ -1,9 +1,11 @@
 - content_for :title do
   = @feed.name
 
-#feed
-  .p-4.w-100
-    %h4= @feed.name
-
-    = render "/shared/entries", entries: @entries, bookmarks: @bookmarks, viewed: @viewed
-  
+#feed.p-4.w-100.entries
+  %nav(aria-label="breadcrumb")
+    %ol.breadcrumb
+      %li.breadcrumb-item
+        Feeds
+      %li.breadcrumb-item.active
+        = @feed.name
+  = render "/shared/page", entries: @entries, bookmarks: @bookmarks, viewed: @viewed

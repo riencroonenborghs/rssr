@@ -26,10 +26,10 @@ $(function() {
     }, 250);
   }
 
-  const canScroll = ($("body").hasClass("c_subscriptions") || $("body").hasClass("c_entries") || $("body").hasClass("c_feeds") || $("body").hasClass("c_watches")) && !($("body").hasClass("a_today") || $("body").hasClass("a_yesterday"));
+  const canScroll = $("body").hasClass("c_subscriptions") || $("body").hasClass("c_entries") || $("body").hasClass("c_feeds") || $("body").hasClass("c_watches") || $("body").hasClass("c_bookmarks");
   
   if (canScroll) {
-    $(window).on("scroll", function () {
+    $('.entries').on("scroll", function () {
       if ($(window).scrollTop() >= $(document).height() - $(window).height() - 100) {
         if ($(".entries").length > 0) { // only entries are infinite scrollable
           loadMoreContent();

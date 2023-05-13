@@ -15,8 +15,8 @@ class ApplicationController < ActionController::Base
   end
 
   def set_viewed
-    entry_ids = @entries_by_tag ? @entries_by_tag.values.flatten.map(&:id).uniq : @entries.map(&:id).uniq
-    @viewed = user_signed_in? ? ViewedEntry.where(user_id: current_user.id, entry_id: entry_ids).map(&:entry_id) : []
+    entry_ids = @entries.map(&:id).uniq
+    @viewed = ViewedEntry.where(user_id: current_user.id, entry_id: entry_ids).map(&:entry_id)
   end
 
   private

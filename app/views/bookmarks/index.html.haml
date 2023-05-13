@@ -1,19 +1,15 @@
 - content_for :title do
   Bookmarks
 
-#bookmarks
-  .p-4.w-100
-    %h4 Bookmarks
-
-    - if @entries.size > 0
-      = render "/shared/entries", entries: @entries, bookmarks: @bookmarks, viewed: @viewed
-    - else
-      %p
-        You can bookmark
-        = link_to "articles", root_path
-        and read them later here.
-        %br
-        Click
-        = fa_regular "star", size: 1
-        to toggle.
-      
+#today.p-4.w-100
+  - if @entries.size > 0
+    = render "/shared/entries", entries: @entries, bookmarks: @bookmarks, viewed: @viewed
+  - else
+    %p
+      You can bookmark
+      = link_to "articles", root_path
+      and read them later here.
+      %br
+      Click
+      = fa_regular "star", size: 1
+      to toggle.

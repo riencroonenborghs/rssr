@@ -1,5 +1,5 @@
 - content_for :title do
   Yesterday
 
-#yesterday.p-4.w-100
-  = render "entries_by_tag"
+#yesterday.p-4.w-100.entries
+  = render "/shared/page", entries: @entries, bookmarks: @bookmarks, viewed: @viewed

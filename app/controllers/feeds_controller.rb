@@ -10,7 +10,7 @@ class FeedsController < ApplicationController
   private
 
   def set_tag
-    @tag = params[:tag]
+    @tag = params[:tag]&.upcase
   end
 
   def set_entries_tagged

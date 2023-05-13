@@ -8,8 +8,11 @@ class BookmarksController < ApplicationController
       .joins(:bookmarks)
       .merge(current_user.bookmarks.unread)
       .order("bookmarks.created_at" => :desc)
+      .page(page).per(@pagination_size)
     set_bookmarks
     set_viewed
+
+    return paged_render if params.key?(:page)
   end
 
   def create
