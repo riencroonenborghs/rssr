@@ -1,0 +1,19 @@
+- content_for :title do
+  Feeds
+
+#feeds.p-4.w-100
+  - @feeds.each do |feed|
+    - tags = @tags_by_feed[feed.id] || []
+    - subscription = @subscription_by_feed[feed.id]
+    .row.border-bottom.pb-2.pt-2
+      .col-11
+        = link_to feed.name, feed_entries_path(feed)
+        - if feed.description.present?
+          %br
+          .fs-11
+            = feed.description
+        %br
+        .fs-11
+          = cached_bootstrap_tags(tags)
+      .col-1.fs-11.font-bold
+        = subscription.created_at.strftime("%d %B %Y")

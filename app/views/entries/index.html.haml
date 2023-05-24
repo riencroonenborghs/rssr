@@ -5,7 +5,7 @@
   %nav(aria-label="breadcrumb")
     %ol.breadcrumb
       %li.breadcrumb-item
-        Feeds
+        = link_to "Feeds", feeds_path
       %li.breadcrumb-item.active
         = @feed.name
-  = render "/shared/page", entries: @entries, bookmarks: @bookmarks, viewed: @viewed
+  = render "/shared/page", entries: @entries, bookmarks: @bookmarks, viewed: @viewed, tags_by_subscription: @tags_by_subscription, subscription_by_feed: @subscription_by_feed

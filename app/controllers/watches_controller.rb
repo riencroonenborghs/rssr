@@ -17,6 +17,8 @@ class WatchesController < ApplicationController
       pagination_size: @pagination_size,
       offset: @offset
     ).scope
+    set_tags_by_subscription
+    set_subscription_by_feed
 
     set_bookmarks
     set_viewed

@@ -3,6 +3,8 @@ class SubscriptionsController < ApplicationController
 
   def today
     set_entries(timespan: :today)
+    set_tags_by_subscription
+    set_subscription_by_feed
     set_tags
     set_bookmarks
     set_viewed
@@ -12,6 +14,8 @@ class SubscriptionsController < ApplicationController
 
   def yesterday
     set_entries(timespan: :yesterday)
+    set_tags_by_subscription
+    set_subscription_by_feed
     set_tags
     set_bookmarks
     set_viewed

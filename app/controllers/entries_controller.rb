@@ -4,6 +4,8 @@ class EntriesController < ApplicationController
 
   def index
     set_entries
+    set_tags_by_subscription
+    set_subscription_by_feed
     set_bookmarks
     set_viewed
     paged_render

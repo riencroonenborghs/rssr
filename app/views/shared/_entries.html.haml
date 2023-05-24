@@ -1,5 +1,5 @@
 .d-flex.flex-column.entries--table.entries
-  = render "/shared/page", entries: entries, bookmarks: bookmarks, viewed: viewed
+  = render "/shared/page", entries: entries, bookmarks: bookmarks, viewed: viewed, tags_by_subscription: tags_by_subscription, subscription_by_feed: subscription_by_feed
 
 - if entries.size >= 25
   .page-loading  

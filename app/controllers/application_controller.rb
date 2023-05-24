@@ -30,7 +30,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_pagination_size
-    @pagination_size = mobile? ? 20 : 24
+    @pagination_size = mobile? ? 30 : 50
   end
 
   def paged_render
@@ -65,5 +65,25 @@ class ApplicationController < ActionController::Base
 
   def set_watches_by_group
     @watches_by_group = current_user ? current_user.watches.select(:group_id).distinct.pluck(:group_id) : {}
+  end
+
+  def set_tags_by_subscription
+    @tags_by_subscription = {}.tap do |ret|
+      ActsAsTaggableOn::Tagging.includes(:tag).where(taggable_type: "Subscription", taggable_id: 
+        Subscription.joins(feed: :entries).merge(Entry.where(id: @entries.select(&:id)))
+      ).each do |tagging|
+        ret[tagging.taggable_id] ||= []
+        ret[tagging.taggable_id] << tagging.tag.name.upcase
+      end
+    end
+  end
+
+  def set_subscription_by_feed
+    @subscription_by_feed = Subscription
+      .joins(feed: :entries)
+      .merge(
+        Entry.where(id: @entries.select(&:id))
+      )
+      .index_by(&:feed_id)
   end
 end

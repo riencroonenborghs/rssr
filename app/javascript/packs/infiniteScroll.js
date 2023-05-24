@@ -7,14 +7,14 @@ $(function() {
   const loadMoreContent = function () {
     if (timeout) { clearTimeout(timeout); }
     timeout = setTimeout(function() {
-      $(".page-loading").show();
+      // $(".page-loading").show();
 
       // look up next page from offset onwards
       page += 1;
       const url = `${window.location.search.pathname || ''}?page=${page}&ts=${offset}`;
 
       $.get(url, function(data, status, xhr) {
-        $(".page-loading").hide();
+        // $(".page-loading").hide();
         if (status == 'success') {
           // no more data? turn off scrolling
           if (data === "\n") { $(window).off("scroll"); }

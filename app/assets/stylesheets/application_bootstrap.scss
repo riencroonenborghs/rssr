@@ -215,3 +215,21 @@ body.darkmode {
   height: calc(100vh - 56px);
   overflow: scroll;
 }
+
+body.darkmode {
+  a {
+    color: $dark-link;
+
+    &:hover {
+      color: $dark-link-hover;
+    }
+    &.active {
+      color: unset;
+      border-bottom: unset;
+    }
+  }
+
+  #left-menu {
+    background-color: $dark-bg !important;
+  }
+}

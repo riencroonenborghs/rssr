@@ -3,7 +3,7 @@
 
 #today.p-4.w-100
   - if @entries.size > 0
-    = render "/shared/entries", entries: @entries, bookmarks: @bookmarks, viewed: @viewed
+    = render "/shared/entries", entries: @entries, bookmarks: @bookmarks, viewed: @viewed, tags_by_subscription: @tags_by_subscription, subscription_by_feed: @subscription_by_feed
   - else
     %p
       You can bookmark
