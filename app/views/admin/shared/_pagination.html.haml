@@ -1,2 +1,9 @@
 .d-flex(class="#{mobile? ? 'justify-content-center' : 'justify-content-end'}")
-  = paginate list, window: mobile? ? 2 : 4
+  - if mobile?
+    .row
+      .col-6
+        = link_to_previous_page list, fa_solid("chevron-left", size: 1)
+      .col-6
+        = link_to_next_page list, fa_solid("chevron-right", size: 1)
+  - else
+    = paginate list

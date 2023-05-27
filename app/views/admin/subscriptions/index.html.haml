@@ -1,55 +1,81 @@
 - content_for :title do
   Subscriptions
 
-#subscriptions
-  .p-4.w-100
-    %h4 Subscriptions
-    
-    %p
-      = link_to refresh_all_admin_subscriptions_path, title: "Fetch latest" do
-        = fa_solid "sync-alt", size: 1
-        Refresh feeds
-
-    = form_with url: search_admin_subscriptions_path, method: :get, local: true do |form|
-      .row
-        .col-xl-6.mb-3
+#subscriptions.p-4.w-100
+  .row
+    - if mobile?
+      .col-12
+        = form_with url: search_admin_subscriptions_path, method: :get, local: true do |form|
+          .d-flex.flex-row
+            = form.text_field :query, autofocus: true, class: "form-control", placeholder: "Search subscriptions...", value: @query
+            %button(type="submit" class="ms-2 btn btn-primary")
+              = fa_solid "search", size: 1
+            - if @query.present?
+              = link_to admin_subscriptions_path, class: "ms-2 btn btn-primary" do
+                = fa_solid "trash", size: 1
+      
+      .pt-4.text-end
+        = link_to refresh_all_admin_subscriptions_path, title: "Fetch latest" do
+          = fa_solid "sync-alt", size: 1
+          Refresh feeds
+    - else
+      .col-6
+        = form_with url: search_admin_subscriptions_path, method: :get, local: true do |form|
           .d-flex.flex-row
             = form.text_field :query, autofocus: true, class: "form-control", placeholder: "Search subscriptions...", value: @query
             = form.submit "Search", class: "ms-2 btn btn-primary"
             - if @query.present?
               = link_to "Reset", admin_subscriptions_path, class: "ms-2 btn btn-primary"
+      .col-2 &nbsp;
+      .col-4.text-end
+        = link_to refresh_all_admin_subscriptions_path, title: "Fetch latest" do
+          = fa_solid "sync-alt", size: 1
+          Refresh feeds
 
-    #feeds.p-4.w-100
-      - @subscriptions.each do |subscription|
-        .row.border-bottom.pb-2.pt-2
-          .col-6
-            = link_to subscription.feed.name, feed_entries_path(subscription.feed)
-            - if subscription.feed.description.present?
+  #feeds.pt-2
+    - if mobile?
+      %table.table.table-hover
+        - @subscriptions.each do |subscription|
+          %tr
+            %td
+              = link_to subscription.feed.name, feed_entries_path(subscription.feed)
               .fs-11
-                = subscription.feed.description
-            .fs-11
-              = bootstrap_tags subscription
-          .col-4
-            .fs-15=subscription.feed.url
-            .fs-15=subscription.feed.rss_url
-          .col-1
-            = link_to refresh_admin_subscription_path(subscription), class: "btn btn-white p-0 me-1 text-secondary" do
-              = fa_solid "sync-alt", size: 1
-            = link_to toggle_active_admin_subscription_path(subscription), class: "btn btn-white p-0 me-1 #{subscription.active? ? 'text-success' : 'text-warning'}" do
-              = fa_solid "dot-circle", size: 1
-            %br
-            .d-flex.flex-row
-              = link_to edit_admin_subscription_path(subscription), class: "btn btn-white p-0 me-1 text-secondary" do
-                = fa_solid "edit", size: 1
-              = form_with url: admin_unsubscribe_path(subscription) do |form|
-                %button(type="submit" class="btn p-0 me-1 text-danger")
-                  = fa_solid "trash", size: 1
-          .col-1.fs-11.font-bold
-            = fa_solid "plus", size: 1
-            = subscription.created_at.strftime("%d %B %Y")
-            %br
-            = fa_solid "sync-alt", size: 1
-            = subscription.feed.refresh_at&.strftime("%d %b %H:%M")
+                = bootstrap_tags subscription
+    - else
+      %table.table.table-hover
+        %tbody
+          - @subscriptions.each do |subscription|
+            %tr
+              %td.w-50
+                .row
+                  = link_to subscription.feed.name, feed_entries_path(subscription.feed)
+                .row
+                  - if subscription.feed.description.present?
+                    .fs-11
+                      = subscription.feed.description
+                  .fs-11
+                    = bootstrap_tags subscription
+              %td
+                .fs-15=subscription.feed.url
+                .fs-15=subscription.feed.rss_url
+              %td
+                = link_to refresh_admin_subscription_path(subscription), class: "btn btn-white p-0 me-1 text-secondary" do
+                  = fa_solid "sync-alt", size: 1
+                = link_to toggle_active_admin_subscription_path(subscription), class: "btn btn-white p-0 me-1 #{subscription.active? ? 'text-success' : 'text-warning'}" do
+                  = fa_solid "dot-circle", size: 1
+                %br
+                .d-flex.flex-row
+                  = link_to edit_admin_subscription_path(subscription), class: "btn btn-white p-0 me-1 text-secondary" do
+                    = fa_solid "edit", size: 1
+                  = form_with url: admin_unsubscribe_path(subscription) do |form|
+                    %button(type="submit" class="btn p-0 me-1 text-danger")
+                      = fa_solid "trash", size: 1
+              %td.fs-11.font-bold
+                = fa_solid "plus", size: 1
+                = subscription.created_at.strftime("%d %B %Y")
+                %br
+                = fa_solid "sync-alt", size: 1
+                = subscription.feed.refresh_at&.strftime("%d %b %H:%M")
 
     %div(class="#{'pt-4 mt-4' if mobile?}")
       = render "/admin/shared/pagination", list: @subscriptions
