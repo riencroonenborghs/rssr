@@ -15,7 +15,7 @@
     %script(src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous" async)
 
 
-  %body(id="#{'admin' if user_signed_in?}" class="c_#{controller_name} a_#{action_name} #{'darkmode' if darkmode?}")
+  %body(id="#{'admin' if user_signed_in?}" class="v2 c_#{controller_name} a_#{action_name} #{'darkmode' if darkmode?}")
     - if mobile?
       = render "/layouts/navbar_mobile_v2"
     - else

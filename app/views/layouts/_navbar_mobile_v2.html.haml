@@ -30,11 +30,6 @@
               = link_to all_bookmarks_path, class: "nav-link #{'active' if active_page?(all_bookmarks_path)}", title: "Bookmarks" do
                 = fa_regular "bookmark", size: 1
                 Bookmarks
-            -# %li.nav-item
-            -#   = link_to watches_path, class: "nav-link #{'active' if active_page?(watches_path)}", title: "Watches" do
-            -#     = fa_solid "eye", size: 1
-            -#     Watches
-
             %li.nav-item
               = link_to admin_subscriptions_path, class: "nav-link #{'active' if active_page?(admin_subscriptions_path)}", title: "Subscriptions" do
                 = fa_solid "rss", size: 1
@@ -43,24 +38,6 @@
               = link_to admin_filters_path, class: "nav-link #{'active' if active_page?(admin_filters_path)}", title: "Filters" do
                 = fa_solid "list", size: 1
                 Filters
-            -# %li.nav-item
-            -#   = link_to admin_watches_path, class: "nav-link #{'active' if active_page?(admin_watches_path)}", title: "Watches" do
-            -#     = fa_solid "eye", size: 1
-            -#     Watches
-            -#   %ul#watches-menu(style="list-style-type: none")
-            -#     - @watches_by_group.each.with_index do |group_id, index|
-            -#       %li
-            -#         = link_to watches_group_path(group_id: group_id), class: "#{'active' if active_page?(watches_group_path(group_id: group_id))}", title: "Watch ##{group_id}" do
-            -#           = fa_regular "eye", size: 1
-            -#           Watch ##{ index + 1 }
-            -# %li.nav-item
-            -#   = link_to new_admin_subscription_path, class: "nav-link #{'active' if active_page?(new_admin_subscription_path)}", title: "Add RSS Feed" do
-            -#     = fa_solid "plus", size: 1
-            -#     Add new feed
-            -# %li.nav-item
-            -#   = link_to "/sidekiq", title: "Sidekiq", target: "_blank", class: "nav-link" do
-            -#     = fa_solid "sync", size: :half
-            -#     Sidekiq
             %li.nav-item
               = link_to destroy_user_session_path, method: :delete, title: "Log out", class: "nav-link" do
                 = fa_solid "lock", size: :half

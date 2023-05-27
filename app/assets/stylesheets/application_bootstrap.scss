@@ -195,6 +195,14 @@ body.darkmode {
 
 // ------- v2
 
+.v2.c_bookmarks {
+  .entries {
+    &--viewed {
+      text-decoration: unset;
+    }
+  }
+}
+
 #left-menu {
   height: calc(100vh - 56px);
   top: 56px; // override from .sticky-top
