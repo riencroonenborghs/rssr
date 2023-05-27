@@ -1,5 +1,5 @@
 class SubscriptionsController < ApplicationController
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
 
   def today
     set_entries(timespan: :today)
@@ -36,14 +36,15 @@ class SubscriptionsController < ApplicationController
                 .includes(feed: { subscriptions: { taggings: :tag } })
                 .merge(Subscription.active.not_hidden_from_main_page)
                 .distinct
-        scope = scope.merge(User.where(id: current_user.id))# if user_signed_in?
+        scope = scope.merge(User.where(id: current_user.id)) if user_signed_in?
         scope
       end
     end.page(page).per(@pagination_size)
   end
 
   def set_tags
-    # @tags = @entries_by_tag.keys.sort
+    return @tags = [] unless user_signed_in?
+
     @tags = ActsAsTaggableOn::Tag.where(id: 
       ActsAsTaggableOn::Tagging.where(taggable_type: "Subscription", taggable_id: 
         Subscription.active.where(user_id: current_user.id).select(&:id)

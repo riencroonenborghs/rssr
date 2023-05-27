@@ -15,6 +15,8 @@ class ApplicationController < ActionController::Base
   end
 
   def set_viewed
+    return @viewed = [] unless user_signed_in?
+
     entry_ids = @entries.map(&:id).uniq
     @viewed = ViewedEntry.where(user_id: current_user.id, entry_id: entry_ids).map(&:entry_id)
   end
