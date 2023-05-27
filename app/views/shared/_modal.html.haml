@@ -12,8 +12,10 @@
             = link_to entry.feed.name, feed_entries_path(entry.feed)            
           .fs-11
             \\
-            = distance_of_time_in_words_to_now entry.published_at
-            ago
+            - if twenty_fours_h_ago < entry.published_at
+              = entry.published_at.strftime("%H:%M")
+            - else
+              = entry.published_at.strftime("%d %B")
         - if entry.enclosure_mp3?
           .pt-4.pb-4
             = link_to "MP3", entry.enclosure_url, target: "_blank"

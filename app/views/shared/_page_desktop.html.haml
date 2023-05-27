@@ -8,7 +8,7 @@
     - if entry.description
       = link_to "#", class: "entries--title entries--modal", data: { "bs-toggle" => "modal", "bs-target" => "#modal-#{entry.id}" } do
         = entry.title
-      = render "/shared/modal", entry: entry
+      = render "/shared/modal", entry: entry, twenty_fours_h_ago: twenty_fours_h_ago
     - else
       = link_to entry.link, class: "entries--title entries--no-modal", target: "_blank" do
         = entry.title
