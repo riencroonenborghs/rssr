@@ -4,7 +4,7 @@ class FeedsController < ApplicationController
   def index
     set_bookmarks
     @viewed = []
-    @feeds = Feed.where(id: current_user.subscriptions.active.select(:feed_id)).order(name: :desc)
+    @feeds = Feed.where(id: current_user.subscriptions.active.not_hidden_from_main_page.select(:feed_id)).order(name: :asc)
     
     # subscriptions for this user and the found feeds
     scope = Subscription
