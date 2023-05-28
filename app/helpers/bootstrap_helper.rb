@@ -11,7 +11,7 @@ module BootstrapHelper
 
   def cached_bootstrap_tags(tag_list)
     content_tag :span do
-      tag_list.each do |tag|
+      (tag_list || []).each do |tag|
         concat(
           bootstrap_tag(tag, klass: "me-1")
         )
