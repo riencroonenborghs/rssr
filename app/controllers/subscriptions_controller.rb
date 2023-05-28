@@ -26,28 +26,25 @@ class SubscriptionsController < ApplicationController
   def set_entries(timespan:)
     @entries = offset_scope do
       filtered_scope do
+        scope = Entry
+          .most_recent_first
+          .send(timespan)
+          .joins(feed: { subscriptions: :user })
+          .joins(feed: { subscriptions: { taggings: :tag } })
+          .includes(feed: { subscriptions: { taggings: :tag } })
+          .merge(Subscription.active.not_hidden_from_main_page)
+
         if user_signed_in?
-          Entry
-            .most_recent_first
-            .send(timespan)
+          scope = scope
             .where(feed_id: 
               Feed.where(id: 
                 Subscription.where(user_id: current_user.id)
                   .select(:feed_id)
               ).select(:id)
             )
-        else
-          scope = Entry
-                  .most_recent_first
-                  .send(timespan)
-                  .joins(feed: { subscriptions: :user })
-                  .joins(feed: { subscriptions: { taggings: :tag } })
-                  .includes(feed: { subscriptions: { taggings: :tag } })
-                  .merge(Subscription.active.not_hidden_from_main_page)
-                  .distinct
-          scope = scope.merge(User.where(id: current_user.id)) if user_signed_in?
-          scope
         end
+
+        scope.distinct
       end
     end.page(page).per(@pagination_size)
   end
