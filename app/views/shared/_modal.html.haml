@@ -1,5 +1,5 @@
 .modal.fade(id="modal-#{entry.id}" tabindex="-1" aria-labelledby="modal-#{entry.id}-label" aria-hidden="true" data-bs-backdrop="static")
-  .modal-dialog.modal-dialog-scrollable.modal-dialog-centered
+  .modal-dialog.modal-dialog-scrollable.modal-dialog-centered(class="#{'modal-mobile-lg' if mobile?}")
     .modal-content
       .modal-body
         .d-flex.justify-content-between

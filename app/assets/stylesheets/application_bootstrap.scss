@@ -241,3 +241,10 @@ body.darkmode {
     background-color: $dark-bg !important;
   }
 }
+
+.modal-mobile-lg {
+  .modal-content {
+    height: calc(100vh) !important;
+    width: calc(100vw) !important;
+  }
+}
