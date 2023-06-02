@@ -5,12 +5,36 @@
     - if entry.description
       = link_to "#", class: "entries--title entries--modal", data: { "bs-toggle" => "modal", "bs-target" => "#modal-#{entry.id}" } do
         = entry.title
-      = render "/shared/modal", entry: entry, twenty_fours_h_ago: twenty_fours_h_ago
+      -# = render "/shared/modal", entry: entry, twenty_fours_h_ago: twenty_fours_h_ago
+      .modal.fade(id="modal-#{entry.id}" tabindex="-1" aria-labelledby="modal-#{entry.id}-label" aria-hidden="true" data-bs-backdrop="static")
+        .modal-dialog.modal-dialog-scrollable.modal-dialog-centered(class="#{'modal-mobile-lg' if mobile?}")
+          .modal-content
+            .modal-body
+              .d-flex.justify-content-between
+                .fs-6
+                  = link_to entry.link, target: "_blank" do
+                    = entry.title
+                %button.btn-close.ms-2(type="button" data-bs-dismiss="modal" aria-label="Close")
+              .d-flex.align-items-center
+                .fs-10.pe-1
+                  = link_to entry.feed.name, feed_entries_path(entry.feed)            
+                .fs-11
+                  \\
+                  - if twenty_fours_h_ago < entry.published_at
+                    = entry.published_at.strftime("%H:%M")
+                  - else
+                    = entry.published_at.strftime("%d %B")
+              - if entry.enclosure_mp3?
+                .pt-4.pb-4
+                  = link_to "MP3", entry.enclosure_url, target: "_blank"
+              %p.pt-2=raw clean_description(entry) 
+
     - else
       = link_to entry.link, class: "entries--title entries--no-modal", target: "_blank" do
         = entry.title
     .fs-11
-      = bootstrap_tags entry.feed.subscription_for(current_user)
+      -# = bootstrap_tags entry.feed.subscription_for(current_user)
+      = cached_bootstrap_tags tags
   .col-2.text-center
     .fs-11.font-bold
       - if twenty_fours_h_ago < entry.published_at
@@ -18,3 +42,11 @@
       - else
         = entry.published_at.strftime("%d %B")    
     = render "/shared/bookmark", entry: entry, bookmarked: bookmarks.include?(entry.id)
+    -# - bookmarked = bookmarks.include?(entry.id)
+    -# .read-later-wrapper.d-flex.flex-column(class="read-later-#{entry.id}")
+      %span.read-later-read-it(class="#{'d-none' unless user_signed_in? && bookmarked}")
+        = link_to remove_bookmark_path(entry), remote: true, method: :delete, class: "read-later-read-it-link", title: "I've read it" do
+          = fa_solid "bookmark", size: 1
+      %span.read-later(class="#{'d-none' if user_signed_in? && bookmarked}")
+        = link_to add_bookmark_path(entry), remote: true, method: :post, title: "Bookmark it", class: "read-later-link" do
+          = fa_regular "bookmark", size: 1

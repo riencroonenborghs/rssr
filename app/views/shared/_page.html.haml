@@ -6,6 +6,6 @@
   - subscription = subscription_by_feed[entry.feed_id]
   - tags = subscription ? tags_by_subscription[subscription.id] : []
   - if mobile?
-    = render "/shared/page_mobile", mark_viewed: mark_viewed, viewed: viewed, entry: entry, bookmarks: bookmarks, twenty_fours_h_ago: twenty_fours_h_ago
+    = render "/shared/page_mobile", mark_viewed: mark_viewed, viewed: viewed, entry: entry, bookmarks: bookmarks, twenty_fours_h_ago: twenty_fours_h_ago, tags_by_subscription: tags_by_subscription, tags: tags
   - else
     = render "/shared/page_desktop", mark_viewed: mark_viewed, viewed: viewed, entry: entry, bookmarks: bookmarks, twenty_fours_h_ago: twenty_fours_h_ago, tags_by_subscription: tags_by_subscription, tags: tags
