@@ -18,9 +18,7 @@ class FeedsController < ApplicationController
     @subscription_by_feed = scope.index_by(&:feed_id)
       
     # { feed_id => subscription_id, feed_id => subscription_id }
-    feed_id_by_subscription_id = scope
-      .select(:id, :feed_id)
-      .index_by(&:feed_id)
+    feed_id_by_subscription_id = @subscription_by_feed
       .invert
       .transform_keys{ |key| key.id }
     
