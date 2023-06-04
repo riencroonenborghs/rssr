@@ -1,9 +1,10 @@
 - content_for :title do
   Bookmarks
 
-#today.p-4.w-100
+#today.p-4.w-100.entries
   - if @entries.size > 0
-    = render "/shared/entries", entries: @entries, bookmarks: @bookmarks, viewed: @viewed, tags_by_subscription: @tags_by_subscription, subscription_by_feed: @subscription_by_feed
+    = render "/shared/page", entries: @entries, bookmarks: @bookmarks, viewed: @viewed, tags_by_subscription: @tags_by_subscription, subscription_by_feed: @subscription_by_feed
+    -# = render "/shared/entries", entries: @entries, bookmarks: @bookmarks, viewed: @viewed, tags_by_subscription: @tags_by_subscription, subscription_by_feed: @subscription_by_feed
   - else
     %p
       You can bookmark
@@ -11,5 +12,6 @@
       and read them later here.
       %br
       Click
-      = fa_regular "star", size: 1
+      = fa_regular "bookmark", size: 1
       to toggle.
+      
