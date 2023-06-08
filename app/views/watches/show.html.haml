@@ -1,15 +1,25 @@
 - content_for :title do
   Watches
 
-= render "menu", watches_by_group: @watches_by_group
-
-#watches
-  .p-4.w-100
-    %h4
-      - @watches.sort_by(&:watch_type).each.with_index do |watch, index|
-        = watch.human_readable
-        - if index + 1 < @watches.size
-          %strong.fw-lighter &nbsp;and
-
-    #watched-entries
-      = render "/shared/entries", entries: @entries, bookmarks: @bookmarks, viewed: @viewed, tags_by_subscription: @tags_by_subscription, subscription_by_feed: @subscription_by_feed
+#watches-menu
+  .row
+    .col-1.bg-light.border-end.sticky-top#left-menu
+      .d-flex.flex-column.justify-content-between(style="height: calc(100vh - 56px);")
+        %ul.list-unstyled
+          - @watches_by_group.each do |group_id|
+            %li.p-2.ms-2
+              = link_to watches_group_path(group_id: group_id), class: "nav-link text-center #{'active' if active_page?(watches_group_path(group_id: group_id))}", title: "Watch ##{group_id}" do
+                = fa_regular "eye", size: "one-and-half"
+    .col-11
+      .p-4.w-100
+        %nav(aria-label="breadcrumb")
+          %ol.breadcrumb
+            %li.breadcrumb-item
+              Watches
+            %li.breadcrumb-item.active
+              - @watches.sort_by(&:watch_type).each.with_index do |watch, index|
+                = watch.human_readable
+                - if index + 1 < @watches.size
+                  %strong.fw-lighter &nbsp;and
+        #watched-entries.entries
+          = render "/shared/entries", entries: @entries, bookmarks: @bookmarks, viewed: @viewed, tags_by_subscription: @tags_by_subscription, subscription_by_feed: @subscription_by_feed

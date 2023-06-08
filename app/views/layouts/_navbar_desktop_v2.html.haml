@@ -1,4 +1,4 @@
-%nav.navbar.navbar-expand-lg.bg-secondary.sticky-top
+%nav.navbar.navbar-expand-lg.bg-secondary.sticky-top.border-bottom
   .container-fluid
     .collapse.navbar-collapse#navbarSupportedContent
       = link_to "RSSr", root_path, class: "navbar-brand"
@@ -19,7 +19,7 @@
 - if user_signed_in?
   %div
     .row
-      .col-1.bg-light.sticky-top#left-menu
+      .col-1.bg-light.sticky-top.border-end#left-menu
         .d-flex.flex-column.justify-content-between(style="height: calc(100vh - 56px);")
           %ul.list-unstyled
             %li.p-2.ms-2
