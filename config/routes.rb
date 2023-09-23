@@ -25,6 +25,7 @@ Rails.application.routes.draw do
     end
     
     post "viewed/:entry_id" => "viewed_entries#create"
+    get "/feeds/:feed_id/entries/:id" => "entries#show", as: :view_entry
 
     get "bookmarks" => "bookmarks#index", as: :all_bookmarks
     post "bookmarks/:entry_id" => "bookmarks#create", as: :add_bookmark
@@ -33,7 +34,6 @@ Rails.application.routes.draw do
     get "watches" => "watches#index", as: :watches
     get "watches/group/:group_id" => "watches#show", as: :watches_group
     
-
     namespace :admin do
       post "subscribe/:feed_id" => "subscriptions#subscribe", as: :subscribe
       post "unsubscribe/:subscription_id" => "subscriptions#unsubscribe", as: :unsubscribe

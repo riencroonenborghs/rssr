@@ -11,6 +11,14 @@ class EntriesController < ApplicationController
     paged_render
   end
 
+  def show
+    @entry = @feed.entries.find(params[:id])
+    # set_tags_by_subscription
+    # set_subscription_by_feed
+    # set_bookmarks
+    # set_viewed
+  end
+
   private
 
   def set_feed
