@@ -13,8 +13,8 @@ class EntriesController < ApplicationController
 
   def show
     @entry = @feed.entries.find(params[:id])
-    # set_tags_by_subscription
-    # set_subscription_by_feed
+    show_set_tags_by_subscription
+    show_set_subscription_by_feed
     # set_bookmarks
     # set_viewed
   end
@@ -41,5 +41,25 @@ class EntriesController < ApplicationController
           .distinct
       end
     end.page(page).per(@pagination_size)
+  end
+
+  def show_set_tags_by_subscription
+    @tags_by_subscription = {}.tap do |ret|
+      ActsAsTaggableOn::Tagging.includes(:tag).where(taggable_type: "Subscription", taggable_id: 
+        Subscription.joins(feed: :entries).merge(Entry.where(id: @entry.id)).where(user_id: current_user.id)
+      ).each do |tagging|
+        ret[tagging.taggable_id] ||= []
+        ret[tagging.taggable_id] << tagging.tag.name.upcase
+      end
+    end
+  end
+
+  def show_set_subscription_by_feed
+    @subscription_by_feed = Subscription
+      .joins(feed: :entries)
+      .merge(
+        Entry.where(id: @entry.id)
+      )
+      .index_by(&:feed_id)
   end
 end
