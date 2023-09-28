@@ -44,10 +44,17 @@ class EntriesController < ApplicationController
   end
 
   def show_set_tags_by_subscription
+    subscriptions = Subscription.joins(feed: :entries).merge(Entry.where(id: @entry.id))
+    subscriptions = subscriptions.where(user_id: current_user.id) if user_signed_in?
+    subscription_ids = subscriptions.select(:id)
+
     @tags_by_subscription = {}.tap do |ret|
-      ActsAsTaggableOn::Tagging.includes(:tag).where(taggable_type: "Subscription", taggable_id: 
-        Subscription.joins(feed: :entries).merge(Entry.where(id: @entry.id)).where(user_id: current_user.id)
-      ).each do |tagging|
+      ActsAsTaggableOn::Tagging
+        .includes(:tag)
+        .where(
+          taggable_type: "Subscription",
+          taggable_id: subscription_ids
+        ).each do |tagging|
         ret[tagging.taggable_id] ||= []
         ret[tagging.taggable_id] << tagging.tag.name.upcase
       end
