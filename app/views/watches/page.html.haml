@@ -1,1 +1,1 @@
-= render "/shared/page", entries: @entries, bookmarks: @bookmarks, viewed: @viewed, tags_by_subscription: @tags_by_subscription, subscription_by_feed: @subscription_by_feed
+= render PageComponent.new(entries: @entries)
