@@ -1,0 +1,32 @@
+.row.border-bottom.pb-2.pt-2.entry-wrapper(class="#{'entries--viewed' if @mark_viewed}" data-entry-id="#{@entry.id}")
+  .col-2
+    .d-flex.flex-row.align-items-center
+      -# = render "/shared/bookmark", entry: entry, bookmarked: bookmarks.include?(@entry.id)
+      - if user_signed_in?
+        - bookmarked = @bookmarks.include?(@entry.id)
+        .read-later-wrapper.d-flex.flex-column(class="read-later-#{@entry.id}")
+          %span.read-later-read-it(class="#{'d-none' unless user_signed_in? && bookmarked}")
+            = link_to remove_bookmark_path(@entry), remote: true, method: :delete, class: "read-later-read-it-link", title: "I've read it" do
+              = fa_solid "bookmark", size: 1
+          %span.read-later(class="#{'d-none' if user_signed_in? && bookmarked}")
+            = link_to add_bookmark_path(@entry), remote: true, method: :post, title: "Bookmark it", class: "read-later-link" do
+              = fa_regular "bookmark", size: 1
+            
+      .fs-11.ms-2
+        = link_to @entry.feed.name, feed_entries_path(@entry.feed)
+  .col-9
+    - if @entry.description
+      = link_to view_entry_path(@entry.feed, @entry), class: "entries--title", target: "_blank" do
+        = @entry.title
+    - else
+      = link_to @entry.link, class: "entries--title", target: "_blank" do
+        = @entry.title
+    
+    %br
+    .fs-11
+      = cached_bootstrap_tags @tags
+  .col-1.fs-11.font-bold
+    - if @twenty_fours_h_ago < @entry.published_at
+      = @entry.published_at.strftime("%H:%M")
+    - else
+      = @entry.published_at.strftime("%d %B")

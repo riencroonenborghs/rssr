@@ -29,6 +29,7 @@ gem "sidekiq"
 gem "sidekiq-cron"
 gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 gem "valid_url", github: "ralovets/valid_url"
+gem "view_component"
 gem "webpacker", "~> 4.0"
 
 group :development, :test do

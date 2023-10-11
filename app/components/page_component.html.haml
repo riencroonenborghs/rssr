@@ -1,0 +1,13 @@
+-# - twenty_fours_h_ago = 24.hours.ago
+-# - tags_by_subscription ||= {}
+-# - subscription_by_feed ||= {}
+-# - entries.each do |entry|
+-#   - mark_viewed = viewed.include?(entry.id)
+-#   - subscription = subscription_by_feed[entry.feed_id]
+-#   - tags = subscription ? tags_by_subscription[subscription.id] : []
+-#   - if mobile?
+-#     = render "/shared/page_mobile", mark_viewed: mark_viewed, viewed: viewed, entry: entry, bookmarks: bookmarks, twenty_fours_h_ago: twenty_fours_h_ago, tags_by_subscription: tags_by_subscription, tags: tags
+-#   - else
+-#     = render "/shared/page_desktop", mark_viewed: mark_viewed, viewed: viewed, entry: entry, bookmarks: bookmarks, twenty_fours_h_ago: twenty_fours_h_ago, tags_by_subscription: tags_by_subscription, tags: tags
+
+= render DesktopPageComponent.with_collection(@entries, viewed: @viewed, subscription_by_feed: @subscription_by_feed, tags_by_subscription: @tags_by_subscription, bookmarks: @bookmarks, twenty_fours_h_ago: @twenty_fours_h_ago)
