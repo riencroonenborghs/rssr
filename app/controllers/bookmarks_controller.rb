@@ -9,10 +9,6 @@ class BookmarksController < ApplicationController
       .merge(current_user.bookmarks.unread)
       .order("bookmarks.created_at" => :desc)
       .page(page).per(@pagination_size)
-    set_tags_by_subscription
-    set_subscription_by_feed
-    set_bookmarks
-    set_viewed
 
     return paged_render if params.key?(:page)
   end

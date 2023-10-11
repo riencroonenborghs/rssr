@@ -2,7 +2,6 @@ class FeedsController < ApplicationController
   before_action :authenticate_user!, only: [:index]
 
   def index
-    set_bookmarks
     @viewed = []
     @feeds = Feed.where(id: current_user.subscriptions.active.not_hidden_from_main_page.select(:feed_id)).order(name: :asc)
     

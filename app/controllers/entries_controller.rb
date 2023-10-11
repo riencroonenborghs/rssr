@@ -1,13 +1,8 @@
 class EntriesController < ApplicationController
-  # before_action :authenticate_user!
   before_action :set_feed
 
   def index
     set_entries
-    set_tags_by_subscription
-    set_subscription_by_feed
-    set_bookmarks
-    set_viewed
     paged_render
   end
 
@@ -15,8 +10,6 @@ class EntriesController < ApplicationController
     @entry = @feed.entries.find(params[:id])
     show_set_tags_by_subscription
     show_set_subscription_by_feed
-    # set_bookmarks
-    # set_viewed
   end
 
   private
