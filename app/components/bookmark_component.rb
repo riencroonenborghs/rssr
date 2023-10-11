@@ -3,7 +3,7 @@
 class BookmarkComponent < DesktopPageComponent
   delegate :user_signed_in?, to: :helpers
 
-  def initialize(entry:)
+  def initialize(entry:) # rubocop:disable Lint/MissingSuper
     @entry = entry
   end
 

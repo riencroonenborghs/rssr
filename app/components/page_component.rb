@@ -4,7 +4,7 @@ class PageComponent < ViewComponent::Base
   delegate :user_signed_in?, :current_user, :mobile?, to: :helpers
   renders_many :entries
 
-  def initialize(entries:)
+  def initialize(entries:) # rubocop:disable Lint/MissingSuper
     @entries = entries
 
     @twenty_fours_h_ago = 24.hours.ago
@@ -22,10 +22,14 @@ class PageComponent < ViewComponent::Base
   private
 
   def set_tags_by_subscription
+    entries = Entry.where(id: @entries.select(&:id))
+    subscription_ids = Subscription.joins(feed: :entries).merge(entries).select(:id)
+
     @tags_by_subscription = {}.tap do |ret|
-      ActsAsTaggableOn::Tagging.includes(:tag).where(taggable_type: "Subscription", taggable_id: 
-        Subscription.joins(feed: :entries).merge(Entry.where(id: @entries.select(&:id)))
-      ).each do |tagging|
+      ActsAsTaggableOn::Tagging
+        .includes(:tag)
+        .where(taggable_type: "Subscription", taggable_id: subscription_ids)
+        .each do |tagging|
         ret[tagging.taggable_id] ||= []
         ret[tagging.taggable_id] << tagging.tag.name.upcase
       end
@@ -44,11 +48,10 @@ class PageComponent < ViewComponent::Base
   def set_tags
     return @tags = [] unless user_signed_in?
 
-    @tags = ActsAsTaggableOn::Tag.where(id: 
-      ActsAsTaggableOn::Tagging.where(taggable_type: "Subscription", taggable_id: 
-        Subscription.active.where(user_id: current_user.id).select(&:id)
-      ).select(:tag_id)
-    ).distinct(:name).pluck(:name).sort.map(&:upcase)
+    subscription_ids = Subscription.active.where(user_id: current_user.id).select(:id)
+    tag_ids = ActsAsTaggableOn::Tagging.where(taggable_type: "Subscription", taggable_id: subscription_ids).select(:tag_id)
+
+    @tags = ActsAsTaggableOn::Tag.where(id: tag_ids).distinct(:name).pluck(:name).sort.map(&:upcase)
   end
 
   def set_viewed

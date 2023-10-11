@@ -4,7 +4,7 @@ class FeedsController < ApplicationController
   def index
     @viewed = []
     @feeds = Feed.where(id: current_user.subscriptions.active.not_hidden_from_main_page.select(:feed_id)).order(name: :asc)
-    
+
     # subscriptions for this user and the found feeds
     scope = Subscription
       .where(user_id: current_user.id)
@@ -15,12 +15,12 @@ class FeedsController < ApplicationController
 
     # { feed_id => Subscription, feed_id => Subscription }
     @subscription_by_feed = scope.index_by(&:feed_id)
-      
+
     # { feed_id => subscription_id, feed_id => subscription_id }
     feed_id_by_subscription_id = @subscription_by_feed
       .invert
-      .transform_keys{ |key| key.id }
-    
+      .transform_keys(&:id)
+
     # { feed_id => [tag, tag], feed_id => [tag, tag] }
     @tags_by_feed = {}.tap do |ret|
       ActsAsTaggableOn::Tagging
@@ -41,7 +41,7 @@ class FeedsController < ApplicationController
         end
     end
   end
-  
+
   def tagged
     set_tag
     set_entries

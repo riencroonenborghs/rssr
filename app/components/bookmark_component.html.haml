@@ -5,4 +5,3 @@
   %span.read-later(class="#{'d-none' if bookmarked?}")
     = link_to add_bookmark_path(@entry), remote: true, method: :post, title: "Bookmark it", class: "read-later-link" do
       = fa_regular "bookmark", size: 1
-      

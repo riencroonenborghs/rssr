@@ -5,7 +5,7 @@ class DesktopPageComponent < ViewComponent::Base
 
   delegate :user_signed_in?, :current_user, :fa_solid, :fa_regular, :cached_bootstrap_tags, to: :helpers
 
-  def initialize(entry:, viewed:, subscription_by_feed:, tags_by_subscription:, twenty_fours_h_ago:)
+  def initialize(entry:, viewed:, subscription_by_feed:, tags_by_subscription:, twenty_fours_h_ago:) # rubocop:disable Lint/MissingSuper
     @entry = entry
     @viewed = viewed
     @subscription_by_feed = subscription_by_feed

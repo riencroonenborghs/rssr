@@ -25,13 +25,8 @@ class SubscriptionsController < ApplicationController
           .merge(Subscription.active.not_hidden_from_main_page)
 
         if user_signed_in?
-          scope = scope
-            .where(feed_id: 
-              Feed.where(id: 
-                Subscription.where(user_id: current_user.id)
-                  .select(:feed_id)
-              ).select(:id)
-            )
+          feed_ids = Subscription.where(user_id: current_user.id).select(:feed_id)
+          scope = scope.where(feed_id: feed_ids)
         end
 
         scope.distinct
