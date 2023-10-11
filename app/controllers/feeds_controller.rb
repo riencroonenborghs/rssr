@@ -46,10 +46,7 @@ class FeedsController < ApplicationController
   def tagged
     set_tag
     set_entries
-    set_tags_by_subscription
-    set_subscription_by_feed
-    set_bookmarks
-    set_viewed
+
     paged_render
   end
 

@@ -1,22 +1,12 @@
 class SubscriptionsController < ApplicationController
   def today
     set_entries(timespan: :today)
-    set_tags_by_subscription
-    set_subscription_by_feed
-    set_tags
-    set_bookmarks
-    set_viewed
 
     return paged_render if params.key?(:page)
   end
 
   def yesterday
     set_entries(timespan: :yesterday)
-    set_tags_by_subscription
-    set_subscription_by_feed
-    set_tags
-    set_bookmarks
-    set_viewed
 
     return paged_render if params.key?(:page)
   end
@@ -47,15 +37,5 @@ class SubscriptionsController < ApplicationController
         scope.distinct
       end
     end.page(page).per(@pagination_size)
-  end
-
-  def set_tags
-    return @tags = [] unless user_signed_in?
-
-    @tags = ActsAsTaggableOn::Tag.where(id: 
-      ActsAsTaggableOn::Tagging.where(taggable_type: "Subscription", taggable_id: 
-        Subscription.active.where(user_id: current_user.id).select(&:id)
-      ).select(:tag_id)
-    ).distinct(:name).pluck(:name).sort.map(&:upcase)
   end
 end

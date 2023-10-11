@@ -1,23 +1,19 @@
 .row.border-bottom.pb-2.pt-2.entry-wrapper(class="#{'entries--viewed' if @mark_viewed}" data-entry-id="#{@entry.id}")
-  .col-2
-    .d-flex.flex-row.align-items-center
-      = render BookmarkComponent.new(entry: @entry)
-            
-      .fs-11.ms-2
-        = link_to @entry.feed.name, feed_entries_path(@entry.feed)
-  .col-9
+  .col-10
+    .fs-11
+      = link_to @entry.feed.name, feed_entries_path(@entry.feed)
     - if @entry.description
       = link_to view_entry_path(@entry.feed, @entry), class: "entries--title", target: "_blank" do
         = @entry.title
     - else
       = link_to @entry.link, class: "entries--title", target: "_blank" do
         = @entry.title
-    
-    %br
     .fs-11
       = cached_bootstrap_tags @tags
-  .col-1.fs-11.font-bold
-    - if @published_twenty_fours_h_ago
-      = @entry.published_at.strftime("%H:%M")
-    - else
-      = @entry.published_at.strftime("%d %B")
+  .col-2.text-center
+    .fs-11.font-bold
+      - if @published_twenty_fours_h_ago
+        = @entry.published_at.strftime("%H:%M")
+      - else
+        = @entry.published_at.strftime("%d %B")    
+    = render BookmarkComponent.new(entry: @entry)

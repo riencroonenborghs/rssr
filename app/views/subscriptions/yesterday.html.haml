@@ -2,4 +2,4 @@
   Yesterday
 
 #yesterday.p-4.w-100.entries
-  = render "/shared/page", entries: @entries, bookmarks: @bookmarks, viewed: @viewed, tags_by_subscription: @tags_by_subscription, subscription_by_feed: @subscription_by_feed
+  = render PageComponent.new(entries: @entries)

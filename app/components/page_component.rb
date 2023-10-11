@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PageComponent < ViewComponent::Base
-  delegate :user_signed_in?, :current_user, to: :helpers
+  delegate :user_signed_in?, :current_user, :mobile?, to: :helpers
   renders_many :entries
 
   def initialize(entries:)
@@ -16,7 +16,6 @@ class PageComponent < ViewComponent::Base
     set_tags_by_subscription
     set_subscription_by_feed
     set_tags
-    set_bookmarks
     set_viewed
   end
 
@@ -50,10 +49,6 @@ class PageComponent < ViewComponent::Base
         Subscription.active.where(user_id: current_user.id).select(&:id)
       ).select(:tag_id)
     ).distinct(:name).pluck(:name).sort.map(&:upcase)
-  end
-
-  def set_bookmarks
-    @bookmarks = user_signed_in? ? Bookmark.unread.where(user_id: current_user.id).map(&:entry_id) : []
   end
 
   def set_viewed
