@@ -15,7 +15,7 @@
     
     %br
     .fs-11
-      = cached_bootstrap_tags @tags
+      = render TagsComponent.new(tags: @tags)
   .col-1.fs-11.font-bold
     - if @published_twenty_fours_h_ago
       = @entry.published_at.strftime("%H:%M")

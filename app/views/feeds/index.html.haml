@@ -14,6 +14,6 @@
             = feed.description
         %br
         .fs-11
-          = cached_bootstrap_tags(tags)
+          = render TagsComponent.new(tags: @tags)
       .col-1.fs-11.font-bold
         = subscription.created_at.strftime("%d %B %Y")

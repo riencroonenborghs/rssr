@@ -1,0 +1,5 @@
+%span
+  - (@tags || []).each do |tag|    
+    = link_to tagged_feeds_path(tag.upcase) do
+      %span.badge.tag.fs-15
+        = tag.upcase

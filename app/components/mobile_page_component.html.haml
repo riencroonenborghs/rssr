@@ -8,8 +8,8 @@
     - else
       = link_to @entry.link, class: "entries--title", target: "_blank" do
         = @entry.title
-    .fs-11
-      = cached_bootstrap_tags @tags
+    .fs-11      
+      = render TagsComponent.new(tags: @tags)
   .col-2.text-center
     .fs-11.font-bold
       - if @published_twenty_fours_h_ago

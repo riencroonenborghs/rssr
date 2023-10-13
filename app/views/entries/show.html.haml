@@ -22,5 +22,5 @@
       .fs-11
         - subscription = @subscription_by_feed[@entry.feed.id] || []
         - tags = @tags_by_subscription[subscription.id]
-        = cached_bootstrap_tags(tags)
+        = render TagsComponent.new(tags: @tags)
   %p.pt-2=raw clean_description(@entry) 
