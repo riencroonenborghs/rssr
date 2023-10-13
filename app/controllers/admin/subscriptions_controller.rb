@@ -114,7 +114,7 @@ module Admin
     end
 
     def refresh_all
-      RefreshSubscriptionsJob.perform_later
+      RefreshSubscriptionsJob.perform_async
 
       respond_to do |format|
         format.html { redirect_to admin_subscriptions_path, notice: "Subscriptions queued for refresh." }
@@ -129,7 +129,7 @@ module Admin
         return
       end
 
-      RefreshFeedJob.perform_later(subscription.feed_id)
+      RefreshFeedJob.perform_async(subscription.feed_id)
 
       respond_to do |format|
         format.html { redirect_to request.referer, notice: "Subscription queued for refresh." }

@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "2.7.5"
+ruby "3.0.0"
 
 gem "acts-as-taggable-on"
 gem "bootsnap", ">= 1.4.2", require: false
@@ -27,6 +27,7 @@ gem "RubySunrise"
 gem "sass-rails", ">= 6"
 gem "sidekiq"
 gem "sidekiq-cron"
+gem "tailwindcss-rails", "~> 2.0"
 gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 gem "valid_url", github: "ralovets/valid_url"
 gem "view_component"

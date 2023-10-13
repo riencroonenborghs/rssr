@@ -30,7 +30,7 @@ module Subscriptions
         persist_subscription
         return unless success?
 
-        RefreshFeedJob.perform_later(5.seconds, feed.id)
+        RefreshFeedJob.perform_in(5.seconds, feed.id)
       end
     end
 

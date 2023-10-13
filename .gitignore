@@ -46,3 +46,5 @@ bin/import*.sh
 db/sqlite-csv
 .env
 db/v3
+/app/assets/builds/*
+!/app/assets/builds/.keep

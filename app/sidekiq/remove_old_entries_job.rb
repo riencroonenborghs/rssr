@@ -1,5 +1,9 @@
-class RemoveOldEntriesJob < ActiveJob::Base
-  def perform(_args)
+# frozen_string_literal: true
+
+class RemoveOldEntriesJob
+  include Sidekiq::Job
+
+  def perform
     Entry
       .where("entries.created_at <= ?", 2.weeks.ago)
       .where.not(id: Bookmark.select(:entry_id))
