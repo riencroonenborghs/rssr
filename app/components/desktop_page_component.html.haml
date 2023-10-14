@@ -17,7 +17,7 @@
     .fs-11
       = render TagsComponent.new(tags: @tags)
   .col-1.fs-11.font-bold
-    - if @published_twenty_fours_h_ago
+    - if @entry.published_at.today?
       = @entry.published_at.strftime("%H:%M")
     - else
       = @entry.published_at.strftime("%d %B")

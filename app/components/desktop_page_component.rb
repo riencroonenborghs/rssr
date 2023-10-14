@@ -11,7 +11,6 @@ class DesktopPageComponent < ViewComponent::Base
     @subscription_by_feed = subscription_by_feed
     @tags_by_subscription = tags_by_subscription
 
-    @published_twenty_fours_h_ago = twenty_fours_h_ago < entry.published_at
     @mark_viewed = viewed.include?(entry.id)
     subscription = subscription_by_feed[entry.feed_id]
     @tags = subscription ? tags_by_subscription[subscription.id] : []

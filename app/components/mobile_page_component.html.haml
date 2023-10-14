@@ -18,7 +18,7 @@
       = render TagsComponent.new(tags: @tags)
   .w-16.entry--meta.flex.flex-col.items-center.m-2
     .entry--meta-timestamp.text-xs.font-bold
-      - if @published_twenty_fours_h_ago
+      - if @entry.published_at.today?
         = @entry.published_at.strftime("%H:%M")
       - else
         = @entry.published_at.strftime("%d %b")
