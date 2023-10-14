@@ -1,10 +1,10 @@
-.entry.flex.flex-row.pb-4(class="#{'text-slate-400' if @mark_viewed}" data-controller="mobileMarkAsRead" data-entry-id="#{@entry.id}")
-  .entry--logo.m-2
+.entry.flex.flex-row.pb-2(class="#{'text-slate-400' if @mark_viewed}" data-controller="mobileMarkAsRead" data-entry-id="#{@entry.id}")
+  .w-8.entry--logo.m-2
     .entry--logo--logo.w-8.rounded-full.text-white.p-1.text-xs.pt-2.pb-2.text-center(class="#{@mark_viewed ? 'bg-slate-400' : 'bg-slate-500'}")
       - name = @entry.feed.name
       - name = name.split(/ /).first(2).map { |x| x.first }.compact.join
       = name
-  .entry--content.flex.flex-col
+  .w-full.entry--content.flex.flex-col
     .entry--content--feed.text-xxs.font-extralight
       = link_to @entry.feed.name, feed_entries_path(@entry.feed)
     .entry--content--title
@@ -16,33 +16,11 @@
           = @entry.title
     .entry--content--tags
       = render TagsComponent.new(tags: @tags)
-  .entry--meta.flex.flex-col.justify-between.items-center.m-2
+  .w-16.entry--meta.flex.flex-col.items-center.m-2
     .entry--meta-timestamp.text-xs.font-bold
       - if @published_twenty_fours_h_ago
         = @entry.published_at.strftime("%H:%M")
       - else
-        = @entry.published_at.strftime("%d %B")
+        = @entry.published_at.strftime("%d %b")
     .entry--meta-bookmark
       = render BookmarkComponent.new(entry: @entry)
-
-
-
--# .row.border-bottom.pb-2.pt-2.entry-wrapper(class="#{'entries--viewed' if @mark_viewed}" data-entry-id="#{@entry.id}")
-  .col-10
-    .fs-11
-      = link_to @entry.feed.name, feed_entries_path(@entry.feed)
-    - if @entry.description
-      = link_to view_entry_path(@entry.feed, @entry), class: "entries--title", target: "_blank" do
-        = @entry.title
-    - else
-      = link_to @entry.link, class: "entries--title", target: "_blank" do
-        = @entry.title
-    .fs-11      
-      = render TagsComponent.new(tags: @tags)
-  .col-2.text-center
-    .fs-11.font-bold
-      - if @published_twenty_fours_h_ago
-        = @entry.published_at.strftime("%H:%M")
-      - else
-        = @entry.published_at.strftime("%d %B")    
-    = render BookmarkComponent.new(entry: @entry)

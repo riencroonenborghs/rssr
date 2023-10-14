@@ -16,6 +16,7 @@ export default class extends Controller {
         headers: headers
       }
     ).then((result) => {
+      console.log(result)
       if (result.status === 200) {
         entry.classList.add('text-slate-400')
         logo.classList.remove('bg-slate-500')

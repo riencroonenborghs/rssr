@@ -10,5 +10,8 @@ import { application } from "./application"
 import MobileNavController from "./mobile_nav_controller"
 application.register("mobileNav", MobileNavController)
 
+import MobileMenuController from "./mobile_menu_controller"
+application.register("mobileMenu", MobileMenuController)
+
 import MobileMarkAsReadController from "./mobile_mark_as_read_controller"
 application.register("mobileMarkAsRead", MobileMarkAsReadController)

@@ -1,5 +1,11 @@
+- content_for :nav_title do
+  Yesterday
 - content_for :title do
   Yesterday
 
-#yesterday.p-4.w-100.entries
-  = render PageComponent.new(entries: @entries)
+- if mobile?
+  #yesterday.p-2.pt-0.w-100.entries
+    = render PageComponent.new(entries: @entries)
+- else
+  #yesterday.p-4.w-100.entries
+    = render PageComponent.new(entries: @entries)

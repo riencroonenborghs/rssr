@@ -1,16 +1,28 @@
+-# - content_for :title do
+-#   Bookmarks
+
+-# #today.p-4.w-100.entries
+-#   - if @entries.size > 0
+-#     = render PageComponent.new(entries: @entries)
+-#   - else
+-#     %p
+-#       You can bookmark
+-#       = link_to "articles", root_path
+-#       and read them later here.
+-#       %br
+-#       Click
+-#       = fa_regular "bookmark", size: 1
+-#       to toggle.
+      
+
+- content_for :nav_title do
+  Bookmarks
 - content_for :title do
   Bookmarks
 
-#today.p-4.w-100.entries
-  - if @entries.size > 0
+- if mobile?
+  #yesterday.p-2.pt-0.w-100.entries
     = render PageComponent.new(entries: @entries)
-  - else
-    %p
-      You can bookmark
-      = link_to "articles", root_path
-      and read them later here.
-      %br
-      Click
-      = fa_regular "bookmark", size: 1
-      to toggle.
-      
+- else
+  #yesterday.p-4.w-100.entries
+    = render PageComponent.new(entries: @entries)

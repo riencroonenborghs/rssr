@@ -1,12 +1,11 @@
+- content_for :nav_title do
+  = @feed.name
 - content_for :title do
   = @feed.name
 
-#feed.p-4.w-100.entries
-  %nav(aria-label="breadcrumb")
-    %ol.breadcrumb
-      %li.breadcrumb-item
-        = link_to "Feeds", feeds_path
-      %li.breadcrumb-item.active
-        = @feed.name
-
-  = render PageComponent.new(entries: @entries)
+- if mobile?
+  #today.p-2.pt-0.w-100.entries
+    = render PageComponent.new(entries: @entries)
+- else
+  #today.p-4.w-100.entries
+    = render PageComponent.new(entries: @entries)

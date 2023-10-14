@@ -1,7 +1,7 @@
 import { Controller, del } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  connect() {
+  _connect() {
     const navigation = document.querySelector('#navigation')
     let previousScrollTop = 0
     let sumDirection = 0

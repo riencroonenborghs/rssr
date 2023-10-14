@@ -1,10 +1,43 @@
-.flex.flex-col(data-controller="mobileNav")
-  #navigation.p-2.pb-0
-    .w-full.border.rounded.shadow-sm
-      .p-2.flex.flex-row.items-center.w-full
-        %svg(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5")
-          %path(stroke-linecap="round" stroke-linejoin="round" d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5")
-        .ms-2
-          = yield :nav_title
-  #content.pt-2
-    = yield
+- classes = "w-2/3 ps-2 p-1 mt-1 mb-1 rounded-r-lg"
+- active = "bg-slate-500 text-white"
+
+%div(data-controller="mobileMenu")
+  #menu.hidden.border-e.shadow.fixed.h-full.bg-white.z-10(class="w-2/3")
+    #menu--top.border-b
+      .flex.flex-row.justify-between.items-center.p-2
+        .text-2xl
+          = link_to "RSSr", root_path
+        %a(href="#" data-action="click->mobileMenu#hideClicked")
+          %svg(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6")
+            %path(stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12")
+    #menu--content
+      .flex.flex-col.border-b
+        = link_to subscriptions_today_path, class: "#{classes} #{active if active_page?(subscriptions_today_path) || current_page?(root_path)}", title: "Today" do
+          Today
+        = link_to subscriptions_yesterday_path, class: "#{classes} #{active if active_page?(subscriptions_yesterday_path)}", title: "Yesterday" do
+          Yesterday
+        - if user_signed_in?
+          = link_to all_bookmarks_path, class: "#{classes} #{active if active_page?(all_bookmarks_path)}", title: "Bookmarks" do
+            Bookmarks
+      .flex.flex-col.border-b
+        - if user_signed_in?
+          = link_to admin_subscriptions_path, class: "#{classes} #{active if active_page?(admin_subscriptions_path)}", title: "Subscriptions" do
+            Subscriptions
+          = link_to destroy_user_session_path, method: :delete, title: "Log out", class: classes do
+            Log out
+        - else
+          = link_to new_user_session_path, title: "Log in", class: "#{classes} #{active if active_page?(new_user_session_path)}" do
+            Log in
+
+  .flex.flex-col(data-controller="mobileNav")
+    #navigation.p-2.pb-0
+      .w-full.border.rounded.shadow-sm
+        .p-2.flex.flex-row.items-center.w-full
+          %a(href="#" data-action="click->mobileMenu#showClicked")
+            %svg(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5")
+              %path(stroke-linecap="round" stroke-linejoin="round" d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5")
+          .ms-2
+            = yield :nav_title
+    #content.pt-2
+      = yield
+
