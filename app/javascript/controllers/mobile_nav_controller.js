@@ -41,7 +41,7 @@ export default class extends Controller {
       }
 
       previousScrollTop = scrollTop
-      console.log(`${direction} ${sumDirection}px`)
+      // console.log(`${direction} ${sumDirection}px`)
     })
   }
 }

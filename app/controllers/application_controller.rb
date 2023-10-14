@@ -50,7 +50,7 @@ class ApplicationController < ActionController::Base
   end
 
   def darkmode?
-    @darkmode = Darkmode.darkmode?
+    @darkmode = false # Darkmode.darkmode?
   end
   helper_method :darkmode?
 

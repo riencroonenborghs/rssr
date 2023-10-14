@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class BookmarkComponent < DesktopPageComponent
-  delegate :user_signed_in?, to: :helpers
+  delegate :user_signed_in?, :mobile?, to: :helpers
 
   def initialize(entry:) # rubocop:disable Lint/MissingSuper
     @entry = entry

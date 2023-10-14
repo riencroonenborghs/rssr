@@ -3,5 +3,9 @@
 - content_for :title do
   Today
 
-#today.p-4.w-100.entries
-  = render PageComponent.new(entries: @entries)
+- if mobile?
+  #today.p-2.pt-0.w-100.entries
+    = render PageComponent.new(entries: @entries)
+- else
+  #today.p-4.w-100.entries
+    = render PageComponent.new(entries: @entries)
