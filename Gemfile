@@ -27,6 +27,7 @@ gem "RubySunrise"
 gem "sass-rails", ">= 6"
 gem "sidekiq"
 gem "sidekiq-cron"
+gem "stimulus-rails", "~> 1.3"
 gem "tailwindcss-rails", "~> 2.0"
 gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 gem "valid_url", github: "ralovets/valid_url"

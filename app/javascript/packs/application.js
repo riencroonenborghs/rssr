@@ -19,3 +19,5 @@ import "./infiniteScroll"
 import "./readLater"
 import "./mobileNavbar"
 import "./entries"
+
+import "../controllers"
