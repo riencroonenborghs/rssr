@@ -1,43 +1,24 @@
-class EntriesController < ApplicationController
-  before_action :set_feed
+# frozen_string_literal: true
 
-  def index
-    set_entries
-    paged_render
+class EntryComponent < ViewComponent::Base
+  delegate :user_signed_in?, :current_user, :sanitize, to: :helpers
+
+  def initialize(entry:) # rubocop:disable Lint/MissingSuper
+    @entry = entry
+
+    @sanitized_description = entry.description
+    @tags_by_subscription ||= {}
+    @subscription_by_feed ||= {}
   end
 
-  def show
-    @entry = @feed.entries.find(params[:id])
+  def before_render
+    show_set_tags_by_subscription
+    show_set_subscription_by_feed
 
-    unless mobile?
-      show_set_tags_by_subscription
-      show_set_subscription_by_feed
-    end
+    sanitize_description
   end
 
   private
-
-  def set_feed
-    @feed = if user_signed_in?
-              current_user.feeds.find(params[:feed_id])
-            else
-              Feed.find(params[:feed_id])
-            end
-  end
-
-  def set_entries
-    @entries = offset_scope do
-      filtered_scope do
-        @feed
-          .entries
-          .joins(feed: :subscriptions)
-          .includes(feed: { subscriptions: { taggings: :tag } })
-          .merge(Subscription.active)
-          .most_recent_first
-          .distinct
-      end
-    end.page(page).per(@pagination_size)
-  end
 
   def show_set_tags_by_subscription
     subscriptions = Subscription.joins(feed: :entries).merge(Entry.where(id: @entry.id))
@@ -64,5 +45,12 @@ class EntriesController < ApplicationController
         Entry.where(id: @entry.id)
       )
       .index_by(&:feed_id)
+  end
+
+  def sanitize_description
+    return unless @sanitized_description.present?
+
+    @sanitized_description = sanitize(@sanitized_description, tags: %w[strong em p a])
+    @sanitized_description.gsub(/\<a /, "<a target='_blank' ") # rubocop:disable Style/RedundantRegexpEscape
   end
 end

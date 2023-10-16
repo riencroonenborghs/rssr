@@ -1,26 +1,36 @@
+- content_for :nav_title do
+  - if mobile?
+    = "Entry #{@entry.title}".first(35)
+  - else
+    = "Entry #{@entry.title}".first(20)
+  \...
 - content_for :title do
   = "Entry #{@entry.title}".first(20)
   \...
 
-#entry.p-4.w-100
-  .d-flex
-    = render BookmarkComponent.new(entry: @entry)
+- if mobile?
+  #entry.p-2.pt-0.w-100
+    = render EntryComponent.new(entry: @entry)
+- else
+  #entry.p-4.w-100
+    .d-flex
+      = render BookmarkComponent.new(entry: @entry)
 
-    .d-flex.flex-column.ps-2
-      .d-flex.align-items-center
-        .fs-10.pe-1
-          = link_to @entry.feed.name, feed_entries_path(@entry.feed)            
+      .d-flex.flex-column.ps-2
+        .d-flex.align-items-center
+          .fs-10.pe-1
+            = link_to @entry.feed.name, feed_entries_path(@entry.feed)            
+          .fs-11
+            \\
+            - if 24.hours.ago < @entry.published_at
+              = @entry.published_at.strftime("%H:%M")
+            - else
+              = @entry.published_at.strftime("%d %B")
+        .fs-6
+          = link_to @entry.link, target: "_blank" do
+            = @entry.title
         .fs-11
-          \\
-          - if 24.hours.ago < @entry.published_at
-            = @entry.published_at.strftime("%H:%M")
-          - else
-            = @entry.published_at.strftime("%d %B")
-      .fs-6
-        = link_to @entry.link, target: "_blank" do
-          = @entry.title
-      .fs-11
-        - subscription = @subscription_by_feed[@entry.feed.id] || []
-        - tags = @tags_by_subscription[subscription.id]
-        = render TagsComponent.new(tags: @tags)
-  %p.pt-2=raw clean_description(@entry) 
+          - subscription = @subscription_by_feed[@entry.feed.id] || []
+          - tags = @tags_by_subscription[subscription.id]
+          = render TagsComponent.new(tags: @tags)
+    %p.pt-2=raw clean_description(@entry) 
