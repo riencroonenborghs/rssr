@@ -5,12 +5,8 @@
     .entry--content--feed.text-xxs.font-extralight
       = link_to @entry.feed.name, feed_entries_path(@entry.feed)
     .entry--content--title
-      - if @entry.description
-        = link_to view_entry_path(@entry.feed, @entry), target: "_blank" do
-          = @entry.title
-      - else
-        = link_to @entry.link, target: "_blank" do
-          = @entry.title
+      = link_to @entry.link, target: "_blank" do
+        = @entry.title
     .entry--content--tags
       = render TagsComponent.new(tags: @tags)
   .w-16.entry--meta.flex.flex-col.items-center.m-2
