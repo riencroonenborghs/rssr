@@ -1,8 +1,5 @@
 - content_for :nav_title do
-  - if mobile?
-    = "Entry #{@entry.title}".first(35)
-  - else
-    = "Entry #{@entry.title}".first(20)
+  = "Entry #{@entry.title}".first(20)
   \...
 - content_for :title do
   = "Entry #{@entry.title}".first(20)
