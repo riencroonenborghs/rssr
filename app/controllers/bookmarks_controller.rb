@@ -2,15 +2,13 @@ class BookmarksController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @entries = Entry.where(id: 
-      current_user
-        .bookmarks
-        .includes(entry: { feed: { subscriptions: { taggings: :tag } } })
-        .order("bookmarks.created_at" => :desc)
-        .select(:entry_id)
-        .pluck(:entry_id)
-        .uniq
-    )
+    @entries = Entry
+      .includes(feed: { subscriptions: { taggings: :tag } })
+      .joins(feed: { subscriptions: :user })
+      .joins(:bookmarks)
+      .merge(current_user.bookmarks.unread)
+      .order("bookmarks.created_at" => :desc)
+      .page(page).per(@pagination_size)
 
     return paged_render if params.key?(:page)
   end
