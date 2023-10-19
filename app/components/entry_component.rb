@@ -51,6 +51,6 @@ class EntryComponent < ViewComponent::Base
     return unless @sanitized_description.present?
 
     @sanitized_description = sanitize(@sanitized_description, tags: %w[strong em p a])
-    @sanitized_description.gsub(/\<a /, "<a target='_blank' ") # rubocop:disable Style/RedundantRegexpEscape
+    @sanitized_description = @sanitized_description.gsub(/\<a /, "<a target='_blank' ") # rubocop:disable Style/RedundantRegexpEscape
   end
 end
