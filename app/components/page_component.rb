@@ -4,12 +4,15 @@ class PageComponent < ViewComponent::Base
   delegate :user_signed_in?, :current_user, :mobile?, to: :helpers
   renders_many :entries
 
-  def initialize(entries:) # rubocop:disable Lint/MissingSuper
+  def initialize(entries:, skip_viewed: false) # rubocop:disable Lint/MissingSuper
     @entries = entries
+    @skip_viewed = skip_viewed
 
     @twenty_fours_h_ago = 24.hours.ago
     @tags_by_subscription ||= {}
     @subscription_by_feed ||= {}
+    @tags = []
+    @viewed = []
   end
 
   def before_render
@@ -46,7 +49,7 @@ class PageComponent < ViewComponent::Base
   end
 
   def set_tags
-    return @tags = [] unless user_signed_in?
+    return unless user_signed_in?
 
     subscription_ids = Subscription.active.where(user_id: current_user.id).select(:id)
     tag_ids = ActsAsTaggableOn::Tagging.where(taggable_type: "Subscription", taggable_id: subscription_ids).select(:tag_id)
@@ -55,7 +58,8 @@ class PageComponent < ViewComponent::Base
   end
 
   def set_viewed
-    return @viewed = [] unless user_signed_in?
+    return unless user_signed_in?
+    return if @skip_viewed
 
     entry_ids = @entries.map(&:id).uniq
     @viewed = ViewedEntry.where(user_id: current_user.id, entry_id: entry_ids).map(&:entry_id)
