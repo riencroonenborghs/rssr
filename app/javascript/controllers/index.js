@@ -15,3 +15,6 @@ application.register("mobileMenu", MobileMenuController)
 
 import MobileMarkAsReadController from "./mobile_mark_as_read_controller"
 application.register("mobileMarkAsRead", MobileMarkAsReadController)
+
+import DesktopMarkAsReadController from "./desktop_mark_as_read_controller"
+application.register("desktopMarkAsRead", DesktopMarkAsReadController)

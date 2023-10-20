@@ -1,23 +1,21 @@
-.row.border-bottom.pb-2.pt-2.entry-wrapper(class="#{'entries--viewed' if @mark_viewed}" data-entry-id="#{@entry.id}")
-  .col-2
-    .d-flex.flex-row.align-items-center
-      = render BookmarkComponent.new(entry: @entry)
-            
-      .fs-11.ms-2
-        = link_to @entry.feed.name, feed_entries_path(@entry.feed)
-  .col-9
-    - if @entry.description
-      = link_to view_entry_path(@entry.feed, @entry), class: "entries--title", target: "_blank" do
-        = @entry.title
-    - else
-      = link_to @entry.link, class: "entries--title", target: "_blank" do
-        = @entry.title
-    
-    %br
-    .fs-11
-      = render TagsComponent.new(tags: @tags)
-  .col-1.fs-11.font-bold
+.entry.flex.flex-row.border-b.ps-2.items-end(class="#{'bg-slate-100' if @mark_viewed}" data-controller="desktopMarkAsRead" data-entry-id="#{@entry.id}")
+  .w-8.entry--meta.entry--meta-bookmark
+    = render BookmarkComponent.new(entry: @entry)
+  .w-72.entry--content.entry--content--feed
+    = link_to @entry.feed.name, feed_entries_path(@entry.feed)
+  .w-full.overflow-hidden.text-ellipsis.whitespace-nowrap.ms-2.me-2.entry--content
+    .flex.flex-col
+      .entry--content--tags
+        = render TagsComponent.new(tags: @tags)
+      .entry--content--title.font-bold
+        - if @entry.description
+          = link_to view_entry_path(@entry.feed, @entry), target: "_blank", data: { action: "click->desktopMarkAsRead#markAsRead" } do
+            = @entry.title
+        - else
+          = link_to @entry.link, target: "_blank", data: { action: "click->desktopMarkAsRead#markAsRead" } do
+            = @entry.title
+  .w-24.entry--meta.entry--meta-timestamp
     - if @entry.published_at.today?
       = @entry.published_at.strftime("%H:%M")
     - else
-      = @entry.published_at.strftime("%d %B")
+      = @entry.published_at.strftime("%d %b")

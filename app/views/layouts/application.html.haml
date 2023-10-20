@@ -11,8 +11,7 @@
     = csp_meta_tag
 
     = stylesheet_link_tag 'application', media: 'all'
-    - if mobile?
-      = stylesheet_link_tag 'tailwind', media: 'all'
+    = stylesheet_link_tag 'tailwind', media: 'all'
     = javascript_pack_tag 'application'
     %script(src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous" async)
 
@@ -21,6 +20,7 @@
     - if mobile?
       = render "/layouts/mobile"
     - else
-      = render "/layouts/navbar_desktop_v2"
+      = render "/layouts/desktop"
+      -# = render "/layouts/navbar_desktop_v2"
     
     = render "/layouts/flash_messages"

@@ -3,9 +3,5 @@
 - content_for :meta_title do
   = @feed.name
 
-- if mobile?
-  #today.p-2.pt-0.w-100.entries
-    = render PageComponent.new(entries: @entries)
-- else
-  #today.p-4.w-100.entries
-    = render PageComponent.new(entries: @entries)
+#entries-index.p-2.pt-0.w-100.entries
+  = render PageComponent.new(entries: @entries)

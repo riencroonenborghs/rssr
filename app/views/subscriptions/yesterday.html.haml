@@ -3,9 +3,5 @@
 - content_for :meta_title do
   Yesterday
 
-- if mobile?
-  #yesterday.p-2.pt-0.w-100.entries
-    = render PageComponent.new(entries: @entries)
-- else
-  #yesterday.p-4.w-100.entries
-    = render PageComponent.new(entries: @entries)
+#yesterday.p-2.pt-0.w-100.entries
+  = render PageComponent.new(entries: @entries)
