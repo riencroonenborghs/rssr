@@ -1,7 +1,7 @@
 %nav.navbar.navbar-expand-lg.bg-white(style="position: fixed; z-index: 2; width: 100%;")
   .container-fluid
     = link_to "RSSr", root_path, class: "navbar-brand"
-    = yield :title 
+    = yield :meta_title 
     %button.navbar-toggler(type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation")
       = fa_solid "bars", size: 1
       
