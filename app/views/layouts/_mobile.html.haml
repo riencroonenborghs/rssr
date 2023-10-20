@@ -57,7 +57,7 @@
     #navigation.flex.flex-row.justify-between.items-center.p-2.border-b.shadow-sm
       .font-bold.text-2xl.text-slate-500
         = link_to "RSSr", root_path
-      .ms-2.flex.flex-row.justify-center(class="w-1/2")
+      .ms-2.flex.flex-row(class="w-2/3 ms-4 me-4 overflow-hidden text-ellipsis whitespace-nowrap")
         = yield :nav_title
       %a.border.rounded.p-1(href="#" data-action="click->mobileMenu#showClicked")
         %svg(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5")
