@@ -3,7 +3,7 @@ module Admin
     before_action :set_filter, only: %i[edit update destroy]
 
     def index
-      @filters = current_user.filters.order(value: :asc)
+      @filters = current_user.filters.sort { |a, b| a.value.upcase <=> b.value.upcase }
     end
 
     def new
