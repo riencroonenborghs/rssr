@@ -22,7 +22,7 @@ module Subscriptions
       update_subscriptions
       return unless success?
 
-      RefreshFeedJob.perform_in(5.seconds, subscription.feed.id) if url_changed
+      RefreshFeedJob.perform_in(5.seconds, { feed_id: subscription.feed.id }.to_json) if url_changed
     end
 
     private

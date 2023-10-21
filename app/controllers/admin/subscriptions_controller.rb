@@ -129,7 +129,7 @@ module Admin
         return
       end
 
-      RefreshFeedJob.perform_async(subscription.feed_id)
+      RefreshFeedJob.perform_async({feed_id: subscription.feed_id}.to_json)
 
       respond_to do |format|
         format.html { redirect_to request.referer, notice: "Subscription queued for refresh." }
