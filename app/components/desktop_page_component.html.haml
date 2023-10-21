@@ -7,7 +7,7 @@
     .flex.flex-col
       .entry--content--tags
         = render TagsComponent.new(tags: @tags)
-      .entry--content--title.font-bold
+      .entry--content--title.font-semibold
         - if @entry.description
           = link_to view_entry_path(@entry.feed, @entry), target: "_blank", data: { action: "click->desktopMarkAsRead#markAsRead" } do
             = @entry.title
