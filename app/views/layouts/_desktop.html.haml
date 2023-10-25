@@ -8,7 +8,7 @@
     .ms-2.flex.flex-row(class="w-2/3 ms-4 me-4 overflow-hidden text-ellipsis whitespace-nowrap")
       = yield :nav_title
   .flex.flex-row
-    #menu.border-e.shadow(class="w-64")
+    #menu.border-e.shadow.h-screen(class="w-64")
       #menu--content
         .flex.flex-col.border-b.pt-2.pb-2
           = link_to subscriptions_today_path, class: "#{classes} #{active if active_page?(subscriptions_today_path) || current_page?(root_path)}", title: "Today" do
