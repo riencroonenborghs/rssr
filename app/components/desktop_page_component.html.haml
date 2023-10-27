@@ -6,8 +6,10 @@
       = render LogoComponent.new(feed: @entry.feed, mark_viewed: @mark_viewed)
   .w-full.overflow-hidden.text-ellipsis.whitespace-nowrap.ms-2.me-2.entry--content
     .flex.flex-col
-      .entry--content--feed.text-xxs
+      .entry--content--feed.text-xxs.flex.flex-row
         = link_to @entry.feed.name, feed_entries_path(@entry.feed)
+        .entry--content--tags.ms-1
+          = render TagsComponent.new(tags: @tags)
       .entry--content--title.font-semibold
         - if @entry.description
           = link_to view_entry_path(@entry.feed, @entry), target: "_blank", data: { action: "click->desktopMarkAsRead#markAsRead" } do
@@ -15,8 +17,7 @@
         - else
           = link_to @entry.link, target: "_blank", data: { action: "click->desktopMarkAsRead#markAsRead" } do
             = @entry.title
-      .entry--content--tags
-        = render TagsComponent.new(tags: @tags)
+      
   .w-24.entry--meta.entry--meta-timestamp.text-sm
     - if @entry.published_at.today?
       = @entry.published_at.strftime("%H:%M")
