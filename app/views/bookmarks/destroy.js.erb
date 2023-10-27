@@ -1,61 +1,10 @@
-<% if mobile? %>
-  <% if @bookmark.valid? %>
-    node = document.querySelector('[data-bookmark-entry-id="<%= @bookmark.entry.id %>"]');
-    node.classList.add('text-slate-300')
-    bookmarked = node.getElementsByClassName("bookmarked")[0];
-    notBookmarked = node.getElementsByClassName("not-bookmarked")[0];
+<% if @bookmark.valid? %>
+  node = document.querySelector('[data-bookmark-entry-id="<%= @bookmark.entry.id %>"]');
+  node.classList.add('text-slate-300')
+  bookmarked = node.getElementsByClassName("bookmarked")[0];
+  notBookmarked = node.getElementsByClassName("not-bookmarked")[0];
 
-    bookmarked.classList.add('hidden');
-    notBookmarked.classList.remove('hidden');
-    node.classList.remove('text-slate-300');
-  <% end %>  
-<% else %>
-  <% if @bookmark.valid? %>
-    function readLaterReadIt () {
-      const parents = document.getElementsByClassName("read-later-<%= @bookmark.entry.id %>");
-      for(i = 0; i < parents.length; ++i) {
-        const parent = parents[i];
-        const readLaterReadIt = parent.getElementsByClassName("read-later-read-it")[0];
-        readLaterReadIt.classList.add("d-none");
-        const readLater = parent.getElementsByClassName("read-later")[0];
-        readLater.classList.remove("d-none");
-      }
-    }
-
-    function readLaterReadItAndDisable () {
-      const parents = document.getElementsByClassName("read-later-<%= @bookmark.entry.id %>");
-      for(i = 0; i < parents.length; ++i) {
-        const parent = parents[i];
-        parent.classList.add("d-none");
-        const wrapper = parent.closest(".read-later-wrapper");
-        wrapper.classList.add("disable");
-      }
-    }
-
-    function updateBadge () {
-      const tag = document.getElementsByClassName("read-later-count-tag")[0];
-      if (tag) {
-        tag.innerHTML = "<div class='fs-15'><%= @bookmarks_count %></div>";
-        <% if @bookmarks_count.zero? %>
-          tag.classList.add("d-none");
-        <% end %>
-      }
-    }
-
-    <% if @remove_from_list %>
-      readLaterReadItAndDisable();
-      updateBadge();
-    <% else %>
-      readLaterReadIt();
-      updateBadge();
-    <% end %>  
-  <% else %>
-    function showMessage () {
-      const alert = document.getElementById("async-flash-alert");
-      const body = alert.getElementsByClassName("toast-body")[0];
-      body.innerHTML = "<%= @subscription.errors.full_messages.to_sentence %>";
-      alert.classList.add("show");
-    }
-    showMessage();
-  <% end %>
+  bookmarked.classList.add('hidden');
+  notBookmarked.classList.remove('hidden');
+  node.classList.remove('text-slate-300');
 <% end %>

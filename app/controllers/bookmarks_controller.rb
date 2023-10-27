@@ -4,10 +4,8 @@ class BookmarksController < ApplicationController
   def index
     @entries = Entry
       .includes(feed: { subscriptions: { taggings: :tag } })
-      .joins(feed: { subscriptions: :user })
-      .joins(:bookmarks)
-      .merge(current_user.bookmarks.unread)
-      .order("bookmarks.created_at" => :desc)
+      .where(id: current_user.bookmarks.select(:entry_id))
+      .order(current_user.bookmarks.order(created_at: :desc).pluck(:entry_id).map { |id| "id = #{id} DESC" })
       .page(page).per(@pagination_size)
 
     return paged_render if params.key?(:page)
@@ -22,14 +20,10 @@ class BookmarksController < ApplicationController
       @bookmark = current_user.bookmarks.create!(entry_id: entry.id)
     end
     # rubocop:enable Style/IfUnlessModifier
-    @bookmark.unread!
-    @bookmarks_count = current_user.bookmarks.unread.count
   end
 
   def destroy
-    @remove_from_list = request.referer == all_bookmarks_url
     @bookmark = current_user.bookmarks.find_by(entry_id: params[:entry_id])
-    @bookmark.read!
-    @bookmarks_count = current_user.bookmarks.unread.count
+    @bookmark.destroy
   end
 end
