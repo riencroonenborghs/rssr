@@ -2,13 +2,13 @@
 - active = "bg-slate-400 text-white"
 
 .flex.flex-col
-  #navigation.flex.flex-row.justify-between.items-center.p-2.border-b.shadow-sm
-    .font-bold.text-2xl.text-slate-500
+  #navigation.flex.flex-row.justify-between.items-center.p-2.border-b.shadow-sm(class="dark:bg-slate-950")
+    .font-bold.text-2xl.text-slate-500(class="dark:text-slate-300")
       = link_to "RSSr", root_path
-    .ms-2.flex.flex-row(class="w-2/3 ms-4 me-4 overflow-hidden text-ellipsis whitespace-nowrap")
+    .ms-2.flex.flex-row(class="w-2/3 ms-4 me-4 overflow-hidden text-ellipsis whitespace-nowrap dark:text-slate-100")
       = yield :nav_title
   .flex.flex-row
-    #menu.border-e.shadow.h-screen(class="w-64")
+    #menu.border-e.shadow.h-screen(class="w-64 dark:bg-slate-950 dark:text-slate-300")
       #menu--content
         .flex.flex-col.border-b.pt-2.pb-2
           = link_to subscriptions_today_path, class: "#{classes} #{active if active_page?(subscriptions_today_path) || current_page?(root_path)}", title: "Today" do
@@ -69,5 +69,5 @@
                   %path(stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5V6.75a4.5 4.5 0 119 0v3.75M3.75 21.75h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H3.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z")
                 .ms-2
                   Sign In
-    #content.pt-2.w-full.overflow-hidden
+    #content.pt-2.w-full.overflow-hidden(class="dark:bg-slate-950 dark:text-slate-300")
       = yield

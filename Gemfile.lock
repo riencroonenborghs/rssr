@@ -9,8 +9,6 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    RubySunrise (0.3.3)
-      tzinfo
     actioncable (6.0.6.1)
       actionpack (= 6.0.6.1)
       nio4r (~> 2.0)
@@ -351,7 +349,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  RubySunrise
   acts-as-taggable-on
   awesome_print
   base64 (= 0.1.0)
