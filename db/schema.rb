@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_02_190403) do
+ActiveRecord::Schema.define(version: 2023_10_28_204116) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,10 +20,7 @@ ActiveRecord::Schema.define(version: 2023_01_02_190403) do
     t.bigint "entry_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.datetime "read"
     t.index ["entry_id"], name: "index_bookmarks_on_entry_id"
-    t.index ["read"], name: "index_bookmarks_on_read"
-    t.index ["user_id", "entry_id", "read"], name: "readltr_usr_entry_rd"
     t.index ["user_id", "entry_id"], name: "index_bookmarks_on_user_id_and_entry_id"
     t.index ["user_id"], name: "index_bookmarks_on_user_id"
   end

@@ -22,6 +22,6 @@ class BookmarkComponent < DesktopPageComponent
   private
 
   def set_bookmarks
-    @bookmarks = user_signed_in? ? Bookmark.unread.where(user_id: current_user.id).map(&:entry_id) : []
+    @bookmarks = user_signed_in? ? Bookmark.where(user_id: current_user.id).map(&:entry_id) : []
   end
 end
