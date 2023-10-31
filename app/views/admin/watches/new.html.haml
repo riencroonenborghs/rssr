@@ -1,26 +1,23 @@
+- content_for :nav_title do
+  New Watch
 - content_for :meta_title do
   New Watch
 
-#new-watch
-  .p-4.w-100
-    %h4
-      = link_to "Watches", admin_watches_path
-      &gt; New
+#new-watch.p-2.pt-0.w-100
+  .p-4
+    = form_with(scope: :watch, url: admin_watches_path, local: true, method: "post") do |form|  
+      = form.hidden_field :group_id, value: @watch.group_id
+      
+      .flex.flex-row
+        .flex.flex-col
+          = form.select :watch_type, [["entry title contains", "entry_title"], ["entry description contains", "entry_description"], ["is tagged with", "feed_tag"]], { selected: @watch.watch_type, include_blank: false }, class: "block border-0 bg-transparent py-1.5 pl-2 text-gray-900 focus:ring-1 sm:text-sm sm:leading-6 rounded-md ring-1 ring-gray-300 focus:ring-slate-600"
 
-    .pt-4
-      = form_with(scope: :watch, url: admin_watches_path, local: true, method: "post") do |form|  
-        = form.hidden_field :group_id, value: @watch.group_id
-        
-        .row
-          .col-12.col-xl-3.mb-3
-            = form.select :watch_type, [["entry title contains", "entry_title"], ["entry description contains", "entry_description"], ["is tagged with", "feed_tag"]], { selected: @watch.watch_type, include_blank: false }, class: "form-select"
-          .col-12.col-xl-4.mb-3
-            = form.text_field :value, class: "form-control #{'border-danger' if @watch.errors[:value].any?}", value: @watch.value
-            - if @watch.errors[:value].any?
-              .text-danger.fs-11
-                = @watch.errors[:value].join(', ')
-                
-        .row
-          .col-12.col-xl-4
-            = form.submit "Create Watch", class: "btn btn-primary"
-            
+        .flex.flex-col(class="w-1/2")
+          %div(class="ms-2 w-1/2 rounded-md ring-1 ring-gray-300 focus-within:ring-1 focus-within:ring-slate-600")
+            = form.text_field :value, class: "block border-0 bg-transparent py-1.5 pl-2 text-gray-900  focus:ring-0 sm:text-sm sm:leading-6 #{'border-danger' if @watch.errors[:value].any?}", value: @watch.value, autocomplete: true
+          - if @watch.errors[:value].any?
+            .text-red-500.text-xxs.pl-2
+              = @watch.errors[:value].join(', ')
+
+      .flex.flex-row.pt-3
+        = form.submit "Create Watch", class: "rounded-md bg-slate-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-slate-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-600"
