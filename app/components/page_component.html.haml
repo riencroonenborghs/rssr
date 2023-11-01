@@ -1,4 +1,4 @@
 - if mobile?
-  = render MobilePageComponent.with_collection(@entries, viewed: @viewed, subscription_by_feed: @subscription_by_feed, tags_by_subscription: @tags_by_subscription, twenty_fours_h_ago: @twenty_fours_h_ago)
+  = render MobilePageComponent.with_collection(@entries, viewed: @viewed, subscription_by_feed: @subscription_by_feed, tags_by_subscription: @tags_by_subscription)
 - else
-  = render DesktopPageComponent.with_collection(@entries, viewed: @viewed, subscription_by_feed: @subscription_by_feed, tags_by_subscription: @tags_by_subscription, twenty_fours_h_ago: @twenty_fours_h_ago)
+  = render DesktopPageComponent.with_collection(@entries, viewed: @viewed, subscription_by_feed: @subscription_by_feed, tags_by_subscription: @tags_by_subscription)

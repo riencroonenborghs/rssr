@@ -1,22 +1,4 @@
-.entry.flex.flex-row.pb-2
-  .w-8.entry--logo.m-2
-    = render LogoComponent.new(feed: @entry.feed, mark_viewed: @mark_viewed)
-  .w-full.entry--content.flex.flex-col
-    .entry--content--feed.text-xxs.font-extralight
-      = link_to @entry.feed.name, feed_entries_path(@entry.feed)
-    .entry--content--title
-      = link_to @entry.link, target: "_blank" do
-        = @entry.title
-    .entry--content--tags
-      = render TagsComponent.new(tags: @tags)
-  .w-16.entry--meta.flex.flex-col.items-center.m-2
-    .entry--meta-timestamp.text-xs.font-bold
-      - if @entry.published_at.today?
-        = @entry.published_at.strftime("%H:%M")
-      - else
-        = @entry.published_at.strftime("%d %b")
-    .entry--meta-bookmark
-      = render BookmarkComponent.new(entry: @entry)
+= render DesktopPageComponent.new(entry: @entry, viewed: [], subscription_by_feed: @subscription_by_feed, tags_by_subscription: @tags_by_subscription)
 
 - if @sanitized_description.present?
   .p-2

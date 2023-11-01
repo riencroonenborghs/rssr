@@ -8,7 +8,6 @@ class PageComponent < ViewComponent::Base
     @entries = entries
     @skip_viewed = skip_viewed
 
-    @twenty_fours_h_ago = 24.hours.ago
     @tags_by_subscription ||= {}
     @subscription_by_feed ||= {}
     @tags = []
