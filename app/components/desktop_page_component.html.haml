@@ -4,7 +4,7 @@
   .w-80.text-xs.ms-1
     = link_to @entry.feed.name, feed_entries_path(@entry.feed)
   .w-full.overflow-hidden.text-ellipsis.whitespace-nowrap.ms-2.me-2.entry--content
-    .flex.flex-col
+    .flex.flex-row.items-center
       .entry--content--title.font-semibold
         - if @entry.description
           = link_to view_entry_path(@entry.feed, @entry), target: "_blank", data: { action: "click->desktopMarkAsRead#markAsRead" } do
@@ -12,6 +12,7 @@
         - else
           = link_to @entry.link, target: "_blank", data: { action: "click->desktopMarkAsRead#markAsRead" } do
             = @entry.title
+      .ps-2
         = render TagsComponent.new(tags: @tags)
       
   .w-24.entry--meta.entry--meta-timestamp.text-sm

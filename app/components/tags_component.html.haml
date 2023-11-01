@@ -1,5 +1,12 @@
-%span
-  - (@tags || []).each do |tag|    
+-# %span
+-#   - (@tags || []).each do |tag|    
+-#     = link_to tagged_feeds_path(tag.upcase) do
+-#       %span.badge.tag.fs-15
+-#         = tag.upcase
+
+
+%span.flex.flex-row
+  - (@tags || []).each do |tag|
     = link_to tagged_feeds_path(tag.upcase) do
-      %span.badge.tag.fs-15
+      .rounded.bg-slate-400.text-white.text-xtiny.ps-1.pe-1.me-1
         = tag.upcase
