@@ -11,8 +11,6 @@ class Filter < ApplicationRecord
     "the title #{human_readable_comparison} #{value.upcase}"
   end
 
-  private
-
   def human_readable_comparison
     case comparison
     when "includes"
