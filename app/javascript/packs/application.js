@@ -16,7 +16,7 @@ require("channels")
 import "bootstrap"
 
 import "./infiniteScroll"
-import "./mobileNavbar"
+// import "./mobileNavbar"
 import "./entries"
 
 import "../controllers"
