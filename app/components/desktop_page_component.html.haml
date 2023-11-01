@@ -1,15 +1,10 @@
-.entry.flex.flex-row.border-b.pt-2.ps-2.pb-2.items-start(class="#{'bg-slate-100' if @mark_viewed}" data-controller="desktopMarkAsRead" data-entry-id="#{@entry.id}")
-  .w-14.flex.flex-row.items-center
-    .w-6.entry--meta.entry--meta-bookmark
-      = render BookmarkComponent.new(entry: @entry)
-    .w-8
-      = render LogoComponent.new(feed: @entry.feed, mark_viewed: @mark_viewed)
+.entry.flex.flex-row.items-center.border-b.pt-2.ps-2.pb-2.items-start(class="#{'bg-slate-100 text-slate-400' if @mark_viewed}" data-controller="desktopMarkAsRead" data-entry-id="#{@entry.id}")
+  .w-6.entry--meta.entry--meta-bookmark
+    = render BookmarkComponent.new(entry: @entry)
+  .w-80.text-xs.ms-1
+    = link_to @entry.feed.name, feed_entries_path(@entry.feed)
   .w-full.overflow-hidden.text-ellipsis.whitespace-nowrap.ms-2.me-2.entry--content
     .flex.flex-col
-      .entry--content--feed.text-xxs.flex.flex-row
-        = link_to @entry.feed.name, feed_entries_path(@entry.feed)
-        .entry--content--tags.ms-1
-          = render TagsComponent.new(tags: @tags)
       .entry--content--title.font-semibold
         - if @entry.description
           = link_to view_entry_path(@entry.feed, @entry), target: "_blank", data: { action: "click->desktopMarkAsRead#markAsRead" } do
@@ -17,6 +12,7 @@
         - else
           = link_to @entry.link, target: "_blank", data: { action: "click->desktopMarkAsRead#markAsRead" } do
             = @entry.title
+        = render TagsComponent.new(tags: @tags)
       
   .w-24.entry--meta.entry--meta-timestamp.text-sm
     - if @entry.published_at.today?

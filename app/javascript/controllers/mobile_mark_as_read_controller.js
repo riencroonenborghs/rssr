@@ -19,6 +19,7 @@ export default class extends Controller {
       console.log(result)
       if (result.status === 200) {
         entry.classList.add('bg-slate-100')
+        entry.classList.add('text-slate-400')
         entry.classList.add('rounded-lg')
         logo.classList.remove('bg-slate-500')
         logo.classList.add('bg-slate-400')

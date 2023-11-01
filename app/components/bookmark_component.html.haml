@@ -1,4 +1,4 @@
-.pb-1(data-bookmark-entry-id="#{@entry.id}")
+%div(data-bookmark-entry-id="#{@entry.id}")
   %span.bookmarked(class="#{'hidden' unless bookmarked?}")
     = link_to remove_bookmark_path(@entry), remote: true, method: :delete do
       %svg(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5")

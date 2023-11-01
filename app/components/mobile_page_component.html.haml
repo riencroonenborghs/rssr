@@ -1,4 +1,4 @@
-.entry.flex.flex-row.mt-1.pt-2.pb-2(class="#{'bg-slate-100 rounded-lg' if @mark_viewed}" data-controller="mobileMarkAsRead" data-entry-id="#{@entry.id}")
+.entry.flex.flex-row.mt-1.pt-2.pb-2(class="#{'bg-slate-100 text-slate-400 rounded-lg' if @mark_viewed}" data-controller="mobileMarkAsRead" data-entry-id="#{@entry.id}")
   .w-8.entry--logo.m-2
     = render LogoComponent.new(feed: @entry.feed, mark_viewed: @mark_viewed)
   .w-full.entry--content.flex.flex-col
