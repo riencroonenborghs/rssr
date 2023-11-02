@@ -1,4 +1,7 @@
-= render DesktopPageComponent.new(entry: @entry, viewed: [], subscription_by_feed: @subscription_by_feed, tags_by_subscription: @tags_by_subscription)
+- if mobile?
+  = render MobileEntryComponent.new(entry: @entry, viewed: [], subscription_by_feed: @subscription_by_feed, tags_by_subscription: @tags_by_subscription)
+- else
+  = render DesktopEntryComponent.new(entry: @entry, viewed: [], subscription_by_feed: @subscription_by_feed, tags_by_subscription: @tags_by_subscription)
 
 - if @sanitized_description.present?
   .p-2

@@ -5,13 +5,13 @@
     .entry--content--feed.text-xxs.font-extralight
       = link_to @entry.feed.name, feed_entries_path(@entry.feed)
     .entry--content--title
-      - if @entry.description
-        = link_to view_entry_path(@entry.feed, @entry), target: "_blank", data: { action: "click->mobileMarkAsRead#markAsRead" } do
-          = @entry.title
-      - else
+      - if @entry.description.blank? || @entry.show_entry
         = link_to @entry.link, target: "_blank", data: { action: "click->mobileMarkAsRead#markAsRead" } do
           = @entry.title
-    .entry--content--tags
+      - else
+        = link_to view_entry_path(@entry.feed, @entry), target: "_blank", data: { action: "click->mobileMarkAsRead#markAsRead" } do
+          = @entry.title
+    .entry--content--tags.pt-1
       = render TagsComponent.new(tags: @tags)
   .w-16.entry--meta.flex.flex-col.items-center.m-2
     .entry--meta-timestamp.text-xs.font-bold

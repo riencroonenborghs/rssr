@@ -9,6 +9,8 @@ class Entry < ApplicationRecord
   scope :today, -> { most_recent_first.where(published_at: 24.hours.ago..) }
   scope :yesterday, -> { most_recent_first.where(published_at: 48.hours.ago..24.hours.ago) }
 
+  attr_accessor :show_entry
+
   def media?
     media_url.present?
   end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class DesktopPageComponent < ViewComponent::Base
+class DesktopEntryComponent < ViewComponent::Base
   with_collection_parameter :entry
 
   delegate :user_signed_in?, :current_user, :fa_solid, :fa_regular, :cached_bootstrap_tags, to: :helpers

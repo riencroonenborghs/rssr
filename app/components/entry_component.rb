@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 class EntryComponent < ViewComponent::Base
-  delegate :user_signed_in?, :current_user, :sanitize, to: :helpers
+  delegate :user_signed_in?, :current_user, :sanitize, :mobile?, to: :helpers
 
   def initialize(entry:) # rubocop:disable Lint/MissingSuper
     @entry = entry
+    @entry.show_entry = true
 
     @sanitized_description = entry.description
     @tags_by_subscription ||= {}
