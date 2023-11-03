@@ -5,7 +5,8 @@
 .flex.flex-col
   #navigation.flex.flex-row.justify-between.items-center.p-2.border-b(class="dark:bg-slate-950")
     .font-bold.text-2xl.text-slate-500(class="dark:text-slate-300")
-      = link_to "RSSr", root_path
+      = link_to root_path do
+        .ps-4 RSSr
     .text-end.ms-2.flex.flex-row(class="overflow-hidden text-ellipsis whitespace-nowrap dark:text-slate-100")
       .pe-4
         = yield :nav_title
