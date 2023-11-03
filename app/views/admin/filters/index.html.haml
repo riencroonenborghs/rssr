@@ -7,8 +7,7 @@
   .flex.flex-row.justify-end.pb-2.pt-2
     = link_to new_admin_filter_path do
       .flex.flex-row.border.p-2.rounded-lg
-        %svg(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6")
-          %path(stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15")
+        = render IconComponent.new(name: :plus)
         .ms-2 New Filter
 
 
