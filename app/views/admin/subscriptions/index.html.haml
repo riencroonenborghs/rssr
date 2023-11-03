@@ -27,36 +27,35 @@
 
     .grid.grid-cols-4.gap-2
       - @subscriptions.each do |subscription|
-        .shadow-sm.border.rounded.m-2
-          .flex.flex-col.justify-between.h-full
-            .pb-1.flex.flex-col
-              .flex.flex-row.justify-between.p-3.pb-1
-                .w-full.flex.flex-col
-                  = link_to subscription.feed.name, feed_entries_path(subscription.feed)
-                  = render TagsComponent.new(tags: subscription.tag_list)
-                .ps-2
-                  = render LogoComponent.new(feed: subscription.feed)
-              .text-slate-400.text-xxs.ps-3.pb-3
-                .flex.flex-row
-                  = render IconComponent.new(name: :plus, size: 3)
-                  = subscription.created_at.strftime("%d %B %Y")
-                .flex.flex-row
-                  = render IconComponent.new(name: :refresh, size: 3)
-                  .ms-1
-                    = subscription.feed.refresh_at&.strftime("%d %b %H:%M")
-            .border-t
-              .flex.flex-row.justify-between
-                = link_to refresh_admin_subscription_path(subscription), class: "p-3" do
-                  = render IconComponent.new(name: :refresh)
-                = link_to toggle_active_admin_subscription_path(subscription), class: "p-3" do
-                  - if subscription.active?
-                    = render IconComponent.new(name: :eye)
-                  - else
-                    = render IconComponent.new(name: :eye_slash)
-                = link_to edit_admin_subscription_path(subscription), class: "p-3" do
-                  = render IconComponent.new(name: :edit)
-                = link_to admin_unsubscribe_path(subscription), method: :delete, data: { confirm: "Are you sure?" }, class: "p-3 text-red-500" do
-                  = render IconComponent.new(name: :trash)
+        = render CardComponent.new do |c|
+          = c.with_body do
+            .flex.flex-row.justify-between.pb-1
+              .w-full.flex.flex-col
+                = link_to subscription.feed.name, feed_entries_path(subscription.feed)
+                = render TagsComponent.new(tags: subscription.tag_list)
+              .ps-2
+                = render LogoComponent.new(feed: subscription.feed)
+            .text-slate-400.text-xxs
+              .flex.flex-row
+                = render IconComponent.new(name: :plus, size: 3)
+                = subscription.created_at.strftime("%d %B %Y")
+              .flex.flex-row
+                = render IconComponent.new(name: :refresh, size: 3)
+                .ms-1
+                  = subscription.feed.refresh_at&.strftime("%d %b %H:%M")
+          = c.with_footer do
+            = link_to refresh_admin_subscription_path(subscription) do
+              = render IconComponent.new(name: :refresh)
+            = link_to toggle_active_admin_subscription_path(subscription) do
+              - if subscription.active?
+                = render IconComponent.new(name: :eye)
+              - else
+                = render IconComponent.new(name: :eye_slash)
+            = link_to edit_admin_subscription_path(subscription) do
+              = render IconComponent.new(name: :edit)
+            = link_to admin_unsubscribe_path(subscription), method: :delete, data: { confirm: "Are you sure?" }, class: "text-red-500" do
+              = render IconComponent.new(name: :trash)
+
 
     .flex.flex-row.justify-end.pe-4
       - if @subscriptions.prev_page
