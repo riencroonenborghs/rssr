@@ -1,14 +1,11 @@
--# - classes = "w-2/3 ps-2 p-1 mt-1 mb-1 rounded-r-lg"
--# - active = "bg-slate-400 text-white"
-
 - classes = "flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
 - active = "bg-slate-100"
 
 .flex.flex-col
-  #navigation.flex.flex-row.justify-between.items-center.p-2.border-b.shadow-sm(class="dark:bg-slate-950")
+  #navigation.flex.flex-row.justify-between.items-center.p-2.border-b(class="dark:bg-slate-950")
     .font-bold.text-2xl.text-slate-500(class="dark:text-slate-300")
       = link_to "RSSr", root_path
-    .ms-2.flex.flex-row(class="w-2/3 ms-4 me-4 overflow-hidden text-ellipsis whitespace-nowrap dark:text-slate-100")
+    .text-end.ms-2.flex.flex-row(class="overflow-hidden text-ellipsis whitespace-nowrap dark:text-slate-100")
       = yield :nav_title
   .flex.flex-row
     #menu.border-e(class="h-screen p-4 bg-white w-64")
