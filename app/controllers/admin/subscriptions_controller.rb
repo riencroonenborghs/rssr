@@ -14,7 +14,7 @@ module Admin
     def new
       @feed = Feed.new
       @subscription = current_user.subscriptions.new(feed: @feed)
-      @step = :step_1 # rubocop:disable Naming/VariableNumber
+      @step = 1
 
       render :new
     end
@@ -26,10 +26,10 @@ module Admin
 
       respond_to do |format|
         if @service.success?
-          @step = :step_2 # rubocop:disable Naming/VariableNumber
+          @step = 2 # rubocop:disable Naming/VariableNumber
           format.html { render :new }
         else
-          @step = :step_1 # rubocop:disable Naming/VariableNumber
+          @step = 1 # rubocop:disable Naming/VariableNumber
           format.html { render :new, status: :unprocessable_entity }
         end
       end
@@ -39,7 +39,7 @@ module Admin
       @feed = Feed.new url: subscription_params[:url], rss_url: subscription_params[:rss_url]
       @subscription = current_user.subscriptions.new(feed: @feed)
       @service = Feeds::GuessDetails.perform(feed: @feed)
-      @step = :step_3 # rubocop:disable Naming/VariableNumber
+      @step = 3 # rubocop:disable Naming/VariableNumber
 
       respond_to do |format|
         format.html { render :new }
@@ -64,18 +64,19 @@ module Admin
         if @service.success?
           format.html { redirect_to admin_subscriptions_path, notice: "Subscribed to #{@feed.name}." }
         else
+          @step = 3
           format.html { render :new, status: :unprocessable_entity }
         end
       end
     end
 
     def create
-      case subscription_params[:step]
-      when "step_1"
+      case subscription_params[:step].to_i
+      when 1
         step_1
-      when "step_2"
+      when 2
         step_2
-      when "step_3"
+      when 3
         step_3
       end
     end

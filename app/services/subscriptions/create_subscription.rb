@@ -5,6 +5,7 @@ module Subscriptions
     include Base
 
     attr_reader :feed, :subscription, :default_feed, :default_subscription
+    attr_reader :url, :rss_url, :user, :name, :tag_list, :description, :hide_from_main_page, :rss_feeds, :guesser
 
     def initialize(user:, url:, rss_url:, name:, tag_list:, description:, hide_from_main_page:) # rubocop:disable Metrics/ParameterLists
       @url = url
@@ -36,7 +37,6 @@ module Subscriptions
 
     private
 
-    attr_reader :url, :rss_url, :user, :name, :tag_list, :description, :hide_from_main_page, :rss_feeds, :guesser
 
     def build_defaults
       @default_feed = Feed.new(

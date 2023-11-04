@@ -35,12 +35,12 @@
                 = render TagsComponent.new(tags: subscription.tag_list)
               .ps-2
                 = render LogoComponent.new(feed: subscription.feed)
-            .text-slate-400.text-xxs
-              .flex.flex-row
-                = render IconComponent.new(name: :plus, size: 3)
+            .text-slate-400.text-xs
+              .flex.flex-row.items-center
+                = render IconComponent.new(name: :plus, size: 4)
                 = subscription.created_at.strftime("%d %B %Y")
               .flex.flex-row
-                = render IconComponent.new(name: :refresh, size: 3)
+                = render IconComponent.new(name: :refresh, size: 4)
                 .ms-1
                   = subscription.feed.refresh_at&.strftime("%d %b %H:%M")
           = c.with_footer do
