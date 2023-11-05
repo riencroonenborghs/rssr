@@ -14,14 +14,15 @@ RSS reader
 
   - authentication
   - manage feeds:
-    - RSS & atom feeds (eg https://hnrss.org/frontpage)
-    - links to subreddits, ending with .json (eg https://www.reddit.com/r/frontpage.json)
-  - refresh every 30 minutes
+    - RSS & atom feeds
+    - supports tumblr, blogger, medium and reddit URLs
+  - refreshes every 30 minutes
   - 2 week data retention
   - filtering
   - bookmarking
+  - search
+  - saved searches
   - infinite scrolling
-  - darkmode
 
 ## How to run
 

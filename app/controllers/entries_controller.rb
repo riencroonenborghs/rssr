@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class EntriesController < ApplicationController
   before_action :set_feed
 
@@ -9,7 +11,7 @@ class EntriesController < ApplicationController
   def show
     @entry = @feed.entries.find(params[:id])
 
-    unless mobile?
+    unless mobile? # rubocop:disable Style/GuardClause
       show_set_tags_by_subscription
       show_set_subscription_by_feed
     end

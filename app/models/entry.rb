@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Entry < ApplicationRecord
   belongs_to :feed
   has_many :viewed_entries, dependent: :destroy

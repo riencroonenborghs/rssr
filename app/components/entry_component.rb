@@ -48,10 +48,14 @@ class EntryComponent < ViewComponent::Base
       .index_by(&:feed_id)
   end
 
+  # rubocop:disable Style/RedundantRegexpArgument
+  # rubocop:disable Style/RedundantRegexpEscape
   def sanitize_description
     return unless @sanitized_description.present?
 
     @sanitized_description = sanitize(@sanitized_description, tags: %w[strong em p a])
-    @sanitized_description = @sanitized_description.gsub(/\<a /, "<a target='_blank' ") # rubocop:disable Style/RedundantRegexpEscape
+    @sanitized_description = @sanitized_description.gsub(/\<a /, "<a target='_blank' ")
   end
+  # rubocop:enable Style/RedundantRegexpArgument
+  # rubocop:enable Style/RedundantRegexpEscape
 end

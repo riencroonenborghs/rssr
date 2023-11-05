@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class WatchesController < AdminController
     before_action :set_watch, only: %i[update destroy]

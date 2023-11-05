@@ -10,7 +10,7 @@ module Subscriptions
 
     let(:name) { "Name" }
     let(:tag_list) { "foo,bar,baz" }
-    let(:url) { Faker::Internet.url }
+    let(:url) { "http://some.url.com" }
     let(:description) { "description" }
     let(:hide_from_main_page) { true }
 
@@ -70,7 +70,7 @@ module Subscriptions
       context "when url changes" do
         it "queues a feed refresh job for later" do
           travel_to Time.zone.now do
-            expect(RefreshFeedJob).to receive(:perform_in).with(5.seconds, subscription.feed.id)
+            expect(RefreshFeedJob).to receive(:perform_in).with(5.seconds, { feed_id: subscription.feed.id }.to_json)
             subject.perform
           end
         end

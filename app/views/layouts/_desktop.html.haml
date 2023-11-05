@@ -63,6 +63,13 @@
                     .ms-2
                       Watches
             %li
+              = link_to new_search_path, class: "#{classes} #{active if active_page?(new_search_path)}", title: "Search" do
+                .flex.flex-row
+                  = render IconComponent.new(name: :search)
+                  - unless collapsed
+                    .ms-2
+                      Search
+            %li
               = link_to "/sidekiq", target: "_blank", class: "#{classes}", title: "Sidekiq" do
                 .flex.flex-row
                   = render IconComponent.new(name: :cpu)

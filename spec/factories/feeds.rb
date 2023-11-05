@@ -1,7 +1,12 @@
 FactoryBot.define do
   factory :feed do
-    url { Faker::Internet.url }
-    rss_url { Faker::Internet.url }
+    sequence :url do |n|
+      "http://some.url#{n}.com"
+    end
+    sequence :rss_url do |n|
+      "http://rss.url#{n}.com"
+    end
+
     name { Faker::Lorem.sentence(word_count: 3) }
     active
 

@@ -1,7 +1,9 @@
 FactoryBot.define do
   factory :entry do
     feed
-    link { Faker::Internet.url }
+    sequence :link do |n|
+      "http://link.url#{n}.com"
+    end
     title { Faker::Lorem.sentence(word_count: 3) }
     guid { Faker::Internet.uuid }
   end

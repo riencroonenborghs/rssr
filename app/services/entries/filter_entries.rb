@@ -45,7 +45,7 @@ module Entries
         .where(comparison: comparison)
         .select(:value)
         .pluck(:value)
-        .map { |value| value.upcase }
+        .map(&:upcase)
         .join("|")
     end
 

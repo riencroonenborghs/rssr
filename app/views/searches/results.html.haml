@@ -1,0 +1,13 @@
+- content_for :nav_title do
+  .flex.flex-row
+    Search results for
+    - @watches.sort_by(&:watch_type).each.with_index do |watch, index|
+      = watch.human_readable
+      - if index + 1 < @watches.size
+        .font-thin.ps-1.pe-1 and
+
+- content_for :meta_title do
+  Search Results
+
+#search-results.p-2.pt-0.w-100.entries
+  = render PageComponent.new(entries: @entries)

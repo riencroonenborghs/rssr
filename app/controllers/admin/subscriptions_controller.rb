@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class SubscriptionsController < AdminController # rubocop:disable Metrics/ClassLength
     before_action :set_page, only: %i[index search]
@@ -26,10 +28,10 @@ module Admin
 
       respond_to do |format|
         if @service.success?
-          @step = 2 # rubocop:disable Naming/VariableNumber
+          @step = 2
           format.html { render :new }
         else
-          @step = 1 # rubocop:disable Naming/VariableNumber
+          @step = 1
           format.html { render :new, status: :unprocessable_entity }
         end
       end
@@ -39,7 +41,7 @@ module Admin
       @feed = Feed.new url: subscription_params[:url], rss_url: subscription_params[:rss_url]
       @subscription = current_user.subscriptions.new(feed: @feed)
       @service = Feeds::GuessDetails.perform(feed: @feed)
-      @step = 3 # rubocop:disable Naming/VariableNumber
+      @step = 3
 
       respond_to do |format|
         format.html { render :new }
@@ -130,7 +132,7 @@ module Admin
         return
       end
 
-      RefreshFeedJob.perform_async({feed_id: subscription.feed_id}.to_json)
+      RefreshFeedJob.perform_async({ feed_id: subscription.feed_id }.to_json)
 
       respond_to do |format|
         format.html { redirect_to request.referer, notice: "Subscription queued for refresh." }

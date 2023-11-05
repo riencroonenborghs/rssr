@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class WatchesController < ApplicationController
   before_action :authenticate_user!
   before_action :my_group?, only: %i[show]

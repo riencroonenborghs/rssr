@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe FindRssFeeds, type: :service do
   subject { described_class.perform(url: url) }
 
-  let(:url) { Faker::Internet.url }
+  let(:url) { "http://some.url.com" }
   let(:loader_success) { true }
   let(:loader_data) { "data" }
   let(:loader_errors) { nil }
@@ -16,7 +16,7 @@ RSpec.describe FindRssFeeds, type: :service do
     allow(GetUrlData).to receive(:perform).and_return(mock_loader)
   end
 
-  describe "#call" do
+  describe "#perform" do
     context "when there's known RSS feeds" do
       context "when it's a tumblr site" do
         let(:url) { "http://catsthatlooklikeronswanson.tumblr.com" }

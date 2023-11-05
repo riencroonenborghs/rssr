@@ -18,3 +18,6 @@ application.register("mobileMarkAsRead", MobileMarkAsReadController)
 
 import DesktopMarkAsReadController from "./desktop_mark_as_read_controller"
 application.register("desktopMarkAsRead", DesktopMarkAsReadController)
+
+import SearchController from "./search_controller"
+application.register("search", SearchController)

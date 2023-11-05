@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module IconsHelper
   def fa_solid(icon, size: 2, options: {})
     tag.span(class: "#{options[:class]} icon") do

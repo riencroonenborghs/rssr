@@ -4,8 +4,7 @@ module Subscriptions
   class CreateSubscription
     include Base
 
-    attr_reader :feed, :subscription, :default_feed, :default_subscription
-    attr_reader :url, :rss_url, :user, :name, :tag_list, :description, :hide_from_main_page, :rss_feeds, :guesser
+    attr_reader :feed, :subscription, :default_feed, :default_subscription, :url, :rss_url, :user, :name, :tag_list, :description, :hide_from_main_page, :rss_feeds, :guesser
 
     def initialize(user:, url:, rss_url:, name:, tag_list:, description:, hide_from_main_page:) # rubocop:disable Metrics/ParameterLists
       @url = url
@@ -37,7 +36,6 @@ module Subscriptions
 
     private
 
-
     def build_defaults
       @default_feed = Feed.new(
         url: url,
@@ -65,7 +63,7 @@ module Subscriptions
     end
 
     def subscription_exists?
-      return unless user.subscriptions.exists?(feed_id: @feed.id)
+      return false unless user.subscriptions.exists?(feed_id: @feed.id)
 
       errors.add(:base, "subscription already exists")
     end

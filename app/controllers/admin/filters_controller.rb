@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class FiltersController < AdminController
     before_action :set_filter, only: %i[edit update destroy]

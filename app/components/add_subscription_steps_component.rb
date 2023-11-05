@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 class AddSubscriptionStepsComponent < ViewComponent::Base
-  def initialize(step:)
-    no_steps = 4
+  def initialize(step:) # rubocop:disable Lint/MissingSuper
     @step = step
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BookmarksController < ApplicationController
   before_action :authenticate_user!
 
@@ -8,7 +10,7 @@ class BookmarksController < ApplicationController
       .order(current_user.bookmarks.order(created_at: :desc).pluck(:entry_id).map { |id| "id = #{id} DESC" })
       .page(page).per(@pagination_size)
 
-    return paged_render if params.key?(:page)
+    return paged_render if params.key?(:page) # rubocop:disable Style/RedundantReturn
   end
 
   def create
@@ -16,7 +18,7 @@ class BookmarksController < ApplicationController
     return unless entry
 
     # rubocop:disable Style/IfUnlessModifier
-    unless (@bookmark = current_user.bookmarks.find_by(entry_id: entry.id))
+    unless (@bookmark = current_user.bookmarks.find_by(entry_id: entry.id)) # rubocop:disable Style/GuardClause
       @bookmark = current_user.bookmarks.create!(entry_id: entry.id)
     end
     # rubocop:enable Style/IfUnlessModifier

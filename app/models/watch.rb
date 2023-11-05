@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class Watch < ApplicationRecord
-  ENTRY_TITLE = "entry_title".freeze
-  ENTRY_DESCRIPTION = "entry_description".freeze
-  FEED_TAG = "feed_tag".freeze
+  ENTRY_TITLE = "entry_title"
+  ENTRY_DESCRIPTION = "entry_description"
+  FEED_TAG = "feed_tag"
   WATCH_TYPES = [ENTRY_TITLE, ENTRY_DESCRIPTION, FEED_TAG].freeze
 
   belongs_to :user

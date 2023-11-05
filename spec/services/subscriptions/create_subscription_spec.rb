@@ -9,8 +9,8 @@ module Subscriptions
     let(:user) { create :user }
     let(:name) { "Name" }
     let(:tag_list) { "foo,bar,baz" }
-    let(:url) { Faker::Internet.url }
-    let(:rss_url) { Faker::Internet.url }
+    let(:url) { "http://some.url.com" }
+    let(:rss_url) { "http://other.url.com" }
     let(:description) { "description" }
     let(:hide_from_main_page) { false }
 
@@ -88,7 +88,7 @@ module Subscriptions
     it "queues a feed refresh job for later" do
       feed = create :feed, url: url
       travel_to Time.zone.now do
-        expect(RefreshFeedJob).to receive(:perform_in).with(5.seconds, feed.id)
+        expect(RefreshFeedJob).to receive(:perform_in).with(5.seconds, { feed_id: feed.id }.to_json)
         subject
       end
     end

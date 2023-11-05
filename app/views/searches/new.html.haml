@@ -1,0 +1,38 @@
+- content_for :nav_title do
+  New Search
+- content_for :meta_title do
+  New Search
+
+#new-search.p-2.pt-0.w-100(data-controller="search")
+  .p-4
+    = form_with(scope: :search, url: search_path, local: true, method: "post") do |form|
+      #template.hidden
+        .flex.flex-row.items-center.mt-2.search-row
+          .flex.flex-col
+            %select(name="search[watch_type][]" class="block border-0 bg-transparent py-1.5 pl-2 text-gray-900 focus:ring-1 sm:text-sm sm:leading-6 rounded-md ring-1 ring-gray-300 focus:ring-slate-600")
+              %option(value="entry_title") entry title contains
+              %option(value="entry_description") entry description contains
+              %option(value="feed_tag") is tagged with
+          .flex.flex-col(class="w-1/2")
+            %div(class="ms-2 rounded-md ring-1 ring-gray-300 focus-within:ring-1 focus-within:ring-slate-600")
+              %input(type="text" name="search[value][]" class="block border-0 bg-transparent py-1.5 pl-2 text-gray-900  focus:ring-0 sm:text-sm sm:leading-6 w-full")
+          %a(href="#" data-action="click->search#add" class="ms-1")
+            = render IconComponent.new(name: :plus)
+          %a(herf="#" data-action="click->search#remove" class="text-red-500 hover:text-red-600 ms-1")
+            = render IconComponent.new(name: :trash)
+
+      #search
+        .flex.flex-row.items-center
+          .flex.flex-col
+            %select(name="search[watch_type][]" class="block border-0 bg-transparent py-1.5 pl-2 text-gray-900 focus:ring-1 sm:text-sm sm:leading-6 rounded-md ring-1 ring-gray-300 focus:ring-slate-600")
+              %option(value="entry_title") entry title contains
+              %option(value="entry_description") entry description contains
+              %option(value="feed_tag") is tagged with
+          .flex.flex-col(class="w-1/2")
+            %div(class="ms-2 rounded-md ring-1 ring-gray-300 focus-within:ring-1 focus-within:ring-slate-600")
+              %input(type="text" name="search[value][]" class="block border-0 bg-transparent py-1.5 pl-2 text-gray-900  focus:ring-0 sm:text-sm sm:leading-6 w-full")
+          %a(href="#" data-action="click->search#add" class="ms-1")
+            = render IconComponent.new(name: :plus)
+
+      .flex.flex-row.pt-3
+        = form.submit "Search", class: "rounded-md bg-slate-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-slate-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-600"

@@ -16,6 +16,9 @@ Rails.application.routes.draw do
 
   get "tags" => "tags#index", as: :tags
 
+  get "search" => "searches#new", as: :new_search
+  post "search" => "searches#results", as: :search
+
   get "today" => "subscriptions#today", as: :subscriptions_today
   get "yesterday" => "subscriptions#yesterday", as: :subscriptions_yesterday
 

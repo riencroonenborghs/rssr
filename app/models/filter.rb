@@ -1,5 +1,13 @@
+# frozen_string_literal: true
+
 class Filter < ApplicationRecord
   VALID_COMPARISONS = %w[includes excludes matches mismatches].freeze
+  HUMAN_READABLES = {
+    "includes" => "contains",
+    "excludes" => "does not contain",
+    "matches" => "matches",
+    "mismatches" => "does not match"
+  }.freeze
 
   belongs_to :user
 
@@ -12,15 +20,6 @@ class Filter < ApplicationRecord
   end
 
   def human_readable_comparison
-    case comparison
-    when "includes"
-      "contains"
-    when "excludes"
-      "does not contain"
-    when "matches"
-      "matches"
-    when "mismatches"
-      "does not match"
-    end
+    HUMAN_READABLES[comparison]
   end
 end

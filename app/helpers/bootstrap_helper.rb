@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module BootstrapHelper
   def bootstrap_tags(subscription)
     content_tag :span do

@@ -66,7 +66,7 @@ class FindRssFeeds
   end
 
   def find_medium
-    pre, post = url.split(/medium\.com/)
+    pre, post = url.split(/medium\.com/) # rubocop:disable Style/RedundantRegexpArgument
     href = "#{pre}medium.com/feed#{post}"
     @rss_feeds << RssFeed.new(href: href)
   end
