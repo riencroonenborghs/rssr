@@ -114,6 +114,10 @@ module Admin
     def unsubscribe
       @subscription = current_user.subscriptions.find_by(id: params[:subscription_id])
       @subscription.destroy
+
+      respond_to do |format|
+        format.html { redirect_to admin_subscriptions_path, notice: "Unsubscribed from #{@subscription.feed.name}." }
+      end
     end
 
     def refresh_all
