@@ -4,17 +4,11 @@ require 'sidekiq/cron/web'
 Rails.application.routes.draw do
   devise_for :users
 
-  resources :feeds, only: [:index, :search] do
-    resources :entries, only: [:index, :day] do
-      collection do
-        get :today
-      end
+  resources :feeds, only: [:search] do
+    resources :entries, only: [:index] do
     end
     get "tagged/:tag" => "feeds#tagged", on: :collection, as: :tagged
-    get "tagged/:tag/today" => "feeds#tagged_today", on: :collection, as: :tagged_today
   end
-
-  get "tags" => "tags#index", as: :tags
 
   get "search" => "searches#new", as: :new_search
   post "search" => "searches#results", as: :search

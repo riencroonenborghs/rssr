@@ -9,13 +9,3 @@
   #add-subscription.p-2.pt-0.w-100
     = render AddSubscriptionStepsComponent.new(step: @step)
     = render "/admin/subscriptions/step_#{@step}"
-
--# #new-sub
-  .p-4.w-100
-    %h4
-      = link_to "Subscriptions", admin_subscriptions_path
-      &gt; New
-
-    = render "/admin/subscriptions/steps"
-
-    = render "/admin/subscriptions/#{@step}"
