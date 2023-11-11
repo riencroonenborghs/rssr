@@ -3,7 +3,7 @@
 class DesktopEntryComponent < ViewComponent::Base
   with_collection_parameter :entry
 
-  delegate :user_signed_in?, :current_user, :fa_solid, :fa_regular, :cached_bootstrap_tags, to: :helpers
+  delegate :user_signed_in?, :current_user, to: :helpers
 
   def initialize(entry:, viewed:, subscription_by_feed:, tags_by_subscription:) # rubocop:disable Lint/MissingSuper
     @entry = entry

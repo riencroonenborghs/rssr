@@ -27,7 +27,7 @@
 
     .grid.grid-cols-4.gap-2
       - @subscriptions.each do |subscription|
-        = render CardComponent.new(subscription: subscription) do |c|
+        = render CardComponent.new(highlighted: !subscription.active?) do |c|
           = c.with_body do
             .flex.flex-row.justify-between.pb-1
               .w-full.flex.flex-col

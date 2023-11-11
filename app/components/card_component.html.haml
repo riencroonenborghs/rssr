@@ -1,4 +1,4 @@
-.shadow-sm.border.rounded.m-2(class="#{'bg-slate-100' unless @subscription.active?}")
+.shadow-sm.border.rounded.m-2(class="#{'bg-slate-100' if @highlighted}")
   .flex.flex-col.justify-between.h-full
     .flex.flex-col.p-3
       = body

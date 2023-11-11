@@ -1,6 +1,0 @@
-#watches-menu.pt-2
-  %ul.d-flex.flex-row(style="list-style: none;")
-    - watches_by_group.each do |group_id|
-      %li.ms-2.me-2
-        = link_to watches_group_path(group_id: group_id), class: "#{'active' if active_page?(watches_group_path(group_id: group_id))}", title: "Watch ##{group_id}" do
-          = fa_regular "eye", size: "one-and-half"
