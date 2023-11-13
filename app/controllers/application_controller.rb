@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
   end
 
   def paged_render
-    render :page, layout: false and return if page > 1
+    render :page and return if page > 1
   end
 
   def offset_scope

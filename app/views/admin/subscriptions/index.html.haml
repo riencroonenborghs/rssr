@@ -56,10 +56,12 @@
             = link_to admin_unsubscribe_path(subscription), method: :post, data: { confirm: "Are you sure?" }, class: "text-red-500" do
               = render IconComponent.new(name: :trash)
 
-    .flex.flex-row.justify-end.pe-4
-      - if @subscriptions.prev_page
-        .border.p-2.rounded.me-2
-          = link_to_previous_page @subscriptions, "Previous Page"
-      - if @subscriptions.next_page
-        .border.p-2.rounded
-          = link_to_next_page @subscriptions, "Next Page"
+    .flex.flex-col
+      .flex.flex-row.justify-end.pe-4
+        - if @subscriptions.prev_page
+          .border.p-2.rounded.me-2
+            = link_to_previous_page @subscriptions, "Previous Page"
+        - if @subscriptions.next_page
+          .border.p-2.rounded
+            = link_to_next_page @subscriptions, "Next Page"
+      .p-4 &nbsp;
