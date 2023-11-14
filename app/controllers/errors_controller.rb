@@ -4,7 +4,7 @@ class ErrorsController < ApplicationController
   layout "error"
 
   def not_found
-    Rollbar.error(request.env["action_dispatch.exception"])
+    # Rollbar.error(request.env["action_dispatch.exception"])
     render status: 404
   end
 
