@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
   end
 
   def paged_render
-    render :page and return if page > 1
+    render :page, layout: mobile? and return if page > 1
   end
 
   def offset_scope

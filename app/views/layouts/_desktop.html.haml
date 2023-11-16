@@ -92,5 +92,5 @@
                     .ms-2
                       Sign In
   
-    #content.pt-2.w-full(class="dark:bg-slate-950 dark:text-slate-300" style="overflow-y: auto; height: calc(100vh - 0px)")
+    #content.pt-2.w-full(class="dark:bg-slate-950 dark:text-slate-300" style="overflow-y: auto; height: calc(100vh - 0px)" data-controller="scroller" data-action="scroll->scroller#scrolled")
       = yield

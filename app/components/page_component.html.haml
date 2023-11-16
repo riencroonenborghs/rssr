@@ -4,7 +4,8 @@
   = render DesktopEntryComponent.with_collection(@entries, viewed: @viewed, subscription_by_feed: @subscription_by_feed, tags_by_subscription: @tags_by_subscription)
 
 
-- if !@entries.is_a?(Array) && (@entries.prev_page || @entries.next_page)
+
+- if mobile? && !@entries.is_a?(Array) && (@entries.prev_page || @entries.next_page)
   .flex.flex-col
     .flex.flex-row.justify-center
       - if @entries.prev_page
