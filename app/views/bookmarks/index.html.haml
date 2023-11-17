@@ -3,7 +3,7 @@
 - content_for :meta_title do
   Bookmarks
 
-#bookmarks.p-2.pt-0.w-100.entries
+#bookmarks.w-100.entries
   - if @entries.any?
     = render PageComponent.new(entries: @entries, skip_viewed: true)
   - else

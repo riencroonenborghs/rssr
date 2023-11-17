@@ -3,5 +3,5 @@
 - content_for :meta_title do
   = "Entry #{@entry.title}"
 
-#entry.p-2.pt-0.w-100
+#entry.w-100
   = render EntryComponent.new(entry: @entry)

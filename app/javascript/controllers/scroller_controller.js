@@ -44,14 +44,17 @@ class Loader {
 export default class extends Controller {
   connect () {
     this.loader = new Loader()
+    this.enabled = document.querySelector('.entries') !== null
   }
 
   scrolled (event) {
-    let ch = event.target.clientHeight
-    let ct = event.target.clientTop
-    let oh = event.target.offsetHeight
-    let ot = event.target.offsetTop
-    let sh = event.target.scrollHeight
+    if (!this.enabled) { return; }
+
+    // let ch = event.target.clientHeight
+    // let ct = event.target.clientTop
+    // let oh = event.target.offsetHeight
+    // let ot = event.target.offsetTop
+    // let sh = event.target.scrollHeight
     let st = event.target.scrollTop
     let stm = event.target.scrollTopMax
     // console.log(`ch: ${ch} - ct: ${ct} - oh: ${oh} - ot: ${ot} - sh: ${sh} - st: ${st} - stm: ${stm}`)
