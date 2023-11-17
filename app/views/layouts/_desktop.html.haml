@@ -56,7 +56,7 @@
                     .ms-2
                       Filters
             %li
-              = link_to admin_watches_path, class: "#{classes} #{active if active_page?(admin_watches_path)}", title: "Filters" do
+              = link_to admin_watches_path, class: "#{classes} #{active if active_page?(admin_watches_path)}", title: "Watches" do
                 .flex.flex-row
                   = render IconComponent.new(name: :eye)
                   - unless collapsed

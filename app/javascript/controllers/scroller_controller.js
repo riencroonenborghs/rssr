@@ -32,7 +32,10 @@ class Loader {
       }).then((body) => {
         const parser = new DOMParser()
         const html = parser.parseFromString(body, 'text/html')
-        object.entries.append(html.body)
+        
+        html.querySelectorAll('.entry').forEach((node) => {
+          object.entries.appendChild(node)
+        })
       })
     }, 250)
   }
@@ -51,7 +54,7 @@ export default class extends Controller {
     let sh = event.target.scrollHeight
     let st = event.target.scrollTop
     let stm = event.target.scrollTopMax
-    console.log(`ch: ${ch} - ct: ${ct} - oh: ${oh} - ot: ${ot} - sh: ${sh} - st: ${st} - stm: ${stm}`)
+    // console.log(`ch: ${ch} - ct: ${ct} - oh: ${oh} - ot: ${ot} - sh: ${sh} - st: ${st} - stm: ${stm}`)
 
     if (st * 1.1 > stm) {
       this.loader.loadNextPage()
