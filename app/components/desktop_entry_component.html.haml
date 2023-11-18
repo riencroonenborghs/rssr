@@ -3,7 +3,7 @@
     = render BookmarkComponent.new(entry: @entry)
   .w-80.text-xs.ms-1
     = link_to @entry.feed.name, feed_entries_path(@entry.feed)
-  .w-full.overflow-hidden.text-ellipsis.whitespace-nowrap.ms-2.me-2.entry--content
+  .w-full.overflow-hidden.text-ellipsis.ms-2.me-2.entry--content
     .flex.flex-row.items-center
       .entry--content--title.font-semibold
         - if @entry.description.blank? || @entry.show_entry
