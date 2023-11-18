@@ -12,8 +12,9 @@
         - else
           = link_to view_entry_path(@entry.feed, @entry), target: "_blank", data: { action: "click->desktopMarkAsRead#markAsRead" } do
             = @entry.title
-      .ps-2
+      .ps-2.flex.flex-row
         = render TagsComponent.new(tags: @tags)
+        = render TagsComponent.new(tags: @entry.tag_list, subscription_based: false)
       
   .w-24.entry--meta.entry--meta-timestamp.text-sm
     - if @entry.published_at.today?

@@ -1,0 +1,11 @@
+- content_for :nav_title do
+  .flex.flex-row.items-center
+    = render IconComponent.new(name: :tag)
+    .ms-1
+      = @tag
+- content_for :meta_title do
+  Tagged
+  = @tag
+
+#tagged.w-100.entries
+  = render PageComponent.new(entries: @entries)

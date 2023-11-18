@@ -23,8 +23,10 @@ module Entries
           link: entry_link(entry),
           published_at: entry_published_at(entry),
           description: description,
-          guid: entry_guid(entry)
+          guid: entry_guid(entry),
+          tag_list: entry_tag_list(entry)
         }
+        
         %i[image media_title media_url media_type media_width media_height media_thumbnail_url media_thumbnail_width media_thumbnail_height enclosure_length enclosure_type enclosure_url itunes_duration itunes_episode_type itunes_author itunes_explicit itunes_image itunes_title itunes_summary].each do |media|
           hash[media] = entry.send(media) if entry.respond_to?(media)
         end
@@ -80,6 +82,12 @@ module Entries
       id = entry.id if entry.respond_to?(:id)
 
       guid || entry_id || id
+    end
+
+    def entry_tag_list(entry)
+      return entry.categories if entry.respond_to?(:categories)
+
+      nil
     end
   end
 end

@@ -34,8 +34,10 @@ module Entries
         values.each { |title| add_entry_title_scope(title: title) }
       when Watch::ENTRY_DESCRIPTION
         values.each { |description| add_entry_description_scope(description: description) }
-      when Watch::FEED_TAG
-        values.each { |tag| add_feed_tag_scope(tag: tag) }
+      when Watch::SUBSCRIPTION_TAG
+        values.each { |tag| add_subscription_tag_scope(tag: tag) }
+      when Watch::ENTRY_TAG
+        values.each { |tag| add_entry_tag_scope(tag: tag) }
       end
     end
 
@@ -47,11 +49,18 @@ module Entries
       @scope = scope.where("upper(entries.description) like ?", "%#{description.upcase}%")
     end
 
-    def add_feed_tag_scope(tag:)
+    def add_subscription_tag_scope(tag:)
       @scope = scope
         .joins(feed: { subscriptions: { taggings: :tag } })
         .includes([:feed])
         .merge(Subscription.tagged_with(tag.upcase))
+    end
+
+    def add_entry_tag_scope(tag:)
+      @scope = scope
+        .joins(feed: { subscriptions: { taggings: :tag } })
+        .includes([:feed])
+        .tagged_with(tag.upcase)
     end
   end
 end

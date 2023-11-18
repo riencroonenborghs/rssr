@@ -12,7 +12,9 @@
         = link_to view_entry_path(@entry.feed, @entry), target: "_blank", data: { action: "click->mobileMarkAsRead#markAsRead" } do
           = @entry.title
     .entry--content--tags.pt-1
-      = render TagsComponent.new(tags: @tags)
+      .flex.flex-row
+        = render TagsComponent.new(tags: @tags)
+        = render TagsComponent.new(tags: @entry.tag_list, subscription_based: false)
   .w-16.entry--meta.flex.flex-col.items-center.m-2
     .entry--meta-timestamp.text-xs.font-bold
       - if @entry.published_at.today?

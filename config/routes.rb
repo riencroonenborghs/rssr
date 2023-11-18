@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     resources :entries, only: [:index] do
     end
     get "tagged/:tag" => "feeds#tagged", on: :collection, as: :tagged
+    get "tagged/entries/:tag" => "feeds#entry_tagged", on: :collection, as: :entry_tagged
   end
 
   get "search" => "searches#new", as: :new_search

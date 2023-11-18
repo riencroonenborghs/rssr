@@ -5,6 +5,8 @@ class Entry < ApplicationRecord
   has_many :viewed_entries, dependent: :destroy
   has_many :bookmarks, dependent: :destroy
 
+  acts_as_taggable_on :tags
+
   validates :guid, :link, :title, :published_at, presence: true
 
   scope :most_recent_first, -> { order(published_at: :desc) }
