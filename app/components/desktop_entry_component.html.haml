@@ -4,7 +4,7 @@
   .w-80.text-xs.ms-1
     = link_to @entry.feed.name, feed_entries_path(@entry.feed)
   .w-full.overflow-hidden.text-ellipsis.ms-2.me-2.entry--content
-    .flex.flex-row.items-center
+    .flex.flex-col
       .entry--content--title.font-semibold
         - if @entry.description.blank? || @entry.show_entry
           = link_to @entry.link, target: "_blank", data: { action: "click->desktopMarkAsRead#markAsRead" } do
@@ -12,7 +12,7 @@
         - else
           = link_to view_entry_path(@entry.feed, @entry), target: "_blank", data: { action: "click->desktopMarkAsRead#markAsRead" } do
             = @entry.title
-      .ps-2.flex.flex-row
+      .flex.flex-row
         = render TagsComponent.new(tags: @tags)
         = render TagsComponent.new(tags: @entry.tag_list, subscription_based: false)
       
