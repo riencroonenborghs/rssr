@@ -35,7 +35,7 @@
                 = render TagsComponent.new(tags: subscription.tag_list)
               .ps-2
                 = render LogoComponent.new(feed: subscription.feed)
-            .text-slate-400.text-xs
+            .text-zinc-400.text-xs
               .flex.flex-row.items-center
                 = render IconComponent.new(name: :plus, size: 4)
                 = subscription.created_at.strftime("%d %B %Y")

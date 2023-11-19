@@ -2,9 +2,9 @@
   - (@tags || []).each do |tag|
     - if @subscription_based
       = link_to tagged_feeds_path(tag.upcase) do
-        .rounded.bg-slate-400.text-white.text-xtiny.ps-1.pe-1.me-1.mb-1
+        .rounded.bg-zinc-400.text-white.text-xtiny.ps-1.pe-1.me-1.mb-1
           = tag.upcase
     - else
       = link_to entry_tagged_feeds_path(tag.upcase) do
-        .rounded.bg-slate-500.text-white.text-xtiny.ps-1.pe-1.me-1.mb-1
+        .rounded.bg-zinc-500.text-white.text-xtiny.ps-1.pe-1.me-1.mb-1
           = tag.upcase

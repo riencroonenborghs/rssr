@@ -1,10 +1,10 @@
 <% if @bookmark.valid? %>
   node = document.querySelector('[data-bookmark-entry-id="<%= @bookmark.entry.id %>"]');
-  node.classList.add('text-slate-300')
+  node.classList.add('text-zinc-300')
   bookmarked = node.getElementsByClassName("bookmarked")[0];
   notBookmarked = node.getElementsByClassName("not-bookmarked")[0];
 
   bookmarked.classList.remove('hidden');
   notBookmarked.classList.add('hidden');
-  node.classList.remove('text-slate-300');
+  node.classList.remove('text-zinc-300');
 <% end %>
