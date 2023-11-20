@@ -9,6 +9,24 @@ module Admin
       @grouped_watches = current_user.watches.group_by(&:group_id)
     end
 
+    def show
+      base_scope = Entry
+        .joins(feed: { subscriptions: :user })
+        .includes(feed: { subscriptions: { taggings: :tag } })
+        .where("users.id = ?", current_user.id)
+    
+      @watches = current_user.watches.where(group_id: params[:group_id])
+      @entries = Entries::WatchedEntries.perform(
+        watches: @watches,
+        scope: base_scope,
+        page: page,
+        pagination_size: @pagination_size,
+        offset: @offset
+      ).scope
+  
+      paged_render
+    end
+
     def new
       @watch = current_user.watches.build(group_id: next_group_id)
     end

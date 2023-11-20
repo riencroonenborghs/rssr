@@ -29,9 +29,6 @@ Rails.application.routes.draw do
     post "bookmarks/:entry_id" => "bookmarks#create", as: :add_bookmark
     delete "bookmarks/:entry_id" => "bookmarks#destroy", as: :remove_bookmark
 
-    get "watches" => "watches#index", as: :watches
-    get "watches/group/:group_id" => "watches#show", as: :watches_group
-    
     namespace :admin do
       post "subscribe/:feed_id" => "subscriptions#subscribe", as: :subscribe
       post "unsubscribe/:subscription_id" => "subscriptions#unsubscribe", as: :unsubscribe
@@ -54,6 +51,7 @@ Rails.application.routes.draw do
       get "watches/group/:group_id/add" => "watches#add_to_group", as: :add_to_watch_group
       get "watches/group/:group_id/edit" => "watches#edit_group", as: :edit_watch_group
       delete "watches/group/:group_id/remove" => "watches#remove_group", as: :remove_watch_group
+      get "watches/group/:group_id" => "watches#show", as: :watches_group
     end
   end
 
