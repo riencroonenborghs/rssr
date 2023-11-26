@@ -4,7 +4,6 @@ class ApplicationController < ActionController::Base
   before_action :set_offset
   before_action :mobile?
   before_action :set_pagination_size
-  before_action :set_watches_by_group, if: -> { mobile? }
 
   def mobile?
     browser.device.mobile?
@@ -48,9 +47,5 @@ class ApplicationController < ActionController::Base
     scope = Entries::FilterEntries.perform(user: current_user, scope: scope).scope # rubocop:disable Style/RedundantAssignment
 
     scope
-  end
-
-  def set_watches_by_group
-    @watches_by_group = current_user ? current_user.watches.select(:group_id).distinct.pluck(:group_id) : {}
   end
 end
