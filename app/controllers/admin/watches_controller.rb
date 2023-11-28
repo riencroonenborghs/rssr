@@ -14,7 +14,7 @@ module Admin
         .joins(feed: { subscriptions: :user })
         .includes(feed: { subscriptions: { taggings: :tag } })
         .where("users.id = ?", current_user.id)
-    
+
       @watches = current_user.watches.where(group_id: params[:group_id])
       @entries = Entries::WatchedEntries.perform(
         watches: @watches,
@@ -23,7 +23,7 @@ module Admin
         pagination_size: @pagination_size,
         offset: @offset
       ).scope
-  
+
       paged_render
     end
 

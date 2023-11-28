@@ -20,7 +20,6 @@ class FindRssFeeds
   end
 
   # rubocop:disable Metrics/PerceivedComplexity
-  # rubocop:disable Metrics/CyclomaticComplexity
   def perform
     return unless valid?
 
@@ -37,7 +36,6 @@ class FindRssFeeds
     find_alternate_link
   end
   # rubocop:enable Metrics/PerceivedComplexity
-  # rubocop:enable Metrics/CyclomaticComplexity
 
   private
 

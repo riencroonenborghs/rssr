@@ -33,3 +33,5 @@ Layout/EndAlignment:
   Enabled: false
 Layout/ElseAlignment:
   Enabled: false
+Metrics/CyclomaticComplexity:
+  Enabled: false
