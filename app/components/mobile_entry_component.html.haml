@@ -1,5 +1,5 @@
-.entry.flex(class="#{'bg-zinc-100 text-zinc-400' if @mark_viewed}" data-controller="mobileMarkAsRead" data-entry-id="#{@entry.id}")
-  .p-2.flex.flex-col
+.entry.flex.border-b.border-gray-50(class="#{'bg-zinc-100 text-zinc-400' if @mark_viewed}" data-controller="mobileMarkAsRead" data-entry-id="#{@entry.id}")
+  .p-2.flex.flex-col.flex-1
     .text-xxs.font-thin.flex.items-start
       .me-1
         - if @entry.published_at.today?
