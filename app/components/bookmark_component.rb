@@ -3,8 +3,9 @@
 class BookmarkComponent < DesktopEntryComponent
   delegate :user_signed_in?, :mobile?, to: :helpers
 
-  def initialize(entry:) # rubocop:disable Lint/MissingSuper
+  def initialize(entry:, icon_size: 6) # rubocop:disable Lint/MissingSuper
     @entry = entry
+    @icon_size = icon_size
   end
 
   def render?

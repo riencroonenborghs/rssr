@@ -1,0 +1,10 @@
+
+%span.flex.flex-row.flex-wrap
+  - (@tags || []).each do |tag|
+    .me-1
+      = link_to entry_tagged_feeds_path(tag.upcase) do
+        = tag.upcase
+  - (@entry_tags || []).each do |tag|
+    .me-1
+      = link_to entry_tagged_feeds_path(tag.upcase) do
+        = tag.upcase

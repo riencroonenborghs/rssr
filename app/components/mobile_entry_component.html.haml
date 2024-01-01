@@ -1,25 +1,23 @@
-.entry.flex.flex-row.mt-1.pt-2.pb-2(class="#{'bg-zinc-100 text-zinc-400' if @mark_viewed}" data-controller="mobileMarkAsRead" data-entry-id="#{@entry.id}")
-  .w-8.entry--logo.m-2
-    = render LogoComponent.new(feed: @entry.feed, mark_viewed: @mark_viewed)
-  .w-full.entry--content.flex.flex-col
-    .entry--content--feed.text-xxs.font-extralight
-      = link_to @entry.feed.name, feed_entries_path(@entry.feed)
-    .entry--content--title
+.entry.flex(class="#{'bg-zinc-100 text-zinc-400' if @mark_viewed}" data-controller="mobileMarkAsRead" data-entry-id="#{@entry.id}")
+  .p-2.flex.flex-col
+    .text-xxs.font-thin.flex.items-start
+      .me-1
+        - if @entry.published_at.today?
+          = @entry.published_at.strftime("%H:%M")
+        - else
+          = @entry.published_at.strftime("%d %b")
+      \/
+      .ms-1.me-1
+        = link_to @entry.feed.name, feed_entries_path(@entry.feed)
+    %div
       - if @entry.description.blank? || @entry.show_entry
         = link_to @entry.link, target: "_blank", data: { action: "click->mobileMarkAsRead#markAsRead" } do
           = @entry.title
       - else
         = link_to view_entry_path(@entry.feed, @entry), target: "_blank", data: { action: "click->mobileMarkAsRead#markAsRead" } do
           = @entry.title
-    .entry--content--tags.pt-1
-      .flex.flex-row
-        = render TagsComponent.new(tags: @tags)
-        = render TagsComponent.new(tags: @entry.tag_list, subscription_based: false)
-  .w-16.entry--meta.flex.flex-col.items-center.m-2
-    .entry--meta-timestamp.text-xs.font-bold
-      - if @entry.published_at.today?
-        = @entry.published_at.strftime("%H:%M")
-      - else
-        = @entry.published_at.strftime("%d %b")
-    .entry--meta-bookmark
-      = render BookmarkComponent.new(entry: @entry)
+    .text-xxs.font-thin.flex.items-start
+      = render Mobile::TagsComponent.new(tags: @tags, entry_tags: @entry.tag_list)
+
+  .p-2
+    = render BookmarkComponent.new(entry: @entry, icon_size: 4)
