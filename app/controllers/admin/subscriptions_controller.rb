@@ -10,7 +10,7 @@ module Admin
         .joins(feed: { subscriptions: { taggings: :tag } })
         .includes(feed: { subscriptions: { taggings: :tag } })
         .order(active: :desc, "feeds.name" => :asc)
-        .page(@page).per(@pagination_size)
+        .page(@page).per(28)
     end
 
     def new

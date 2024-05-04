@@ -21,11 +21,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_pagination_size
-    @pagination_size = mobile? ? 30 : 50
-  end
-
-  def paged_render
-    render :page, layout: mobile? and return if page > 1
+    @pagination_size = 30
   end
 
   def offset_scope

@@ -6,15 +6,11 @@ class FeedsController < ApplicationController
   def tagged
     set_tag
     set_entries_by_subscription_tag
-
-    paged_render
   end
 
   def entry_tagged
     set_tag
     set_entries_by_entry_tag
-
-    paged_render
   end
 
   private

@@ -14,8 +14,6 @@ class BookmarksController < ApplicationController
       .order("bookmarks.created_at DESC")
       .page(page)
       .per(@pagination_size)
-
-    return paged_render if params.key?(:page) # rubocop:disable Style/RedundantReturn
   end
 
   def create

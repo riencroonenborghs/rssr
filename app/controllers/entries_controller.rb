@@ -5,7 +5,6 @@ class EntriesController < ApplicationController
 
   def index
     set_entries
-    paged_render
   end
 
   def show

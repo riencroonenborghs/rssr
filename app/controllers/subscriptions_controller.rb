@@ -3,14 +3,10 @@
 class SubscriptionsController < ApplicationController
   def today
     set_entries(timespan: :today)
-
-    return paged_render if params.key?(:page) # rubocop:disable Style/RedundantReturn
   end
 
   def yesterday
     set_entries(timespan: :yesterday)
-
-    return paged_render if params.key?(:page) # rubocop:disable Style/RedundantReturn
   end
 
   private

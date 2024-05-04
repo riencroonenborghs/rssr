@@ -23,8 +23,6 @@ module Admin
         pagination_size: @pagination_size,
         offset: @offset
       ).scope
-
-      paged_render
     end
 
     def new
