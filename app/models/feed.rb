@@ -26,4 +26,18 @@ class Feed < ApplicationRecord
 
     subscriptions.find_by(user_id: user.id)
   end
+
+  def self.most_read
+    last_2_weeks = (2.weeks.ago.beginning_of_week.beginning_of_day..)
+    feed_id_by_count = Entry.where(id: ViewedEntry.where(created_at: last_2_weeks).select(:entry_id)).select(:feed_id).group(:feed_id).count
+    feed_id_by_count_sorted = feed_id_by_count.sort do |a, b|
+      a_id, a_count = a
+      b_id, b_count = b
+      b_count <=> a_count
+    end
+    sorted_feed_ids = feed_id_by_count_sorted.map(&:first)
+    cased_order = sorted_feed_ids.map.with_index { |x, index| "WHEN ID = #{x} THEN #{index+1}" }.join(" ")
+    order_by = "CASE #{cased_order} END"
+    order(Arel.sql(order_by)).limit(8)
+  end
 end
