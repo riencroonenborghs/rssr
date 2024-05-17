@@ -1,4 +1,4 @@
-- classes = "flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
+- classes = "flex items-center p-1 text-gray-900 rounded-lg hover:bg-gray-100 group"
 - active = "bg-zinc-100"
 
 %div(data-controller="mobileMenu")  
@@ -13,11 +13,6 @@
             .flex.flex-row
               = render IconComponent.new(name: :calendar)
               .ms-2 Today
-        %li
-          = link_to subscriptions_yesterday_path, class: "#{classes} #{active if active_page?(subscriptions_yesterday_path)}", title: "Yesterday" do
-            .flex.flex-row
-              = render IconComponent.new(name: :calendar_days)
-              .ms-2 Yesterday
         - if user_signed_in?
           %li
             = link_to all_bookmarks_path, class: "#{classes} #{active if active_page?(all_bookmarks_path)}", title: "Bookmarks" do
@@ -25,12 +20,14 @@
                 = render IconComponent.new(name: :star)
                 .ms-2 
                   Bookmarks
-          %li
-            = link_to admin_subscriptions_path, class: "#{classes} #{active if active_page?(admin_subscriptions_path)}", title: "Subscriptions" do
-              .flex.flex-row
-                = render IconComponent.new(name: :rss)
-                .ms-2
-                  Subscriptions
+          - Feed.most_read.each do |feed|
+            %li
+              = link_to feed_entries_path(feed), class: "#{classes} #{active if active_page?(feed_entries_path(feed))}", title: "#{feed.name}" do
+                .flex.flex-row
+                  = render IconComponent.new(name: :rss)
+                  .ms-2 
+                    = feed.name
+
           %li.border-t.pt-1
             = link_to destroy_user_session_path, method: :delete, title: "Log out", class: classes do
               .flex.flex-row

@@ -1,3 +1,5 @@
+- active = "bg-blue-800 rounded-lg"
+
 .flex.flex-row(style="height: calc(100vh);")
   #menu.bg-blue-900.p-4.text-gray-300(class="w-1/5")
     .flex.flex-col(class="#{'justify-between' if user_signed_in?}" style="height: 100%")
@@ -7,69 +9,76 @@
             .text-2xl.font-bold RSSr
       %div
         %ul
-          %li.pb-2
+          %li
             = link_to subscriptions_today_path do
-              .flex
+              .flex.pt-1.pb-1
                 = render IconComponent.new(name: :calendar)
-                .ms-2 Today
+                .ms-2.ps-2.pe-2(class="#{active if active_page?(subscriptions_today_path) || current_page?(root_path)}") Today
           - if user_signed_in?
             %li
               = link_to all_bookmarks_path do
-                .flex
+                .flex.pt-1.pb-1
                   = render IconComponent.new(name: :star)
-                  .ms-2 Bookmarks
+                  .ms-2.ps-2.pe-2(class="#{active if active_page?(all_bookmarks_path)}") Bookmarks
       - if user_signed_in?
         %div
           %p.uppercase.font-thin.pb-2 Most Read
           %ul
             - Feed.most_read.each do |feed|
-              %li.pb-2
+              %li
                 = link_to feed_entries_path(feed) do
-                  .flex.items-center
+                  .flex.pt-1.pb-1.items-center
                     = render IconComponent.new(name: :rss)
-                    .ms-2
+                    .ms-2.ps-2.pe-2(class="#{active if active_page?(feed_entries_path(feed))}")
                       = feed.name
             %li
               = link_to new_admin_subscription_path do
-                .flex
+                .flex.pt-1.pb-1
                   = render IconComponent.new(name: :plus)
-                  .ms-2.font-bold Add Feed
+                  .ms-2.ps-2.pe-2.font-bold(class="#{active if active_page?(new_admin_subscription_path)}")
+                    Add Feed
       %div
         - if user_signed_in?
           %p.uppercase.font-thin.pb-2 Admin
           %ul
-            %li.pb-2
+            %li
               = link_to admin_filters_path do
-                .flex
+                .flex.pt-1.pb-1
                   = render IconComponent.new(name: :funnel)
-                  .ms-2 Filters
-            %li.pb-2
+                  .ms-2.ps-2.pe-2(class="#{active if active_page?(admin_filters_path)}")
+                    Filters
+            %li
               = link_to admin_watches_path do
-                .flex
+                .flex.pt-1.pb-1
                   = render IconComponent.new(name: :eye)
-                  .ms-2 Watches
-            %li.pb-2
+                  .ms-2.ps-2.pe-2(class="#{active if active_page?(admin_watches_path)}")
+                    Watches
+            %li
               = link_to new_search_path do
-                .flex
+                .flex.pt-1.pb-1
                   = render IconComponent.new(name: :search)
-                  .ms-2 Search
-            %li.pb-2
+                  .ms-2.ps-2.pe-2(class="#{active if active_page?(new_search_path)}")
+                    Search
+            %li
               = link_to "/sidekiq", target: "_blank" do
-                .flex
+                .flex.pt-1.pb-1
                   = render IconComponent.new(name: :cpu)
-                  .ms-2 Sidekiq
+                  .ms-2.ps-2.pe-2
+                    Sidekiq
             %li
               = link_to destroy_user_session_path, method: :delete do
-                .flex
+                .flex.pt-1.pb-1
                   = render IconComponent.new(name: :lock_closed)
-                  .ms-2 Sign Out
+                  .ms-2.ps-2.pe-2
+                    Sign Out
         - else
           %ul
             %li
               = link_to new_user_session_path, title: "Log in" do
-                .flex
+                .flex.pt-1.pb-1
                   = render IconComponent.new(name: :lock_closed)                    
-                  .ms-2 Sign In
+                  .ms-2.ps-2.pe-2(class="#{active if active_page?(new_user_session_path)}")
+                    Sign In
               
               
 
@@ -78,7 +87,6 @@
     = yield
 
 -# - classes = "flex items-center p-2 text-gray-900 rounded-lg hover:bg-zinc-300 group"
--# - active = "bg-zinc-300"
 -# - collapsed = true
 
 -# .flex.flex-row
