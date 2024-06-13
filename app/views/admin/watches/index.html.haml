@@ -3,35 +3,31 @@
 - content_for :meta_title do
   Watches
 
-- if mobile?
-  %p For desktop only I'm afraid :(
--else
-  #watches.p-2.pt-0.w-100
-    .flex.flex-row.p-2
-      = link_to new_admin_watch_path do
-        .flex.flex-row.border.p-2.rounded-lg
-          = render IconComponent.new(name: :plus)
-          .ms-2 New Watch
+#watches.p-2.pt-0.w-100
+  %nav.p-2.flex.justify-between
+    .text-2xl Watches
+    = link_to new_admin_watch_path do
+      .flex
+        = render IconComponent.new(name: :plus)
+        .ms-2 New Watch
 
-    .grid.grid-cols-4.gap-2
+  %table(class="w-full text-sm text-left rtl:text-right text-gray-500")
+    %tbody
       - @grouped_watches.each do |group_id, watches|
-        = render CardComponent.new do |c|
-          = c.with_body do
-            .flex.flex-col
-              - watches.sort_by(&:watch_type).each.with_index do |watch, index|
-                .flex.flex-row
+        %tr(class="odd:bg-white even:bg-gray-50 border-b")
+          %td.p-2
+            = link_to admin_watches_group_path(group_id: group_id) do
+              .flex.flex-row
+                - watches.sort_by(&:watch_type).each.with_index do |watch, index|
+                  .font-bold
                   = watch.human_readable
                   - if index + 1 < watches.size
                     .font-thin.ps-1.pe-1 and
-          = c.with_footer do
-            = link_to admin_watches_group_path(group_id: group_id), class: "text-green-500" do
-              = render IconComponent.new(name: :eye)
-            = link_to admin_add_to_watch_group_path(group_id: group_id) do
-              = render IconComponent.new(name: :plus)
-            = link_to admin_edit_watch_group_path(group_id: group_id), class: "ms-2" do
-              = render IconComponent.new(name: :edit)
-            = link_to admin_remove_watch_group_path(group_id: group_id), method: :delete, data: { confirm: "Are you sure?" }, class: "text-red-500" do
-              = render IconComponent.new(name: :trash)
-
-.pb-4.mt-4
-  &nbsp;
+          %td.p-2
+            .flex.justify-end
+              = link_to admin_add_to_watch_group_path(group_id: group_id) do
+                = render IconComponent.new(name: :plus)
+              = link_to admin_edit_watch_group_path(group_id: group_id), class: "ms-2" do
+                = render IconComponent.new(name: :edit)
+              = link_to admin_remove_watch_group_path(group_id: group_id), method: :delete, data: { confirm: "Are you sure?" }, class: "text-red-500" do
+                = render IconComponent.new(name: :trash)

@@ -5,13 +5,20 @@
   Edit Subscription for
   = @subscription.feed.name
 
-- if mobile?
-  %p Desktop version only.
-- else
-  #edit-subscription.p-2.pt-0.w-100
-    .p-2
+#edit-subscription.p-2.pt-0.w-100
+  .p-2
+    %nav.flex.items-center
+      .text-2xl
+        = link_to "Subscriptions", admin_subscriptions_path, class: "text-gray-600"
+      .text-2xl
+        = render IconComponent.new(name: :chevron_right)
+      .text-2xl Edit Subscription
+
+    .pt-4
       = form_with(model: @subscription, url: admin_subscription_path(@subscription), method: :patch, local: true) do |form|
         .flex.flex-col
+          .text-2xl
+            = @subscription.feed.name
           .flex.flex-row.items-center
             = render IconComponent.new(name: :link, size: 4)
             .ms-1
@@ -24,24 +31,24 @@
         .flex.flex-col
           .mt-2(class="w-1/2")
             = form.label :tag_list, class: "text-sm font-medium"
-            .mt-2(class="ms-2 rounded-md ring-1 ring-gray-300 focus-within:ring-1 focus-within:ring-zinc-600")
+            .mt-2(class="rounded-md ring-1 ring-gray-300 focus-within:ring-1 focus-within:ring-zinc-600")
               = form.text_field :tag_list, value: @subscription.tag_list.join(", "), class: "block border-0 bg-transparent py-1.5 pl-2 text-gray-900  focus:ring-0 sm:text-sm sm:leading-6 w-full"
-          .text-xxs.font-thin.ms-2
+          .text-xxs.font-thin
             Comma-separated list.  
           - if @subscription.errors[:tag_list].present?
-            .text-red-500.text-xxs.pl-2
+            .text-red-500.text-xxs
               = @subscription.errors[:tag_list].to_sentence
 
           .mt-2
-            = form.check_box :hide_from_main_page, class: "ms-2 h-4 w-4 rounded border-gray-300 text-zinc-600 focus:ring-zinc-600"
+            = form.check_box :hide_from_main_page, class: "h-4 w-4 rounded border-gray-300 text-zinc-600 focus:ring-zinc-600"
             = form.label :hide_from_main_page, class: "text-sm font-medium"
 
           .mt-2(class="w-1/2")
             = form.label :description, class: "text-sm font-medium"
-            .mt-2(class="ms-2 rounded-md ring-1 ring-gray-300 focus-within:ring-1 focus-within:ring-zinc-600")
+            .mt-2(class="rounded-md ring-1 ring-gray-300 focus-within:ring-1 focus-within:ring-zinc-600")
               = form.text_area :description, class: "block border-0 bg-transparent py-1.5 pl-2 text-gray-900  focus:ring-0 sm:text-sm sm:leading-6 w-full"
           - if @subscription.feed.errors[:description].present?
-            .text-red-500.text-xxs.pl-2
+            .text-red-500.text-xxs
               = @subscription.feed.errors[:description].to_sentence
 
           .mt-2

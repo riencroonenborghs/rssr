@@ -2,10 +2,11 @@
 
 module Admin
   class FiltersController < AdminController
+    before_action :set_page, only: %i[index]
     before_action :set_filter, only: %i[edit update destroy]
 
     def index
-      @filters = current_user.filters.order("comparison desc, upper(value) asc")
+      @filters = current_user.filters.order("comparison desc, upper(value) asc").page(@page)
     end
 
     def new
@@ -42,6 +43,10 @@ module Admin
     end
 
     private
+
+    def set_page
+      @page = params[:page]&.to_i || 1
+    end
 
     def set_filter
       @filter = current_user.filters.find(params[:id])

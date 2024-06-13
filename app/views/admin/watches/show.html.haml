@@ -10,4 +10,12 @@
   Watch
 
 #watch.w-100.entries
+  %nav.p-2.flex.justify-between
+    .text-2xl
+      .flex
+        - @watches.sort_by(&:watch_type).each.with_index do |watch, index|
+          = watch.human_readable
+          - if index + 1 < @watches.size
+            .font-thin.ps-1.pe-1 and
+  
   = render PageComponent.new(entries: @entries)
