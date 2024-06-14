@@ -4,7 +4,7 @@
 %div(data-controller="mobileMenu")  
   #menu.shadow.hidden(class="fixed top-0 left-0 z-40 h-screen p-4 bg-white overflow-y-auto w-2/3")
     %h5(class="text-base font-semibold text-gray-500") Menu
-    %button(type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 right-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white" data-action="click->mobileMenu#hideClicked")
+    %button(type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 right-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white" data-action="click->mobileMenu#toggleClicked")
       = render IconComponent.new(name: :close)
     %div(class="py-4 overflow-y-auto")
       %ul(class="space-y-2 font-medium")
@@ -20,7 +20,16 @@
                 = render IconComponent.new(name: :star)
                 .ms-2 
                   Bookmarks
-          - Feed.most_read.each do |feed|
+          %li.uppercase.font-thin.p-4.pb-2 Most Read
+          - Feed.most_read(limit: 4).each do |feed|
+            %li
+              = link_to feed_entries_path(feed), class: "#{classes} #{active if active_page?(feed_entries_path(feed))}", title: "#{feed.name}" do
+                .flex.flex-row
+                  = render IconComponent.new(name: :rss)
+                  .ms-2 
+                    = feed.name
+          %li.uppercase.font-thin.p-4.pb-2 Total Recall
+          - Feed.random(user: current_user, limit: 2).each do |feed|
             %li
               = link_to feed_entries_path(feed), class: "#{classes} #{active if active_page?(feed_entries_path(feed))}", title: "#{feed.name}" do
                 .flex.flex-row
@@ -50,7 +59,7 @@
         %div(class="overflow-hidden text-ellipsis whitespace-nowrap max-w-xxs")
           = yield :nav_title
 
-        %button(type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200" data-action="click->mobileMenu#showClicked")
+        %button(type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400" data-action="click->mobileMenu#toggleClicked")
           = render IconComponent.new(name: :bars3)
     #content.relative(style="top: 52px;")
       = yield
