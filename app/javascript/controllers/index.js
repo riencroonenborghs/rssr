@@ -25,3 +25,9 @@ application.register("search", SearchController)
 import ScrollerController from "./scroller_controller"
 application.register("scroller", ScrollerController)
 
+
+document.addEventListener("turbo:frame-render", (event) => {
+  if (event.target.matches('#posts')) {
+    event.target.scrollIntoView()
+  }
+})
