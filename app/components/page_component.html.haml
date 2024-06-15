@@ -6,12 +6,12 @@
 .flex.flex-col
   .flex.flex-row.justify-center
     - if @entries.prev_page
-      = link_to path_to_prev_page(@entries), class: "p-4" do
+      = link_to path_to_prev_page(@entries), data: { turbo_frame: "posts" },  class: "p-4" do
         .flex.flex-row.items-center
           = render IconComponent.new(name: :chevron_left)
           .ms-1 Previous Page
     - if @entries.next_page
-      = link_to path_to_next_page(@entries), class: "p-4" do
+      = link_to path_to_next_page(@entries), data: { turbo_frame: "posts" }, class: "p-4" do
         .flex.flex-row.items-center
           .me-1 Next Page
           = render IconComponent.new(name: :chevron_right)

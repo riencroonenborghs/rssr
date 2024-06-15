@@ -5,6 +5,8 @@
       RSSr - 
       = yield :meta_title 
     %meta(name="viewport" content="width=device-width, initial-scale=1")
+    -# prevents rails-hotwire doing GETs on link hovers
+    %meta(name="turbo-prefetch" content="false")
     = favicon_link_tag asset_path("favicon.png")
     %link(rel="apple-touch-icon" href="#{asset_path("apple-touch.png")}")
     = csrf_meta_tags

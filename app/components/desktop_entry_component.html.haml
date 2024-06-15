@@ -1,23 +1,22 @@
-.entry.flex.flex-row.items-center.border-b.pt-2.ps-2.pb-2.items-start(class="#{'bg-zinc-100 text-zinc-400' if @mark_viewed}" data-controller="desktopMarkAsRead" data-entry-id="#{@entry.id}")
-  .w-6.entry--meta.entry--meta-bookmark
-    = render BookmarkComponent.new(entry: @entry)
-  .w-80.text-xs.ms-1
-    = link_to @entry.feed.name, feed_entries_path(@entry.feed)
-  .w-full.overflow-hidden.text-ellipsis.ms-2.me-2.entry--content
-    .flex.flex-col
-      .entry--content--title.font-semibold
-        - if @entry.description.blank? || @entry.show_entry
-          = link_to @entry.link, target: "_blank", data: { action: "click->desktopMarkAsRead#markAsRead" } do
-            = @entry.title
-        - else
-          = link_to view_entry_path(@entry.feed, @entry), target: "_blank", data: { action: "click->desktopMarkAsRead#markAsRead" } do
-            = @entry.title
-      .flex.flex-row
-        = render TagsComponent.new(tags: @tags)
-        = render TagsComponent.new(tags: @entry.tag_list, subscription_based: false)
-      
-  .w-24.entry--meta.entry--meta-timestamp.text-sm
-    - if @entry.published_at.today?
-      = @entry.published_at.strftime("%H:%M")
+.entry.p-2.border-e.border-b.border-emerald-600(class="#{'bg-emerald-100 text-amber-700' if @mark_viewed}" data-controller="desktopMarkAsRead" data-entry-id="#{@entry.id}")
+  #top
+    .flex.justify-between.items-center.text-xxs.font-thin
+      = link_to @entry.feed.name, feed_entries_path(@entry.feed), data: { turbo_frame: "posts" }
+      .flex.items-center
+        .me-2
+          - if @entry.published_at.today?
+            = @entry.published_at.strftime("%H:%M")
+          - else
+            = @entry.published_at.strftime("%d %b")
+        = render BookmarkComponent.new(entry: @entry, icon_size: 4)
+  #title
+    - if @entry.description.blank? || @entry.show_entry
+      = link_to @entry.link, data: { action: "click->desktopMarkAsRead#markAsRead" }, target: "_blank" do
+        = @entry.title
     - else
-      = @entry.published_at.strftime("%d %b")
+      = link_to view_entry_path(@entry.feed, @entry), data: { turbo_frame: "post", action: "click->desktopMarkAsRead#markAsRead" } do
+        = @entry.title
+
+  #tags
+    .flex
+      = render TagsComponent.new(tags: (@tags + @entry.tag_list).flatten.map(&:upcase).uniq)
