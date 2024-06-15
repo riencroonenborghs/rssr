@@ -23,3 +23,14 @@
 .max-w-xxs {
   max-width: 12rem;
 }
+
+.tag-size-0 { font-size: 0.65rem; }
+.tag-size-1 { font-size: 0.7rem; }
+.tag-size-2 { font-size: 0.75rem; }
+.tag-size-3 { font-size: 0.8rem; }
+.tag-size-4 { font-size: 0.85rem; }
+.tag-size-5 { font-size: 0.9rem; }
+.tag-size-6 { font-size: 0.95rem; }
+.tag-size-7 { font-size: 1.0rem; }
+.tag-size-8 { font-size: 1.05rem; }
+.tag-size-9 { font-size: 1.15rem; }
