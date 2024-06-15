@@ -19,4 +19,4 @@
 
   #tags
     .flex
-      = render TagsComponent.new(tags: (@tags + @entry.tag_list).flatten.map(&:upcase).uniq)
+      = render TagsComponent.new(tags: @tags)

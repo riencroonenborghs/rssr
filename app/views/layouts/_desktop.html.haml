@@ -55,9 +55,13 @@
               .ms-2
                 = feed.name
   #content.w-full.flex.flex-row
-    #content-posts.bg-emerald-50(class="w-1/2" style="calc(100vh); overflow: auto;")
-      = turbo_frame_tag "posts" do
+    - if request.fullpath.start_with?("/admin")
+      .flex.flex-col.w-full(style="calc(100vh); overflow: auto;")
         = yield
-    #content-post.w-full
-      = turbo_frame_tag "post" do
-        &nbsp;
+    - else
+      #content-posts.bg-emerald-50(class="w-1/2" style="calc(100vh); overflow: auto;")
+        = turbo_frame_tag "posts" do
+          = yield
+      #content-post.w-full
+        = turbo_frame_tag "post" do
+          &nbsp;
