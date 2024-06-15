@@ -14,5 +14,8 @@ class DesktopEntryComponent < ViewComponent::Base
     @mark_viewed = viewed.include?(entry.id)
     subscription = subscription_by_feed[entry.feed_id]
     @tags = subscription ? tags_by_subscription[subscription.id] : []
+    @tags ||= []
+    @tags += @entry.tag_list if @entry.tag_list
+    @tags = @tags.flatten.map(&:upcase).uniq
   end
 end
