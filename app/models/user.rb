@@ -13,6 +13,8 @@ class User < ApplicationRecord
   has_many :watches, dependent: :destroy
 
   def tag_cloud(limit: 9)
+    return {} if subscriptions.count.zero?
+
     tags = subscriptions
       .tag_counts_on(:tags)
       .order(taggings_count: :desc)
@@ -25,6 +27,8 @@ class User < ApplicationRecord
     mean.shift
     mean = mean.sum / mean.size
     part = mean / limit
+
+    return {} if part.zero?
 
     {}.tap do |ret|
       tags.each do |tag|
