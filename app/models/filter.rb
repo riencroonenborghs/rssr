@@ -6,7 +6,8 @@ class Filter < ApplicationRecord
     "includes" => "contains",
     "excludes" => "does not contain",
     "matches" => "matches",
-    "mismatches" => "does not match"
+    "mismatches" => "does not match",
+    "tagged" => "tagged"
   }.freeze
 
   belongs_to :user

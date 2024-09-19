@@ -20,11 +20,17 @@
   #subscriptions.p-2.pt-0.w-100
     %nav.p-2.flex.justify-between
       .text-2xl Subscriptions
-      = link_to refresh_all_admin_subscriptions_path do
-        .flex.flex-row
-          %svg(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6")
-            %path(stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99")
-          .ms-2 Refresh All
+      .flex
+        .me-2
+          = link_to new_admin_subscription_path do
+            .flex.flex-row
+              = render IconComponent.new(name: :plus)
+              .ms-2 New
+        = link_to refresh_all_admin_subscriptions_path do
+          .flex.flex-row
+            %svg(xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6")
+              %path(stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99")
+            .ms-2 Refresh All
 
     %table(class="w-full text-sm text-left rtl:text-right text-gray-500")
       %tbody

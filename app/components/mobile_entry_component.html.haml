@@ -17,7 +17,7 @@
         = link_to view_entry_path(@entry.feed, @entry), target: "_blank", data: { action: "click->mobileMarkAsRead#markAsRead" } do
           = @entry.title
     .text-xxs.font-thin.flex.items-start
-      = render Mobile::TagsComponent.new(tags: @tags, entry_tags: @entry.tag_list)
+      = render Mobile::TagsComponent.new(tags: @tags)
 
   .p-2
     = render BookmarkComponent.new(entry: @entry, icon_size: 4)
