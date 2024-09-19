@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 class Filter < ApplicationRecord
-  VALID_COMPARISONS = %w[includes excludes matches mismatches].freeze
+  VALID_COMPARISONS = %w[includes excludes matches mismatches tagged].freeze
   HUMAN_READABLES = {
     "includes" => "contains",
     "excludes" => "does not contain",
     "matches" => "matches",
     "mismatches" => "does not match",
-    "tagged" => "tagged"
+    "tagged" => "tagged with"
   }.freeze
 
   belongs_to :user

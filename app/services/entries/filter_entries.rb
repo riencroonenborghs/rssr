@@ -22,6 +22,8 @@ module Entries
         generate_matches_filters
       ).merge(
         generate_mismatches_filters
+      ).merge(
+        generate_tagged_filters
       )
     end
 
@@ -75,6 +77,21 @@ module Entries
       return scope unless filters.present?
 
       scope.where.not("upper(entries.title) !~ '#{filters}'")
+    end
+
+    def generate_tagged_filters
+      tags = user
+        .filters
+        .where(comparison: "tagged")
+        .select(:value)
+        .pluck(:value)
+        .map(&:upcase)
+      return scope unless tags.any?
+      
+      entry_scope = scope.tagged_with(tags, exclude: true)
+      subscription_scope = scope.where(feed_id: @user.subscriptions.active.tagged_with(tags, exclude: true).select(:feed_id))
+      
+      entry_scope.merge(subscription_scope)
     end
   end
 end
