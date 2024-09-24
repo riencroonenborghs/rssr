@@ -42,7 +42,7 @@
                 .ms-2
                   = link_to subscription.feed.name, feed_entries_path(subscription.feed)
             %td.p-2
-              = render TagsComponent.new(tags: subscription.tag_list)
+              = render TagsComponent.new(tags: { subscription: subscription.tag_list, entry: [] })
             %td.p-2
               .flex.text-xxs.items-center
                 = render IconComponent.new(name: :plus, size: 2)
