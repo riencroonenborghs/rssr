@@ -27,7 +27,7 @@ class CopyWatchGroup
     attrs = watch.attributes
     new_watch = @user.watches.build(
       watch_type: attrs["watch_type"],
-      value: "#{attrs["value"]} (copy)",
+      value: "#{attrs["value"]}#{' (copy)' unless attrs["watch_type"].end_with?('tag')}",
       group_id: next_group_id
     )
     return if new_watch.save
