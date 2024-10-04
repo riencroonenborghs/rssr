@@ -52,6 +52,7 @@ Rails.application.routes.draw do
       get "watches/group/:group_id/edit" => "watches#edit_group", as: :edit_watch_group
       delete "watches/group/:group_id/remove" => "watches#remove_group", as: :remove_watch_group
       get "watches/group/:group_id" => "watches#show", as: :watches_group
+      get "watches/group/:group_id/copy" => "watches#copy", as: :copy_watch_group
     end
   end
 

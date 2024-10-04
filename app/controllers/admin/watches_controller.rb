@@ -74,6 +74,19 @@ module Admin
         format.html { redirect_to admin_watches_path, notice: "Watch group was removed." }
       end
     end
+    
+    def copy
+      watches = current_user.watches.where(group_id: params[:group_id])
+
+      service = CopyWatchGroup.perform(watches: watches)
+      respond_to do |format|
+        if service.success?
+          format.html { redirect_to admin_watches_path, notice: "Watch was copied." }
+        else
+          format.html { redirect_to admin_watches_path, alert: service.errors.full_messages.to_sentence }
+        end
+      end
+    end
 
     private
 

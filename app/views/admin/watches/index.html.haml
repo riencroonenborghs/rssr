@@ -25,6 +25,8 @@
                     .font-thin.ps-1.pe-1 and
           %td.p-2
             .flex.justify-end
+              = link_to admin_copy_watch_group_path(group_id: group_id) do
+                = render IconComponent.new(name: :copy)
               = link_to admin_add_to_watch_group_path(group_id: group_id) do
                 = render IconComponent.new(name: :plus)
               = link_to admin_edit_watch_group_path(group_id: group_id), class: "ms-2" do
