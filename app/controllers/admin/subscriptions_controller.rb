@@ -64,7 +64,7 @@ module Admin
 
       respond_to do |format|
         if @service.success?
-          format.html { redirect_to admin_subscriptions_path, notice: "Subscribed to #{@feed.name}." }
+          format.html { redirect_to admin_subscriptions_path, notice: "Subscribed to #{@feed.name}" }
         else
           @step = 3
           format.html { render :new, status: :unprocessable_entity }
@@ -97,7 +97,7 @@ module Admin
       respond_to do |format|
         if @service.success?
           subscription = @service.subscription
-          format.html { redirect_to admin_subscriptions_path, notice: "Updated #{subscription.feed.name}." }
+          format.html { redirect_to admin_subscriptions_path, notice: "Updated #{subscription.feed.name}" }
         else
           @subscription = @service.subscription
           format.html { render :edit, status: :unprocessable_entity }
@@ -124,7 +124,7 @@ module Admin
       RefreshSubscriptionsJob.perform_async
 
       respond_to do |format|
-        format.html { redirect_to admin_subscriptions_path, notice: "Subscriptions queued for refresh." }
+        format.html { redirect_to admin_subscriptions_path, notice: "Subscriptions queued" }
       end
     end
 
@@ -139,7 +139,7 @@ module Admin
       RefreshFeedJob.perform_async({ feed_id: subscription.feed_id }.to_json)
 
       respond_to do |format|
-        format.html { redirect_to request.referer, notice: "Subscription queued for refresh." }
+        format.html { redirect_to request.referer, notice: "Subscription queued" }
       end
     end
 

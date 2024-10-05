@@ -28,7 +28,7 @@ module Entries
     def load_feed_data
       loader = Feeds::GetFeedData.perform(feed: feed)
       errors.merge!(loader.errors) and return unless loader.success?
-      errors.add(:base, "no feed data") and return unless loader.feed_data.present?
+      errors.add(:base, "No feed data") and return unless loader.feed_data.present?
 
       @feed_data = loader.feed_data
     end

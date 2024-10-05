@@ -24,3 +24,7 @@ application.register("search", SearchController)
 
 import ScrollerController from "./scroller_controller"
 application.register("scroller", ScrollerController)
+
+import AlertsController from "./alerts_controller"
+application.register("alerts", AlertsController)
+

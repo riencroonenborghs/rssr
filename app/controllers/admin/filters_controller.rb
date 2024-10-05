@@ -18,7 +18,7 @@ module Admin
 
       respond_to do |format|
         if @filter.save
-          format.html { redirect_to admin_filters_path, notice: "Filter was successfully created." }
+          format.html { redirect_to admin_filters_path, notice: "Filter created" }
         else
           format.html { render :new, status: :unprocessable_entity }
         end
@@ -28,7 +28,7 @@ module Admin
     def update
       respond_to do |format|
         if @filter.update(filter_params)
-          format.html { redirect_to admin_filters_path, notice: "Filter was successfully updated." }
+          format.html { redirect_to admin_filters_path, notice: "Filter updated" }
         else
           format.html { render :edit, status: :unprocessable_entity }
         end
@@ -38,7 +38,7 @@ module Admin
     def destroy
       @filter.destroy
       respond_to do |format|
-        format.html { redirect_to admin_filters_url, notice: "Filter was successfully deleted." }
+        format.html { redirect_to admin_filters_url, notice: "Filter removed" }
       end
     end
 

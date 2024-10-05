@@ -97,7 +97,7 @@ class FindRssFeeds
       type = alternate.attributes["type"]&.value
       [ATOM_XML, RSS_XML].include?(type)
     end
-    errors.add(:base, "no RSS URL found") and return unless rss_alternates
+    errors.add(:base, "No RSS URL found") and return unless rss_alternates
 
     if rss_alternates.size == 1
       rss_feeds << RssFeed.new(href: rss_link(rss_alternates.first))

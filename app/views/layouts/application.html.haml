@@ -15,7 +15,7 @@
     %script(src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous" async)
 
 
-  %body(id="#{'admin' if user_signed_in?}" class="#{'overflow-hidden' unless mobile?} c_#{controller_name} a_#{action_name}")
+  %body(id="#{'admin' if user_signed_in?}" class="#{'overflow-hidden' unless mobile?} c_#{controller_name} a_#{action_name}" data-controller="alerts")
     - if mobile?
       = render "/layouts/mobile"
     - else

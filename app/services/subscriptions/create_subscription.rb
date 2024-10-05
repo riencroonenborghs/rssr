@@ -65,7 +65,7 @@ module Subscriptions
     def subscription_exists?
       return false unless user.subscriptions.exists?(feed_id: @feed.id)
 
-      errors.add(:base, "subscription already exists")
+      errors.add(:base, "Subscription already exists")
     end
 
     def build_subscription

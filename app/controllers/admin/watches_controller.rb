@@ -34,7 +34,7 @@ module Admin
 
       respond_to do |format|
         if @watch.save
-          format.html { redirect_to admin_watches_path, notice: "Watch was added." }
+          format.html { redirect_to admin_watches_path, notice: "Watch created" }
         else
           format.html { render :new, status: :unprocessable_entity }
         end
@@ -44,7 +44,7 @@ module Admin
     def update
       respond_to do |format|
         if @watch.update(watch_params)
-          format.html { redirect_to admin_watches_path, notice: "Watch was updated." }
+          format.html { redirect_to admin_watches_path, notice: "Watch updated" }
         else
           format.html { render :edit, status: :unprocessable_entity }
         end
@@ -54,7 +54,7 @@ module Admin
     def destroy
       @watch.destroy
       respond_to do |format|
-        format.html { redirect_to admin_watches_path, notice: "Watch was removed." }
+        format.html { redirect_to admin_watches_path, notice: "Watch removed" }
       end
     end
 
@@ -71,7 +71,7 @@ module Admin
       current_user.watches.where(group_id: params[:group_id]).destroy_all
 
       respond_to do |format|
-        format.html { redirect_to admin_watches_path, notice: "Watch group was removed." }
+        format.html { redirect_to admin_watches_path, notice: "Watch group removed" }
       end
     end
     
@@ -81,7 +81,7 @@ module Admin
       service = CopyWatchGroup.perform(watches: watches)
       respond_to do |format|
         if service.success?
-          format.html { redirect_to admin_watches_path, notice: "Watch was copied." }
+          format.html { redirect_to admin_watches_path, notice: "Watch group copied" }
         else
           format.html { redirect_to admin_watches_path, alert: service.errors.full_messages.to_sentence }
         end
