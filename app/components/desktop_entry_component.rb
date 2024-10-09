@@ -17,7 +17,7 @@ class DesktopEntryComponent < ViewComponent::Base
     @tags = { subscription: subscription ? tags_by_subscription[subscription.id] : [] }
     @tags[:entry] = @entry.tag_list || []
 
-    @tags[:subscription] = @tags[:subscription].flatten.map(&:upcase).uniq
-    @tags[:entry] = @tags[:entry].flatten.map(&:upcase).uniq
+    @tags[:subscription] = (@tags[:subscription] || []).flatten.map(&:upcase).uniq
+    @tags[:entry] = (@tags[:entry] || []).flatten.map(&:upcase).uniq
   end
 end
