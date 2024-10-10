@@ -16,7 +16,7 @@ class FeedsController < ApplicationController
   private
 
   def set_tag
-    @tag = params[:tag]&.upcase
+    @tag = CGI.unescape(params[:tag])&.upcase
   end
 
   def set_entries_by_subscription_tag
