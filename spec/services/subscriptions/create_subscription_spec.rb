@@ -77,7 +77,7 @@ module Subscriptions
       end
 
       context "when the subscription exists" do
-        let(:error_message) { "subscription already exists" }
+        let(:error_message) { "Subscription already exists" }
         let!(:feed) { create :feed, url: url }
         let!(:subscription) { user.subscriptions.create!(feed: feed) }
 
