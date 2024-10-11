@@ -1,10 +1,10 @@
-development:
-  adapter: postgresql
-  encoding: unicode
-  database: <%= ENV['PG_DEVELOPMENT_DATABASE'] %>
-  pool: 10
-  username: <%= ENV['PG_DEVELOPMENT_USERNAME'] %>
-  password: <%= ENV['PG_DEVELOPMENT_PASSWORD'] %>
+# development:
+#   adapter: postgresql
+#   encoding: unicode
+#   database: <%= ENV['PG_DEVELOPMENT_DATABASE'] %>
+#   pool: 10
+#   username: <%= ENV['PG_DEVELOPMENT_USERNAME'] %>
+#   password: <%= ENV['PG_DEVELOPMENT_PASSWORD'] %>
   
 test:
   adapter: postgresql
@@ -21,4 +21,9 @@ production:
   pool: 5
   username: <%= ENV['PG_PRODUCTION_USERNAME'] %>
   password: <%= ENV['PG_PRODUCTION_PASSWORD'] %>
-  
+
+development:
+  adapter: sqlite3
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+  database: db/development.sqlite3

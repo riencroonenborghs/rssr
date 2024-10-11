@@ -16,7 +16,7 @@ export default class extends Controller {
       }
     ).then((result) => {
       if (result.status === 200) {
-        entry.classList.add('bg-emerald-50')
+        entry.classList.add('bg-sky-50')
         entry.classList.add('text-amber-400')
       }
     })

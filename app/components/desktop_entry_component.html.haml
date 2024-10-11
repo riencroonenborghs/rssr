@@ -1,4 +1,4 @@
-.entry.flex.flex-row.items-center.border-b.pt-2.ps-2.pb-2.items-start(class="#{'bg-emerald-50 text-amber-400' if @mark_viewed}" data-controller="desktopMarkAsRead" data-entry-id="#{@entry.id}")
+.entry.flex.flex-row.items-center.border-b.pt-2.ps-2.pb-2.items-start(class="#{'bg-sky-50 text-amber-400' if @mark_viewed}" data-controller="desktopMarkAsRead" data-entry-id="#{@entry.id}")
   .w-6.entry--meta.entry--meta-bookmark
     = render BookmarkComponent.new(entry: @entry)
   .w-80.text-xs.ms-1

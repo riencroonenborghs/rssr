@@ -1,5 +1,5 @@
 {
-  "name": "rssr",
+  "name": "bootlegger",
   "private": true,
   "dependencies": {
     "@hotwired/stimulus": "^3.2.2",

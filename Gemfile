@@ -28,6 +28,7 @@ gem "rubocop-discourse"
 gem "sass-rails", ">= 6"
 gem "sidekiq"
 gem "sidekiq-cron"
+gem "sqlite3", "~> 1.4"
 gem "stimulus-rails", "~> 1.3"
 gem "tailwindcss-rails", "~> 2.0"
 gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]

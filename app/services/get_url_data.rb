@@ -22,7 +22,7 @@ class GetUrlData
   attr_reader :response
 
   def request_headers
-    user_agent = "linux:RSSr:v1.0"
+    user_agent = "linux:Bootlegger:v1.0"
     user_agent += " (by #{ENV.fetch('REDDIT_USERNAME')})" if url.match?(/reddit\.com/)
     { "User-Agent" => user_agent }
   end

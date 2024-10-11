@@ -2,10 +2,10 @@
 - menu_active = "text-amber-500"
 
 .flex.flex-row(style="height: calc(100vh);")
-  #admin-menu.w-16.bg-emerald-900.text-emerald-600
+  #admin-menu.w-16.bg-sky-900.text-sky-600
     %h1.p-4.pb-8
       = link_to root_path do
-        .text-2xl.font-bold R
+        .text-2xl.font-bold BL
     - if user_signed_in?
       .flex.flex-row.justify-center.pb-2
         = link_to admin_subscriptions_path, title: "Subscriptions", class: "#{admin_active if active_page?(admin_subscriptions_path)}" do
@@ -29,7 +29,7 @@
       .flex.flex-row.justify-center.pb-2
         = link_to new_user_session_path, title: "Log in", class: "#{admin_active if active_page?(new_user_session_path)}" do
           = render IconComponent.new(name: :lock_closed)                    
-  #menu.w-96.bg-emerald-600.text-emerald-950
+  #menu.w-96.bg-sky-600.text-sky-950
     .flex.flex-col.p-2.pt-5
       = link_to subscriptions_today_path, title: "Today", class: "pb-2 #{menu_active if active_page?(subscriptions_today_path) || current_page?(root_path)}" do
         .flex

@@ -23,8 +23,9 @@ class User < ApplicationRecord
     mean = tags.map(&:taggings_count).sort
     mean.pop
     mean.shift
-    mean = mean.sum / mean.size
+    mean = mean.size.zero? ? 0 : mean.sum / mean.size
     part = mean / limit
+    part = part.zero? ? 1 : part
 
     {}.tap do |ret|
       tags.each do |tag|

@@ -1,6 +1,6 @@
-# RSSr
+# Bootlegger
 
-RSS reader
+Bootlegger
 
 ## Tech
 
