@@ -1,9 +1,9 @@
 refresh_subscriptions:
   cron: "*/30 * * * *"
   class: "RefreshSubscriptionsJob"
-  queue: default
+  queue: bootlegger
 
 remove_old_entries:
   cron: "0 0 * * *"
   class: "RemoveOldEntriesJob"
-  queue: default
+  queue: bootlegger

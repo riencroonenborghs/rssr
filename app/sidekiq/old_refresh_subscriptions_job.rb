@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class RefreshSubscriptionsJob
+class OldRefreshSubscriptionsJob
   include Sidekiq::Job
 
   def perform

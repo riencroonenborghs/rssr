@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class RemoveOldEntriesJob
+class OldRemoveOldEntriesJob
   include Sidekiq::Job
 
   def perform

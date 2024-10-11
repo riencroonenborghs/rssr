@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class RefreshFeedJob
+class OldRefreshFeedJob
   include Sidekiq::Job
 
   def perform(args)
