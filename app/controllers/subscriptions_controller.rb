@@ -4,7 +4,7 @@ class SubscriptionsController < ApplicationController
   def today
     set_entries(timespan: :today)
 
-    @notifications = current_user.notifications.unacked
+    @notifications = user_signed_in? ? current_user.notifications.unacked : []
   end
 
   def yesterday
