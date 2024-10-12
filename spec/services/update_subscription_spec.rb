@@ -69,7 +69,9 @@ RSpec.describe UpdateSubscription, type: :service do
     context "when url changes" do
       it "queues a feed refresh job for later" do
         travel_to Time.zone.now do
-          expect(RefreshFeedJob).to receive(:perform_in).with(5.seconds, { feed_id: subscription.feed.id }.to_json)
+          mock_set = double
+          expect(mock_set).to receive(:perform_later).with(subscription.feed)
+          expect(RefreshFeedJob).to receive(:set).with(wait_until: 5.seconds.from_now).and_return(mock_set)
           subject.perform
         end
       end
@@ -80,7 +82,7 @@ RSpec.describe UpdateSubscription, type: :service do
 
       it "does not queue a feed refresh job" do
         subject.perform
-        expect(RefreshFeedJob).to_not receive(:perform_in)
+        expect(RefreshFeedJob).not_to receive(:set)
       end
     end
   end

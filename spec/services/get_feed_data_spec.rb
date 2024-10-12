@@ -20,11 +20,11 @@ RSpec.describe GetFeedData, type: :service do
 
   describe "#perform" do
     context "when get URL data fails" do
-      let(:error_message) { "Some URL data error" }
+      let(:error_message) { "Could not get URL data: Some URL data error" }
       let(:mock_loader_success) { false }
       let(:mock_loader_erros) do
         errors = ActiveModel::Errors.new(GetUrlData)
-        errors.add(:base, error_message)
+        errors.add(:base, "Some URL data error")
         errors
       end
 

@@ -87,7 +87,9 @@ RSpec.describe CreateSubscription, type: :service do
   it "queues a feed refresh job for later" do
     feed = create :feed, url: url
     travel_to Time.zone.now do
-      expect(RefreshFeedJob).to receive(:perform_in).with(5.seconds, { feed_id: feed.id }.to_json)
+      mock_set = double
+      expect(mock_set).to receive(:perform_later).with(feed)
+      expect(RefreshFeedJob).to receive(:set).with(wait_until: 5.seconds.from_now).and_return(mock_set)
       subject
     end
   end
