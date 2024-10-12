@@ -6,7 +6,7 @@ module Admin
     before_action :my_group?, only: %i[add_to_group edit_group remove_group]
 
     def index
-      @grouped_watches = current_user.watches.group_by(&:group_id)
+      @grouped_watches = current_user.watches.order(value: :asc).group_by(&:group_id)
     end
 
     def show
