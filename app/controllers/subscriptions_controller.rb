@@ -3,8 +3,7 @@
 class SubscriptionsController < ApplicationController
   def today
     set_entries(timespan: :today)
-
-    @notifications = user_signed_in? ? current_user.notifications.unacked : []
+    set_notifications
   end
 
   def yesterday
@@ -32,5 +31,12 @@ class SubscriptionsController < ApplicationController
         scope.distinct
       end
     end.page(page).per(@pagination_size)
+  end
+
+  def set_notifications
+    @notifications = {}
+    return unless user_signed_in?
+
+    @notifications = current_user.notifications.group_by(&:watch_group_id)
   end
 end
