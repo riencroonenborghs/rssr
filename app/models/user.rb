@@ -11,6 +11,7 @@ class User < ApplicationRecord
   has_many :bookmarks, dependent: :destroy
   has_many :filters, dependent: :destroy
   has_many :watches, dependent: :destroy
+  has_many :notifications, dependent: :destroy
 
   def tag_cloud(limit: 9)
     tags = subscriptions

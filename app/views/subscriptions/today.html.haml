@@ -5,3 +5,15 @@
 
 #today.w-100.entries
   = render PageComponent.new(entries: @entries)
+
+.flex.flex-col.absolute.top-0.left-0(data-controller="notifications")
+  - @notifications.each do |notification|
+    .alert.p-2.bg-blue-300.text-blue-800.flex.justify-between.items-center.m-1
+      .flex.items-center
+        .text-3xl.me-2
+          = render IconComponent.new(name: :bell_alert)
+        .me-2 
+          = notification.entry.title
+      = link_to "#", "data-action" => "click->notifications#ack", "data-ack-url" => ack_notification_path(notification), class: "ack-notification" do
+        = render IconComponent.new(name: :close)
+      

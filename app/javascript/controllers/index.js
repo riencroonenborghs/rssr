@@ -28,3 +28,6 @@ application.register("scroller", ScrollerController)
 import AlertsController from "./alerts_controller"
 application.register("alerts", AlertsController)
 
+import NotificationsController from "./notifications_controller"
+application.register("notifications", NotificationsController)
+

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_11_18_234012) do
+ActiveRecord::Schema.define(version: 2024_10_12_004125) do
 
   create_table "bookmarks", force: :cascade do |t|
     t.integer "user_id", null: false
@@ -82,6 +82,17 @@ ActiveRecord::Schema.define(version: 2023_11_18_234012) do
     t.index ["user_id"], name: "index_filters_on_user_id"
     t.index ["value", "user_id"], name: "filter_val_usr_type"
     t.index ["value", "user_id"], name: "uniq_filter_val_usr_type"
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "entry_id", null: false
+    t.integer "watch_group_id", null: false
+    t.datetime "acked_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["entry_id"], name: "index_notifications_on_entry_id"
+    t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
   create_table "subscriptions", force: :cascade do |t|
@@ -163,6 +174,8 @@ ActiveRecord::Schema.define(version: 2023_11_18_234012) do
   add_foreign_key "bookmarks", "users"
   add_foreign_key "entries", "feeds"
   add_foreign_key "filters", "users"
+  add_foreign_key "notifications", "entries"
+  add_foreign_key "notifications", "users"
   add_foreign_key "subscriptions", "feeds"
   add_foreign_key "subscriptions", "users"
   add_foreign_key "taggings", "tags"
