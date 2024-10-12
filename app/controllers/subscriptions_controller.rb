@@ -37,6 +37,6 @@ class SubscriptionsController < ApplicationController
     @notifications = {}
     return unless user_signed_in?
 
-    @notifications = current_user.notifications.group_by(&:watch_group_id)
+    @notifications = current_user.notifications.unacked.group_by(&:watch_group_id)
   end
 end
