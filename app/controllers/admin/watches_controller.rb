@@ -16,7 +16,7 @@ module Admin
         .where("users.id = ?", current_user.id)
 
       @watches = current_user.watches.where(group_id: params[:group_id])
-      @entries = Entries::WatchedEntries.perform(
+      @entries = FindWatchedEntries.perform(
         watches: @watches,
         scope: base_scope,
         page: page,

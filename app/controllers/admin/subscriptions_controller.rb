@@ -40,7 +40,7 @@ module Admin
     def step_2 # rubocop:disable Naming/VariableNumber
       @feed = Feed.new url: subscription_params[:url], rss_url: subscription_params[:rss_url]
       @subscription = current_user.subscriptions.new(feed: @feed)
-      @service = Feeds::GuessDetails.perform(feed: @feed)
+      @service = GuessFeedDetails.perform(feed: @feed)
       @step = 3
 
       respond_to do |format|
@@ -49,7 +49,7 @@ module Admin
     end
 
     def step_3 # rubocop:disable Naming/VariableNumber
-      @service = Subscriptions::CreateSubscription.perform(
+      @service = CreateSubscription.perform(
         user: current_user,
         url: subscription_params[:url],
         rss_url: subscription_params[:rss_url],
@@ -88,7 +88,7 @@ module Admin
     end
 
     def update
-      @service = Subscriptions::UpdateSubscription.perform(
+      @service = UpdateSubscription.perform(
         user: current_user,
         id: params[:id],
         params: subscription_params
@@ -121,7 +121,7 @@ module Admin
     end
 
     def refresh_all
-      RefreshSubscriptionsJob.perform_async
+      RefreshSubscriptionsJob.perform_later
 
       respond_to do |format|
         format.html { redirect_to admin_subscriptions_path, notice: "Subscriptions queued" }
@@ -136,7 +136,7 @@ module Admin
         return
       end
 
-      RefreshFeedJob.perform_async({ feed_id: subscription.feed_id }.to_json)
+      RefreshFeedJob.perform_later(subscription.feed)
 
       respond_to do |format|
         format.html { redirect_to request.referer, notice: "Subscription queued" }

@@ -4,7 +4,7 @@ class SearchesController < ApplicationController
   def results
     set_watches
 
-    @entries = Entries::WatchedEntries.perform(
+    @entries = FindWatchedEntries.perform(
       scope: base_scope,
       watches: @watches,
       page: params[:page] || 1
