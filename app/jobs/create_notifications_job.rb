@@ -1,5 +1,5 @@
 class CreateNotificationsJob < ApplicationJob
-  queue_as :bootlegger
+  queue_as :default
 
   def perform
     Watch.all.group_by(&:group_id).each do |_, watches|

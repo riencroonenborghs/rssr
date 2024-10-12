@@ -1,5 +1,5 @@
 class RemoveOldEntriesJob < ApplicationJob
-  queue_as :bootlegger
+  queue_as :default
 
   def perform
     Entry
