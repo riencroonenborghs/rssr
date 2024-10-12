@@ -1,5 +1,5 @@
 class RefreshSubscriptionsJob < ApplicationJob
-  queue_as :default
+  queue_as :bootlegger
 
   def perform
     scope = Feed.where(id: Subscription.active.distinct(:feed_id).pluck(:feed_id))

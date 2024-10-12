@@ -1,5 +1,5 @@
 class RefreshFeedJob < ApplicationJob
-  queue_as :default
+  queue_as :bootlegger
 
   def perform(feed)
     RefreshFeed.perform(feed: feed)
