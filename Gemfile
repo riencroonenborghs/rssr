@@ -19,6 +19,7 @@ gem "jbuilder", "~> 2.7"
 gem "jsbundling-rails", "~> 1.3"
 gem "kaminari"
 gem "mina"
+gem "mini_portile2" # we neeeeeeeed it!
 gem "opml-parser"
 gem "pg"
 gem "puma", ">= 5.6.2"

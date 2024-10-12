@@ -388,6 +388,7 @@ DEPENDENCIES
   kaminari
   listen (~> 3.2)
   mina
+  mini_portile2
   nokogiri
   opml-parser
   pg
