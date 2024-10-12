@@ -16,6 +16,7 @@ gem "foreman"
 gem "haml"
 gem "httparty"
 gem "jbuilder", "~> 2.7"
+gem "jsbundling-rails", "~> 1.3"
 gem "kaminari"
 gem "mina"
 gem "opml-parser"
@@ -34,7 +35,6 @@ gem "tailwindcss-rails", "~> 2.0"
 gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 gem "valid_url", github: "ralovets/valid_url"
 gem "view_component"
-gem "webpacker", "~> 4.0"
 
 group :development, :test do
   gem "byebug", platforms: %i[mri mingw x64_mingw]
@@ -53,3 +53,4 @@ group :development do
   gem "spring-watcher-listen", "~> 2.0.0"
   gem "web-console", ">= 3.3.0"
 end
+
