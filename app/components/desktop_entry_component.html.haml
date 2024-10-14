@@ -3,6 +3,9 @@
     = render BookmarkComponent.new(entry: @entry)
   .w-80.text-xs.ms-1
     = link_to @entry.feed.name, feed_entries_path(@entry.feed)
+  .w-16.text-sky-600(data-controller="sendToDownloader")
+    = link_to send_to_downloader_path(@entry.feed, @entry), data: { action: "click->sendToDownloader#send" } do
+      = render IconComponent.new(name: :paper_airplane)
   .w-full.overflow-hidden.text-ellipsis.ms-2.me-2.entry--content
     .flex.flex-col
       .entry--content--title.font-semibold

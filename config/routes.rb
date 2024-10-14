@@ -24,6 +24,7 @@ Rails.application.routes.draw do
     
     post "viewed/:entry_id" => "viewed_entries#create"
     get "/feeds/:feed_id/entries/:id" => "entries#show", as: :view_entry
+    post "/feeds/:feed_id/entries/:id/send-to-downloader" => "entries#send_to_downloader", as: :send_to_downloader
 
     get "bookmarks" => "bookmarks#index", as: :all_bookmarks
     post "bookmarks/:entry_id" => "bookmarks#create", as: :add_bookmark

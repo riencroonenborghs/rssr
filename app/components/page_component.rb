@@ -61,6 +61,6 @@ class PageComponent < ViewComponent::Base
     return if @skip_viewed
 
     entry_ids = @entries.map(&:id).uniq
-    @viewed = ViewedEntry.where(user_id: current_user.id, entry_id: entry_ids).map(&:entry_id)
+    @viewed = @entries.select { |x| x.viewed_at.present? }.map(&:id)
   end
 end

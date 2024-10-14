@@ -3,7 +3,7 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   add (event) {
     const link = event.target.closest("a")
-    const url = link.dataset.url
+    const url = link.href
     const bookmark = event.target.closest(".bookmark")
     link.classList.add("animate-ping")
     const bookmarked = bookmark.getElementsByClassName("bookmarked")[0]
@@ -34,7 +34,7 @@ export default class extends Controller {
 
   remove (event) {
     const link = event.target.closest("a")
-    const url = link.dataset.url
+    const url = link.href
     const bookmark = event.target.closest(".bookmark")
     link.classList.add("animate-ping")
     const bookmarked = bookmark.getElementsByClassName("bookmarked")[0]

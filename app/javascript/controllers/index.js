@@ -34,3 +34,6 @@ application.register("notifications", NotificationsController)
 import BookmarksController from "./bookmarks_controller"
 application.register("bookmarks", BookmarksController)
 
+import SendToDownloaderController from "./send_to_downloader_controller"
+application.register("sendToDownloader", SendToDownloaderController)
+

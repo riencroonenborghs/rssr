@@ -38,6 +38,7 @@ gem "valid_url", github: "ralovets/valid_url"
 gem "view_component"
 
 group :development, :test do
+  gem "annotate"
   gem "byebug", platforms: %i[mri mingw x64_mingw]
   gem "factory_bot_rails"
   gem "faker"

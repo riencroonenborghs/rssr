@@ -6,13 +6,12 @@ class ViewedEntriesController < ApplicationController
   def create
     entry = Entry.find_by(id: params[:entry_id])
     return unless entry
-    return if current_user.viewed_entries.exists?(entry_id: entry.id)
+    return if entry.viewed_at.present?
 
-    object = current_user.viewed_entries.build(entry_id: entry.id)
-    if object.valid? && object.save
-      render json: { success: true, viewed: entry.id }
+    if entry.update(viewed_at: Time.zone.now)
+      render json: { success: true }
     else
-      render json: { error: object.errors.full_messages.to_sentence }, status: 400
+      render json: { error: entry.errors.full_messages.to_sentence }, status: 400
     end
   end
 end

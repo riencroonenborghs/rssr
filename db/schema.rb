@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_10_12_004125) do
+ActiveRecord::Schema.define(version: 2024_10_14_192234) do
 
   create_table "bookmarks", force: :cascade do |t|
     t.integer "user_id", null: false
@@ -51,10 +51,15 @@ ActiveRecord::Schema.define(version: 2024_10_12_004125) do
     t.string "itunes_image"
     t.string "itunes_title"
     t.string "itunes_summary"
+    t.datetime "viewed_at"
+    t.datetime "downloaded_at"
+    t.index ["downloaded_at"], name: "index_entries_on_downloaded_at"
     t.index ["feed_id", "guid"], name: "index_entries_on_feed_id_and_guid"
     t.index ["feed_id"], name: "index_entries_on_feed_id"
     t.index ["guid"], name: "index_entries_on_guid"
     t.index ["published_at"], name: "index_entries_on_published_at"
+    t.index ["viewed_at", "downloaded_at"], name: "index_entries_on_viewed_at_and_downloaded_at"
+    t.index ["viewed_at"], name: "index_entries_on_viewed_at"
   end
 
   create_table "feeds", force: :cascade do |t|

@@ -2,6 +2,7 @@
 
 class EntriesController < ApplicationController
   before_action :set_feed
+  before_action :authenticate_user!, only: :send_to_downloader
 
   def index
     set_entries
@@ -14,6 +15,14 @@ class EntriesController < ApplicationController
       show_set_tags_by_subscription
       show_set_subscription_by_feed
     end
+  end
+
+  def send_to_downloader
+    entry = @feed.entries.find(params[:id])
+
+    SendToDownloader.perform(url: entry.link)
+    entry.update(downloaded_at: Time.zone.now, viewed_at: Time.zone.now)
+    render plain: "ok"
   end
 
   private

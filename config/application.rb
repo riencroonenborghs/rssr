@@ -32,9 +32,8 @@ module Bootlegger
 
     # Don't generate system test files.
     config.generators.system_tests = nil
-    
     config.active_job.queue_adapter = :sidekiq
-
     config.exceptions_app = self.routes
+    config.action_view.form_with_generates_remote_forms = true
   end
 end
