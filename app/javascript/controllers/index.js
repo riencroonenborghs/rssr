@@ -31,3 +31,6 @@ application.register("alerts", AlertsController)
 import NotificationsController from "./notifications_controller"
 application.register("notifications", NotificationsController)
 
+import BookmarksController from "./bookmarks_controller"
+application.register("bookmarks", BookmarksController)
+

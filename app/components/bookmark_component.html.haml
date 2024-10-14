@@ -1,7 +1,7 @@
-%div(data-bookmark-entry-id="#{@entry.id}")
+.bookmark(data-controller="bookmarks")
   %span.bookmarked(class="#{'hidden' unless bookmarked?}")
-    = link_to remove_bookmark_path(@entry), remote: true, method: :delete do
+    = link_to "#", data: { url: remove_bookmark_path(@entry), id: @entry.id, action: "click->bookmarks#remove" } do
       = render SolidIconComponent.new(name: :star, size: @icon_size)
   %span.not-bookmarked(class="#{'hidden' if bookmarked?}")
-    = link_to add_bookmark_path(@entry), remote: true, method: :post do
+    = link_to "#", data: { url: add_bookmark_path(@entry), id: @entry.id, action: "click->bookmarks#add" } do
       = render IconComponent.new(name: :star, size: @icon_size)

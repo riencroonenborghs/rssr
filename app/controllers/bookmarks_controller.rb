@@ -25,10 +25,13 @@ class BookmarksController < ApplicationController
       @bookmark = current_user.bookmarks.create!(entry_id: entry.id)
     end
     # rubocop:enable Style/IfUnlessModifier
+
+    render plain: "ok"
   end
 
   def destroy
     @bookmark = current_user.bookmarks.find_by(entry_id: params[:entry_id])
     @bookmark.destroy
+    render plain: "ok"
   end
 end
