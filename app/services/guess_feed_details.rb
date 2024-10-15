@@ -21,7 +21,7 @@ class GuessFeedDetails
   attr_reader :feed, :feed_data
 
   def set_feed_data
-    loader = Feeds::GetFeedData.perform(feed: feed)
+    loader = GetFeedData.perform(feed: feed)
     errors.merge!(loader.errors) and return unless loader.success?
 
     @feed_data = loader.feed_data
