@@ -20,4 +20,24 @@ class DesktopEntryComponent < ViewComponent::Base
     @tags[:subscription] = (@tags[:subscription] || []).flatten.map(&:upcase).uniq
     @tags[:entry] = (@tags[:entry] || []).flatten.map(&:upcase).uniq
   end
+
+  def lookup_title
+    title = @entry.title
+    a = "(.*)[0-9]{4}"
+    b = "(.*)S[0-9]+E[0-9]+"
+
+    title.gsub!(".", " ")
+    match_a = title.match(a)
+    match_b = title.match(b)
+
+    if match_a
+      match_a[1].chop
+    elsif match_b
+      match_b[1].chop
+    else
+      title
+    end
+
+    # title.match(a)[1]&.chop || title.match(b)[1]&.chop || title
+  end
 end
