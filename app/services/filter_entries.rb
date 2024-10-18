@@ -37,7 +37,6 @@ class FilterEntries
       .select(:value)
       .pluck(:value)
       .map { |value| "'%#{value.upcase}%'" }
-      .join(", ")
   end
 
   def generate_filter_re(comparison)
@@ -52,28 +51,38 @@ class FilterEntries
 
   def generate_includes_filters
     filters = generate_filter_string("includes")
-    return scope unless filters.present?
-
-    scope.where.not("upper(entries.title) like any (array[#{filters}])")
+    return scope unless filters.any?
+    
+    if ActiveRecord::Base.connection_db_config.adapter == "sqlite3"
+      sql = filters.map { |v| "upper(entries.title) like #{v}" }.join(" OR ")
+      scope.where.not(sql)
+    else
+      scope.where.not("upper(entries.title) like any (array[#{filters.join(", ")}])")
+    end
   end
 
   def generate_excludes_filters
     filters = generate_filter_string("excludes")
     return scope unless filters.present?
 
-    scope.where.not("upper(entries.title) not like any (array[#{filters}])")
+    if ActiveRecord::Base.connection_db_config.adapter == "sqlite3"
+      sql = filters.map { |v| "upper(entries.title) not like #{v}" }.join(" OR ")
+      scope.where.not(sql)
+    else
+      scope.where.not("upper(entries.title) not like any (array[#{filters.join(", ")}])")
+    end
   end
 
   def generate_matches_filters
     filters = generate_filter_re("matches")
-    return scope unless filters.present?
+    return scope unless filters.present? && ActiveRecord::Base.connection_db_config.adapter != "sqlite3"
 
     scope.where.not("upper(entries.title) ~ '#{filters}'")
   end
 
   def generate_mismatches_filters
     filters = generate_filter_re("mismatches")
-    return scope unless filters.present?
+    return scope unless filters.present? && ActiveRecord::Base.connection_db_config.adapter != "sqlite3"
 
     scope.where.not("upper(entries.title) !~ '#{filters}'")
   end

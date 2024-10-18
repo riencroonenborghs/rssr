@@ -25,7 +25,7 @@
             .flex.justify-end
               = link_to edit_admin_filter_path(filter.id) do
                 = render IconComponent.new(name: :edit)
-              = link_to admin_filter_path(filter.id), method: :delete, data: { confirm: "Are you sure?" }, class: "text-red-500" do
+              = button_to admin_filter_path(filter.id), method: :delete, data: { confirm: "Are you sure?" }, class: "text-red-500" do
                 = render IconComponent.new(name: :trash)
 
   .flex.flex-col

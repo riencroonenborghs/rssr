@@ -22,15 +22,24 @@
 #  user_id  (user_id => users.id)
 #
 class Filter < ApplicationRecord
-  VALID_COMPARISONS = %w[includes excludes matches mismatches tagged].freeze
-  HUMAN_READABLES = {
-    "includes" => "contains",
-    "excludes" => "does not contain",
-    "matches" => "matches",
-    "mismatches" => "does not match",
-    "tagged" => "tagged with"
-  }.freeze
-
+  if ActiveRecord::Base.connection_db_config.adapter == "sqlite3"
+    VALID_COMPARISONS = %w[includes excludes tagged].freeze
+    HUMAN_READABLES = {
+      "includes" => "contains",
+      "excludes" => "does not contain",
+      "tagged" => "tagged with"
+    }.freeze
+  else
+    VALID_COMPARISONS = %w[includes excludes matches mismatches tagged].freeze
+    HUMAN_READABLES = {
+      "includes" => "contains",
+      "excludes" => "does not contain",
+      "matches" => "matches",
+      "mismatches" => "does not match",
+      "tagged" => "tagged with"
+    }.freeze
+  end
+  
   belongs_to :user
 
   validates :value, presence: true
