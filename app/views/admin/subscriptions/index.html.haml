@@ -64,7 +64,7 @@
                     = render IconComponent.new(name: :eye_slash)
                 = link_to edit_admin_subscription_path(subscription) do
                   = render IconComponent.new(name: :edit)
-                = link_to admin_unsubscribe_path(subscription), method: :post, data: { confirm: "Are you sure?" }, class: "text-red-500" do
+                = button_to admin_unsubscribe_path(subscription), method: :post, data: { confirm: "Are you sure?" }, class: "text-red-500" do
                   = render IconComponent.new(name: :trash)
 
 .flex.flex-col
