@@ -3,7 +3,7 @@
 class RefreshFeed
   include Base
 
-  validate :feed_active
+  validate :active_feed
 
   def initialize(feed:)
     @feed = feed
@@ -21,7 +21,7 @@ class RefreshFeed
 
   private
 
-  def feed_active
+  def active_feed
     return if @feed.active?
     
     errors.add(:base, "Feed not active")

@@ -1,4 +1,4 @@
-require "rails_helper"
+# frozen_string_literal: true
 
 RSpec.describe Offset, type: :service do
   let(:now) { Time.zone.parse("28 Octover 2021, 18:01") }

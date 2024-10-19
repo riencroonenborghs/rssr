@@ -31,7 +31,6 @@ class SendToDownloader
 
   def parse_response
     return if @response.success?
-    return errors.add(:base, "Could not send to downloader: timed out") if @response.timed_out?
 
     errors.add(:base, "Could not send to downloader: #{@response.code} #{@response.body}")
   end

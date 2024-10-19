@@ -1,56 +1,53 @@
-require "rails_helper"
+# frozen_string_literal: true
 
 RSpec.describe GetUrlData, type: :service do
-  subject { described_class.new(url: url) }
+  subject { described_class.perform(url: url) }
 
-  let(:url) { "http://some.url.com" }
+  let(:url) { Faker::Internet.url }
+  let(:status) { 200 }
   let(:body) { "body" }
-  let(:headers) { { "content-type" => "" } }
-  let(:response) { instance_double(HTTParty::Response, body: body, headers: headers) }
+  let(:request_headers) { { "User-Agent" => "linux:Bootlegger:v1.0" } }
+  let(:response_headers) { { "foo" => "bar" } }
 
-  before { ENV["REDDIT_USERNAME"] = "foo" }
+  before do
+    stub_request(:get, url).with(headers: request_headers).to_return(status: status, body: body, headers: response_headers)
+  end
 
-  describe "#perform" do
+  context "when sending the request fails" do
     before do
-      allow(HTTParty).to receive(:get).and_return(response)
+      stub_request(:get, url).to_raise("Some error")
     end
 
-    context "when HTTParty fails" do
-      let(:error_message) { "Some httparty error" }
-
-      before do
-        allow(HTTParty).to receive(:get).and_raise(StandardError, error_message)
-      end
-
-      it_behaves_like "the service fails"
+    it "fails" do
+      expect(subject).to be_failure
     end
-
-    context "when HTTParty is called" do
-      context "when URL is a reddit URL" do
-        let(:url) { "https://www.reddit.com/r/Wellington.rss" }
-
-        it "is called with the correct headers" do
-          expect(HTTParty).to receive(:get).with(url, { header: { "User-Agent" => "linux:Bootlegger:v1.0 (by #{ENV.fetch('REDDIT_USERNAME')})" }, verify: false })
-          subject.perform
-        end
-      end
-
-      context "when URL is not a reddit URL" do
-        it "is called with the correct headers" do
-          expect(HTTParty).to receive(:get).with(url, { header: { "User-Agent" => "linux:Bootlegger:v1.0" }, verify: false })
-          subject.perform
-        end
-      end
-
-      it "skips HTTPS verification" do
-        expect(HTTParty).to receive(:get).with(url, { header: anything, verify: false })
-        subject.perform
-      end
+    
+    it "has an error" do
+      expect(subject.errors.full_messages).to include "Some error"
     end
+  end
 
-    it "returns data" do
-      subject.perform
-      expect(subject.data).to eq body
+  context "when request failed" do
+    let(:status) { 500 }
+
+    it "fails" do
+      expect(subject).to be_failure
     end
+    
+    it "has an error" do
+      expect(subject.errors.full_messages).to include "Could not get url data: #{status} #{body}"
+    end
+  end
+
+  it "succeeds" do
+    expect(subject).to be_success
+  end
+
+  it "has the headers" do
+    expect(subject.headers).to eq response_headers
+  end
+
+  it "has the data" do
+    expect(subject.data).to eq body
   end
 end

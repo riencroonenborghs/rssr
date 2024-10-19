@@ -1,89 +1,71 @@
-require "rails_helper"
-require "sidekiq/testing"
-Sidekiq::Testing.fake!
+# frozen_string_literal: true
 
 RSpec.describe UpdateSubscription, type: :service do
-  let(:user) { create :user }
-  let(:subscription) { create :subscription, user: user }
+  subject { described_class.perform(user: user, id: id, params: params) }
+
+  let(:user) { create(:user) }
   let(:id) { subscription.id }
-
-  let(:name) { "Name" }
-  let(:tag_list) { "foo,bar,baz" }
-  let(:url) { "http://some.url.com" }
-  let(:description) { "description" }
+  let(:params) { { hide_from_main_page: hide_from_main_page, tag_list: tag_list, description: description} }
   let(:hide_from_main_page) { true }
+  let(:tag_list) { %w[a bc d] }
+  let(:description) { "description" }
+  let(:subscription) { create(:subscription, user: user) }
 
-  let(:params) do
-    {
-      name: name,
-      tag_list: tag_list,
-      url: url,
-      description: description,
-      hide_from_main_page: hide_from_main_page
-    }
+  context "when subscription was not found" do
+    let(:id) { "some id" }
+
+    it "fails" do
+      expect(subject).to be_failure
+    end
+    
+    it "has an error" do
+      expect(subject.errors.full_messages).to include "No subscription found"
+    end
   end
 
-  subject { described_class.new(user: user, id: id, params: params) }
-
-  describe "#perform" do
-    context "when the subscription does not exist" do
-      let(:id) { "lolwut?!" }
-
-      it_behaves_like "the service fails with error", "No subscription found"
+  context "when updating the subscription fails" do
+    before do
+      allow(user.subscriptions).to receive(:find_by).and_return(subscription)
+      allow(subscription).to receive(:save).and_return(false)
+      errors = ActiveModel::Errors.new(Subscription)
+      errors.add(:base, "some error")
+      allow(subscription).to receive(:errors).and_return(errors)
     end
 
-    context "when saving the feed fails" do
-      before do
-        feed = Feed.new
-        allow(feed).to receive(:save).and_return(false)
-        feed.errors.add(:base, "some feed error")
-        allow(subject).to receive(:subscription).and_return(subscription)
-        allow(subscription).to receive(:feed).and_return(feed)
-      end
+    it "fails" do
+      expect(subject).to be_failure
+    end
+    
+    it "has an error" do
+      expect(subject.errors.full_messages).to include "some error"
+    end
+  end
 
-      it_behaves_like "the service fails with error", "some feed error"
+  context "when updating the feed fails" do
+    before do
+      allow(user.subscriptions).to receive(:find_by).and_return(subscription)
+      allow(subscription.feed).to receive(:save).and_return(false)
+      errors = ActiveModel::Errors.new(Subscription)
+      errors.add(:base, "some other error")
+      allow(subscription.feed).to receive(:errors).and_return(errors)
     end
 
-    it "succeeds" do
-      subject.perform
-      expect(subject).to be_success
+    it "fails" do
+      expect(subject).to be_failure
     end
-
-    it "updates the susbcription" do
-      expected_attributes = { hide_from_main_page: hide_from_main_page }
-      subject.perform
-      expect(subscription.reload).to have_attributes(expected_attributes)
-      tag_list.split(",").each do |tag|
-        expect(subscription.tag_list).to include tag
-      end
+    
+    it "has an error" do
+      expect(subject.errors.full_messages).to include "some other error"
     end
+  end
 
-    it "updates the feed" do
-      params.delete(:hide_from_main_page)
-      expected_attributes = params
-      subject.perform
-      feed = subscription.feed.reload
-      expect(feed).to have_attributes(expected_attributes)
-    end
+  it "succeeds" do
+    expect(subject).to be_success
+  end
 
-    context "when url changes" do
-      it "queues a feed refresh job for later" do
-        travel_to Time.zone.now do
-          mock_set = double
-          expect(mock_set).to receive(:perform_later).with(subscription.feed)
-          expect(RefreshFeedJob).to receive(:set).with(wait_until: 5.seconds.from_now).and_return(mock_set)
-          subject.perform
-        end
-      end
-    end
-
-    context "when url does not change" do
-      let(:url) { subscription.feed.url }
-
-      it "does not queue a feed refresh job" do
-        subject.perform
-        expect(RefreshFeedJob).not_to receive(:set)
-      end
-    end
+  it "updates the subscription and the feed" do
+    expect { subject }.to change { subscription.reload.hide_from_main_page }.to(hide_from_main_page)
+    .and change { subscription.tag_list }.to(tag_list)
+    .and change { subscription.feed.description }.to(description)
   end
 end

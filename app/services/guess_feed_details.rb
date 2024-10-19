@@ -10,24 +10,18 @@ class GuessFeedDetails
   end
 
   def perform
-    set_feed_data
+    get_feed_data
     return unless success?
 
-    guess_name
+    @name = @feed_data&.title
   end
 
   private
 
-  attr_reader :feed, :feed_data
+  def get_feed_data
+    service = GetFeedData.perform(feed: @feed)
+    errors.merge!(service.errors) and return unless service.success?
 
-  def set_feed_data
-    loader = GetFeedData.perform(feed: feed)
-    errors.merge!(loader.errors) and return unless loader.success?
-
-    @feed_data = loader.feed_data
-  end
-
-  def guess_name
-    @name = feed_data&.title
+    @feed_data = service.feed_data
   end
 end
