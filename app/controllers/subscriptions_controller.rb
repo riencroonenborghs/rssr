@@ -16,6 +16,7 @@ class SubscriptionsController < ApplicationController
           .joins(feed: { subscriptions: :user })
           .joins(feed: { subscriptions: { taggings: :tag } })
           .includes(feed: { subscriptions: { taggings: :tag } })
+          .includes([:taggings])
           .merge(Subscription.active.not_hidden_from_main_page)
 
         if user_signed_in?
