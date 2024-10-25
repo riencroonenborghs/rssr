@@ -1,16 +1,15 @@
 .entry.flex.flex-row.items-center.border-b.pt-2.ps-2.pb-2.items-start(class="#{'bg-sky-50 text-amber-400' if @mark_viewed}" data-controller="desktopMarkAsRead" data-entry-id="#{@entry.id}")
-  .w-6.entry--meta.entry--meta-bookmark
-    = render BookmarkComponent.new(entry: @entry)
-  .w-80.text-xs.ms-1
-    = link_to @entry.feed.name, feed_entries_path(@entry.feed)
   .w-24.text-sky-600(data-controller="sendToDownloader")
     .flex.items-center
+      = render BookmarkComponent.new(entry: @entry)
       = link_to "https://www.imdb.com/find/?s=all&q=#{CGI.escape(lookup_title)}", target: "_blank" do
         = render IconComponent.new(name: :search)
       - if magnet?
         = link_to send_to_downloader_path(@entry.feed, @entry), data: { action: "click->sendToDownloader#send" } do
           = render IconComponent.new(name: :paper_airplane)
   .w-full.overflow-hidden.text-ellipsis.ms-2.me-2.entry--content
+    .text-xxs
+      = link_to @entry.feed.name, feed_entries_path(@entry.feed)
     .flex.flex-col
       .entry--content--title.font-semibold
         - if @entry.description.blank? || @entry.show_entry
