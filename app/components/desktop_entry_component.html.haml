@@ -11,7 +11,8 @@
         = link_to "https://www.imdb.com/find/?s=all&q=#{CGI.escape(lookup_title)}", target: "_blank" do
           = image_tag "imdb.png", width: 18
       = link_to send_to_downloader_path(@entry.feed, @entry), data: { action: "click->sendToDownloader#send" } do
-        = render IconComponent.new(name: :paper_airplane)
+        %div(class="#{'text-emerald-500' if magnet?}")
+          = render IconComponent.new(name: :paper_airplane)
   .w-full.overflow-hidden.text-ellipsis.ms-2.me-2.entry--content
     .flex.flex-col
       .entry--content--title.font-semibold

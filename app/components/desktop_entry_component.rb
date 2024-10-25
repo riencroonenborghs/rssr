@@ -40,4 +40,8 @@ class DesktopEntryComponent < ViewComponent::Base
 
     # title.match(a)[1]&.chop || title.match(b)[1]&.chop || title
   end
+
+  def magnet?
+    @entry.link.starts_with?("magnet")
+  end
 end
