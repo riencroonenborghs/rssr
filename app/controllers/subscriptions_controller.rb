@@ -1,23 +1,18 @@
 # frozen_string_literal: true
 
 class SubscriptionsController < ApplicationController
-  def today
-    set_entries(timespan: :today)
+  def index
+    set_entries
     set_notifications
-  end
-
-  def yesterday
-    set_entries(timespan: :yesterday)
   end
 
   private
 
-  def set_entries(timespan:)
+  def set_entries
     @entries = offset_scope do
       filtered_scope do
         scope = Entry
           .most_recent_first
-          .send(timespan)
           .joins(feed: { subscriptions: :user })
           .joins(feed: { subscriptions: { taggings: :tag } })
           .includes(feed: { subscriptions: { taggings: :tag } })

@@ -5,13 +5,10 @@
     = link_to @entry.feed.name, feed_entries_path(@entry.feed)
   .w-24.text-sky-600(data-controller="sendToDownloader")
     .flex.items-center
-      .flex.flex-col.me-2
-        = link_to "https://www.rottentomatoes.com/search?search=#{CGI.escape(lookup_title)}", target: "_blank" do
-          = image_tag "rt.png", width: 16
-        = link_to "https://www.imdb.com/find/?s=all&q=#{CGI.escape(lookup_title)}", target: "_blank" do
-          = image_tag "imdb.png", width: 18
-      = link_to send_to_downloader_path(@entry.feed, @entry), data: { action: "click->sendToDownloader#send" } do
-        %div(class="#{'text-emerald-500' if magnet?}")
+      = link_to "https://www.imdb.com/find/?s=all&q=#{CGI.escape(lookup_title)}", target: "_blank" do
+        = render IconComponent.new(name: :search)
+      - if magnet?
+        = link_to send_to_downloader_path(@entry.feed, @entry), data: { action: "click->sendToDownloader#send" } do
           = render IconComponent.new(name: :paper_airplane)
   .w-full.overflow-hidden.text-ellipsis.ms-2.me-2.entry--content
     .flex.flex-col

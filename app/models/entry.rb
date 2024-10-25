@@ -60,8 +60,6 @@ class Entry < ApplicationRecord
   validates :guid, :link, :title, :published_at, presence: true
 
   scope :most_recent_first, -> { order(published_at: :desc) }
-  scope :today, -> { most_recent_first.where(published_at: 24.hours.ago..) }
-  scope :yesterday, -> { most_recent_first.where(published_at: 48.hours.ago..24.hours.ago) }
 
   attr_accessor :show_entry
 

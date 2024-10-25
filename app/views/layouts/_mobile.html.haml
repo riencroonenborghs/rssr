@@ -9,10 +9,10 @@
     %div(class="py-4 overflow-y-auto")
       %ul(class="space-y-2 font-medium")
         %li
-          = link_to subscriptions_today_path, class: "#{classes} #{active if active_page?(subscriptions_today_path) || current_page?(root_path)}", title: "Today" do
+          = link_to subscriptions_path, class: "#{classes} #{active if active_page?(subscriptions_path) || current_page?(root_path)}", title: "Catalogue" do
             .flex.flex-row
-              = render IconComponent.new(name: :calendar)
-              .ms-2 Today
+              = render IconComponent.new(name: :ticket)
+              .ms-2 Catalogue
         - if user_signed_in?
           %li
             = link_to all_bookmarks_path, class: "#{classes} #{active if active_page?(all_bookmarks_path)}", title: "Bookmarks" do

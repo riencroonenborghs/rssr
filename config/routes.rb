@@ -14,8 +14,7 @@ Rails.application.routes.draw do
   get "search" => "searches#new", as: :new_search
   post "search" => "searches#results", as: :search
 
-  get "today" => "subscriptions#today", as: :subscriptions_today
-  get "yesterday" => "subscriptions#yesterday", as: :subscriptions_yesterday
+  resources "subscriptions", only: [:index]
 
   devise_scope :user do
     authenticated :user do
@@ -62,7 +61,7 @@ Rails.application.routes.draw do
   match "/404", to: "errors#not_found", via: :all
   match "/500", to: "errors#internal_server_error", via: :all
 
-  root to: "subscriptions#today"
+  root to: "subscriptions#index"
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

@@ -1,9 +1,9 @@
 - content_for :nav_title do
-  Today
+  Catalogue
 - content_for :meta_title do
-  Today
+  Catalogue
 
-#today.w-100.entries
+.w-100.entries
   = render PageComponent.new(entries: @entries)
 
 .flex.flex-col.absolute.top-0.left-0(data-controller="notifications")
