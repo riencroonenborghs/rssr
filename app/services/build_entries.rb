@@ -1,18 +1,18 @@
 # frozen_string_literal: true
 
-class BuildEntriesHash
+class BuildEntries
   include Base
 
-  attr_reader :entries_hash
+  attr_reader :entries
 
   def initialize(feed:, feed_data:)
     @feed = feed
     @feed_data = feed_data
-    @entries_hash = {}
+    @entries = {}
   end
 
   def perform
-    @entries_hash = entries_to_add.map do |entry|
+    @entries = entries_to_add.map do |entry|
       description = entry_description(entry)
       title = entry_title(entry, description)
 

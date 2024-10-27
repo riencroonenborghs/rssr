@@ -37,17 +37,27 @@ class CreateEntries
   end
 
   def build_entries_hash
-    @entries_hash_builder = BuildEntriesHash.perform(feed: @feed, feed_data: @feed_data)
-    return if @entries_hash_builder.success?
+    @entries_builder = BuildEntries.perform(feed: @feed, feed_data: @feed_data)
+    return if @entries_builder.success?
 
-    errors.add(:base, "Could not build entries hash: #{@entries_hash_builder.errors.full_messages.to_sentence}")
+    errors.add(:base, "Could not build entries: #{@entries_builder.errors.full_messages.to_sentence}")
   end
 
   def create_entries
     Entry.transaction do
-      @feed.entries.create!(
-        @entries_hash_builder.entries_hash
-      )
+      @entries_builder.entries.each do |entry|
+        entry = @feed.entries.create!(entry)
+        matcher = find_match(title: entry.title)
+        if matcher.tv
+          TvEntry.create!(matcher.tv.update(entry: entry))
+        elsif matcher.movie
+          MovieEntry.create!(matcher.movie.update(entry: entry))
+        end
+      end
     end
+  end
+
+  def find_match(title:)
+    FindMatch.perform(title: title)
   end
 end

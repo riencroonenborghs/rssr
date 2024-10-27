@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_10_14_192234) do
+ActiveRecord::Schema.define(version: 2024_10_27_094803) do
 
   create_table "bookmarks", force: :cascade do |t|
     t.integer "user_id", null: false
@@ -89,6 +89,17 @@ ActiveRecord::Schema.define(version: 2024_10_14_192234) do
     t.index ["value", "user_id"], name: "uniq_filter_val_usr_type"
   end
 
+  create_table "movie_entries", force: :cascade do |t|
+    t.integer "entry_id", null: false
+    t.string "name"
+    t.integer "year"
+    t.string "resolution"
+    t.boolean "cam"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["entry_id"], name: "index_movie_entries_on_entry_id"
+  end
+
   create_table "notifications", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "entry_id", null: false
@@ -144,6 +155,17 @@ ActiveRecord::Schema.define(version: 2024_10_14_192234) do
     t.index ["name"], name: "index_tags_on_name", unique: true
   end
 
+  create_table "tv_entries", force: :cascade do |t|
+    t.integer "entry_id", null: false
+    t.string "name"
+    t.integer "season"
+    t.integer "episode"
+    t.string "resolution"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["entry_id"], name: "index_tv_entries_on_entry_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -179,11 +201,13 @@ ActiveRecord::Schema.define(version: 2024_10_14_192234) do
   add_foreign_key "bookmarks", "users"
   add_foreign_key "entries", "feeds"
   add_foreign_key "filters", "users"
+  add_foreign_key "movie_entries", "entries"
   add_foreign_key "notifications", "entries"
   add_foreign_key "notifications", "users"
   add_foreign_key "subscriptions", "feeds"
   add_foreign_key "subscriptions", "users"
   add_foreign_key "taggings", "tags"
+  add_foreign_key "tv_entries", "entries"
   add_foreign_key "viewed_entries", "entries"
   add_foreign_key "viewed_entries", "users"
   add_foreign_key "watches", "users"
