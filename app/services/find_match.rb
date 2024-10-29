@@ -3,26 +3,33 @@
 class FindMatch
   include Base
 
-  attr_reader :tv, :movie
+  attr_reader :data, :tv, :movie
 
   NAME = "([a-z\\-\\s0-9]*)\\s"
   DELIMITER = "[\\sa-z]*"
   RESOLUTION = "(\\d{3,4}p|\\dk)+"
 
-  def initialize(title:)
-    @title = title
+  def initialize(entry:)
+    @entry = entry
+    @title = entry.title
+    @tag_list = entry.feed.subscriptions.map(&:tag_list).flatten
+    @tv = @movie = false
   end
 
   def perform
-    tv_match = find_tv_match(title: @title)
-    @tv = tv_match if tv_match[:name]
-    @movie = find_movie_match(title: @title)
+    if @tag_list.include?("tv")
+      @tv = true
+      find_tv_match
+    elsif @tag_list.include?("movie")
+      @movie = true
+      find_movie_match
+    end
   end
 
   private
 
-  def find_movie_match(title:)
-    work = title.gsub(".", " ").downcase
+  def find_movie_match
+    work = @title.gsub(".", " ").downcase
 
     re_year = /\s\(?(\d{4})\)?\s/
     re_res = Regexp.new(RESOLUTION)
@@ -38,11 +45,11 @@ class FindMatch
 
     cam = !!work.match(/cam/) || !!work.match(/telesync/)
 
-    { name: name, year: year, resolution: resolution, cam: cam }
+    @data = { name: name, year: year, resolution: resolution, cam: cam }
   end
 
-  def find_tv_match(title:)
-    work = title.gsub(".", " ").downcase
+  def find_tv_match
+    work = @title.gsub(".", " ").downcase
     name = season = episode = resolution = nil
     
     # s.e
@@ -68,6 +75,6 @@ class FindMatch
       episode ||= match_se[3]
     end
 
-    { name: name, season: season, episode: episode, resolution: resolution }
+    @data = { name: name, season: season, episode: episode, resolution: resolution }
   end
 end

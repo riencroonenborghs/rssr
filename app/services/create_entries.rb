@@ -47,17 +47,13 @@ class CreateEntries
     Entry.transaction do
       @entries_builder.entries.each do |entry|
         entry = @feed.entries.create!(entry)
-        matcher = find_match(title: entry.title)
+        matcher = FindMatch.perform(entry: entry)
         if matcher.tv
-          TvEntry.create!(matcher.tv.update(entry: entry))
+          TvEntry.create!(matcher.data.update(entry: entry))
         elsif matcher.movie
-          MovieEntry.create!(matcher.movie.update(entry: entry))
+          MovieEntry.create!(matcher.data.update(entry: entry))
         end
       end
     end
-  end
-
-  def find_match(title:)
-    FindMatch.perform(title: title)
   end
 end
