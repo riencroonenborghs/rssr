@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_10_27_094803) do
+ActiveRecord::Schema.define(version: 2024_11_10_023623) do
 
   create_table "bookmarks", force: :cascade do |t|
     t.integer "user_id", null: false
@@ -33,24 +33,6 @@ ActiveRecord::Schema.define(version: 2024_10_27_094803) do
     t.string "image"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "media_title"
-    t.string "media_url"
-    t.string "media_type"
-    t.integer "media_width"
-    t.integer "media_height"
-    t.string "media_thumbnail_url"
-    t.integer "media_thumbnail_height"
-    t.integer "media_thumbnail_width"
-    t.integer "enclosure_length"
-    t.string "enclosure_type"
-    t.string "enclosure_url"
-    t.string "itunes_duration"
-    t.string "itunes_episode_type"
-    t.string "itunes_author"
-    t.boolean "itunes_explicit"
-    t.string "itunes_image"
-    t.string "itunes_title"
-    t.string "itunes_summary"
     t.datetime "viewed_at"
     t.datetime "downloaded_at"
     t.index ["downloaded_at"], name: "index_entries_on_downloaded_at"
@@ -176,6 +158,32 @@ ActiveRecord::Schema.define(version: 2024_10_27_094803) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  create_table "v2_entries", force: :cascade do |t|
+    t.integer "feed_id", null: false
+    t.string "uuid", null: false
+    t.string "title", null: false
+    t.string "description"
+    t.string "url"
+    t.datetime "published_at", null: false
+    t.string "image_url"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["feed_id"], name: "index_v2_entries_on_feed_id"
+    t.index ["uuid"], name: "index_v2_entries_on_uuid", unique: true
+  end
+
+  create_table "v2_feeds", force: :cascade do |t|
+    t.string "url", null: false
+    t.string "title", null: false
+    t.string "summary"
+    t.boolean "active", default: true, null: false
+    t.datetime "refreshed_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["url", "active"], name: "index_v2_feeds_on_url_and_active"
+    t.index ["url"], name: "index_v2_feeds_on_url", unique: true
+  end
+
   create_table "viewed_entries", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "entry_id", null: false
@@ -208,6 +216,7 @@ ActiveRecord::Schema.define(version: 2024_10_27_094803) do
   add_foreign_key "subscriptions", "users"
   add_foreign_key "taggings", "tags"
   add_foreign_key "tv_entries", "entries"
+  add_foreign_key "v2_entries", "feeds"
   add_foreign_key "viewed_entries", "entries"
   add_foreign_key "viewed_entries", "users"
   add_foreign_key "watches", "users"

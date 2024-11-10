@@ -25,7 +25,7 @@ class BuildEntries
         tag_list: entry_tag_list(entry)
       }
 
-      %i[image media_title media_url media_type media_width media_height media_thumbnail_url media_thumbnail_width media_thumbnail_height enclosure_length enclosure_type enclosure_url itunes_duration itunes_episode_type itunes_author itunes_explicit itunes_image itunes_title itunes_summary].each do |media|
+      %i[image].each do |media|
         hash[media] = entry.send(media) if entry.respond_to?(media)
       end
 
@@ -60,9 +60,8 @@ class BuildEntries
   def entry_link(entry)
     url = entry.url if entry.respond_to?(:url)
     link = entry.link if entry.respond_to?(:link)
-    media_url = entry.media_url if entry.respond_to?(:media_url)
 
-    url || link || media_url
+    url || link
   end
 
   def entry_published_at(entry)

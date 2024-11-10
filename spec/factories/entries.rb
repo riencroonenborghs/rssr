@@ -2,36 +2,18 @@
 #
 # Table name: entries
 #
-#  id                     :integer          not null, primary key
-#  description            :string
-#  downloaded_at          :datetime
-#  enclosure_length       :integer
-#  enclosure_type         :string
-#  enclosure_url          :string
-#  guid                   :string           not null
-#  image                  :string
-#  itunes_author          :string
-#  itunes_duration        :string
-#  itunes_episode_type    :string
-#  itunes_explicit        :boolean
-#  itunes_image           :string
-#  itunes_summary         :string
-#  itunes_title           :string
-#  link                   :string           not null
-#  media_height           :integer
-#  media_thumbnail_height :integer
-#  media_thumbnail_url    :string
-#  media_thumbnail_width  :integer
-#  media_title            :string
-#  media_type             :string
-#  media_url              :string
-#  media_width            :integer
-#  published_at           :datetime         not null
-#  title                  :string           not null
-#  viewed_at              :datetime
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
-#  feed_id                :integer          not null
+#  id            :integer          not null, primary key
+#  description   :string
+#  downloaded_at :datetime
+#  guid          :string           not null
+#  image         :string
+#  link          :string           not null
+#  published_at  :datetime         not null
+#  title         :string           not null
+#  viewed_at     :datetime
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  feed_id       :integer          not null
 #
 # Indexes
 #
