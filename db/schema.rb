@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_11_10_023623) do
+ActiveRecord::Schema.define(version: 2024_11_10_023756) do
 
   create_table "bookmarks", force: :cascade do |t|
     t.integer "user_id", null: false
@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 2024_11_10_023623) do
 
   create_table "entries", force: :cascade do |t|
     t.integer "feed_id", null: false
-    t.string "guid", null: false
+    t.string "uuid", null: false
     t.string "link", null: false
     t.string "title", null: false
     t.string "description"
@@ -36,10 +36,10 @@ ActiveRecord::Schema.define(version: 2024_11_10_023623) do
     t.datetime "viewed_at"
     t.datetime "downloaded_at"
     t.index ["downloaded_at"], name: "index_entries_on_downloaded_at"
-    t.index ["feed_id", "guid"], name: "index_entries_on_feed_id_and_guid"
+    t.index ["feed_id", "uuid"], name: "index_entries_on_feed_id_and_uuid"
     t.index ["feed_id"], name: "index_entries_on_feed_id"
-    t.index ["guid"], name: "index_entries_on_guid"
     t.index ["published_at"], name: "index_entries_on_published_at"
+    t.index ["uuid"], name: "index_entries_on_uuid"
     t.index ["viewed_at", "downloaded_at"], name: "index_entries_on_viewed_at_and_downloaded_at"
     t.index ["viewed_at"], name: "index_entries_on_viewed_at"
   end

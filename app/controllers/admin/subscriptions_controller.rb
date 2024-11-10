@@ -51,11 +51,11 @@ module Admin
     def step_3 # rubocop:disable Naming/VariableNumber
       @service = CreateSubscription.perform(
         user: current_user,
-        url: subscription_params[:url],
+        # url: subscription_params[:url],
         rss_url: subscription_params[:rss_url],
         name: subscription_params[:name],
         tag_list: subscription_params[:tag_list],
-        description: subscription_params[:description],
+        # description: subscription_params[:description],
         hide_from_main_page: subscription_params[:hide_from_main_page]
       )
 

@@ -21,7 +21,7 @@ class BuildEntries
         link: entry_link(entry),
         published_at: entry_published_at(entry),
         description: description,
-        guid: entry_guid(entry),
+        uuid: entry_uuid(entry),
         tag_list: entry_tag_list(entry)
       }
 
@@ -36,11 +36,11 @@ class BuildEntries
   private
 
   def entries_to_add
-    new_guids = @feed_data.entries.map { |entry| entry_guid(entry) }.compact
-    existing_guids = @feed.entries.where(guid: new_guids).pluck(:guid)
+    new_uuids = @feed_data.entries.map { |entry| entry_uuid(entry) }.compact
+    existing_uuids = @feed.entries.where(uuid: new_uuids).pluck(:uuid)
 
-    new_guids -= existing_guids
-    @feed_data.entries.select { |entry| new_guids.include?(entry_guid(entry)) }
+    new_uuids -= existing_uuids
+    @feed_data.entries.select { |entry| new_uuids.include?(entry_uuid(entry)) }
   end
 
   def entry_description(entry)
@@ -71,12 +71,12 @@ class BuildEntries
     nil
   end
 
-  def entry_guid(entry)
-    guid = entry.guid if entry.respond_to?(:guid)
+  def entry_uuid(entry)
+    uuid = entry.uuid if entry.respond_to?(:uuid)
     entry_id = entry.entry_id if entry.respond_to?(:entry_id)
     id = entry.id if entry.respond_to?(:id)
 
-    guid || entry_id || id
+    uuid || entry_id || id
   end
 
   def entry_tag_list(entry)
