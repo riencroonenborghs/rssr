@@ -20,7 +20,7 @@ class FindMatch
     if @tag_list.include?("tv")
       @tv = true
       find_tv_match
-    elsif @tag_list.include?("movie")
+    elsif @tag_list.include?("movies")
       @movie = true
       find_movie_match
     end
