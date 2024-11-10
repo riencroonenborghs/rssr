@@ -55,6 +55,9 @@ Rails.application.routes.draw do
       delete "watches/group/:group_id/remove" => "watches#remove_group", as: :remove_watch_group
       get "watches/group/:group_id" => "watches#show", as: :watches_group
       get "watches/group/:group_id/copy" => "watches#copy", as: :copy_watch_group
+
+      get "tv/most_popular/:name" => "tv_entries#most_popular", as: :most_popular_tv
+      get "movies/most_popular//:name" => "movie_entries#most_popular", as: :most_popular_movies
     end
   end
 

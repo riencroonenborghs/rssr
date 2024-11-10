@@ -40,20 +40,33 @@
           .flex
             = render IconComponent.new(name: :star)
             .ms-2 Bookmarks
-        %p.uppercase.font-thin.pb-2.pt-2 Most Read
-        - Feed.most_read(limit: 15).each do |feed|
-          = link_to feed_entries_path(feed), title: feed.name, class: "pb-2 #{menu_active if active_page?(feed_entries_path(feed))}" do
-            .flex
-              = render IconComponent.new(name: :rss)
-              .ms-2
-                = feed.name
-        -# %p.uppercase.font-thin.pb-2.pt-2 Total Recall
-        -# - Feed.random(user: current_user, limit: 2).each do |feed|
-        -#   = link_to feed_entries_path(feed), title: feed.name, class: "pb-2 #{menu_active if active_page?(feed_entries_path(feed))}" do
-        -#     .flex
-        -#       = render IconComponent.new(name: :rss)
-        -#       .ms-2
-        -#         = feed.name
+        -#%p.uppercase.font-thin.pb-2.pt-2 Most Read
+        -#- Feed.most_read(limit: 3).each do |feed|
+        -#  = link_to feed_entries_path(feed), title: feed.name, class: "pb-2 #{menu_active if active_page?(feed_entries_path(feed))}" do
+        -#    .flex
+        -#      = render IconComponent.new(name: :rss)
+        -#      .ms-2
+        -#        = feed.name
+        %p.uppercase.font-thin.pb-2.pt-2 Most Popular TV
+        - TvEntry.top_x(limit: 5).each do |item|
+          - name, count = item
+          - path = admin_most_popular_tv_path(name: CGI.escape(name))
+          = link_to path, title: "Most Popular TV: #{name}", class: "pb-2 #{menu_active if active_page?(path)}" do
+            .flex.justify-between
+              %span
+                = name
+              %span.font-thin.text-sm
+                = count
+        %p.uppercase.font-thin.pb-2.pt-2 Most Popular Movies
+        - MovieEntry.top_x(limit: 5).each do |item|
+          - name, count = item
+          - path = admin_most_popular_movies_path(name: CGI.escape(name))
+          = link_to path, title: "Most Popular Movies: #{name}", class: "pb-2 #{menu_active if active_page?(path)}" do
+            .flex.justify-between
+              %span
+                = name
+              %span.font-thin.text-sm
+                = count
         %p.uppercase.font-thin.pb-2.pt-2 Tags
         .text-center.overflow-auto
           - current_user.tag_cloud.each do |tag, count|

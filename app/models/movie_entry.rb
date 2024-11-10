@@ -23,4 +23,9 @@
 #
 class MovieEntry < ApplicationRecord
   belongs_to :entry
+
+  def self.top_x(limit: 10)
+    hash = self.group(:name).count
+    hash.sort { |x, y| y.last <=> x.last }.reject { |x| x.first.nil? }.first(limit)
+  end
 end
