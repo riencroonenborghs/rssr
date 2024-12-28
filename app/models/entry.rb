@@ -36,8 +36,8 @@ class Entry < ApplicationRecord
   has_many :viewed_entries, dependent: :destroy
   has_many :bookmarks, dependent: :destroy
   has_many :notifications, dependent: :destroy
-  has_one :tv_entry
-  has_one :movie_entry
+  has_one :tv_entry, dependent: :destroy
+  has_one :movie_entry, dependent: :destroy
 
   acts_as_taggable_on :tags
 
