@@ -19,7 +19,7 @@ gem "jbuilder", "~> 2.7"
 gem "kaminari"
 gem "mina"
 gem "opml-parser"
-gem "pg"
+# gem "pg"
 gem "puma", ">= 5.6.2"
 gem "rails", "~> 6.1.7", ">= 6.1.7.1"
 gem "rollbar"
@@ -29,11 +29,11 @@ gem "sass-rails", ">= 6"
 gem "sidekiq"
 gem "sidekiq-cron"
 gem "stimulus-rails", "~> 1.3"
-gem "tailwindcss-rails", "~> 2.0"
-gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
+# gem "tailwindcss-rails", "~> 2.0"
+# gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 gem "valid_url", github: "ralovets/valid_url"
 gem "view_component"
-gem "webpacker", "~> 4.0"
+# gem "webpacker", "~> 4.0"
 
 group :development, :test do
   gem "byebug", platforms: %i[mri mingw x64_mingw]
@@ -52,3 +52,10 @@ group :development do
   gem "spring-watcher-listen", "~> 2.0.0"
   gem "web-console", ">= 3.3.0"
 end
+
+
+gem "sqlite3", "~> 1.4"
+gem "cssbundling-rails", "~> 1.4"
+gem "jsbundling-rails", "~> 1.3"
+gem "sprockets-rails", "~> 3.5"
+gem 'concurrent-ruby', '1.3.4'  # uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger (NameError)
