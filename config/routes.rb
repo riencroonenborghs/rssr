@@ -55,6 +55,16 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :v2 do
+    resources :feeds, only: [:index]
+    resources :recent_entries, only: [:index]
+    resources :feeds, only: [:show]
+    resources :entries, only: [:show]
+    resources :tags, only: [:show]
+
+    root to: "recent_entries#index"
+  end
+
   match "/404", to: "errors#not_found", via: :all
   match "/500", to: "errors#internal_server_error", via: :all
 
