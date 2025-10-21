@@ -9,6 +9,7 @@ class EntriesController < ApplicationController
 
   def show
     @entry = @feed.entries.find(params[:id])
+    current_user.viewed_entries.create(entry: @entry) if current_user && !current_user.viewed_entries.exists?(entry_id: @entry.id)
 
     unless mobile? # rubocop:disable Style/GuardClause
       show_set_tags_by_subscription
