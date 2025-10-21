@@ -4,7 +4,7 @@
   Subscriptions
 
 - if mobile?
-  #subscriptions.p-2.pt-0.w-100
+  #subscriptions.p-2.pt-0.w-full
     .flex.flex-col
       - @subscriptions.each do |subscription|
         .flex.flex-row.items-center.pb-2
@@ -17,7 +17,7 @@
           
 
 - else
-  #subscriptions.p-2.pt-0.w-100
+  #subscriptions.p-2.pt-0.w-full
     %nav.p-2.flex.justify-between
       .text-2xl Subscriptions
       .flex

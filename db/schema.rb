@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(version: 2023_11_18_234012) do
     t.string "itunes_image"
     t.string "itunes_title"
     t.string "itunes_summary"
-    t.tsvector "searchable"
+    # t.tsvector "searchable"
     t.index ["feed_id", "guid"], name: "index_entries_on_feed_id_and_guid"
     t.index ["feed_id"], name: "index_entries_on_feed_id"
     t.index ["guid"], name: "index_entries_on_guid"

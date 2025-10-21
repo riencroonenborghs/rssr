@@ -28,14 +28,14 @@
                   = render IconComponent.new(name: :rss)
                   .ms-2 
                     = feed.name
-          %li.uppercase.font-thin.p-4.pb-2 Total Recall
-          - Feed.random(user: current_user, limit: 2).each do |feed|
-            %li
-              = link_to feed_entries_path(feed), class: "#{classes} #{active if active_page?(feed_entries_path(feed))}", title: "#{feed.name}" do
-                .flex.flex-row
-                  = render IconComponent.new(name: :rss)
-                  .ms-2 
-                    = feed.name
+          -# %li.uppercase.font-thin.p-4.pb-2 Total Recall
+          -# - Feed.random(user: current_user, limit: 2).each do |feed|
+          -#   %li
+          -#     = link_to feed_entries_path(feed), class: "#{classes} #{active if active_page?(feed_entries_path(feed))}", title: "#{feed.name}" do
+          -#       .flex.flex-row
+          -#         = render IconComponent.new(name: :rss)
+          -#         .ms-2 
+          -#           = feed.name
 
           %li.border-t.pt-1
             = link_to destroy_user_session_path, method: :delete, title: "Log out", class: classes do

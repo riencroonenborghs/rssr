@@ -13,12 +13,12 @@
       .flex.flex-row.justify-center.pb-2
         = link_to admin_filters_path, title: "Filters", class: "#{admin_active if active_page?(admin_filters_path)}" do
           = render IconComponent.new(name: :funnel)
-      .flex.flex-row.justify-center.pb-2
-        = link_to admin_watches_path, title: "Watches", class: "#{admin_active if active_page?(admin_watches_path)}" do
-          = render IconComponent.new(name: :eye)
-      .flex.flex-row.justify-center.pb-2
-        = link_to new_search_path, title: "Search", class: "#{admin_active if active_page?(new_search_path)}" do
-          = render IconComponent.new(name: :search)
+      -# .flex.flex-row.justify-center.pb-2
+      -#   = link_to admin_watches_path, title: "Watches", class: "#{admin_active if active_page?(admin_watches_path)}" do
+      -#     = render IconComponent.new(name: :eye)
+      -# .flex.flex-row.justify-center.pb-2
+      -#   = link_to new_search_path, title: "Search", class: "#{admin_active if active_page?(new_search_path)}" do
+      -#     = render IconComponent.new(name: :search)
       .flex.flex-row.justify-center.pb-2
         = link_to "/sidekiq", title: "Sidekiq", target: "_blank" do
           = render IconComponent.new(name: :cpu)
@@ -47,13 +47,13 @@
               = render IconComponent.new(name: :rss)
               .ms-2
                 = feed.name
-        %p.uppercase.font-thin.pb-2.pt-2 Total Recall
-        - Feed.random(user: current_user, limit: 2).each do |feed|
-          = link_to feed_entries_path(feed), title: feed.name, class: "pb-2 #{menu_active if active_page?(feed_entries_path(feed))}" do
-            .flex
-              = render IconComponent.new(name: :rss)
-              .ms-2
-                = feed.name
+        -# %p.uppercase.font-thin.pb-2.pt-2 Total Recall
+        -# - Feed.random(user: current_user, limit: 2).each do |feed|
+        -#   = link_to feed_entries_path(feed), title: feed.name, class: "pb-2 #{menu_active if active_page?(feed_entries_path(feed))}" do
+        -#     .flex
+        -#       = render IconComponent.new(name: :rss)
+        -#       .ms-2
+        -#         = feed.name
         %p.uppercase.font-thin.pb-2.pt-2 Tags
         .text-center.overflow-auto
           - current_user.tag_cloud.each do |tag, count|

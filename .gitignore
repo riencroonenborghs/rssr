@@ -50,3 +50,4 @@ db/v3
 !/app/assets/builds/.keep
 /storage/development*
 /storage/test*
+/storage/foo*
