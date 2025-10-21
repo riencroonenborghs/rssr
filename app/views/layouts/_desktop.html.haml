@@ -54,11 +54,11 @@
         -#       = render IconComponent.new(name: :rss)
         -#       .ms-2
         -#         = feed.name
-        %p.uppercase.font-thin.pb-2.pt-2 Tags
-        .text-center.overflow-auto
-          - current_user.tag_cloud.each do |tag, count|
-            = link_to tagged_feeds_path(tag), class: "tag-size-#{count}" do
-              = tag
+        -# %p.uppercase.font-thin.pb-2.pt-2 Tags
+        -# .text-center.overflow-auto
+        -#   - current_user.tag_cloud.each do |tag, count|
+        -#     = link_to tagged_feeds_path(tag), class: "tag-size-#{count}" do
+        -#       = tag
   #content.w-full.flex.flex-row
     .flex.flex-col.w-full(style="calc(100vh); overflow: auto;")
       = yield
