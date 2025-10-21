@@ -22,7 +22,6 @@ Rails.application.routes.draw do
       mount Sidekiq::Web => '/sidekiq'
     end
     
-    post "viewed/:entry_id" => "viewed_entries#create"
     get "/feeds/:feed_id/entries/:id" => "entries#show", as: :view_entry
 
     get "bookmarks" => "bookmarks#index", as: :all_bookmarks
