@@ -1,0 +1,45 @@
+import React from "react";
+import { Provider } from "react-redux";
+import { BrowserRouter, Routes, Route } from "react-router";
+
+import store from "../reducers/store";
+
+import Menu from "./menu";
+import Header from "./header";
+import Toast from "./toast";
+
+import RecentView from "../views/recent_view";
+import FeedView from "../views/feed_view";
+import EntryView from "../views/entry_view";
+import TagView from "../views/tag_view";
+
+function RSSReader(props) {
+  const style = {
+    height: "calc(100vh)"
+  };
+
+  return (
+    <Provider store={store}>
+      <BrowserRouter>        
+        <Menu></Menu>
+
+        <div className="flex flex-col">
+          <Header></Header>
+
+          <div className="w-full">
+            <Routes>
+              <Route path="/v2" element={<RecentView />} />
+              <Route path="/v2/feeds/:feedId" element={<FeedView />} />
+              <Route path="/v2/entries/:entryId" element={<EntryView />} />
+              <Route path="/v2/tags/:tag" element={<TagView />} />
+            </Routes>
+          </div>
+        </div>
+
+        <Toast></Toast>
+      </BrowserRouter>
+    </Provider>
+  );
+}
+
+export default RSSReader;

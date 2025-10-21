@@ -16,6 +16,8 @@ class Feed < ApplicationRecord
   validates :rss_url, uniqueness: true
 
   scope :active, -> { where(active: true) }
+  scope :by_name, -> { order(name: :asc) }
+  scope :no_error, -> { where(error: nil) }
 
   def subscribed?(user)
     subscriptions.where(user_id: user.id).exists?

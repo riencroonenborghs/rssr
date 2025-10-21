@@ -6,7 +6,7 @@ json.entries do
     json.title entry.title
     json.link entry.link
     json.description entry.description
-    json.publishedAt entry.published_at.to_fs(:long)
+    json.publishedAt entry.published_at.to_formatted_s(:long)
     json.tags @subscriptions_by_feed_id[entry.feed_id]&.tag_list || []
     json.image entry.image
     json.viewed @viewed_ids.include?(entry.id)

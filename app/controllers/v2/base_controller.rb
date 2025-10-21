@@ -2,6 +2,8 @@
 
 module V2
   class BaseController < ActionController::Base
+    layout "react"
+
     private
 
     def set_subscriptions_by_feed_id(feed: nil, entries_scope: nil, feed_ids: nil)

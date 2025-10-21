@@ -1,0 +1,18 @@
+import React from "react";
+import { useParams } from "react-router";
+
+import Entries from "../components/entries";
+
+function TagView(props) {
+  let { tag } = useParams();
+
+  const subTitleCallback = (data) => {
+    return { subtitle: { name: data.tag } };
+  }
+  return (<Entries  url={`/v2/tags/${tag}.json`}
+                    subTitleCallback={subTitleCallback}
+                    useEffectDependencies={[tag]}>
+          </Entries>);
+}
+
+export default TagView;
