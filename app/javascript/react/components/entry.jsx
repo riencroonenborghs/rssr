@@ -24,8 +24,7 @@ function Entry(props) {
 
   return (
     <Fragment>
-      <div className="flex flex-row border-b border-gray-100">
-        {viewed && <div className="border-s-12 border-emerald-100"></div>}
+      <div className={"flex flex-row border-b  " + (viewed ? "bg-emerald-50 border-emerald-100" : "border-gray-100")}>
         {entry.image && <img src={entry.image} width={128} className="p-2" />}
         <div className="flex flex-col p-2 pt-3 pb-3">
           <div className="font-thin text-xs">
