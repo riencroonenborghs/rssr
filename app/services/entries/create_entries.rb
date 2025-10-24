@@ -15,6 +15,8 @@ module Entries
       build_entries
       return unless success?
 
+      filter_duplicates
+
       create_entries
       return unless success?
     ensure
@@ -36,6 +38,15 @@ module Entries
       errors.merge!(builder.errors) and return unless builder.success?
 
       @entries = builder.entries
+    end
+
+    def filter_duplicates
+      new_titles = @entries.map { |entry| entry[:title] }
+      existing_titles = Entry.where(title: new_titles).pluck(:title)
+
+      @entries = @entries.reject do |entry|
+        existing_titles.include?(entry[:title])
+      end
     end
 
     def create_entries

@@ -4,7 +4,8 @@ module V2
   class FeedsController < V2::BaseController
     def index
       @feeds = current_user ? current_user.feeds : Feed
-      @feeds = @feeds.active.by_name.no_error.includes(:entries)
+      @feeds = @feeds.active.by_name.no_error
+      @feed_counts = Entry.where(feed_id: @feeds.pluck(:id)).group(:feed_id).count
     end
 
     def show
