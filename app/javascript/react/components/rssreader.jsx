@@ -12,6 +12,7 @@ import RecentView from "../views/recent_view";
 import FeedView from "../views/feed_view";
 import EntryView from "../views/entry_view";
 import TagView from "../views/tag_view";
+import BookmarksView from "../views/bookmarks_view";
 
 function RSSReader(props) {
   const style = {
@@ -32,6 +33,7 @@ function RSSReader(props) {
               <Route path="/v2/feeds/:feedId" element={<FeedView />} />
               <Route path="/v2/entries/:entryId" element={<EntryView />} />
               <Route path="/v2/tags/:tag" element={<TagView />} />
+              <Route path="/v2/bookmarks" element={<BookmarksView />} />
             </Routes>
           </div>
         </div>

@@ -6,6 +6,7 @@ import CalendarIcon from "../icons/calendar_icon";
 import RSSIcon from "../icons/rss_icon";
 import CloseIcon from "../icons/close_icon";
 import LockOpenIcon from "../icons/lock_open_icon"
+import StarIcon from "../icons/star_icon"
 
 import { hideMenu } from "../reducers/menu_slice";
 
@@ -38,7 +39,7 @@ function Menu(props) {
         <div onClick={hide}><CloseIcon size={3}></CloseIcon></div>
       </div>  
 
-      <div className="flex flex-row justify-between mt-3 mb-3">
+      <div className="flex flex-row justify-between mt-3">
         <Link to={"/v2"} onClick={hide}>
           <div className="flex flex-row">
             <CalendarIcon size={3}></CalendarIcon>
@@ -52,6 +53,15 @@ function Menu(props) {
             <span className="ms-2">Sign in</span>
           </div>
         </Link>}
+      </div>
+
+      <div className="mt-3 mb-3">
+        <Link to={"/v2/bookmarks"} onClick={hide}>
+          <div className="flex flex-row">
+            <StarIcon size={3}></StarIcon>
+            <span className="ms-2">Bookmarks</span>
+          </div>
+        </Link>
       </div>
       
       <div className="flex flex-col">

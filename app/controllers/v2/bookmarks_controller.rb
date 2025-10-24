@@ -2,6 +2,29 @@
 
 module V2
   class BookmarksController < V2::BaseController
+    def index
+      if current_user
+        @page = params[:page] || 1
+
+        entry_ids = current_user
+          .bookmarks
+          .select(:entry_id)
+
+        @entries = Entry
+          .includes(:bookmarks, feed: { subscriptions: { taggings: :tag } })
+          .where(id: entry_ids)
+          .order("bookmarks.created_at DESC")
+          .page(@page)
+      
+        set_subscriptions_by_feed_id(feed_ids: @entries.map(&:feed_id))
+        set_viewed_ids(entry_ids: @entries.map(&:id))
+        set_bookmarked_ids(entry_ids: @entries.map(&:id))
+
+      else
+        @entries = Entry.none
+      end
+    end
+
     def create
       unless current_user
         render json: { success: false }, status: 401

@@ -8,9 +8,9 @@ module V2
       @entries = filtered_scope do
         if current_user
           scope = Entry.where(feed_id: current_user.feeds.select(:id))
-          scope.most_recent_first.includes(:feed)#.page(@page)
+          scope.most_recent_first.includes(:feed)
         else
-          Entry.most_recent_first.includes(:feed)#.page(@page)
+          Entry.most_recent_first.includes(:feed)
         end
       end
       @entries = @entries.page(@page)
