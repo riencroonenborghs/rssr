@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import Tags from "./tags";
 import { addToViewed } from "../reducers/entries_slice";
-import StarIcon from "../icons/star_icon";
+import Bookmark from "./bookmark";
 
 function Entry(props) {
   const entry = props.entry;
@@ -27,7 +27,8 @@ function Entry(props) {
       <div className={"flex flex-row border-b  " + (viewed ? "bg-emerald-50 border-emerald-100" : "border-gray-100")}>
         {entry.image && <img src={entry.image} width={128} className="p-2" />}
         <div className="flex flex-col p-2 pt-3 pb-3">
-          <div className="font-thin text-xs">
+          <div className="font-thin text-xs flex flex-row">
+            <Bookmark entry={entry}></Bookmark>
             <span className="me-2">{entry.publishedAt}</span>
             <span className="me-2">/</span>
             <Link to={`/v2/feeds/${entry.feed.id}`} className="text-emerald-700">

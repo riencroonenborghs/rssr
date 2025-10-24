@@ -29,4 +29,10 @@ class Entry < ApplicationRecord
     parsed = URI.parse enclosure_url
     parsed.path.split(".")&.last == "mp3"
   end
+
+  def bookmarked?(user)
+    return false unless user
+
+    bookmarks.where(user_id: user.id).any?
+  end
 end

@@ -59,7 +59,9 @@ Rails.application.routes.draw do
     resources :feeds, only: [:index]
     resources :recent_entries, only: [:index]
     resources :feeds, only: [:show]
-    resources :entries, only: [:show]
+    resources :entries, only: [:show] do
+      resources :bookmarks, only: [:create]
+    end
     resources :tags, only: [:show]
 
     root to: "recent_entries#index"

@@ -6,6 +6,7 @@ json.entry do
   json.publishedAt @entry.published_at.to_formatted_s(:long)
   json.tags @subscriptions_by_feed_id[@entry.feed_id]&.tag_list || []
   json.image @entry.image
+  json.bookmarked @entry.bookmarked?(current_user)
 
   json.feed do
     json.id @feed.id
