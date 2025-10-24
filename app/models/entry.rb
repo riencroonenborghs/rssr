@@ -15,19 +15,12 @@ class Entry < ApplicationRecord
 
   attr_accessor :show_entry
 
-  def media?
-    media_url.present?
-  end
+  def self.parse_guid(feedjira_entry)
+    guid = feedjira_entry.guid if feedjira_entry.respond_to?(:guid)
+    entry_id = feedjira_entry.entry_id if feedjira_entry.respond_to?(:entry_id)
+    id = feedjira_entry.id if feedjira_entry.respond_to?(:id)
 
-  def enclosure?
-    enclosure_url.present?
-  end
-
-  def enclosure_mp3?
-    return false unless enclosure?
-
-    parsed = URI.parse enclosure_url
-    parsed.path.split(".")&.last == "mp3"
+    guid || entry_id || id
   end
 
   def bookmarked?(user)

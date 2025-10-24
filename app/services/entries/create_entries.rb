@@ -12,36 +12,36 @@ module Entries
       load_feed_data
       return unless success?
 
-      set_entries_creator
+      build_entries
       return unless success?
 
-      create_new_rss_items
+      create_entries
       return unless success?
-
-      feed.update(refresh_at: Time.zone.now)
+    ensure
+      @feed.update(refresh_at: Time.zone.now)
     end
 
     private
 
-    attr_reader :feed, :feed_data, :entries_creator
-
     def load_feed_data
-      loader = Feeds::GetFeedData.perform(feed: feed)
+      loader = Feeds::GetFeedData.perform(feed: @feed)
       errors.merge!(loader.errors) and return unless loader.success?
       errors.add(:base, "No feed data") and return unless loader.feed_data.present?
 
       @feed_data = loader.feed_data
     end
 
-    def set_entries_creator
-      @entries_creator = CreateRssEntries.perform(feed: feed, feed_data: feed_data)
-      errors.merge!(entries_creator.errors) unless entries_creator.success?
+    def build_entries
+      builder = BuildEntries.perform(feed: @feed, feed_data: @feed_data)
+      errors.merge!(builder.errors) and return unless builder.success?
+
+      @entries = builder.entries
     end
 
-    def create_new_rss_items
+    def create_entries
       Entry.transaction do
-        feed.entries.create!(
-          entries_creator.rss_items
+        @feed.entries.create!(
+          @entries
         )
       end
     end
