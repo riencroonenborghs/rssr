@@ -10,7 +10,7 @@ import StarIcon from "../icons/star_icon"
 
 import { hideMenu } from "../reducers/menu_slice";
 
-function Menu(props) {
+function TopMenu(props) {
   const visible = useSelector((state) => state.menu.visible);
   const [feeds, setFeeds] = useState([]);
   const dispatch = useDispatch();
@@ -81,4 +81,4 @@ function Menu(props) {
   );
 }
 
-export default Menu;
+export default TopMenu;

@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Bar3Icon from "../icons/bars3_icon";
 
 import { showMenu } from "../reducers/menu_slice";
+import mobile from "../utils/mobile";
 
 function Header(props) {
   const subtitle = useSelector((state) => state.header.subtitle);
@@ -22,9 +23,10 @@ function Header(props) {
           {subtitle !== null && <span className="ms-2 text-xs font-thin">{subtitle.name}</span>}
         </div>
 
+        {mobile.mobile() && 
         <div onClick={() => dispatch(showMenu())}>
           <Bar3Icon size={4}></Bar3Icon>
-        </div>
+        </div>}
       </div>
     </div>
   );

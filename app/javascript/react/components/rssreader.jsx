@@ -4,7 +4,8 @@ import { BrowserRouter, Routes, Route } from "react-router";
 
 import store from "../reducers/store";
 
-import Menu from "./menu";
+import TopMenu from "./top_menu";
+import SideMenu from "./side_menu";
 import Header from "./header";
 import Toast from "./toast";
 
@@ -22,19 +23,23 @@ function RSSReader(props) {
   return (
     <Provider store={store}>
       <BrowserRouter>        
-        <Menu></Menu>
+        <TopMenu></TopMenu>
 
         <div className="flex flex-col">
           <Header></Header>
 
-          <div className="w-full">
-            <Routes>
-              <Route path="/v2" element={<RecentView />} />
-              <Route path="/v2/feeds/:feedId" element={<FeedView />} />
-              <Route path="/v2/entries/:entryId" element={<EntryView />} />
-              <Route path="/v2/tags/:tag" element={<TagView />} />
-              <Route path="/v2/bookmarks" element={<BookmarksView />} />
-            </Routes>
+          <div className="flex flex-row">
+            <SideMenu></SideMenu>
+
+            <div className="w-full">
+              <Routes>
+                <Route path="/v2" element={<RecentView />} />
+                <Route path="/v2/feeds/:feedId" element={<FeedView />} />
+                <Route path="/v2/entries/:entryId" element={<EntryView />} />
+                <Route path="/v2/tags/:tag" element={<TagView />} />
+                <Route path="/v2/bookmarks" element={<BookmarksView />} />
+              </Routes>
+            </div>
           </div>
         </div>
 
