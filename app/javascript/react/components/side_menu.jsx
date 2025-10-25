@@ -7,26 +7,30 @@ import RssIcon from "../icons/rss_icon";
 import LockOpenIcon from "../icons/lock_open_icon"
 import LockClosedIcon from "../icons/lock_closed_icon"
 import StarIcon from "../icons/star_icon"
+import BoltIcon from "../icons/bolt_icon"
 
 import mobile from "../utils/mobile";
 
 function SideMenu(props) {
   if (mobile.mobile()) { return ""; }
 
+  const style = {
+    height: "calc(100vh - 58px)"
+  };
   const signedIn = document.getElementsByTagName("body")[0].classList.value.includes("signed-in");
 
   return (
-    <div className="flex flex-col bg-emerald-700 text-emerald-100 p-2">
+    <div className="flex flex-col bg-emerald-700 text-emerald-100 p-2" style={style}>
       <Link to={"/v2"}>
         <CalendarIcon size={3}></CalendarIcon>
       </Link>
 
-      <Link to={"/v2/subscription"} className="mt-2">
-        <RssIcon size={3}></RssIcon>
-      </Link>
-
       <Link to={"/v2/bookmarks"} className="mt-2">
         <StarIcon size={3}></StarIcon>
+      </Link>
+
+      <Link to={"/v2/subscription"} className="mt-2">
+        <RssIcon size={3}></RssIcon>
       </Link>
 
       <Link to={"/v2/filters"} className="mt-2">
@@ -37,7 +41,10 @@ function SideMenu(props) {
         <LockOpenIcon size={3}></LockOpenIcon>
       </Link>}
 
-      {signedIn && <Link to={"/users/sign_out"} target="blank" className="mt-12">
+      {signedIn && <Link to={"/sidekiq"} target="blank" className="mt-12">
+        <BoltIcon size={3}></BoltIcon>
+      </Link>}
+      {signedIn && <Link to={"/users/sign_out"} target="blank" className="mt-2">
         <LockClosedIcon size={3}></LockClosedIcon>
       </Link>}
 
