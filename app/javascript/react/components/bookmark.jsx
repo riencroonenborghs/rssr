@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 
-import csrf from "../csrf";
+import csrf from "../utils/csrf";
 import StarIcon from "../icons/star_icon";
 
 function Bookmark(props) {

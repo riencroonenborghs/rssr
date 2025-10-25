@@ -11,5 +11,5 @@
 
     = javascript_include_tag "application", type: "module"
     = stylesheet_link_tag "application"
-  %body(class="c_#{controller_name} a_#{action_name} #{'signed-in' if current_user}")
+  %body(class="c_#{controller_name} a_#{action_name} #{'signed-in' if current_user} #{'mobile' if mobile?}")
     #rssreader

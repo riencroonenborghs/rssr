@@ -4,6 +4,11 @@ module V2
   class BaseController < ActionController::Base
     layout "react"
 
+    def mobile?
+      browser.device.mobile?
+    end
+    helper_method :mobile?
+
     private
 
     def set_subscriptions_by_feed_id(feed: nil, entries_scope: nil, feed_ids: nil)
