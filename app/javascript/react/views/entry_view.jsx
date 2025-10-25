@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { useDispatch } from "react-redux";
 
-import BigEntry from "../components/big_entry";
+import FullEntry from "../components/full_entry";
 import { setSubtitle } from "../reducers/header_slice";
 import { addToViewed } from "../reducers/entries_slice";
 
@@ -40,7 +40,7 @@ function EntryView(props) {
   return (
     <div className="flex flex-col overflow-auto">
       {entry?.id != null && <Fragment>
-        <BigEntry entry={entry}></BigEntry>
+        <FullEntry entry={entry}></FullEntry>
       </Fragment>}
     </div>
   );

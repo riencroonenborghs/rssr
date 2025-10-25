@@ -3,7 +3,7 @@ import { Link } from "react-router";
 
 import Tags from "./tags";
 
-function BigEntry(props) {
+function FullEntry(props) {
   const entry = props.entry;
   var markup = {__html: entry.description}
   return (
@@ -27,4 +27,4 @@ function BigEntry(props) {
   );
 }
 
-export default BigEntry;
+export default FullEntry;
