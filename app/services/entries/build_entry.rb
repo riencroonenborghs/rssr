@@ -18,7 +18,7 @@ module Entries
         published_at: published_at,
         description: description,
         guid: Entry.parse_guid(@entry),
-        tag_list: tag_list
+        # tag_list: tag_list
       }
     end
 
