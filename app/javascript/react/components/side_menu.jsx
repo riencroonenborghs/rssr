@@ -29,7 +29,7 @@ function SideMenu(props) {
         <StarIcon size={3}></StarIcon>
       </Link>
 
-      <Link to={"/v2/subscription"} className="mt-2">
+      <Link to={"/v2/subscriptions"} className="mt-2">
         <RssIcon size={3}></RssIcon>
       </Link>
 
