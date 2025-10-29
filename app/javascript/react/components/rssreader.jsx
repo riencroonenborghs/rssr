@@ -15,6 +15,7 @@ import EntryView from "../views/entry_view";
 import TagView from "../views/tag_view";
 import BookmarksView from "../views/bookmarks_view";
 import SubscriptionsView from "../views/subscriptions_view";
+import FiltersView from "../views/filters_view";
 
 function RSSReader(props) {
   const style = {
@@ -40,6 +41,7 @@ function RSSReader(props) {
                 <Route path="/v2/tags/:tag" element={<TagView />} />
                 <Route path="/v2/bookmarks" element={<BookmarksView />} />
                 <Route path="/v2/subscriptions" element={<SubscriptionsView />} />
+                <Route path="/v2/filters" element={<FiltersView />} />
               </Routes>
             </div>
           </div>

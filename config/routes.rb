@@ -65,6 +65,7 @@ Rails.application.routes.draw do
     resources :tags, only: [:show]
     resources :bookmarks, only: [:index]
     resources :subscriptions, only: [:index]
+    resources :filters, only: [:index]
 
     root to: "recent_entries#index"
   end
