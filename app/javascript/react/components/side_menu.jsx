@@ -22,30 +22,52 @@ function SideMenu(props) {
   return (
     <div className="flex flex-col bg-emerald-700 text-emerald-100 p-2" style={style}>
       <Link to={"/v2"}>
-        <CalendarIcon size={3}></CalendarIcon>
+        <div className="flex flex-row items-center">
+          <CalendarIcon size={3}></CalendarIcon>
+          <span className="ms-2">Posts</span>
+        </div>
       </Link>
 
       <Link to={"/v2/bookmarks"} className="mt-2">
-        <StarIcon size={3}></StarIcon>
+        <div className="flex flex-row items-center">
+          <StarIcon size={3}></StarIcon>
+          <span className="ms-2">Bookmarks</span>
+        </div>
       </Link>
 
       <Link to={"/v2/subscriptions"} className="mt-2">
-        <RssIcon size={3}></RssIcon>
+        <div className="flex flex-row items-center">
+          <RssIcon size={3}></RssIcon>
+          <span className="ms-2">Feeds</span>
+        </div>
       </Link>
 
       <Link to={"/v2/filters"} className="mt-2">
-        <FilterIcon size={3}></FilterIcon>
+        <div className="flex flex-row items-center">
+          <FilterIcon size={3}></FilterIcon>
+          <span className="ms-2">Filters</span>
+        </div>
       </Link>
 
       {!signedIn && <Link to={"/users/sign_in"} target="blank" className="mt-12">
-        <LockOpenIcon size={3}></LockOpenIcon>
+        <div className="flex flex-row items-center">
+          <LockOpenIcon size={3}></LockOpenIcon>
+          <span className="ms-2">Sign In</span>
+        </div>
       </Link>}
 
       {signedIn && <Link to={"/sidekiq"} target="blank" className="mt-12">
-        <BoltIcon size={3}></BoltIcon>
+        <div className="flex flex-row items-center">
+          <BoltIcon size={3}></BoltIcon>
+          <span className="ms-2">Sidekiq</span>
+        </div>
       </Link>}
+
       {signedIn && <Link to={"/users/sign_out"} target="blank" className="mt-2">
-        <LockClosedIcon size={3}></LockClosedIcon>
+        <div className="flex flex-row items-center">
+          <LockClosedIcon size={3}></LockClosedIcon>
+          <span className="ms-2">Sign Out</span>
+        </div>
       </Link>}
 
     </div>

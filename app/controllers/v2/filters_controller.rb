@@ -5,7 +5,7 @@ module V2
     def index
       if current_user
         @page = params[:page] || 1
-        @filters = current_user.filters.order("comparison asc, upper(value) asc").page(@page).per(32)
+        @filters = current_user.filters.order("value asc").page(@page).per(32)
       else
         @filters = Filter.none
       end
