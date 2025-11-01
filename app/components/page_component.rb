@@ -28,7 +28,7 @@ class PageComponent < ViewComponent::Base
     subscription_ids = Subscription.joins(feed: :entries).merge(entries).select(:id)
 
     @tags_by_subscription = {}.tap do |ret|
-      ActsAsTaggableOn::Tagging
+      Tagging
         .includes(:tag)
         .where(taggable_type: "Subscription", taggable_id: subscription_ids)
         .each do |tagging|
@@ -51,9 +51,9 @@ class PageComponent < ViewComponent::Base
     return unless user_signed_in?
 
     subscription_ids = Subscription.active.where(user_id: current_user.id).select(:id)
-    tag_ids = ActsAsTaggableOn::Tagging.where(taggable_type: "Subscription", taggable_id: subscription_ids).select(:tag_id)
+    tag_ids = Tagging.where(taggable_type: "Subscription", taggable_id: subscription_ids).select(:tag_id)
 
-    @tags = ActsAsTaggableOn::Tag.where(id: tag_ids).distinct(:name).pluck(:name).sort.map(&:upcase)
+    @tags = Tag.where(id: tag_ids).distinct(:name).pluck(:name).sort.map(&:upcase)
   end
 
   def set_viewed

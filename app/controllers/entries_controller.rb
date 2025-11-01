@@ -47,7 +47,7 @@ class EntriesController < ApplicationController
     subscription_ids = subscriptions.select(:id)
 
     @tags_by_subscription = {}.tap do |ret|
-      ActsAsTaggableOn::Tagging
+      Tagging
         .includes(:tag)
         .where(
           taggable_type: "Subscription",

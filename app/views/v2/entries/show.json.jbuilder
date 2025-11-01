@@ -4,7 +4,7 @@ json.entry do
   json.link @entry.link
   json.description @entry.description
   json.publishedAt @entry.published_at.to_formatted_s(:long)
-  json.tags @subscriptions_by_feed_id[@entry.feed_id]&.tag_list || []
+  json.tags @subscriptions_by_feed_id[@entry.feed_id]&.tag_list&.map(&:name) || []
   json.image @entry.image
   json.bookmarked @entry.bookmarked?(current_user)
 

@@ -42,10 +42,4 @@ class Subscription < ApplicationRecord
   def toggle_active!
     update(active: !active)
   end
-
-  def tag_list
-    return super unless persisted? && taggings.loaded?
-
-    taggings.map(&:tag).map(&:name)
-  end
 end

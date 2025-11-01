@@ -16,7 +16,13 @@ module Tagger
       has_many :taggings, as: :taggable, dependent: :destroy
       has_many :tags, through: :taggings
 
-      scope :tagged_with, -> (tag) { Tagging.where(taggable_type: self.table_name.classify).joins(:tag).where(tags: { name: tag.upcase } ) }
+      scope :tagged_with, -> (tag) do
+        ids = Tagging.where(taggable_type: self.table_name.classify)
+          .joins(:tag)
+          .where(tags: { name: tag.upcase } )
+          .select(:taggable_id)
+        where(id: ids)
+      end
 
       def tag_list
         tags.to_a
