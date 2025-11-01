@@ -1,5 +1,25 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: filters
+#
+#  id         :integer          not null, primary key
+#  comparison :string           default("eq"), not null
+#  value      :string           not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  user_id    :integer          not null
+#
+# Indexes
+#
+#  index_filters_on_user_id  (user_id)
+#  uniq_filter_val_usr_type  (value,user_id)
+#
+# Foreign Keys
+#
+#  user_id  (user_id => users.id)
+#
 class Filter < ApplicationRecord
   VALID_COMPARISONS = %w[includes excludes matches mismatches tagged].freeze
   HUMAN_READABLES = {

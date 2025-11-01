@@ -1,0 +1,11 @@
+class RenameTagsAndTaggings < ActiveRecord::Migration[6.1]
+  def up
+    rename_table :tags, :old_tags
+    rename_table :taggings, :old_taggings
+  end
+
+  def down
+    rename_table :old_tags, :tags
+    rename_table :old_taggings, :taggings
+  end
+end

@@ -58,3 +58,4 @@ gem "cssbundling-rails", "~> 1.4"
 gem "jsbundling-rails", "~> 1.3"
 gem "sprockets-rails", "~> 3.5"
 gem 'concurrent-ruby', '1.3.4'  # uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger (NameError)
+gem "annotate", "~> 3.2"

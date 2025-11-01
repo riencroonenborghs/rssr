@@ -10,14 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_11_18_234012) do
-
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+ActiveRecord::Schema.define(version: 2025_11_01_224348) do
 
   create_table "bookmarks", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "entry_id", null: false
+    t.integer "user_id", null: false
+    t.integer "entry_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["entry_id"], name: "index_bookmarks_on_entry_id"
@@ -26,7 +23,7 @@ ActiveRecord::Schema.define(version: 2023_11_18_234012) do
   end
 
   create_table "entries", force: :cascade do |t|
-    t.bigint "feed_id", null: false
+    t.integer "feed_id", null: false
     t.string "guid", null: false
     t.string "link", null: false
     t.string "title", null: false
@@ -53,12 +50,11 @@ ActiveRecord::Schema.define(version: 2023_11_18_234012) do
     t.string "itunes_image"
     t.string "itunes_title"
     t.string "itunes_summary"
-    # t.tsvector "searchable"
+    t.index "\"searchable\"", name: "index_entries_on_searchable"
     t.index ["feed_id", "guid"], name: "index_entries_on_feed_id_and_guid"
     t.index ["feed_id"], name: "index_entries_on_feed_id"
     t.index ["guid"], name: "index_entries_on_guid"
     t.index ["published_at"], name: "index_entries_on_published_at"
-    t.index ["searchable"], name: "index_entries_on_searchable", using: :gin
   end
 
   create_table "feeds", force: :cascade do |t|
@@ -78,7 +74,7 @@ ActiveRecord::Schema.define(version: 2023_11_18_234012) do
   end
 
   create_table "filters", force: :cascade do |t|
-    t.bigint "user_id", null: false
+    t.integer "user_id", null: false
     t.string "comparison", default: "eq", null: false
     t.string "value", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -87,9 +83,15 @@ ActiveRecord::Schema.define(version: 2023_11_18_234012) do
     t.index ["value", "user_id"], name: "uniq_filter_val_usr_type"
   end
 
+# Could not dump table "old_taggings" because of following StandardError
+#   Unknown type '' for column 'id'
+
+# Could not dump table "old_tags" because of following StandardError
+#   Unknown type 'serial' for column 'id'
+
   create_table "subscriptions", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "feed_id", null: false
+    t.integer "user_id", null: false
+    t.integer "feed_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "active", default: true, null: false
@@ -102,32 +104,20 @@ ActiveRecord::Schema.define(version: 2023_11_18_234012) do
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end
 
-  create_table "taggings", id: :serial, force: :cascade do |t|
-    t.integer "tag_id"
-    t.string "taggable_type"
+  create_table "taggings", force: :cascade do |t|
+    t.integer "tag_id", null: false
     t.integer "taggable_id"
-    t.string "tagger_type"
-    t.integer "tagger_id"
-    t.string "context", limit: 128
-    t.datetime "created_at"
-    t.string "tenant", limit: 128
-    t.index ["context"], name: "index_taggings_on_context"
-    t.index ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true
+    t.string "taggable_type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["tag_id"], name: "index_taggings_on_tag_id"
-    t.index ["taggable_id", "taggable_type", "context"], name: "taggings_taggable_context_idx"
-    t.index ["taggable_id", "taggable_type", "tagger_id", "context"], name: "taggings_idy"
-    t.index ["taggable_id"], name: "index_taggings_on_taggable_id"
-    t.index ["taggable_type"], name: "index_taggings_on_taggable_type"
-    t.index ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type"
-    t.index ["tagger_id"], name: "index_taggings_on_tagger_id"
-    t.index ["tenant"], name: "index_taggings_on_tenant"
+    t.index ["taggable_type", "taggable_id"], name: "index_taggings_on_taggable_type_and_taggable_id"
   end
 
-  create_table "tags", id: :serial, force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer "taggings_count", default: 0
+  create_table "tags", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_tags_on_name", unique: true
   end
 
@@ -142,8 +132,8 @@ ActiveRecord::Schema.define(version: 2023_11_18_234012) do
   end
 
   create_table "viewed_entries", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "entry_id", null: false
+    t.integer "user_id", null: false
+    t.integer "entry_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["entry_id"], name: "index_viewed_entries_on_entry_id"
@@ -152,7 +142,7 @@ ActiveRecord::Schema.define(version: 2023_11_18_234012) do
   end
 
   create_table "watches", force: :cascade do |t|
-    t.bigint "user_id", null: false
+    t.integer "user_id", null: false
     t.string "watch_type", null: false
     t.string "value", null: false
     t.integer "group_id", default: 0, null: false
@@ -166,6 +156,7 @@ ActiveRecord::Schema.define(version: 2023_11_18_234012) do
   add_foreign_key "bookmarks", "users"
   add_foreign_key "entries", "feeds"
   add_foreign_key "filters", "users"
+  add_foreign_key "old_taggings", "old_tags", column: "tag_id"
   add_foreign_key "subscriptions", "feeds"
   add_foreign_key "subscriptions", "users"
   add_foreign_key "taggings", "tags"

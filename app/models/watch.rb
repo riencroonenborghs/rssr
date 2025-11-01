@@ -1,5 +1,26 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: watches
+#
+#  id         :integer          not null, primary key
+#  value      :string           not null
+#  watch_type :string           not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  group_id   :integer          default(0), not null
+#  user_id    :integer          not null
+#
+# Indexes
+#
+#  index_watches_on_user_id  (user_id)
+#  uniq_watch_combniation    (value,watch_type,user_id)
+#
+# Foreign Keys
+#
+#  user_id  (user_id => users.id)
+#
 class Watch < ApplicationRecord
   ENTRY_TITLE = "entry_title"
   ENTRY_DESCRIPTION = "entry_description"
