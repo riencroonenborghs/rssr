@@ -8,7 +8,8 @@ function RecentView(props) {
   }
   return (<Entries  url={"/v2/recent_entries.json"}
                     subTitleCallback={subTitleCallback}
-                    useEffectDependencies={[]}>
+                    useEffectDependencies={[]}
+                    isMobile={props.isMobile}>
           </Entries>);
 }
 

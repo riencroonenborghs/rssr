@@ -16,11 +16,16 @@ import TagView from "../views/tag_view";
 import BookmarksView from "../views/bookmarks_view";
 import SubscriptionsView from "../views/subscriptions_view";
 import FiltersView from "../views/filters_view";
+import ReadEntryView from "../views/read_entry_view";
+
+import mobile from "../utils/mobile";
 
 function RSSReader(props) {
   const style = {
     height: "calc(100vh)"
   };
+
+  const isMobile = mobile.mobile();
 
   return (
     <Provider store={store}>
@@ -31,11 +36,12 @@ function RSSReader(props) {
           <Header></Header>
 
           <div className="flex flex-row">
-            <SideMenu></SideMenu>
+            <SideMenu isMobile={isMobile}></SideMenu>
 
-            <div className="w-full">
+            <div className={isMobile ? "" : "w-1/3"}>
               <Routes>
-                <Route path="/v2" element={<RecentView />} />
+                <Route path="/" element={<RecentView isMobile={isMobile} />} />
+                <Route path="/v2" element={<RecentView isMobile={isMobile} />} />
                 <Route path="/v2/feeds/:feedId" element={<FeedView />} />
                 <Route path="/v2/entries/:entryId" element={<EntryView />} />
                 <Route path="/v2/tags/:tag" element={<TagView />} />
@@ -44,6 +50,8 @@ function RSSReader(props) {
                 <Route path="/v2/filters" element={<FiltersView />} />
               </Routes>
             </div>
+
+            <ReadEntryView isMobile={isMobile}></ReadEntryView>
           </div>
         </div>
 

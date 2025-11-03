@@ -11,6 +11,7 @@ import Pages from "../components/pages";
 function Entries(props) {
   const url = props.url;
   const subTitleCallback = props.subTitleCallback;
+  const isMobile = props.isMobile;
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -51,7 +52,7 @@ function Entries(props) {
       </div>}
 
       {!loading && <div className="flex flex-col overflow-auto" style={style}>
-        {entries.map((entry) => <Entry entry={entry} key={entry.id}></Entry>)}
+        {entries.map((entry) => <Entry entry={entry} key={entry.id} isMobile={isMobile}></Entry>)}
 
         <Pages currentPage={currentPage} totalPages={totalPages} callback={getEntries}></Pages>
       </div>}

@@ -9,10 +9,8 @@ import LockClosedIcon from "../icons/lock_closed_icon"
 import StarIcon from "../icons/star_icon"
 import BoltIcon from "../icons/bolt_icon"
 
-import mobile from "../utils/mobile";
-
 function SideMenu(props) {
-  if (mobile.mobile()) { return ""; }
+  if (props.isMobile) { return ""; }
 
   const style = {
     height: "calc(100vh - 58px)"
