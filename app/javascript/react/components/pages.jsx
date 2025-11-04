@@ -22,7 +22,7 @@ function Pages(props) {
     <div className="pt-4 pb-2 flex flex-row justify-center items-center text-emerald-800">
       {currentPage - 1 > 0 && <a className="text-sm p-2 rounded" onClick={() => previousPage()}><BackwardIcon size={3}></BackwardIcon></a>}
       <span className="ms-2 me-2">{currentPage}</span>
-      {currentPage + 1 < totalPages && <a className="text-sm p-2 rounded" onClick={() => nextPage()}><ForwardIcon size={3}></ForwardIcon></a>}
+      {currentPage + 1 <= totalPages && <a className="text-sm p-2 rounded" onClick={() => nextPage()}><ForwardIcon size={3}></ForwardIcon></a>}
     </div>
   );
 }
