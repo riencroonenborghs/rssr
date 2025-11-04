@@ -13,8 +13,8 @@ function ReadEntryView(props) {
   const dispatch = useDispatch();
 
   const style = {
-    height: "calc(100vh)",
-    maxWidth: "calc(100vw - 620px"
+    height: "calc(100vh - 60px)",
+    maxWidth: "calc(100vw - 620px)"
   };
 
   useEffect(() => {
@@ -35,7 +35,7 @@ function ReadEntryView(props) {
   }
 
   return (<Fragment>
-    {entry && <div className="border-l border-emerald-200" style={style}>
+    {entry && <div className="overflow-auto border-l border-emerald-200" style={style}>
       <FullEntry entry={entry}></FullEntry>
     </div>}
   </Fragment>)

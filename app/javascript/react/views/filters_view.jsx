@@ -45,7 +45,7 @@ function FiltersView(props) {
       </div>}
 
       {!loading && <div className="flex flex-col overflow-auto" style={style}>
-        <div className="grid grid-cols-4 gap-4 overflow-auto">
+        <div className="grid grid-cols-2 gap-4 overflow-auto">
           {filters.map((filter) => <div key={filter.id} className="flex flex-col p-2 border-b border-emerald-700">
           <div>{filter.comparison} <span className="font-bold">{filter.value}</span></div>
           </div>)}

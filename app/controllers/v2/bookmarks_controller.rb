@@ -3,9 +3,9 @@
 module V2
   class BookmarksController < V2::BaseController
     def index
-      if current_user
-        @page = params[:page] || 1
+      @page = params[:page] || 1
 
+      if current_user
         entry_ids = current_user
           .bookmarks
           .select(:entry_id)
@@ -21,7 +21,7 @@ module V2
         set_bookmarked_ids(entry_ids: @entries.map(&:id))
 
       else
-        @entries = Entry.none
+        @entries = Entry.none.page(@page)
       end
     end
 

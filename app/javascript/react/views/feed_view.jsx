@@ -11,7 +11,8 @@ function FeedView(props) {
   }
   return (<Entries  url={`/v2/feeds/${feedId}.json`}
                     subTitleCallback={subTitleCallback}
-                    useEffectDependencies={[feedId]}>
+                    useEffectDependencies={[feedId]}
+                    isMobile={props.isMobile}>
           </Entries>);
 
 }

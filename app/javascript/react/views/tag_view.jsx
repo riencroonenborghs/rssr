@@ -11,7 +11,8 @@ function TagView(props) {
   }
   return (<Entries  url={`/v2/tags/${tag}.json`}
                     subTitleCallback={subTitleCallback}
-                    useEffectDependencies={[tag]}>
+                    useEffectDependencies={[tag]}
+                    isMobile={props.isMobile}>
           </Entries>);
 }
 

@@ -8,7 +8,8 @@ function BookmarksView(props) {
   }
   return (<Entries  url={"/v2/bookmarks.json"}
                     subTitleCallback={subTitleCallback}
-                    useEffectDependencies={[]}>
+                    useEffectDependencies={[]}
+                    isMobile={props.isMobile}>
           </Entries>);
 }
 

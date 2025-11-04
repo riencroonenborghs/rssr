@@ -42,10 +42,10 @@ function RSSReader(props) {
               <Routes>
                 <Route path="/" element={<RecentView isMobile={isMobile} />} />
                 <Route path="/v2" element={<RecentView isMobile={isMobile} />} />
-                <Route path="/v2/feeds/:feedId" element={<FeedView />} />
+                <Route path="/v2/feeds/:feedId" element={<FeedView isMobile={isMobile} />} />
                 <Route path="/v2/entries/:entryId" element={<EntryView />} />
-                <Route path="/v2/tags/:tag" element={<TagView />} />
-                <Route path="/v2/bookmarks" element={<BookmarksView />} />
+                <Route path="/v2/tags/:tag" element={<TagView isMobile={isMobile} />} />
+                <Route path="/v2/bookmarks" element={<BookmarksView isMobile={isMobile} />} />
                 <Route path="/v2/subscriptions" element={<SubscriptionsView />} />
                 <Route path="/v2/filters" element={<FiltersView />} />
               </Routes>

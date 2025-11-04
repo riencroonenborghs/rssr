@@ -16,6 +16,8 @@ function Pages(props) {
     callback(currentPage + 1);
   }
 
+  if (totalPages == 1) { return ""; }
+
   return (
     <div className="pt-4 pb-2 flex flex-row justify-center items-center text-emerald-800">
       {currentPage - 1 > 0 && <a className="text-sm p-2 rounded" onClick={() => previousPage()}><BackwardIcon size={3}></BackwardIcon></a>}

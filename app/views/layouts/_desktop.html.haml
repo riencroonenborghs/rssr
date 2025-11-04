@@ -1,64 +1,66 @@
-- admin_active = "text-amber-600"
-- menu_active = "text-amber-500"
+-# - admin_active = "text-amber-600"
+-# - menu_active = "text-amber-500"
 
-.flex.flex-row(style="height: calc(100vh);")
-  #admin-menu.w-16.bg-emerald-900.text-emerald-600
-    %h1.p-4.pb-8
-      = link_to root_path do
-        .text-2xl.font-bold R
-    - if user_signed_in?
-      .flex.flex-row.justify-center.pb-2
-        = link_to admin_subscriptions_path, title: "Subscriptions", class: "#{admin_active if active_page?(admin_subscriptions_path)}" do
-          = render IconComponent.new(name: :rss)
-      .flex.flex-row.justify-center.pb-2
-        = link_to admin_filters_path, title: "Filters", class: "#{admin_active if active_page?(admin_filters_path)}" do
-          = render IconComponent.new(name: :funnel)
-      -# .flex.flex-row.justify-center.pb-2
-      -#   = link_to admin_watches_path, title: "Watches", class: "#{admin_active if active_page?(admin_watches_path)}" do
-      -#     = render IconComponent.new(name: :eye)
-      -# .flex.flex-row.justify-center.pb-2
-      -#   = link_to new_search_path, title: "Search", class: "#{admin_active if active_page?(new_search_path)}" do
-      -#     = render IconComponent.new(name: :search)
-      .flex.flex-row.justify-center.pb-2
-        = link_to "/sidekiq", title: "Sidekiq", target: "_blank" do
-          = render IconComponent.new(name: :cpu)
-      .flex.flex-row.justify-center.pb-2
-        = link_to destroy_user_session_path, method: :delete, title: "Log out" do
-          = render IconComponent.new(name: :lock_closed)
-    - else
-      .flex.flex-row.justify-center.pb-2
-        = link_to new_user_session_path, title: "Log in", class: "#{admin_active if active_page?(new_user_session_path)}" do
-          = render IconComponent.new(name: :lock_closed)                    
-  #menu.w-96.bg-emerald-600.text-emerald-950
-    .flex.flex-col.p-2.pt-5
-      = link_to subscriptions_today_path, title: "Today", class: "pb-2 #{menu_active if active_page?(subscriptions_today_path) || current_page?(root_path)}" do
-        .flex
-          = render IconComponent.new(name: :calendar)
-          .ms-2 Today
-      - if user_signed_in?
-        = link_to all_bookmarks_path, title: "Bookmarks", class: "pb-2 #{menu_active if active_page?(all_bookmarks_path)}" do
-          .flex
-            = render IconComponent.new(name: :star)
-            .ms-2 Bookmarks
-        %p.uppercase.font-thin.pb-2.pt-2 Most Read
-        - Feed.most_read(limit: 10).each do |feed|
-          = link_to feed_entries_path(feed), title: feed.name, class: "pb-2 #{menu_active if active_page?(feed_entries_path(feed))}" do
-            .flex
-              = render IconComponent.new(name: :rss)
-              .ms-2
-                = feed.name
-        -# %p.uppercase.font-thin.pb-2.pt-2 Total Recall
-        -# - Feed.random(user: current_user, limit: 2).each do |feed|
-        -#   = link_to feed_entries_path(feed), title: feed.name, class: "pb-2 #{menu_active if active_page?(feed_entries_path(feed))}" do
-        -#     .flex
-        -#       = render IconComponent.new(name: :rss)
-        -#       .ms-2
-        -#         = feed.name
-        -# %p.uppercase.font-thin.pb-2.pt-2 Tags
-        -# .text-center.overflow-auto
-        -#   - current_user.tag_cloud.each do |tag, count|
-        -#     = link_to tagged_feeds_path(tag), class: "tag-size-#{count}" do
-        -#       = tag
-  #content.w-full.flex.flex-row
-    .flex.flex-col.w-full(style="calc(100vh); overflow: auto;")
-      = yield
+-# .flex.flex-row(style="height: calc(100vh);")
+-#   #admin-menu.w-16.bg-emerald-900.text-emerald-600
+-#     %h1.p-4.pb-8
+-#       = link_to root_path do
+-#         .text-2xl.font-bold R
+-#     - if user_signed_in?
+-#       .flex.flex-row.justify-center.pb-2
+-#         = link_to admin_subscriptions_path, title: "Subscriptions", class: "#{admin_active if active_page?(admin_subscriptions_path)}" do
+-#           = render IconComponent.new(name: :rss)
+-#       .flex.flex-row.justify-center.pb-2
+-#         = link_to admin_filters_path, title: "Filters", class: "#{admin_active if active_page?(admin_filters_path)}" do
+-#           = render IconComponent.new(name: :funnel)
+-#       -# .flex.flex-row.justify-center.pb-2
+-#       -#   = link_to admin_watches_path, title: "Watches", class: "#{admin_active if active_page?(admin_watches_path)}" do
+-#       -#     = render IconComponent.new(name: :eye)
+-#       -# .flex.flex-row.justify-center.pb-2
+-#       -#   = link_to new_search_path, title: "Search", class: "#{admin_active if active_page?(new_search_path)}" do
+-#       -#     = render IconComponent.new(name: :search)
+-#       .flex.flex-row.justify-center.pb-2
+-#         = link_to "/sidekiq", title: "Sidekiq", target: "_blank" do
+-#           = render IconComponent.new(name: :cpu)
+-#       .flex.flex-row.justify-center.pb-2
+-#         = link_to destroy_user_session_path, method: :delete, title: "Log out" do
+-#           = render IconComponent.new(name: :lock_closed)
+-#     - else
+-#       .flex.flex-row.justify-center.pb-2
+-#         = link_to new_user_session_path, title: "Log in", class: "#{admin_active if active_page?(new_user_session_path)}" do
+-#           = render IconComponent.new(name: :lock_closed)                    
+-#   #menu.w-96.bg-emerald-600.text-emerald-950
+-#     .flex.flex-col.p-2.pt-5
+-#       = link_to subscriptions_today_path, title: "Today", class: "pb-2 #{menu_active if active_page?(subscriptions_today_path) || current_page?(root_path)}" do
+-#         .flex
+-#           = render IconComponent.new(name: :calendar)
+-#           .ms-2 Today
+-#       - if user_signed_in?
+-#         = link_to all_bookmarks_path, title: "Bookmarks", class: "pb-2 #{menu_active if active_page?(all_bookmarks_path)}" do
+-#           .flex
+-#             = render IconComponent.new(name: :star)
+-#             .ms-2 Bookmarks
+-#         %p.uppercase.font-thin.pb-2.pt-2 Most Read
+-#         - Feed.most_read(limit: 10).each do |feed|
+-#           = link_to feed_entries_path(feed), title: feed.name, class: "pb-2 #{menu_active if active_page?(feed_entries_path(feed))}" do
+-#             .flex
+-#               = render IconComponent.new(name: :rss)
+-#               .ms-2
+-#                 = feed.name
+-#         -# %p.uppercase.font-thin.pb-2.pt-2 Total Recall
+-#         -# - Feed.random(user: current_user, limit: 2).each do |feed|
+-#         -#   = link_to feed_entries_path(feed), title: feed.name, class: "pb-2 #{menu_active if active_page?(feed_entries_path(feed))}" do
+-#         -#     .flex
+-#         -#       = render IconComponent.new(name: :rss)
+-#         -#       .ms-2
+-#         -#         = feed.name
+-#         -# %p.uppercase.font-thin.pb-2.pt-2 Tags
+-#         -# .text-center.overflow-auto
+-#         -#   - current_user.tag_cloud.each do |tag, count|
+-#         -#     = link_to tagged_feeds_path(tag), class: "tag-size-#{count}" do
+-#         -#       = tag
+-#   #content.w-full.flex.flex-row
+-#     .flex.flex-col.w-full(style="calc(100vh); overflow: auto;")
+-#       = yield
+
+= yield
