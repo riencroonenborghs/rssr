@@ -16,7 +16,7 @@ function EntryView(props) {
   }, [entryId]);
 
   const getEntry = () => {
-    fetch(`/v2/entries/${entryId}.json`)
+    fetch(`/entries/${entryId}.json`)
       .then((data) => data.json())
       .then((data) => {
         setEntry(data.entry);

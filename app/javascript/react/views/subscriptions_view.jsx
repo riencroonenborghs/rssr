@@ -26,7 +26,7 @@ function SubscriptionsView(props) {
 
   const getSubscriptions = (page) => {
     setLoading(true);
-    fetch(`/v2/subscriptions.json?page=${page}`)
+    fetch(`/subscriptions.json?page=${page}`)
       .then((data) => data.json())
       .then((data) => {
         setCurrentPage(parseInt(data.page))
@@ -48,7 +48,7 @@ function SubscriptionsView(props) {
         {subscriptions.map((subscription) => <div key={subscription.id} className="flex flex-col p-2 border-b border-emerald-700">
           <div className="flex flex-row items-center">
             <div className="font-bold text-md">
-              <Link to={`/v2/feeds/${subscription.feed.id}`} className="text-emerald-700">
+              <Link to={`/feeds/${subscription.feed.id}`} className="text-emerald-700">
               {subscription.feed.name}
               </Link>
             </div>

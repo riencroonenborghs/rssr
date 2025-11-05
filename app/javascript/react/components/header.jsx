@@ -15,7 +15,7 @@ function Header(props) {
     <div className="flex flex-col">
       <div className="flex flex-row justify-between border-b border-gray-200 w-full p-3 text-emerald-700">
         <div className="flex flex-row items-center">
-          <Link to={"/v2"}>
+          <Link to={"/"}>
             <span className=" text-2xl font-bold">
               RSSReader
             </span>

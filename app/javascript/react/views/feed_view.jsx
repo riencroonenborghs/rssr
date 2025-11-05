@@ -9,7 +9,7 @@ function FeedView(props) {
   const subTitleCallback = (data) => {
     return { subtitle: { name: data.feed.name } };
   }
-  return (<Entries  url={`/v2/feeds/${feedId}.json`}
+  return (<Entries  url={`/feeds/${feedId}.json`}
                     subTitleCallback={subTitleCallback}
                     useEffectDependencies={[feedId]}
                     isMobile={props.isMobile}>

@@ -12,7 +12,7 @@ function FullEntry(props) {
         <div className="font-thin text-xs">
           <span className="me-2">{entry.publishedAt}</span>
           <span className="me-2">/</span>
-          <Link to={`/v2/feeds/${entry.feed.id}`} className="text-emerald-700">
+          <Link to={`/feeds/${entry.feed.id}`} className="text-emerald-700">
             {entry.feed.name}
           </Link>
         </div>

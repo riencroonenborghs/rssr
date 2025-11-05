@@ -18,34 +18,34 @@ function SideMenu(props) {
   const signedIn = document.getElementsByTagName("body")[0].classList.value.includes("signed-in");
 
   return (
-    <div className="flex flex-col bg-emerald-700 text-emerald-100 p-2" style={style}>
-      <Link to={"/v2"}>
+    <div className="flex flex-col bg-emerald-700 text-emerald-100 p-4" style={style}>
+      <Link to={"/"}>
         <div className="flex flex-row items-center">
           <CalendarIcon size={3}></CalendarIcon>
           <span className="ms-2">Posts</span>
         </div>
       </Link>
 
-      <Link to={"/v2/bookmarks"} className="mt-2">
+      {signedIn && <Link to={"/bookmarks"} className="mt-2">
         <div className="flex flex-row items-center">
           <StarIcon size={3}></StarIcon>
           <span className="ms-2">Bookmarks</span>
         </div>
-      </Link>
+      </Link>}
 
-      <Link to={"/v2/subscriptions"} className="mt-2">
+      {signedIn && <Link to={"/subscriptions"} className="mt-2">
         <div className="flex flex-row items-center">
           <RssIcon size={3}></RssIcon>
           <span className="ms-2">Feeds</span>
         </div>
-      </Link>
+      </Link>}
 
-      <Link to={"/v2/filters"} className="mt-2">
+      {signedIn && <Link to={"/filters"} className="mt-2">
         <div className="flex flex-row items-center">
           <FilterIcon size={3}></FilterIcon>
           <span className="ms-2">Filters</span>
         </div>
-      </Link>
+      </Link>}
 
       {!signedIn && <Link to={"/users/sign_in"} target="blank" className="mt-12">
         <div className="flex flex-row items-center">

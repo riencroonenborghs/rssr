@@ -21,7 +21,7 @@ function TopMenu(props) {
   };
 
   useEffect(() => {
-    fetch("/v2/feeds.json")
+    fetch("/feeds.json")
       .then((data) => data.json())
       .then((data) => {
         setFeeds(data.feeds)
@@ -40,7 +40,7 @@ function TopMenu(props) {
       </div>  
 
       <div className="flex flex-row justify-between mt-3">
-        <Link to={"/v2"} onClick={hide}>
+        <Link to={"/"} onClick={hide}>
           <div className="flex flex-row">
             <CalendarIcon size={3}></CalendarIcon>
             <span className="ms-2">Recent</span>
@@ -56,7 +56,7 @@ function TopMenu(props) {
       </div>
 
       <div className="mt-3 mb-3">
-        <Link to={"/v2/bookmarks"} onClick={hide}>
+        <Link to={"/bookmarks"} onClick={hide}>
           <div className="flex flex-row">
             <StarIcon size={3}></StarIcon>
             <span className="ms-2">Bookmarks</span>
@@ -65,7 +65,7 @@ function TopMenu(props) {
       </div>
       
       <div className="flex flex-col">
-        {feeds.map((feed) => <Link key={feed.id} to={"/v2/feeds/" + feed.id} onClick={hide}>
+        {feeds.map((feed) => <Link key={feed.id} to={"/feeds/" + feed.id} onClick={hide}>
           <div className="flex flex-row justify-between hover:bg-emerald-700">
             <div className="flex flex-row items-start">
               <span className="mt-1"><RSSIcon size={2}></RSSIcon></span>

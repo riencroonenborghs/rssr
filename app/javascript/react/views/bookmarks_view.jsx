@@ -6,7 +6,7 @@ function BookmarksView(props) {
   const subTitleCallback = (data) => {
     return { subtitle: { name: "Bookmarks" } };
   }
-  return (<Entries  url={"/v2/bookmarks.json"}
+  return (<Entries  url={"/bookmarks.json"}
                     subTitleCallback={subTitleCallback}
                     useEffectDependencies={[]}
                     isMobile={props.isMobile}>

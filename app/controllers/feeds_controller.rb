@@ -1,48 +1,23 @@
 # frozen_string_literal: true
 
 class FeedsController < ApplicationController
-  before_action :authenticate_user!, only: [:index]
-
-  def tagged
-    set_tag
-    set_entries_by_subscription_tag
+  def index
+    @feeds = current_user ? current_user.feeds : Feed
+    @feeds = @feeds.active.by_name.no_error
+    @feed_counts = Entry.where(feed_id: @feeds.pluck(:id)).group(:feed_id).count
   end
 
-  def entry_tagged
-    set_tag
-    set_entries_by_entry_tag
-  end
+  def show
+    @feed = Feed.find_by(id: params[:id])
+    @page = params[:page] || 1
 
-  private
-
-  def set_tag
-    @tag = CGI.unescape(params[:tag])&.upcase
-  end
-
-  def set_entries_by_subscription_tag
-    scope = filtered_scope do
-      current_user_scope do
-        Entry
-          .includes(feed: { subscriptions: { taggings: :tag } })
-          .merge(Subscription.active.tagged_with(@tag))
-          .joins(feed: { subscriptions: :taggings })
-          .most_recent_first
-          .distinct
-      end
+    @entries = filtered_scope do
+      @feed.entries.most_recent_first
     end
-    @entries = scope.page(page).per(@pagination_size)
-  end
+    @entries = @entries.page(@page)
 
-  def set_entries_by_entry_tag
-    scope = filtered_scope do
-      current_user_scope do
-        Entry
-          .tagged_with(@tag)
-          .joins(feed: { subscriptions: :taggings })
-          .most_recent_first
-          .distinct
-      end
-    end
-    @entries = scope.page(page).per(@pagination_size)
+    set_subscriptions_by_feed_id(feed: @feed)
+    set_viewed_ids(entries_scope: @entries)
+    set_bookmarked_ids(entries_scope: @entries)
   end
 end

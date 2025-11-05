@@ -2,26 +2,14 @@
 %html
   %head
     %title
-      RSSr - 
-      = yield :meta_title 
+      RSSReader
     %meta(name="viewport" content="width=device-width, initial-scale=1")
     = favicon_link_tag asset_path("favicon.png")
     %link(rel="apple-touch-icon" href="#{asset_path("apple-touch.png")}")
     = csrf_meta_tags
     = csp_meta_tag
 
-    -# = stylesheet_link_tag 'tailwind', media: 'all'
-    -# = javascript_pack_tag 'application'
     = javascript_include_tag "application", type: "module"
     = stylesheet_link_tag "application"
-    -# %script(src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous" async)
-
-
-  %body(id="#{'admin' if user_signed_in?}" class="#{'overflow-hidden' unless mobile?} c_#{controller_name} a_#{action_name}" data-controller="alerts")
-    - if mobile?
-      = render "/layouts/mobile"
-    - else
-      .text-emerald-800
-        = render "/layouts/desktop"
-    
-    = render "/layouts/flash_messages"
+  %body(class="c_#{controller_name} a_#{action_name} #{'signed-in' if current_user} #{'mobile' if mobile?}")
+    = yield

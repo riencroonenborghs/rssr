@@ -26,7 +26,7 @@ function FiltersView(props) {
 
   const getFilters = (page) => {
     setLoading(true);
-    fetch(`/v2/filters.json?page=${page}`)
+    fetch(`/filters.json?page=${page}`)
       .then((data) => data.json())
       .then((data) => {
         setCurrentPage(parseInt(data.page))

@@ -1,0 +1,7 @@
+- content_for :nav_title do
+  = "Entry #{@entry.title}"
+- content_for :meta_title do
+  = "Entry #{@entry.title}"
+
+#entry.w-full
+  = render EntryComponent.new(entry: @entry)

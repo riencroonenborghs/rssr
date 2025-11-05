@@ -41,13 +41,12 @@ function RSSReader(props) {
             <div className={isMobile ? "" : "w-1/3"}>
               <Routes>
                 <Route path="/" element={<RecentView isMobile={isMobile} />} />
-                <Route path="/v2" element={<RecentView isMobile={isMobile} />} />
-                <Route path="/v2/feeds/:feedId" element={<FeedView isMobile={isMobile} />} />
-                <Route path="/v2/entries/:entryId" element={<EntryView />} />
-                <Route path="/v2/tags/:tag" element={<TagView isMobile={isMobile} />} />
-                <Route path="/v2/bookmarks" element={<BookmarksView isMobile={isMobile} />} />
-                <Route path="/v2/subscriptions" element={<SubscriptionsView />} />
-                <Route path="/v2/filters" element={<FiltersView />} />
+                <Route path="/feeds/:feedId" element={<FeedView isMobile={isMobile} />} />
+                <Route path="/entries/:entryId" element={<EntryView />} />
+                <Route path="/tags/:tag" element={<TagView isMobile={isMobile} />} />
+                <Route path="/bookmarks" element={<BookmarksView isMobile={isMobile} />} />
+                <Route path="/subscriptions" element={<SubscriptionsView />} />
+                <Route path="/filters" element={<FiltersView />} />
               </Routes>
             </div>
 

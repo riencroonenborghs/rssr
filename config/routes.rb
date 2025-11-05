@@ -2,7 +2,9 @@ require 'sidekiq/web'
 require 'sidekiq/cron/web'
 
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: {
+    sessions: "user/sessions"
+  }
 
   # resources :feeds, only: [:search] do
   #   resources :entries, only: [:index] do
@@ -55,26 +57,23 @@ Rails.application.routes.draw do
   #   end
   end
 
-  namespace :v2 do
-    resources :feeds, only: [:index]
-    resources :recent_entries, only: [:index]
-    resources :feeds, only: [:show]
-    resources :entries, only: [:show] do
-      resources :bookmarks, only: [:create]
-    end
-    resources :tags, only: [:show]
-    resources :bookmarks, only: [:index]
-    resources :subscriptions, only: [:index]
-    resources :filters, only: [:index]
-
-    root to: "recent_entries#index"
+  resources :feeds, only: [:index]
+  resources :recent_entries, only: [:index]
+  resources :feeds, only: [:show]
+  resources :entries, only: [:show] do
+    resources :bookmarks, only: [:create]
   end
+  resources :tags, only: [:show]
+  resources :bookmarks, only: [:index]
+  resources :subscriptions, only: [:index]
+  resources :filters, only: [:index]
+
 
   match "/404", to: "errors#not_found", via: :all
   match "/500", to: "errors#internal_server_error", via: :all
 
   # root to: "subscriptions#today"
-  root to: "v2/recent_entries#index"
+  root to: "recent_entries#index"
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

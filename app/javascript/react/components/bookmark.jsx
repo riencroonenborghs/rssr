@@ -9,7 +9,7 @@ function Bookmark(props) {
 
   const toggleBookmark = () => {
     let headers = { "x-csrf-token": csrf.csrfToken() };
-    fetch(`/v2/entries/${props.entry.id}/bookmarks`, { method: "POST", headers: headers  })
+    fetch(`/entries/${props.entry.id}/bookmarks`, { method: "POST", headers: headers  })
       .then((data) => data.json())
       .then((data) => { 
         if (data.success) {

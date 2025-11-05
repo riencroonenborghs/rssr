@@ -12,7 +12,7 @@ function Entry(props) {
   const viewedIds = useSelector((state) => state.entries.viewedIds);
   const viewed = entry.viewed || viewedIds.includes(entry.id)
   const hasDescription = props.entry.description !== null;
-  const link = hasDescription ? `/v2/entries/${entry.id}` : entry.link;
+  const link = hasDescription ? `/entries/${entry.id}` : entry.link;
   const dispatch = useDispatch();
 
   const markViewed = () => {
@@ -37,7 +37,7 @@ function Entry(props) {
             <span className="me-2">{entry.publishedAt}</span>
             <span className="me-2">/</span>
 
-            {<Link to={`/v2/feeds/${entry.feed.id}`} className="text-emerald-700">
+            {<Link to={`/feeds/${entry.feed.id}`} className="text-emerald-700">
               {entry.feed.name}
             </Link>}
           </div>
