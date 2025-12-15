@@ -1,8 +1,28 @@
-- if mobile?
-  = render MobileEntryComponent.new(entry: @entry, viewed: [], subscription_by_feed: @subscription_by_feed, tags_by_subscription: @tags_by_subscription)
-- else
-  = render DesktopEntryComponent.new(entry: @entry, viewed: [], subscription_by_feed: @subscription_by_feed, tags_by_subscription: @tags_by_subscription)
-
-- if @sanitized_description.present?
-  .p-2
-    =raw @sanitized_description
+- if @entry
+  .p-2.flex.flex-col.overflow-auto(style="height: calc(100vh)")
+    .meta.flex.flex-row.justify-between.items-center.font-thin.text-xs
+      .flex.flex-row
+        = render BookmarkComponent.new(entry: @entry, bookmarked: @bookmarked)
+        = link_to feed_path(@entry.feed) do
+          = @entry.feed.title
+      %div
+        = @entry.published_at.to_fs(:long)
+    .title
+      = link_to @entry.link, target: "_blank" do
+        .text-2xl
+          = @entry.title
+    .tags
+      - unless @entry.tags.count.zero?
+        .pt-1.flex.flex-row.pb-1.flex-wrap
+          - @entry.tags.each do |tag|
+            = link_to tag_path(tag) do
+              .text-xxs.ps-1.pe-1.bg-gray-500.text-white.rounded.me-1.mb-1
+                = tag.name
+    .image
+      - if @entry.image
+        .pt-1
+          = image_tag @entry.image, width: "1024", class: "rounded-sm"
+    .description
+      - if @entry.description
+        %p
+          =raw @entry.description

@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
 class GetUrlData
-  include Base
+  include Service
 
-  attr_reader :url, :data, :headers
+  attr_reader :data, :headers
 
   def initialize(url:)
     @url = url
   end
 
   def perform
-    load_response
+    send_request
     return unless success?
 
     @headers = response.headers
@@ -23,13 +23,13 @@ class GetUrlData
 
   def request_headers
     user_agent = "linux:RSSr:v1.0"
-    user_agent += " (by #{ENV.fetch('REDDIT_USERNAME')})" if url.match?(/reddit\.com/)
+    user_agent += " (by #{ENV.fetch('REDDIT_USERNAME')})" if @url.match?(/reddit\.com/)
     { "User-Agent" => user_agent }
   end
 
-  def load_response
-    @response = HTTParty.get(url, header: request_headers, verify: false)
+  def send_request
+    @response = HTTParty.get(@url, header: request_headers, verify: false)
   rescue StandardError => e
-    errors.add(:base, e.message)
+    add_error(e.message)
   end
 end

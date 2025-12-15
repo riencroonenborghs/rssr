@@ -2,7 +2,9 @@
 
 module Entries
   class FilterEntries
-    include Base
+    include Service
+
+    SQLITE3 = "sqlite3"
 
     attr_reader :scope
 
@@ -12,7 +14,7 @@ module Entries
     end
 
     def perform
-      service = if ActiveRecord::Base.connection_db_config.adapter == "sqlite3"
+      service = if ActiveRecord::Base.connection_db_config.adapter == SQLITE3
                   Entries::Filters::Sqlite3Filter.perform(user: @user, scope: @scope)
                 else
                   Entries::Filters::PgFilter.perform(user: @user, scope: @scope)
@@ -22,7 +24,7 @@ module Entries
         return
       end
 
-      merge_errors(service.errors)
+      copy_errors(service.errors)
     end
   end
 end

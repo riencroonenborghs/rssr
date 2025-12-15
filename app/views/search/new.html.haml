@@ -1,0 +1,15 @@
+- @title = "- Search"
+- content_for :meta_title do
+  = @title
+
+.p-2.overflow-auto(class="#{mobile? ? '' : 'w-160'}" style="height: calc(100vh);")
+  .pt-4.flex.flex-col
+    .text-2xl Search
+  .pt-4
+    = form_for :search, url: search_index_path, method: :post, data: { turbo: false } do |f|
+      .flex.flex-col
+        .flex.items-center.pb-2(class="#{mobile? ? 'flex-col' : 'flex-row'}")
+          = f.label :query, class: "w-16"
+          = f.text_field :query, autofocus: true, placeholder: "cheese", class: "border border-gray-700 rounded w-full p-2 text-md"
+        .flex.flex-row.justify-end
+          = f.submit "Search", class: "bg-gray-700 text-white p-2 rounded-xl"

@@ -17,6 +17,8 @@ class Tag < ApplicationRecord
   validates :name, uniqueness: true
   before_save :uppercase_name
 
+  has_many :taggings
+
   def uppercase_name
     self.name = name.upcase
   end

@@ -22,7 +22,7 @@ Bundler.require(*Rails.groups)
 module Rssr
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 6.0
+    config.load_defaults 7.0
     config.time_zone = "Sydney"
 
     # Settings in config/environments/* take precedence over those specified here.

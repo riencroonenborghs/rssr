@@ -1,0 +1,6 @@
+.w-112.bg-gray-200
+  = turbo_frame_tag :entries, data: { "turbo-action": "advance", title: @title } do
+    = render EntriesComponent.new(entries: @entries)
+.border-l(style="width: calc(100vw - 112px * 4 - 64px * 4); height: calc(100vh)")
+  = turbo_frame_tag :entry, data: { "turbo-action": "advance", title: @title } do
+    = render EntryComponent.new(entry: @entry)

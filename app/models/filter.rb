@@ -21,13 +21,34 @@
 #  user_id  (user_id => users.id)
 #
 class Filter < ApplicationRecord
-  VALID_COMPARISONS = %w[includes excludes matches mismatches tagged].freeze
-  HUMAN_READABLES = {
-    "includes" => "contains",
-    "excludes" => "does not contain",
-    "matches" => "matches",
-    "mismatches" => "does not match",
-    "tagged" => "tagged with"
+  INCLUDES_FILTER = "includes"
+  EXCLUDES_FILTER = "excludes"
+  MATCHES_FILTER = "matches"
+  MISMATCHES_FILTER = "mismatches"
+  TAGGED_FILTER = "tagged"
+
+  VALID_COMPARISONS = [
+    INCLUDES_FILTER,
+    EXCLUDES_FILTER,
+    MATCHES_FILTER,
+    MISMATCHES_FILTER,
+    TAGGED_FILTER
+  ].freeze
+
+  HUMAN_READABLE = {
+    INCLUDES_FILTER => "contains",
+    EXCLUDES_FILTER => "does not contain",
+    MATCHES_FILTER => "matches",
+    MISMATCHES_FILTER => "does not match",
+    TAGGED_FILTER => "tagged with"
+  }.freeze
+
+  FORM = {
+    INCLUDES_FILTER => "contains",
+    EXCLUDES_FILTER => "does not contain",
+    # MATCHES_FILTER => "matches",
+    # MISMATCHES_FILTER => "does not match",
+    TAGGED_FILTER => "tagged with"
   }.freeze
 
   belongs_to :user
@@ -41,6 +62,6 @@ class Filter < ApplicationRecord
   end
 
   def human_readable_comparison
-    HUMAN_READABLES[comparison]
+    HUMAN_READABLE[comparison]
   end
 end

@@ -3,5 +3,5 @@
 class ApplicationRecord < ActiveRecord::Base
   self.abstract_class = true
 
-  include Tagger
+  include Tagged
 end

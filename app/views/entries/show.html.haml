@@ -1,0 +1,8 @@
+- @title = "- #{@entry.title}"
+- content_for :meta_title do
+  = @title
+
+- if mobile?
+  = render EntryComponent.new(entry: @entry)
+- else
+  = render "/entries_and_entry"

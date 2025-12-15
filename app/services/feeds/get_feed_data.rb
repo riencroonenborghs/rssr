@@ -2,36 +2,43 @@
 
 module Feeds
   class GetFeedData
-    include Base
+    include Service
 
     attr_reader :feed_data
 
-    def initialize(feed:)
-      @feed = feed
+    def initialize(url:)
+      @url = url
     end
 
     def perform
-      load_url_data
+      get_url_data
       return unless success?
 
-      parse_feed_data
+      parse_url_data
     end
 
     private
 
-    attr_reader :feed, :data
+    def get_url_data
+      service = GetUrlData.perform(url: @url)
+      if service.success?
+        @url_data = service.data
+        return if @url_data
 
-    def load_url_data
-      service = GetUrlData.perform(url: feed.rss_url)
-      errors.merge!(service.errors) and return unless service.success?
-
-      @data = service.data
+        add_error("No URL data")
+        return
+      end
+      
+      copy_errors(service.errors)
     end
 
-    def parse_feed_data
-      @feed_data = Feedjira.parse(data)
+    def parse_url_data
+      @feed_data = Feedjira.parse(@url_data)
+      return if @feed_data
+
+      add_error("No feed data")
     rescue StandardError => e
-      errors.add(:base, e.message)
+      add_error(e.message)
     end
   end
 end

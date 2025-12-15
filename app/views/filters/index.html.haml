@@ -1,0 +1,24 @@
+- @title = "- Filters"
+- content_for :meta_title do
+  = @title
+
+- width = mobile? ? "calc(100vw);" : "calc(100vw - 248px);"
+- grid = mobile? ? "grid-cols-1" : "grid-cols-4"
+
+.p-2.overflow-auto(style="width: #{width}; height: calc(100vh);")
+  .pt-4
+    = link_to new_filter_path do
+      + New Filter
+  .pt-4.grid.gap-4(class="#{grid}")
+    - @filters.each do |filter|
+      .shadow.p-2.flex.flex-col
+        .flex.flex-row.justify-between.items-center
+          .text-lg.flex.flex-row
+            .font-thin.me-1
+              = filter.comparison
+            = filter.value
+          = button_to filter_path(filter), method: :delete, class: "cursor-pointer" do
+            &#8855;
+
+  .pt-4.flex.flex-row.justify-center
+    = paginate @filters

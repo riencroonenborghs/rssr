@@ -1,0 +1,36 @@
+- @title = "- New Subscription"
+- content_for :meta_title do
+  = @title
+
+.p-2.overflow-auto(class="#{mobile? ? '' : 'w-160'}" style="height: calc(100vh);")
+  .pt-4.flex.flex-col
+    .text-2xl
+      = link_to subscriptions_path do
+        Subscriptions
+    .text-lg
+      New Subscription
+  - if flash[:alert]
+    .pt-4
+      .w-full.text-red-600.border.border-red-600.mb-6.flex.flex-row
+        .w-2.bg-red-600
+        .p-2
+          = flash[:alert]
+  .pt-4
+    = form_for :subscription, url: subscriptions_path, method: :post do |f|
+      .flex.flex-col
+        .flex.align-center.pb-2(class="#{mobile? ? 'flex-col' : 'flex-row'}")
+          = f.label :url, "URL", class: "w-16"
+          = f.text_field :url, autofocus: true, placeholder: "http://news.ycombinator.com/rss", class: "border border-gray-700 rounded w-full p-2 text-md"
+        .flex.align-center.pb-2(class="#{mobile? ? 'flex-col' : 'flex-row'}")
+          = f.label :title, class: "w-16"
+          = f.text_field :title, autofocus: true, placeholder: "Hacker News", class: "border border-gray-700 rounded w-full p-2 text-md"
+        .flex.flex-row.pb-2
+          %div(class="#{mobile? ? '' : 'w-16'}")
+            &nbsp;
+          = f.check_box :get_title_from_url, class: "border border-gray-700 rounded me-2"
+          = f.label :get_title_from_url, "Get Title from URL"
+        .flex.align-center.pb-2(class="#{mobile? ? 'flex-col' : 'flex-row'}")
+          = f.label :tag_names, "Tags", class: "w-16"
+          = f.text_field :tag_names, autofocus: true, placeholder: "tech, news", class: "border border-gray-700 rounded w-full p-2 text-md"
+        .flex.flex-row.justify-end
+          = f.submit "Add Subscription", class: "bg-gray-700 text-white p-2 rounded-xl"

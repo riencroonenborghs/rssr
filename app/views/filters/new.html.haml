@@ -1,0 +1,25 @@
+- @title = "- New Filter"
+- content_for :meta_title do
+  = @title
+
+.p-2.overflow-auto(class="#{mobile? ? '' : 'w-160'}" style="height: calc(100vh);")
+  .pt-4.flex.flex-col
+    .text-2xl
+      = link_to filters_path do
+        Filters
+    .text-lg
+      New Filter
+  - if flash[:alert]
+    .pt-4
+      .w-full.text-red-600.border.border-red-600.mb-6.flex.flex-row
+        .w-2.bg-red-600
+        .p-2
+          = flash[:alert]
+  .pt-4
+    = form_for :filter, url: filters_path, method: :post do |f|
+      .flex.flex-col
+        .flex.flex-row.items-center.pb-2
+          = f.collection_select :comparison, Filter::FORM, :first, :last, {}, { class: "border border-gray-700 rounded w-64 p-2 text-md me-2" }
+          = f.text_field :value, autofocus: true, placeholder: "asparagus", class: "border border-gray-700 rounded w-full p-2 text-md"
+        .flex.flex-row.justify-end
+          = f.submit "Add Filter", class: "bg-gray-700 text-white p-2 rounded-xl"

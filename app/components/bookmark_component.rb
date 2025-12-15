@@ -1,28 +1,10 @@
 # frozen_string_literal: true
 
-class BookmarkComponent < DesktopEntryComponent
-  delegate :user_signed_in?, :mobile?, to: :helpers
+class BookmarkComponent < ViewComponent::Base
+  include ComponentScopeHelpers
 
-  def initialize(entry:, icon_size: 6) # rubocop:disable Lint/MissingSuper
+  def initialize(entry:, bookmarked:)
     @entry = entry
-    @icon_size = icon_size
-  end
-
-  def render?
-    user_signed_in?
-  end
-
-  def bookmarked?
-    @bookmarks.include?(@entry.id)
-  end
-
-  def before_render
-    set_bookmarks
-  end
-
-  private
-
-  def set_bookmarks
-    @bookmarks = user_signed_in? ? Bookmark.where(user_id: current_user.id).map(&:entry_id) : []
+    @bookmarked = bookmarked
   end
 end

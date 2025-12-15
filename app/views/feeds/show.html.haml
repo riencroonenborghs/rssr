@@ -1,0 +1,8 @@
+- @title = "- #{@feed.title}"
+- content_for :meta_title do
+  = @title
+
+- if mobile?
+  = render EntriesComponent.new(entries: @entries)
+- else
+  = render "/entries_and_entry"

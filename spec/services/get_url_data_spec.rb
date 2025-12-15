@@ -1,56 +1,76 @@
-require "rails_helper"
-
 RSpec.describe GetUrlData, type: :service do
-  subject { described_class.new(url: url) }
+  subject(:get_url_data) { described_class.perform(url: url) }
 
-  let(:url) { "http://some.url.com" }
+  let(:url) { Faker::Internet.url }
   let(:body) { "body" }
-  let(:headers) { { "content-type" => "" } }
+  let(:headers) { "headers" }
   let(:response) { instance_double(HTTParty::Response, body: body, headers: headers) }
 
-  before { ENV["REDDIT_USERNAME"] = "foo" }
+  shared_examples "it fails with errors and without data or headers" do
+    it "fails" do
+      expect(get_url_data).to be_failure
+    end
+  
+    it "has error" do
+      expect(get_url_data.errors.full_messages).to include expected_error
+    end
 
-  describe "#perform" do
+    it "has no data" do
+      expect(get_url_data.data).to be_nil
+    end
+
+    it "has no headers" do
+      expect(get_url_data.headers).to be_nil
+    end
+  end
+
+  before do
+    stub_const("ENV", { "REDDIT_USERNAME" => "reddit username" })
+    allow(HTTParty).to receive(:get).and_return(response)
+  end
+  
+  it "succeeds" do
+    expect(get_url_data).to be_success
+  end
+
+  it "gets data" do
+    expect(HTTParty).to receive(:get).with(url, header: anything, verify: false)
+    get_url_data
+  end
+
+  it "has data" do
+    expect(get_url_data.data).to eq body
+  end
+
+  it "has headers" do
+    expect(get_url_data.headers).to eq headers
+  end
+
+  context "when HTTParty fails" do
+    let(:expected_error) { "Some error" }
+
     before do
-      allow(HTTParty).to receive(:get).and_return(response)
+      allow(HTTParty).to receive(:get).and_raise(StandardError, expected_error)
     end
 
-    context "when HTTParty fails" do
-      let(:error_message) { "Some httparty error" }
+    it_behaves_like "it fails with errors and without data or headers"
+  end
 
-      before do
-        allow(HTTParty).to receive(:get).and_raise(StandardError, error_message)
-      end
+  context "when URL is a reddit URL" do
+    let(:url) { "https://www.reddit.com/r/Wellington.rss" }
 
-      it_behaves_like "the service fails"
+    it "gets data" do
+      expected_headers = { "User-Agent" => "linux:RSSr:v1.0 (by reddit username)" }
+      expect(HTTParty).to receive(:get).with(url, header: expected_headers, verify: false)
+      get_url_data
     end
+  end
 
-    context "when HTTParty is called" do
-      context "when URL is a reddit URL" do
-        let(:url) { "https://www.reddit.com/r/Wellington.rss" }
-
-        it "is called with the correct headers" do
-          expect(HTTParty).to receive(:get).with(url, { header: { "User-Agent" => "linux:RSSr:v1.0 (by #{ENV.fetch('REDDIT_USERNAME')})" }, verify: false })
-          subject.perform
-        end
-      end
-
-      context "when URL is not a reddit URL" do
-        it "is called with the correct headers" do
-          expect(HTTParty).to receive(:get).with(url, { header: { "User-Agent" => "linux:RSSr:v1.0" }, verify: false })
-          subject.perform
-        end
-      end
-
-      it "skips HTTPS verification" do
-        expect(HTTParty).to receive(:get).with(url, { header: anything, verify: false })
-        subject.perform
-      end
-    end
-
-    it "returns data" do
-      subject.perform
-      expect(subject.data).to eq body
+  context "when URL is not a reddit URL" do
+    it "gets data" do
+      expected_headers = { "User-Agent" => "linux:RSSr:v1.0" }
+      expect(HTTParty).to receive(:get).with(url, header: expected_headers, verify: false)
+      get_url_data
     end
   end
 end

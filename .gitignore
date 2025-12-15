@@ -51,3 +51,4 @@ db/v3
 /storage/development*
 /storage/test*
 /storage/foo*
+/storage/production*

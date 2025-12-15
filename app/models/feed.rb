@@ -9,9 +9,8 @@
 #  description :text
 #  error       :text
 #  image_url   :string
-#  name        :string           not null
 #  refresh_at  :datetime
-#  rss_url     :string           not null
+#  title       :string           not null
 #  url         :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
@@ -20,7 +19,7 @@
 #
 #  index_feeds_on_active      (active)
 #  index_feeds_on_refresh_at  (refresh_at)
-#  index_feeds_on_url         (url)
+#  index_feeds_on_url         (url) UNIQUE
 #
 class Feed < ApplicationRecord
   RSS = "rss"
@@ -31,14 +30,12 @@ class Feed < ApplicationRecord
 
   has_many :entries, dependent: :destroy
 
-  validates :url, :rss_url, :name, presence: true
+  validates :url, :title, presence: true
   validates :url, url: true
-  validates :rss_url, url: true
   validates :url, uniqueness: true
-  validates :rss_url, uniqueness: true
 
   scope :active, -> { where(active: true) }
-  scope :by_name, -> { order(name: :asc) }
+  scope :by_title, -> { order(title: :asc) }
   scope :no_error, -> { where(error: nil) }
 
   def subscribed?(user)

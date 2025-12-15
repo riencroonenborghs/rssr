@@ -1,56 +1,73 @@
-require "rails_helper"
+RSpec.describe Feeds::GetFeedData, type: :service do
+  subject(:get_feed_data) { described_class.perform(url: url) }
 
-module Feeds
-  RSpec.describe GetFeedData, type: :service do
-    subject { described_class.new(feed: feed) }
+  let(:url) { Faker::Internet.url }
+  let(:get_url_data_success) { true }
+  let(:get_url_data_errors) { nil }
+  let(:get_url_data_data) { "get_url_data_data" }
+  let(:feed_data) { "feed_data" }
 
-    let(:feed) { create :feed }
+  shared_examples "it fails with errors and without feed data" do
+    it "fails" do
+      expect(get_feed_data).to be_failure
+    end
+  
+    it "has error" do
+      expect(get_feed_data.errors.full_messages).to include expected_error
+    end
 
-    let(:mock_loader_success) { true }
-    let(:mock_loader_data) { double }
-    let(:mock_loader_erros) { nil }
-    let(:mock_loader) { instance_double(GetUrlData, success?: mock_loader_success, data: mock_loader_data, errors: mock_loader_erros) }
-    let(:feedjira_data) { double }
-    let(:json_data) { JSON.parse(load_file_data("subreddit_data.json")) }
+    it "has no feed data" do
+      expect(get_feed_data.feed_data).to be_nil
+    end
+  end
+
+  before do
+    allow(GetUrlData).to receive(:perform).and_return(double(
+      success?: get_url_data_success,
+      errors: get_url_data_errors,
+      data: get_url_data_data
+    ))
+
+    allow(Feedjira).to receive(:parse).and_return(feed_data)
+  end
+
+  it "succeeds" do
+    expect(get_feed_data).to be_success
+  end
+
+  it "gets the URL data" do
+    expect(GetUrlData).to receive(:perform).with(url: url)
+    get_feed_data
+  end
+
+  it "parses the URL data" do
+    expect(Feedjira).to receive(:parse).with(get_url_data_data)
+    get_feed_data
+  end
+
+  it "has feed data" do
+    expect(get_feed_data.feed_data).to eq feed_data
+  end
+
+  context "when getting the URL data fails" do
+    let(:get_url_data_success) { false }
+    let(:get_url_data_errors) do
+      errors = ActiveModel::Errors.new(GetUrlData)
+      errors.add(:base, expected_error)
+      errors
+    end
+    let(:expected_error) { "some error" }
+
+    it_behaves_like "it fails with errors and without feed data"
+  end
+
+  context "when parsing the URL data fails" do
+    let(:expected_error) { "some eror" }
 
     before do
-      allow(GetUrlData).to receive(:perform).and_return(mock_loader)
-      allow(Feedjira).to receive(:parse).and_return(feedjira_data)
-      allow(JSON).to receive(:parse).and_return(json_data)
+      allow(Feedjira).to receive(:parse).and_raise(StandardError, expected_error)
     end
 
-    describe "#perform" do
-      context "when get URL data fails" do
-        let(:error_message) { "Some URL data error" }
-        let(:mock_loader_success) { false }
-        let(:mock_loader_erros) do
-          errors = ActiveModel::Errors.new(GetUrlData)
-          errors.add(:base, error_message)
-          errors
-        end
-
-        it_behaves_like "the service fails"
-      end
-
-      it "loads RSS URL data" do
-        expect(GetUrlData).to receive(:perform).with(url: feed.rss_url)
-        subject.perform
-      end
-
-      context "when Feedjira parsing fails" do
-        let(:error_message) { "Some Feedjira eror" }
-
-        before do
-          allow(Feedjira).to receive(:parse).and_raise(StandardError, error_message)
-        end
-
-        it_behaves_like "the service fails"
-      end
-
-      it "parses with Feedjira" do
-        expect(Feedjira).to receive(:parse)
-        subject.perform
-      end
-    end
+    it_behaves_like "it fails with errors and without feed data"
   end
 end

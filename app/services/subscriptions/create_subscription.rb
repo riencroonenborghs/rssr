@@ -2,82 +2,62 @@
 
 module Subscriptions
   class CreateSubscription
-    include Base
+    include Service
 
-    attr_reader :feed, :subscription, :default_feed, :default_subscription, :url, :rss_url, :user, :name, :tag_list, :description, :hide_from_main_page, :rss_feeds, :guesser
+    attr_reader :subscription
 
-    def initialize(user:, url:, rss_url:, name:, tag_list:, description:, hide_from_main_page:) # rubocop:disable Metrics/ParameterLists
-      @url = url
-      @rss_url = rss_url
+    def initialize(user:, url:, title:, get_title_from_url:, tag_names:)
       @user = user
-      @name = name
-      @tag_list = tag_list
-      @description = description
-      @hide_from_main_page = hide_from_main_page
-
-      build_defaults
+      @url = url
+      @title = title
+      @get_title_from_url = get_title_from_url
+      @tag_names = tag_names
     end
 
     def perform
       ActiveRecord::Base.transaction do
         find_or_create_feed
-        return unless success?
+        return if failure?
 
-        subscription_exists?
-        return unless success?
+        create_subscription
+        return if failure?
 
-        build_subscription
-        persist_subscription
-        return unless success?
-
-        RefreshFeedJob.perform_in(5.seconds, { feed_id: feed.id }.to_json)
+        RefreshFeedJob.perform_later(@feed)
       end
     end
 
     private
 
-    def build_defaults
-      @default_feed = Feed.new(
-        url: url,
-        rss_url: rss_url,
-        name: name,
-        description: description
-      )
-
-      @default_subscription = user.subscriptions.build(
-        feed: default_feed,
-        hide_from_main_page: hide_from_main_page,
-        tag_list: tag_list
-      )
-    end
-
     def find_or_create_feed
-      return if (@feed = Feed.find_by(url: url))
+      @feed = Feed.find_by(url: @url)
+      return if @feed
 
-      create_feed
-    end
+      @feed = Feed.new(url: @url, title: @title)
+      @feed.title = Feeds::GetFeedTitle.perform(url: @url).title if @get_title_from_url
+      return if @feed.save
 
-    def create_feed
-      @feed = Feed.new(name: name, url: url, rss_url: rss_url, description: description)
-      errors.merge!(feed.errors) unless feed.save
+      copy_errors(@feed.errors)
     end
 
     def subscription_exists?
-      return false unless user.subscriptions.exists?(feed_id: @feed.id)
+      return false unless @user.subscriptions.exists?(feed_id: @feed.id)
 
       errors.add(:base, "Subscription already exists")
     end
 
-    def build_subscription
-      @subscription = user.subscriptions.build(
-        feed_id: feed.id,
-        hide_from_main_page: hide_from_main_page,
-        tag_list: tag_list
-      )
-    end
+    def create_subscription
+      if @user.subscriptions.exists?(feed_id: @feed.id)
+        add_error("Subscription already exists")
+        return
+      end
 
-    def persist_subscription
-      errors.merge!(subscription.errors) unless subscription.save
+      @subscription = @user.subscriptions.build(feed_id: @feed.id)
+      if @subscription.save
+        @subscription.add_tags(@tag_names)
+        return
+      end
+
+      copy_errors(@subscription.errors)
     end
   end
 end

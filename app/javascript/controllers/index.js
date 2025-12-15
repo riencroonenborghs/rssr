@@ -4,27 +4,14 @@
 
 import { application } from "./application"
 
-// import HelloController from "./hello_controller"
-// application.register("hello", HelloController)
+import ViewedEntriesController from "./viewed_entries_controller"
+application.register("viewed_entries", ViewedEntriesController)
 
-// import MobileNavController from "./mobile_nav_controller"
-// application.register("mobileNav", MobileNavController)
-
-import MobileMenuController from "./mobile_menu_controller"
-application.register("mobileMenu", MobileMenuController)
-
-import MobileMarkAsReadController from "./mobile_mark_as_read_controller"
-application.register("mobileMarkAsRead", MobileMarkAsReadController)
-
-import DesktopMarkAsReadController from "./desktop_mark_as_read_controller"
-application.register("desktopMarkAsRead", DesktopMarkAsReadController)
-
-import SearchController from "./search_controller"
-application.register("search", SearchController)
-
-import ScrollerController from "./scroller_controller"
-application.register("scroller", ScrollerController)
+import BookmarksController from "./bookmarks_controller"
+application.register("bookmarks", BookmarksController)
 
 import AlertsController from "./alerts_controller"
 application.register("alerts", AlertsController)
 
+import MenuController from "./menu_controller"
+application.register("menu", MenuController)

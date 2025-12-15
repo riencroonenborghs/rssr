@@ -1,0 +1,27 @@
+- height = mobile? ? "calc(100vh - 40px)" : "calc(100vh)"
+.flex.flex-col.overflow-auto(style="height: #{height}" data-controller="viewed_entries")
+  - @entries.each do |entry|
+    .entry.flex.flex-col.p-2.border-b.border-gray-800
+      .meta.flex.flex-row.justify-between.items-center.font-thin.text-xs
+        .flex.flex-row
+          = render BookmarkComponent.new(entry: entry, bookmarked: !@bookmarks[entry.id].nil?)
+          = link_to feed_path(entry.feed) do
+            = entry.feed.title
+        %div
+          = entry.published_at.to_fs(:long)
+      .title(class="#{'line-through' if @viewed_entries[entry.id]}")
+        = link_to feed_entry_path(entry.feed, entry, page: params[:page]), target: mobile? ? "_blank" : "", data: { "turbo-frame": "entry", action: "click->viewed_entries#markAsViewed" } do
+          = entry.title
+        - if entry.image
+          .pt-1
+            = image_tag entry.image, class: "rounded-sm"
+      .tags.flex.flex-row.flex-wrap.pt-2
+        - @tags_by_entry[entry.id]&.each do |tag|
+          = link_to tag_path(tag) do
+            .text-xxs.ps-1.pe-1.bg-gray-500.text-white.rounded.me-1.mb-1
+              = tag.name
+
+  .pt-4.pb-4.flex.flex-row.justify-center
+    = paginate @entries
+        
+      

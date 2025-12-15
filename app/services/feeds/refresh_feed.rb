@@ -2,39 +2,43 @@
 
 module Feeds
   class RefreshFeed
-    include Base
+    include Service
 
-    validates :feed, presence: true
-    validate :feed_active?
+    validate :feed_active
 
-    def initialize(feed_id:)
-      @feed = Feed.joins(:subscriptions).where(id: feed_id).merge(Subscription.active).first
+    def initialize(feed:)
+      @feed = feed
     end
 
     def perform
-      return if invalid?
+      if invalid?
+        @feed.update!(error: errors.full_messages.to_sentence)
+        return
+      end
 
       create_entries
-    rescue StandardError => e
-      feed.update!(error: e.message)
     ensure
-      feed.update!(refresh_at: Time.zone.now)
+      @feed.update_column(:refresh_at, Time.zone.now)
     end
 
     private
 
     attr_reader :feed
 
-    def feed_active?
-      errors.add(:feed, "not active") unless feed.active?
+    def feed_active
+      return if @feed.active?
+
+      add_error("Feed not active")
     end
 
     def create_entries
-      feed.update!(error: nil)
-      loader = Entries::CreateEntries.perform(feed: feed)
-      return if loader.success?
+      @feed.update!(error: nil)
 
-      feed.update!(error: loader.errors.full_messages.to_sentence)
+      service = Entries::CreateEntries.perform(feed: @feed)
+      return if service.success?
+
+      @feed.update_column(:error, service.errors.full_messages.to_sentence)
+      copy_errors(service.errors)
     end
   end
 end

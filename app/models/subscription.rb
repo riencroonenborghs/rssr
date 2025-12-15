@@ -30,14 +30,17 @@ class Subscription < ApplicationRecord
   belongs_to :user
   belongs_to :feed
 
-  delegate :name, :url, :rss_url, :description, to: :feed, allow_nil: true
+  delegate :title, :url, :description, to: :feed, allow_nil: true
 
   validates :feed, uniqueness: { scope: %i[user feed] }
 
-  tagger
+  tagged
   
   scope :active, -> { where(active: true) }
   scope :not_hidden_from_main_page, -> { where.not(hide_from_main_page: true) }
+
+  # Form
+  attr_accessor :get_title_from_url, :tag_names
 
   def toggle_active!
     update(active: !active)

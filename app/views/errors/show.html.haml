@@ -1,0 +1,27 @@
+- content_for :meta_title do
+  Oops
+
+.w-full.pt-40
+  .flex.flex-col
+    .flex.flex-row.justify-center.items-center
+      .ms-4.text-5xl Oops
+    .flex.flex-row.justify-center.items-center.pt-10
+      .text-xl.text-center
+        - case response.code.to_i
+        - when 400
+          Bad Request.
+        - when 404
+          Not Found.
+        - when 406
+          Not Acceptable.
+        - when 422
+          Unprocessable Entity.
+        - when 500
+          Internal Server Error.
+        - else
+          An unexpected error occurred.
+        %br
+        Don't worry, we know about it.
+        %br
+        = link_to root_path do
+          &larr; Go back.

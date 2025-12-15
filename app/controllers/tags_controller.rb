@@ -2,22 +2,16 @@
 
 class TagsController < ApplicationController
   def show
-    @tag = params[:id]
-    @page = params[:page] || 1
-
+    @tag = Tag.find_by(id: params[:id])
     @entries = filtered_scope do
-      if current_user
-        sub_ids = Subscription.tagged_with(@tag).select(:id)
-        scope = Entry.joins(feed: :subscriptions).where(subscriptions: { id: sub_ids, user_id: current_user.id })
-        scope.most_recent_first
-      else
-        Entry.none
-      end
-    end
-    @entries = @entries.page(@page)
+      user_scope do
+        subscription_scope = Subscription.none
+        subscription_scope = current_user.subscriptions.tagged_with(@tag) if user_signed_in?
 
-    set_subscriptions_by_feed_id(entries_scope: @entries)
-    set_viewed_ids(entries_scope: @entries)
-    set_bookmarked_ids(entries_scope: @entries)
+        Entry.joins(feed: :subscriptions).tagged_with(@tag).or(
+          Entry.joins(feed: :subscriptions).where(subscriptions: { id: subscription_scope.select(:id) })
+        ).most_recent_first
+      end
+    end.page(page)
   end
 end

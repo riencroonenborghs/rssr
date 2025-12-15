@@ -51,5 +51,6 @@ FactoryBot.define do
     end
     title { Faker::Lorem.sentence(word_count: 3) }
     guid { Faker::Internet.uuid }
+    published_at { rand(1..10).days.ago }
   end
 end

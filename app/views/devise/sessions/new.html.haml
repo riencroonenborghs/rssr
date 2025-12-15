@@ -1,31 +1,31 @@
 - content_for :meta_title do
-  Sign in
+  \- Sign in
 
 .flex.flex-row.w-full.justify-center
   .w-124.p-4.pt-12
     .text-4xl.font-bold.pb-4
-      = link_to "RSSReader", root_path, class: "text-green-800"
+      = link_to "RSSReader", root_path, class: "text-gray-800"
       Sign in
 
     - if flash[:alert]
       .w-full.text-red-600.border.border-red-600.mb-6.flex.flex-row
-        .w-1.bg-red-600
+        .w-2.bg-red-600
         .p-2
           = flash[:alert]
 
-    = form_for(resource, as: resource_name, url: user_session_path) do |f|
+    = form_for(resource, as: resource_name, url: user_session_path, data: { turbo: false }) do |f|
       .flex.flex-col
         .flex.flex-row.items-center.pb-2
           = f.label :email, class: "w-32"
-          = f.email_field :email, autofocus: true, autocomplete: "email", class: "border border-green-700 rounded w-full p-2 text-md"
+          = f.email_field :email, autofocus: true, autocomplete: "email", class: "border border-gray-700 rounded w-full p-2 text-md"
 
         .flex.flex-row.items-center.pb-2
           = f.label :password, class: "w-32"
-          = f.password_field :password, autocomplete: "current-password", class: "border border-green-700 rounded w-full p-2 text-md"
+          = f.password_field :password, autocomplete: "current-password", class: "border border-gray-700 rounded w-full p-2 text-md"
 
         .flex.flex-row.pb-2
-          = f.check_box :remember_me, class: "border border-green-700 rounded me-2"
+          = f.check_box :remember_me, class: "border border-gray-700 rounded me-2"
           = f.label :remember_me
 
         .flex.flex-row.justify-end
-          = f.submit "Sign in", class: "bg-green-700 text-white p-2 rounded-xl"
+          = f.submit "Sign in", class: "bg-gray-700 text-white p-2 rounded-xl"

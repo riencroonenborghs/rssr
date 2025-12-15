@@ -7,9 +7,8 @@
 #  description :text
 #  error       :text
 #  image_url   :string
-#  name        :string           not null
 #  refresh_at  :datetime
-#  rss_url     :string           not null
+#  title       :string           not null
 #  url         :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
@@ -18,18 +17,15 @@
 #
 #  index_feeds_on_active      (active)
 #  index_feeds_on_refresh_at  (refresh_at)
-#  index_feeds_on_url         (url)
+#  index_feeds_on_url         (url) UNIQUE
 #
 FactoryBot.define do
   factory :feed do
     sequence :url do |n|
       "http://some.url#{n}.com"
     end
-    sequence :rss_url do |n|
-      "http://rss.url#{n}.com"
-    end
 
-    name { Faker::Lorem.sentence(word_count: 3) }
+    title { Faker::Lorem.sentence(word_count: 3) }
     active
 
     trait :active do

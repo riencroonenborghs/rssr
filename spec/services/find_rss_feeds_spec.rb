@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "rails_helper"
-
 RSpec.describe FindRssFeeds, type: :service do
   subject { described_class.perform(url: url) }
 

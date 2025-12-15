@@ -26,6 +26,7 @@ FactoryBot.define do
     trait :eq do
       comparison { "eq" }
     end
+
     trait :new do
       comparison { "ne" }
     end

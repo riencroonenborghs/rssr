@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+.pagination .page {
+  padding: 0.2rem;
+}
+.pagination .current {
+  font-weight: bolder;
+}
+
 
 /* custom */
 

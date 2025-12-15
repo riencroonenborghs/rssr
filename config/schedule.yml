@@ -1,9 +1,9 @@
-refresh_subscriptions:
+refresh_subscriptions_rssreader:
   cron: "*/30 * * * *"
   class: "RefreshSubscriptionsJob"
-  queue: default
+  queue: rssreader
 
-remove_old_entries:
+remove_old_entries_rssreader:
   cron: "0 0 * * *"
   class: "RemoveOldEntriesJob"
-  queue: default
+  queue: rssreader

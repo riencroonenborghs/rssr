@@ -2,14 +2,16 @@
 %html
   %head
     %title
-      RSSr -
+      RSSReader -
       = yield :meta_title 
     %meta(name="viewport" content="width=device-width, initial-scale=1")
+    %meta(name="turbo-prefetch" content="false")
     = favicon_link_tag asset_path("favicon.png")
     %link(rel="apple-touch-icon" href="#{asset_path("apple-touch.png")}")
     = csrf_meta_tags
     = csp_meta_tag
 
-    = stylesheet_link_tag 'tailwind', media: 'all'
+    = javascript_include_tag "application", type: "module"
+    = stylesheet_link_tag "application"
   %body
     = yield

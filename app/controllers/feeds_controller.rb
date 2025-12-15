@@ -1,23 +1,23 @@
 # frozen_string_literal: true
 
 class FeedsController < ApplicationController
-  def index
-    @feeds = current_user ? current_user.feeds : Feed
-    @feeds = @feeds.active.by_name.no_error
-    @feed_counts = Entry.where(feed_id: @feeds.pluck(:id)).group(:feed_id).count
-  end
+  include FeedEntries
 
   def show
-    @feed = Feed.find_by(id: params[:id])
-    @page = params[:page] || 1
+    set_feed
 
-    @entries = filtered_scope do
-      @feed.entries.most_recent_first
+    unless @feed
+      flash[:alert] = "Feed not found"
+      redirect_to root_path
+      return
     end
-    @entries = @entries.page(@page)
 
-    set_subscriptions_by_feed_id(feed: @feed)
-    set_viewed_ids(entries_scope: @entries)
-    set_bookmarked_ids(entries_scope: @entries)
+    set_feed_entries
+  end
+
+  private
+
+  def set_feed_id
+    @feed_id = params[:id]
   end
 end

@@ -1,0 +1,37 @@
+- @title = "- Subscriptions"
+- content_for :meta_title do
+  = @title
+
+- width = mobile? ? "calc(100vw);" : "calc(100vw - 248px);"
+- grid = mobile? ? "grid-cols-1" : "grid-cols-4"
+
+.p-2.overflow-auto(style="width: #{width}; height: calc(100vh);")
+  .pt-4
+    = link_to new_subscription_path do
+      + New Subscription
+  .pt-4.grid.gap-4(class="#{grid}")
+    - @subscriptions.each do |subscription|
+      .shadow.p-2.flex.flex-col
+        .flex.flex-row.items-center.justify-between
+          .text-bold.text-lg
+            = link_to feed_path(subscription.feed) do
+              = subscription.feed.title
+          = button_to subscription_path(subscription), method: :delete, class: "cursor-pointer" do
+            &#8855;
+        .flex.flex-row.flex-wrap.pt-2
+          - subscription.tags.each do |tag|
+            = link_to tag_path(tag) do
+              .text-xxs.ps-1.pe-1.bg-gray-500.text-white.rounded.me-1.mb-1
+                = tag.name
+        .pt-3.text-xs.font-thin
+          Added:
+          = subscription.created_at.to_fs(:long)
+        .text-xs.font-thin
+          Last fetched:
+          = subscription.feed.refresh_at&.to_fs(:long)
+        .text-xs.font-thin.w-full.truncate
+          = link_to subscription.feed.url, target: "_blank" do
+            = subscription.feed.url
+
+  .pt-4.flex.flex-row.justify-center
+    = paginate @subscriptions

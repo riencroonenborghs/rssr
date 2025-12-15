@@ -50,27 +50,33 @@ class Entry < ApplicationRecord
   has_many :viewed_entries, dependent: :destroy
   has_many :bookmarks, dependent: :destroy
 
-  tagger
+  tagged
+
+  after_save :create_or_update_entry_title
 
   validates :guid, :link, :title, :published_at, presence: true
 
   scope :most_recent_first, -> { order(published_at: :desc) }
-  scope :today, -> { most_recent_first.where(published_at: 24.hours.ago..) }
-  scope :yesterday, -> { most_recent_first.where(published_at: 48.hours.ago..24.hours.ago) }
+  scope :unread, ->(user) do
+    entries = most_recent_first
+      .joins(feed: :subscriptions)
+      .includes(:feed)
+      .merge(Subscription.active.not_hidden_from_main_page)      
+      .distinct
+    return entries unless user
+
+    entries.where.not(id: ViewedEntry.where(user_id: user.id).select(:entry_id))
+  end
 
   attr_accessor :show_entry
-
-  def self.parse_guid(feedjira_entry)
-    guid = feedjira_entry.guid if feedjira_entry.respond_to?(:guid)
-    entry_id = feedjira_entry.entry_id if feedjira_entry.respond_to?(:entry_id)
-    id = feedjira_entry.id if feedjira_entry.respond_to?(:id)
-
-    guid || entry_id || id
-  end
 
   def bookmarked?(user)
     return false unless user
 
     bookmarks.where(user_id: user.id).any?
+  end
+
+  def create_or_update_entry_title
+    EntryTitle.find_or_create_by(entry_id: id, title: title)
   end
 end
