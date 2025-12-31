@@ -19,7 +19,7 @@ module Feeds
 
     private
 
-    def get_url_data
+    def get_url_data # rubocop:disable Naming/AccessorMethodName
       service = GetUrlData.perform(url: @url)
       if service.success?
         @url_data = service.data
@@ -28,7 +28,7 @@ module Feeds
         add_error("No URL data")
         return
       end
-      
+
       copy_errors(service.errors)
     end
 

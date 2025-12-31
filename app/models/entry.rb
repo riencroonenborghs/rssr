@@ -40,7 +40,7 @@ class Entry < ApplicationRecord
   validates :uuid, :link, :title, :published_at, presence: true
 
   scope :most_recent_first, -> { order(published_at: :desc) }
-  scope :unread, ->(user) do
+  scope :unread, ->(user) do # rubocop:disable Style/Lambda
     entries = most_recent_first
       .joins(feed: :subscriptions)
       .includes(:feed)
@@ -63,6 +63,6 @@ class Entry < ApplicationRecord
   end
 
   def remove_entry_title
-    EntryTitle.where(entry_id: id).delete_all
+    EntryTitle.where(entry_id: id).destroy_all
   end
 end

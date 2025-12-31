@@ -21,7 +21,7 @@ module Feeds
 
     attr_reader :feed, :feed_data
 
-    def get_feed_data
+    def get_feed_data # rubocop:disable Naming/AccessorMethodName
       service = Feeds::GetFeedData.perform(url: @url)
       if service.success?
         @feed_data = service.feed_data

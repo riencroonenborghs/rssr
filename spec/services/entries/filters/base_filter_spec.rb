@@ -40,7 +40,7 @@ RSpec.describe Entries::Filters::BaseFilter, type: :service do
 
   context "when there's more than one filter" do
     let(:second_tagged_filter) { create(:filter, user: user, comparison: Filter::TAGGED_FILTER, value: "polaf") }
-    
+
     before do
       second_tagged_filter
     end

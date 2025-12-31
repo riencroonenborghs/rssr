@@ -10,7 +10,7 @@ RSpec.describe GetUrlData, type: :service do
     it "fails" do
       expect(get_url_data).to be_failure
     end
-  
+
     it "has error" do
       expect(get_url_data.errors.full_messages).to include expected_error
     end
@@ -28,7 +28,7 @@ RSpec.describe GetUrlData, type: :service do
     stub_const("ENV", { "REDDIT_USERNAME" => "reddit username" })
     allow(HTTParty).to receive(:get).and_return(response)
   end
-  
+
   it "succeeds" do
     expect(get_url_data).to be_success
   end

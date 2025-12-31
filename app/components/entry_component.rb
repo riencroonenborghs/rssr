@@ -3,10 +3,10 @@
 class EntryComponent < ViewComponent::Base
   include ComponentScopeHelpers
 
-  def initialize(entry: nil)
+  def initialize(entry: nil) # rubocop:disable Lint/MissingSuper
     @entry = entry
   end
-  
+
   def before_render
     sanitize_description
     @bookmarked = @entry&.bookmarked?(current_user)
@@ -16,6 +16,6 @@ class EntryComponent < ViewComponent::Base
     return unless @entry&.description
 
     @entry.description = sanitize(@entry.description, tags: %w[strong em p a])
-    @entry.description = @entry.description.gsub(/\<a /, "<a target='_blank' ")
+    @entry.description = @entry.description.gsub("<a ", "<a target='_blank' ")
   end
 end

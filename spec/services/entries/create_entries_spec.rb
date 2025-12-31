@@ -28,7 +28,7 @@ RSpec.describe Entries::CreateEntries, type: :service do
     it "fails" do
       expect(create_entries).to be_failure
     end
-  
+
     it "has error" do
       expect(create_entries.errors.full_messages).to include expected_error
     end
@@ -66,7 +66,7 @@ RSpec.describe Entries::CreateEntries, type: :service do
     it "creates entries" do
       expect { create_entries }.to change(feed.entries, :count).by(2)
     end
-  
+
     it "has entries with all data" do
       create_entries
       first_entry = feed.reload.entries.first
@@ -96,7 +96,7 @@ RSpec.describe Entries::CreateEntries, type: :service do
     it "creates entries" do
       expect { create_entries }.to change(feed.entries, :count).by(1)
     end
-  
+
     it "has entries with all data" do
       create_entries
       entry = feed.reload.entries.last
@@ -114,8 +114,7 @@ RSpec.describe Entries::CreateEntries, type: :service do
           comments: "https://news.ycombinator.com/item?id=46290916",
           published: Time.parse("2025-12-16 16:54:19 UTC").iso8601,
           summary: "<a href=\"https://news.ycombinator.com/item?id=46290916\">Comments</a>",
-          title: "alpr.watch",
-          # url: "https://alpr.watch/"
+          title: "alpr.watch"
         ),
         Feedjira::Parser::RSSEntry.new(
           comments: "https://news.ycombinator.com/item?id=46293062",

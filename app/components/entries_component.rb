@@ -3,7 +3,7 @@
 class EntriesComponent < ViewComponent::Base
   include ComponentScopeHelpers
 
-  def initialize(entries: nil)
+  def initialize(entries: nil) # rubocop:disable Lint/MissingSuper
     @entries = entries
     @viewed_entries = {}
     @bookmarks = {}
@@ -19,14 +19,14 @@ class EntriesComponent < ViewComponent::Base
   private
 
   def set_entries
-    @entries ||= filtered_scope do
+    @entries ||= filtered_scope do # rubocop:disable Naming/MemoizedInstanceVariableName
       user_scope do
         Entry.unread(current_user)
       end
     end.page(page)
   end
 
-  def set_tags_by_entry
+  def set_tags_by_entry # rubocop:disable Metrics/PerceivedComplexity
     @tags_by_entry = {}.tap do |ret|
       if user_signed_in?
         @entries.group_by(&:feed_id).each do |feed_id, list|

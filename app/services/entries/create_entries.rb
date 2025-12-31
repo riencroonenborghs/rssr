@@ -17,7 +17,7 @@ module Entries
 
     private
 
-    def get_feed_data
+    def get_feed_data # rubocop:disable Naming/AccessorMethodName
       service = Feeds::GetFeedData.perform(url: @feed.url)
       if service.success?
         @feed_data = service.feed_data

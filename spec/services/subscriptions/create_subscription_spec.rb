@@ -15,7 +15,7 @@ module Subscriptions
       it "fails" do
         expect(create_subscription).to be_failure
       end
-    
+
       it "has error" do
         expect(create_subscription.errors.full_messages).to include expected_error
       end
@@ -65,7 +65,7 @@ module Subscriptions
           it "creates the feed" do
             expect { create_subscription }.to change(Feed, :count).by(1)
           end
-  
+
           it "creates the feed with all the relevant detals" do
             create_subscription
             feed = Feed.last

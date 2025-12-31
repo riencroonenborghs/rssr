@@ -9,7 +9,7 @@ RSpec.describe Feeds::RefreshFeed, type: :service do
     it "fails" do
       expect(refresh_feed).to be_failure
     end
-  
+
     it "has error" do
       expect(refresh_feed.errors.full_messages).to include expected_error
     end

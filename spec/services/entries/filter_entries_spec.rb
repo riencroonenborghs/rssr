@@ -11,7 +11,7 @@ RSpec.describe Entries::FilterEntries, type: :service do
     it "fails" do
       expect(filter_entries).to be_failure
     end
-  
+
     it "has error" do
       expect(filter_entries.errors.full_messages).to include expected_error
     end

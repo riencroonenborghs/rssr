@@ -11,7 +11,7 @@ RSpec.describe Feeds::GetFeedTitle, type: :service do
     it "fails" do
       expect(get_feed_title).to be_failure
     end
-  
+
     it "has error" do
       expect(get_feed_title.errors.full_messages).to include expected_error
     end

@@ -34,7 +34,7 @@ RSpec.describe Entries::Filters::Sqlite3Filter, type: :service do
 
   context "when there's more than one filter" do
     let(:second_excludes_filter) { create(:filter, user: user, comparison: Filter::EXCLUDES_FILTER, value: "ba") }
-    
+
     before do
       second_excludes_filter
     end

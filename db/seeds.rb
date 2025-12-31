@@ -40,7 +40,7 @@ user = User.create!(email: ENV.fetch('EMAIL'), password: ENV.fetch('PASSWORD'), 
     if service.failure?
       puts service.errors.full_messages.to_sentence
       next
-    end 
+    end
   end
 
 Feed.find_each do |feed|
@@ -48,6 +48,6 @@ Feed.find_each do |feed|
   Feeds::RefreshFeed.perform(feed: feed)
 end
 
-JSON.parse(File.read("filters.json")).each do |(c,v)|
+JSON.parse(File.read("filters.json")).each do |(c, v)|
   user.filters.create!(comparison: c, value: v)
 end

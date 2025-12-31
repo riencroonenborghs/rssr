@@ -26,26 +26,4 @@ class User < ApplicationRecord
   has_many :viewed_entries
   has_many :bookmarks, dependent: :destroy
   has_many :filters, dependent: :destroy
-  has_many :watches, dependent: :destroy
-
-  def tag_cloud(limit: 9)
-    tags = subscriptions
-      .tag_counts_on(:tags)
-      .order(taggings_count: :desc)
-      .limit(limit)
-      .sample(limit)
-    counts = tags.map(&:taggings_count)
-
-    mean = tags.map(&:taggings_count).sort
-    mean.pop
-    mean.shift
-    mean = mean.sum / mean.size
-    part = mean / limit
-
-    {}.tap do |ret|
-      tags.each do |tag|
-        ret[tag.name.upcase] = tag.taggings_count / part
-      end
-    end
-  end
 end

@@ -16,9 +16,9 @@ module Tagged
       has_many :taggings, as: :taggable, dependent: :destroy
       has_many :tags, through: :taggings
 
-      scope :tagged_with, -> (tag) do
-        scope = Tagging.where(taggable_type: self.table_name.classify).joins(:tag)          
-        scope = tag.is_a?(String) ? scope.where(tags: { name: tag.upcase } ) : scope.where(tags: { id: tag.id })
+      scope :tagged_with, ->(tag) do # rubocop:disable Style/Lambda
+        scope = Tagging.where(taggable_type: table_name.classify).joins(:tag)
+        scope = tag.is_a?(String) ? scope.where(tags: { name: tag.upcase }) : scope.where(tags: { id: tag.id })
         where(id: scope.select(:taggable_id))
       end
     end

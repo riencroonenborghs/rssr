@@ -33,7 +33,7 @@ module Service
   def log_error(message)
     log(:error, message)
   end
-  
+
   def log_info(message)
     log(:info, message)
   end

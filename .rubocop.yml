@@ -35,3 +35,9 @@ Layout/ElseAlignment:
   Enabled: false
 Metrics/CyclomaticComplexity:
   Enabled: false
+Layout/FirstArgumentIndentation:
+  Enabled: false
+Layout/HashAlignment:
+  Enabled: false
+Layout/ArrayAlignment:
+  Enabled: false

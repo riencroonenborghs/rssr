@@ -33,7 +33,7 @@ class Subscription < ApplicationRecord
   validates :feed, uniqueness: { scope: %i[user feed] }
 
   tagged
-  
+
   scope :active, -> { where(active: true) }
 
   # Form

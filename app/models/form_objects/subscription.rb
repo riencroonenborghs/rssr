@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module FormObjects
-  class Subscription < Struct.new(:url, :title, :get_title_from_url, :tag_names, keyword_init: true)
+  Subscription = Struct.new(:url, :title, :get_title_from_url, :tag_names, keyword_init: true) do
     def self.from_params(subscription_params)
       new(
         url: subscription_params[:url],
