@@ -12,9 +12,7 @@ module Entries
       get_feed_data
       return unless success?
 
-      # ActiveRecord::Base.transaction do
-        create_entries
-      # end
+      create_entries
     end
 
     private
@@ -32,7 +30,7 @@ module Entries
     def create_entries
       entries_to_create.each do |entry_to_create|
         built_entry = @feed.entries.build(
-          guid: entry_to_create.guid,
+          uuid: entry_to_create.uuid,
           description: entry_to_create.description,
           title: entry_to_create.title,
           link: entry_to_create.link,
@@ -52,11 +50,11 @@ module Entries
         EntryParser.new(entry: entry)
       end
 
-      guids = parsed_entries.map(&:guid)
-      existing_guids = @feed.entries.where(guid: guids).pluck(:guid)
-      guids_to_create = (guids - existing_guids)
+      uuids = parsed_entries.map(&:uuid)
+      existing_uuids = @feed.entries.where(uuid: uuids).pluck(:uuid)
+      uuids_to_create = (uuids - existing_uuids)
       parsed_entries.select do |entry|
-        guids_to_create.include?(entry.guid)
+        uuids_to_create.include?(entry.uuid)
       end
     end
   end

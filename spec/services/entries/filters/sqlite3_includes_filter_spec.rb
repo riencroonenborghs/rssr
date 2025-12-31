@@ -5,7 +5,7 @@ RSpec.describe Entries::Filters::Sqlite3Filter, type: :service do
   subject(:filter_entries_instance) { described_class.new(user: user, scope: scope) }
 
   let(:user) { create(:user) }
-  let(:includes_filter) { create(:filter, user: user, comparison: Filter::INCLUDES_FILTER, value: "foo") }
+  let(:includes_filter) { create(:filter, user: user, comparison: Filter::INCLUDES_FILTER, value: "fo") }
   let(:feed) { create(:feed) }
   let(:scope) { feed.entries }
 
@@ -33,7 +33,7 @@ RSpec.describe Entries::Filters::Sqlite3Filter, type: :service do
   end
 
   context "when there's more than one filter" do
-    let(:second_includes_filter) { create(:filter, user: user, comparison: Filter::INCLUDES_FILTER, value: "q") }
+    let(:second_includes_filter) { create(:filter, user: user, comparison: Filter::INCLUDES_FILTER, value: "qu") }
     
     before do
       second_includes_filter

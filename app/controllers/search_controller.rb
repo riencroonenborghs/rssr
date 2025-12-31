@@ -14,7 +14,6 @@ class SearchController < ApplicationController
       Entry
         .most_recent_first
         .joins(feed: :subscriptions)
-        .merge(Subscription.active.not_hidden_from_main_page)
         .where(id: EntryTitle.where("entry_titles MATCH ?", @search.query).select(:entry_id))
     end.page(page)
   end

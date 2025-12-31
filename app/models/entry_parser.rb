@@ -5,8 +5,8 @@ class EntryParser
     @entry = entry
   end
 
-  def guid
-    @guid ||= begin
+  def uuid
+    @uuid ||= begin
       guid = @entry.guid if @entry.respond_to?(:guid)
       entry_id = @entry.entry_id if @entry.respond_to?(:entry_id)
       id = @entry.id if @entry.respond_to?(:id)

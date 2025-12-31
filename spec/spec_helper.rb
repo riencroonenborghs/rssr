@@ -44,6 +44,14 @@ RSpec.configure do |config|
   # triggering implicit auto-inclusion in groups with matching metadata.
   config.shared_context_metadata_behavior = :apply_to_host_groups
 
+  config.before(:suite) do
+    connection = ActiveRecord::Base.connection
+    connection.execute "DROP TABLE IF EXISTS entry_titles_data"
+    connection.execute "DROP TABLE IF EXISTS entry_titles_docsize"
+    connection.execute "DROP TABLE IF EXISTS entry_titles"
+    connection.execute "CREATE VIRTUAL TABLE entry_titles USING fts5(entry_id, title)"
+  end
+
 # The settings below are suggested to provide a good initial experience
 # with RSpec, but feel free to customize to your heart's content.
 =begin

@@ -30,7 +30,6 @@ class ApplicationController < ActionController::Base
 
     entry_count_by_feed_id = Entry
       .joins(feed: :subscriptions)
-      .merge(Subscription.active.not_hidden_from_main_page)
       .group(:feed_id)
       .count
 

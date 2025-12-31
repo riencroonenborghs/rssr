@@ -85,7 +85,7 @@ RSpec.describe Entries::CreateEntries, type: :service do
   context "when only some feed data entries are new" do
     before do
       feed.entries.create!(
-        guid: "https://www.sebastianaaltonen.com/blog/no-graphics-api",
+        uuid: "https://www.sebastianaaltonen.com/blog/no-graphics-api",
         published_at: Time.parse("2025-12-16 19:20:17 UTC"),
         description: "<a href=\"https://news.ycombinator.com/item?id=46293062\">Comments</a>",
         title: "No Graphics API",
@@ -108,15 +108,31 @@ RSpec.describe Entries::CreateEntries, type: :service do
   end
 
   context "when creating entries fails" do
-    let(:expected_error) { "some error" }
-
-    before do
-      errors = ActiveModel::Errors.new(Feed)
-      errors.add(:base, expected_error)
-
-      allow(feed).to receive_messages(save: false, errors: errors)
+    let(:feed_data_entries) do
+      [
+        Feedjira::Parser::RSSEntry.new(
+          comments: "https://news.ycombinator.com/item?id=46290916",
+          published: Time.parse("2025-12-16 16:54:19 UTC").iso8601,
+          summary: "<a href=\"https://news.ycombinator.com/item?id=46290916\">Comments</a>",
+          title: "alpr.watch",
+          # url: "https://alpr.watch/"
+        ),
+        Feedjira::Parser::RSSEntry.new(
+          comments: "https://news.ycombinator.com/item?id=46293062",
+          published: Time.parse("2025-12-16 19:20:17 UTC").iso8601,
+          summary: "<a href=\"https://news.ycombinator.com/item?id=46293062\">Comments</a>",
+          title: "No Graphics API",
+          url: "https://www.sebastianaaltonen.com/blog/no-graphics-api"
+        )
+      ]
     end
 
-    it_behaves_like "it fails with errors and without creating entries"
+    it "succeeds" do
+      expect(create_entries).to be_success
+    end
+
+    it "creates the entries it can" do
+      expect { create_entries }.to change(feed.entries, :count).by(1)
+    end
   end
 end

@@ -5,7 +5,7 @@ RSpec.describe Entries::Filters::Sqlite3Filter, type: :service do
   subject(:filter_entries_instance) { described_class.new(user: user, scope: scope) }
 
   let(:user) { create(:user) }
-  let(:excludes_filter) { create(:filter, user: user, comparison: Filter::EXCLUDES_FILTER, value: "foo") }
+  let(:excludes_filter) { create(:filter, user: user, comparison: Filter::EXCLUDES_FILTER, value: "fo") }
   let(:feed) { create(:feed) }
   let(:scope) { feed.entries }
 

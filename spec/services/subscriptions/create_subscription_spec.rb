@@ -3,47 +3,75 @@ Sidekiq::Testing.fake!
 
 module Subscriptions
   RSpec.describe CreateSubscription, type: :service do
-    subject { described_class.perform(user: user, name: name, tag_list: tag_list, url: url, rss_url: rss_url, description: description, hide_from_main_page: hide_from_main_page) }
+    subject(:create_subscription) { described_class.perform(user: user, url: url, title: title, get_title_from_url: get_title_from_url, tag_names: tag_names) }
 
     let(:user) { create :user }
-    let(:name) { "Name" }
-    let(:tag_list) { "foo,bar,baz" }
     let(:url) { "http://some.url.com" }
-    let(:rss_url) { "http://other.url.com" }
-    let(:description) { "description" }
-    let(:hide_from_main_page) { false }
+    let(:title) { "Name" }
+    let(:get_title_from_url) { false }
+    let(:tag_names) { "foo,bar,baz" }
+
+    shared_examples "it fails with errors" do
+      it "fails" do
+        expect(create_subscription).to be_failure
+      end
+    
+      it "has error" do
+        expect(create_subscription.errors.full_messages).to include expected_error
+      end
+    end
 
     describe "#perform" do
       context "when the feed is new" do
         context "when saving the feed fails" do
-          let(:error_message) { "some feed error" }
+          let(:expected_error) { "some feed error" }
 
           before do
             errors = ActiveModel::Errors.new(Feed)
-            errors.add(:base, error_message)
+            errors.add(:base, expected_error)
             feed = build :feed
             allow(feed).to receive(:save).and_return false
             allow(feed).to receive(:errors).and_return errors
             allow(Feed).to receive(:new).and_return(feed)
           end
 
-          it_behaves_like "the service fails"
+          it_behaves_like "it fails with errors"
         end
 
         it "creates the feed" do
-          expect { subject }.to change(Feed, :count).by(1)
+          expect { create_subscription }.to change(Feed, :count).by(1)
         end
 
-        it "sets the rss url" do
-          subject
+        it "creates the feed with all the relevant detals" do
+          create_subscription
           feed = Feed.last
-          expect(feed.rss_url).to eq rss_url
+          expect(feed.url).to eq url
+          expect(feed.title).to eq title
         end
 
-        it "sets the name" do
-          subject
-          feed = Feed.last
-          expect(feed.name).to eq name
+        context "when getting the title from the URL" do
+          let(:get_title_from_url) { true }
+          let(:other_title) { "other title" }
+
+          before do
+            allow(Feeds::GetFeedTitle).to receive(:perform).and_return(double(title: other_title))
+          end
+
+          it "fetches the title" do
+            expect(Feeds::GetFeedTitle).to receive(:perform).with(url: url)
+            create_subscription
+          end
+
+          it "creates the feed" do
+            expect { create_subscription }.to change(Feed, :count).by(1)
+          end
+  
+          it "creates the feed with all the relevant detals" do
+            create_subscription
+            feed = Feed.last
+            expect(feed.url).to eq url
+            expect(feed.title).to eq other_title
+          end
         end
       end
 
@@ -51,45 +79,43 @@ module Subscriptions
         let!(:feed) { create :feed, url: url }
 
         it "does not creates the feed" do
-          expect { subject }.to_not change(Feed, :count)
+          expect { create_subscription }.to_not change(Feed, :count)
         end
       end
 
       context "when the subscription is new" do
         context "when saving the subscription fails" do
-          let(:error_message) { "some subscription error" }
+          let(:expected_error) { "some subscription error" }
 
           before do
             object = User.new
-            object.errors.add(:base, error_message)
+            object.errors.add(:base, expected_error)
 
             subscription = instance_double(Subscription, save: false, errors: object.errors)
             allow(user.subscriptions).to receive(:build).and_return(subscription)
           end
 
-          it_behaves_like "the service fails"
+          it_behaves_like "it fails with errors"
         end
 
         it "creates the subscription" do
-          expect { subject }.to change(Subscription, :count).by(1)
+          expect { create_subscription }.to change { user.subscriptions.reload.count }.by(1)
         end
       end
 
       context "when the subscription exists" do
-        let(:error_message) { "Subscription already exists" }
+        let(:expected_error) { "Subscription already exists" }
         let!(:feed) { create :feed, url: url }
         let!(:subscription) { user.subscriptions.create!(feed: feed) }
 
-        it_behaves_like "the service fails"
+        it_behaves_like "it fails with errors"
       end
     end
 
     it "queues a feed refresh job for later" do
       feed = create :feed, url: url
-      travel_to Time.zone.now do
-        expect(RefreshFeedJob).to receive(:perform_in).with(5.seconds, { feed_id: feed.id }.to_json)
-        subject
-      end
+      expect(RefreshFeedJob).to receive(:perform_later).with(feed)
+      create_subscription
     end
   end
 end

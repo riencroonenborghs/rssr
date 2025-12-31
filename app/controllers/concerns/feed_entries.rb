@@ -23,7 +23,6 @@ module FeedEntries
         Entry
           .most_recent_first
           .joins(feed: :subscriptions)
-          .merge(Subscription.active.not_hidden_from_main_page)
           .where(feed_id: @feed.id)
           .distinct
       end
