@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   # mount Sidekiq::Web => "/sidekiq" if Rails.env.development?
 
   devise_for :users, controllers: {
-    sessions: "user/sessions"
+    sessions: "users/sessions"
   }
 
   resources :unread, only: [:index]
