@@ -9,5 +9,7 @@ class RemoveOldEntriesJob < ApplicationJob
       .where.not(id: Bookmark.select(:entry_id))
       .in_batches(of: 200)
       .destroy_all
+
+    ActiveRecord::Base.connection.execute("vacuum;")
   end
 end

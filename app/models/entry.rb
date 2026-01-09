@@ -63,6 +63,6 @@ class Entry < ApplicationRecord
   end
 
   def remove_entry_title
-    EntryTitle.where(entry_id: id).destroy_all
+    EntryTitle.where(entry_id: id).delete_all
   end
 end
