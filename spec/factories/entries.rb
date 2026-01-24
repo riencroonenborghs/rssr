@@ -15,11 +15,12 @@
 #
 # Indexes
 #
-#  index_entries_on_feed_id           (feed_id)
-#  index_entries_on_feed_id_and_uuid  (feed_id,uuid)
-#  index_entries_on_published_at      (published_at)
-#  index_entries_on_searchable        ("searchable")
-#  index_entries_on_uuid              (uuid)
+#  index_entries_on_feed_id            (feed_id)
+#  index_entries_on_feed_id_and_title  (feed_id,title) UNIQUE
+#  index_entries_on_feed_id_and_uuid   (feed_id,uuid)
+#  index_entries_on_published_at       (published_at)
+#  index_entries_on_searchable         ("searchable")
+#  index_entries_on_uuid               (uuid)
 #
 # Foreign Keys
 #

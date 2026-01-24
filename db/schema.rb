@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_12_31_212342) do
+ActiveRecord::Schema[7.2].define(version: 2026_01_24_204635) do
   create_table "bookmarks", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "entry_id", null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["entry_id"], name: "index_bookmarks_on_entry_id"
     t.index ["user_id", "entry_id"], name: "index_bookmarks_on_user_id_and_entry_id"
     t.index ["user_id"], name: "index_bookmarks_on_user_id"
@@ -29,9 +29,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_31_212342) do
     t.string "description"
     t.datetime "published_at", precision: nil, null: false
     t.string "image"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index "\"searchable\"", name: "index_entries_on_searchable"
+    t.index ["feed_id", "title"], name: "index_entries_on_feed_id_and_title", unique: true
     t.index ["feed_id", "uuid"], name: "index_entries_on_feed_id_and_uuid"
     t.index ["feed_id"], name: "index_entries_on_feed_id"
     t.index ["published_at"], name: "index_entries_on_published_at"
@@ -67,8 +68,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_31_212342) do
     t.string "title", null: false
     t.boolean "active", default: true, null: false
     t.datetime "refresh_at", precision: nil
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.text "error"
     t.text "description"
     t.string "image_url"
@@ -81,17 +82,25 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_31_212342) do
     t.integer "user_id", null: false
     t.string "comparison", default: "eq", null: false
     t.string "value", null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_filters_on_user_id"
     t.index ["value", "user_id"], name: "uniq_filter_val_usr_type"
   end
 
+# Could not dump table "old_taggings" because of following StandardError
+#   Unknown type '' for column 'id'
+
+
+# Could not dump table "old_tags" because of following StandardError
+#   Unknown type 'serial' for column 'id'
+
+
   create_table "subscriptions", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "feed_id", null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.boolean "active", default: true, null: false
     t.index ["active"], name: "index_subscriptions_on_active"
     t.index ["feed_id"], name: "index_subscriptions_on_feed_id"
@@ -104,16 +113,16 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_31_212342) do
     t.integer "tag_id", null: false
     t.integer "taggable_id"
     t.string "taggable_type"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["tag_id"], name: "index_taggings_on_tag_id"
     t.index ["taggable_type", "taggable_id"], name: "index_taggings_on_taggable_type_and_taggable_id"
   end
 
   create_table "tags", force: :cascade do |t|
     t.string "name", null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["name"], name: "index_tags_on_name", unique: true
   end
 
@@ -121,8 +130,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_31_212342) do
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.datetime "remember_created_at", precision: nil
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.text "name"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
@@ -130,8 +139,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_31_212342) do
   create_table "viewed_entries", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "entry_id", null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["entry_id"], name: "index_viewed_entries_on_entry_id"
     t.index ["user_id", "entry_id"], name: "index_viewed_entries_on_user_id_and_entry_id"
     t.index ["user_id"], name: "index_viewed_entries_on_user_id"
@@ -141,6 +150,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_12_31_212342) do
   add_foreign_key "bookmarks", "users"
   add_foreign_key "entries", "feeds"
   add_foreign_key "filters", "users"
+  add_foreign_key "old_taggings", "old_tags", column: "tag_id"
   add_foreign_key "subscriptions", "feeds"
   add_foreign_key "subscriptions", "users"
   add_foreign_key "taggings", "tags"

@@ -17,11 +17,12 @@
 #
 # Indexes
 #
-#  index_entries_on_feed_id           (feed_id)
-#  index_entries_on_feed_id_and_uuid  (feed_id,uuid)
-#  index_entries_on_published_at      (published_at)
-#  index_entries_on_searchable        ("searchable")
-#  index_entries_on_uuid              (uuid)
+#  index_entries_on_feed_id            (feed_id)
+#  index_entries_on_feed_id_and_title  (feed_id,title) UNIQUE
+#  index_entries_on_feed_id_and_uuid   (feed_id,uuid)
+#  index_entries_on_published_at       (published_at)
+#  index_entries_on_searchable         ("searchable")
+#  index_entries_on_uuid               (uuid)
 #
 # Foreign Keys
 #
@@ -38,6 +39,7 @@ class Entry < ApplicationRecord
   after_destroy :remove_entry_title
 
   validates :uuid, :link, :title, :published_at, presence: true
+  validates :title, uniqueness: { scope: :feed_id }
 
   scope :most_recent_first, -> { order(published_at: :desc) }
   scope :unread, ->(user) do # rubocop:disable Style/Lambda
