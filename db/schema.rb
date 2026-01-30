@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_01_24_204635) do
+ActiveRecord::Schema[7.2].define(version: 2026_01_30_231638) do
   create_table "bookmarks", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "entry_id", null: false
@@ -94,6 +94,30 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_24_204635) do
 
 # Could not dump table "old_tags" because of following StandardError
 #   Unknown type 'serial' for column 'id'
+
+
+# Could not dump table "searchable_tags" because of following StandardError
+#   Unknown type '' for column 'taggable_type'
+
+
+# Could not dump table "searchable_tags_config" because of following StandardError
+#   Unknown type '' for column 'k'
+
+
+# Could not dump table "searchable_tags_content" because of following StandardError
+#   Unknown type '' for column 'c0'
+
+
+  create_table "searchable_tags_data", force: :cascade do |t|
+    t.binary "block"
+  end
+
+  create_table "searchable_tags_docsize", force: :cascade do |t|
+    t.binary "sz"
+  end
+
+# Could not dump table "searchable_tags_idx" because of following StandardError
+#   Unknown type '' for column 'segid'
 
 
   create_table "subscriptions", force: :cascade do |t|

@@ -56,12 +56,7 @@ module Entries
       end
 
       def apply_filter_tagged(filter_values:)
-        entry_ids = Tagging
-          .joins(:tag)
-          .where(taggable_type: "Entry")
-          .where(tags: { name: filter_values.map(&:upcase) })
-          .select(:taggable_id)
-        @scope = @scope.where.not(id: entry_ids)
+        raise NotImplementedError
       end
     end
   end
