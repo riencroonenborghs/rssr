@@ -13,22 +13,6 @@ module Entries
         @scope = @scope.merge(scope.where.not(id: fts5))
       end
 
-      def apply_filter_excludes(filter_values:)
-        fts5 = fts5_entry_scope(scope: EntryTitle.none, filter_values: filter_values) do |scope, next_scope|
-          scope.merge(next_scope)
-        end
-
-        @scope = @scope.merge(scope.where(id: fts5))
-      end
-
-      def apply_filter_matches(filter_values:)
-        # TODO
-      end
-
-      def apply_filter_mismatches(filter_values:)
-        # TODO
-      end
-
       def apply_filter_tagged(filter_values:)
         fts5 = fts5_tag_scope(scope: EntryTitle.none, filter_values: filter_values) do |scope, next_scope|
           scope.or(next_scope)

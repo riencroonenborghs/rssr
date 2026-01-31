@@ -174,7 +174,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_30_231638) do
   add_foreign_key "bookmarks", "users"
   add_foreign_key "entries", "feeds"
   add_foreign_key "filters", "users"
-  add_foreign_key "old_taggings", "old_tags", column: "tag_id"
   add_foreign_key "subscriptions", "feeds"
   add_foreign_key "subscriptions", "users"
   add_foreign_key "taggings", "tags"

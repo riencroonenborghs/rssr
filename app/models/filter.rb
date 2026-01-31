@@ -22,32 +22,20 @@
 #
 class Filter < ApplicationRecord
   INCLUDES_FILTER = "includes"
-  EXCLUDES_FILTER = "excludes"
-  MATCHES_FILTER = "matches"
-  MISMATCHES_FILTER = "mismatches"
   TAGGED_FILTER = "tagged"
 
   VALID_COMPARISONS = [
     INCLUDES_FILTER,
-    EXCLUDES_FILTER,
-    MATCHES_FILTER,
-    MISMATCHES_FILTER,
     TAGGED_FILTER
   ].freeze
 
   HUMAN_READABLE = {
     INCLUDES_FILTER => "contains",
-    EXCLUDES_FILTER => "does not contain",
-    MATCHES_FILTER => "matches",
-    MISMATCHES_FILTER => "does not match",
     TAGGED_FILTER => "tagged with"
   }.freeze
 
   FORM = {
     INCLUDES_FILTER => "contains",
-    EXCLUDES_FILTER => "does not contain",
-    # MATCHES_FILTER => "matches",
-    # MISMATCHES_FILTER => "does not match",
     TAGGED_FILTER => "tagged with"
   }.freeze
 

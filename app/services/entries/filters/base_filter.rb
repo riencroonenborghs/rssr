@@ -28,30 +28,12 @@ module Entries
         case comparison
         when Filter::INCLUDES_FILTER
           apply_filter_includes(filter_values: filter_values)
-        when Filter::EXCLUDES_FILTER
-          apply_filter_excludes(filter_values: filter_values)
-        when Filter::MATCHES_FILTER
-          apply_filter_matches(filter_values: filter_values)
-        when Filter::MISMATCHES_FILTER
-          apply_filter_mismatches(filter_values: filter_values)
         when Filter::TAGGED_FILTER
           apply_filter_tagged(filter_values: filter_values)
         end
       end
 
       def apply_filter_includes(filter_values:)
-        raise NotImplementedError
-      end
-
-      def apply_filter_excludes(filter_values:)
-        raise NotImplementedError
-      end
-
-      def apply_filter_matches(filter_values:)
-        raise NotImplementedError
-      end
-
-      def apply_filter_mismatches(filter_values:)
         raise NotImplementedError
       end
 
