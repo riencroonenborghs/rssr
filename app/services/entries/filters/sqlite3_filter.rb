@@ -39,7 +39,7 @@ module Entries
 
       def fts5_entry_scope(scope:, filter_values:)
         filter_values.map { |x| x.split(/[|-]/) }.flatten.each do |value|
-          next_scope = EntryTitle.where("entry_titles MATCH ?", "title:#{value}*")
+          next_scope = EntryTitle.where("entry_titles MATCH ?", "title:\"#{value}\"*")
           scope = yield(scope, next_scope)
         end
         scope.select(:entry_id)
