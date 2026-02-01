@@ -14,6 +14,7 @@ class EntriesComponent < ViewComponent::Base
     set_tags_by_entry
     set_viewed_entries
     set_bookmarks
+    @bookmarks_path = request.path.match?("bookmarks")
   end
 
   private

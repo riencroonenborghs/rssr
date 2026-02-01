@@ -9,7 +9,7 @@
             = entry.feed.title
         %div
           = entry.published_at.to_fs(:long)
-      .title(class="#{'line-through' if @viewed_entries[entry.id]}")
+      .title(class="#{'line-through' if !@bookmarks_path && @viewed_entries[entry.id]}")
         = link_to feed_entry_path(entry.feed, entry, page: params[:page]), target: mobile? ? "_blank" : "", data: { "turbo-frame": "entry", action: "click->viewed_entries#markAsViewed" } do
           = entry.title
         - if entry.image
