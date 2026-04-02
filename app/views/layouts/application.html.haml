@@ -15,6 +15,8 @@
     %link(href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet")
     = javascript_include_tag "application", type: "module"
     = stylesheet_link_tag "application"
+    %link(href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@600&display=swap" rel="stylesheet")
+
   %body(class="c_#{controller_name} a_#{action_name} #{'signed-in' if current_user} #{'mobile' if mobile?}" data-controller="alerts")
     = turbo_frame_tag :meta_title
 
