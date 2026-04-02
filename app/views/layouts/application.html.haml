@@ -42,16 +42,20 @@
                   Bookmarks
                 .text-thin.text-xs
                   = bookmarks_count
-          .pt-4.uppercase.font-bolder.text-gray-800.text-xl
-            Feeds
-          .flex.flex-col.overflow-auto(style="height: calc(100vh - 140px - 180px - 50px)")
-            - active_feeds.each do |feed, count|
-              = link_to feed_path(feed), data: { "turbo-frame": "entries" }  do
-                .flex.flex-row.justify-between.items-center
-                  %div
-                    = feed.title
-                  .text-thin.text-xs
-                    = count
+
+          %div(data-controller="feeds-dropdown")
+            %button.pt-4.uppercase.font-bolder.text-gray-800.text-xl.flex.flex-row.items-center.justify-between.w-full(data-action="click->feeds-dropdown#toggle" type="button")
+              %span Feeds
+              %span(data-feeds-dropdown-target="arrow" class="transition-transform duration-200") ▾
+            .flex.flex-col.overflow-auto(data-feeds-dropdown-target="list" style="height: calc(100vh - 140px - 180px - 50px)")
+              - active_feeds.each do |feed, count|
+                = link_to feed_path(feed), data: { "turbo-frame": "entries" } do
+                  .flex.flex-row.justify-between.items-center
+                    %div
+                      = feed.title
+                    .text-thin.text-xs
+                      = count
+
           .pt-6.uppercase.font-bolder.text-gray-800.text-xl.pb-2
             MANAGE
           - if user_signed_in?
@@ -92,16 +96,20 @@
                         Bookmarks
                       .text-thin.text-xs
                         = bookmarks_count
-              .pt-4.uppercase.font-bolder.text-gray-800.text-xl
-                Feeds
-              .flex.flex-col.overflow-auto(style="height: calc(100vh - 140px - 180px - 24px)")
-                - active_feeds.each do |feed, count|
-                  = link_to feed_path(feed), data: { "turbo-frame": "entries" }  do
-                    .flex.flex-row.justify-between.items-center
-                      %div
-                        = feed.title
-                      .text-thin.text-xs
-                        = count
+
+              %div(data-controller="feeds-dropdown")
+                %button.pt-4.uppercase.font-bolder.text-gray-800.text-xl.flex.flex-row.items-center.justify-between.w-full(data-action="click->feeds-dropdown#toggle" type="button")
+                  %span Feeds
+                  %span(data-feeds-dropdown-target="arrow" class="transition-transform duration-200") ▾
+                .flex.flex-col.overflow-auto(data-feeds-dropdown-target="list" style="height: calc(100vh - 140px - 180px - 24px)")
+                  - active_feeds.each do |feed, count|
+                    = link_to feed_path(feed), data: { "turbo-frame": "entries" } do
+                      .flex.flex-row.justify-between.items-center
+                        %div
+                          = feed.title
+                        .text-thin.text-xs
+                          = count
+
             #bottom.p-2.flex.flex-col
               .pt-6.uppercase.font-bolder.text-gray-800.text-xl.pb-2
                 MANAGE

@@ -15,3 +15,6 @@ application.register("alerts", AlertsController)
 
 import MenuController from "./menu_controller"
 application.register("menu", MenuController)
+
+import FeedsDropdownController from "./feeds_dropdown_controller"
+application.register("feeds-dropdown", FeedsDropdownController)
