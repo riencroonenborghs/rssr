@@ -5,7 +5,7 @@ export default class extends Controller {
 
   connect() {
     // Start open by default
-    this.open = true
+    this.open = false
   }
 
   toggle() {

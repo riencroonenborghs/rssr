@@ -22,8 +22,7 @@
       .flex.flex-col.mobile(data-controller="menu")
         .flex.flex-row.justify-between.items-center.px-4.py-3(style="background: var(--sidebar-bg); border-bottom: 1px solid var(--border)")
           %a.logo-wordmark(href="/")
-            RSS
-            %span Reader
+            RSSReader
           = link_to "#", data: { action: "click->menu#show" }, style: "color: var(--text-muted); font-size: 1.2rem; text-decoration: none;" do
             &#926;
         #menu.w-full.p-4.flex.flex-col.absolute.hidden(style="height: calc(100vh - 48px); top: 48px; background: var(--sidebar-bg); border-right: 1px solid var(--border)")
@@ -42,8 +41,8 @@
           %div(data-controller="feeds-dropdown")
             %button.feeds-toggle(data-action="click->feeds-dropdown#toggle" type="button")
               %span Feeds
-              %span.arrow(data-feeds-dropdown-target="arrow") ▾
-            .flex.flex-col.overflow-auto.sidebar-scroll.mt-1(data-feeds-dropdown-target="list" style="max-height: calc(100vh - 320px)")
+              %span.arrow(data-feeds-dropdown-target="arrow" style="transform: rotate(-90deg)") ▾
+            .hidden.flex.flex-col.overflow-auto.sidebar-scroll.mt-1(data-feeds-dropdown-target="list" style="max-height: calc(100vh - 450px)")
               - active_feeds.each do |feed, count|
                 = link_to feed_path(feed), class: "sidebar-link", data: { "turbo-frame": "entries" } do
                   %span= feed.title
@@ -57,13 +56,12 @@
               Filters
             = link_to "/sidekiq", class: "manage-link", target: "_blank" do
               Sidekiq
-          .mt-auto.pt-4
-            - if user_signed_in?
-              = link_to new_user_session_path, class: "manage-link", target: "_blank" do
-                Sign Out
-            - else
-              = link_to new_user_session_path, class: "manage-link", target: "_blank" do
-                Sign In
+          - if user_signed_in?
+            = link_to new_user_session_path, class: "manage-link", target: "_blank" do
+              Sign Out
+          - else
+            = link_to new_user_session_path, class: "manage-link", target: "_blank" do
+              Sign In
         = yield
 
     - else
@@ -72,8 +70,7 @@
           %div
             .px-5.py-5(style="border-bottom: 1px solid var(--border)")
               %a.logo-wordmark(href="/")
-                RSS
-                %span Reader
+                RSSReader
             .px-2.pt-4
               = link_to root_path, class: "nav-primary" do
                 %span Unread
@@ -86,8 +83,8 @@
             .px-2(data-controller="feeds-dropdown")
               %button.feeds-toggle(data-action="click->feeds-dropdown#toggle" type="button")
                 %span Feeds
-                %span.arrow(data-feeds-dropdown-target="arrow") ▾
-              .flex.flex-col.overflow-auto.sidebar-scroll.mt-1(data-feeds-dropdown-target="list" style="max-height: calc(100vh - 300px)")
+                %span.arrow(data-feeds-dropdown-target="arrow" style="transform: rotate(-90deg)") ▾
+              .hidden.flex.flex-col.overflow-auto.sidebar-scroll.mt-1(data-feeds-dropdown-target="list" style="max-height: calc(100vh - 420px)")
                 - active_feeds.each do |feed, count|
                   = link_to feed_path(feed), class: "sidebar-link", data: { "turbo-frame": "entries" } do
                     %span= feed.title

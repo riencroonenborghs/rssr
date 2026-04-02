@@ -80,7 +80,7 @@ body { font-family: 'DM Sans', sans-serif; }
   display: flex; align-items: center; justify-content: space-between;
   width: 100%; padding: 0.55rem 0.75rem; border-radius: 6px;
   background: none; border: none; cursor: pointer;
-  color: var(--text-faint); font-size: 0.6rem; font-weight: 500;
+  color: var(--text-primary); font-size: 0.6rem; font-weight: 500;
   letter-spacing: 0.18em; text-transform: uppercase;
   transition: color 0.18s ease;
 }
@@ -220,4 +220,86 @@ body { font-family: 'DM Sans', sans-serif; }
 .entries-pagination .page a:hover { background: #c9a96e; color: #fff; border-color: #c9a96e; }
 .entries-pagination .page.current span {
   background: #c9a96e; color: #fff; border-color: #c9a96e;
+}
+
+
+/* -Pagination------- */
+
+/* Pagination – premium warm editorial */
+.entries-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem 1rem;
+  border-top: 1px solid #ede8df;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.entries-pagination .pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+
+/* All clickable items share a base */
+.entries-pagination .page a,
+.entries-pagination .page span,
+.entries-pagination .next a,
+.entries-pagination .prev a,
+.entries-pagination .first a,
+.entries-pagination .last a {
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  color: #9a7a4a;
+  padding: 5px 11px;
+  border-radius: 5px;
+  border: 1px solid #e0d5c1;
+  text-decoration: none;
+  display: inline-block;
+  background: #faf8f5;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.entries-pagination .page a:hover,
+.entries-pagination .next a:hover,
+.entries-pagination .prev a:hover,
+.entries-pagination .first a:hover,
+.entries-pagination .last a:hover {
+  background: #c9a96e;
+  color: #fff;
+  border-color: #c9a96e;
+}
+
+/* Active/current page */
+.entries-pagination .page.current span,
+.entries-pagination .page.current {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  background: #c9a96e;
+  color: #fff;
+  border: 1px solid #c9a96e;
+  padding: 5px 11px;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+/* Gap ellipsis */
+.entries-pagination .page.gap {
+  font-size: 0.72rem;
+  color: #c9a96e;
+  padding: 5px 6px;
+  border: none;
+  background: none;
+  letter-spacing: 0.05em;
+}
+
+/* Next / Prev / First / Last labels */
+.entries-pagination .next,
+.entries-pagination .prev,
+.entries-pagination .first,
+.entries-pagination .last {
+  display: inline-block;
 }
