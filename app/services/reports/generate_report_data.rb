@@ -1,17 +1,13 @@
 # frozen_string_literal: true
 
 module Reports
-  class CreateReport
+  class GenerateReportData
     include Service
 
-    DAY_REPORT = :day
-    WEEK_REPORT = :week
+    attr_reader :data, :prompt
 
-    attr_reader :data
-
-    def initialize(keywords:, report_type: DAY_REPORT)
-      @keywords = keywords
-      @report_type = report_type
+    def initialize(report:)
+      @report = report
     end
 
     def perform
@@ -27,13 +23,13 @@ module Reports
     private
 
     def search_entries
-      service = SearchEntries.perform(keywords: @keywords)
+      service = SearchEntries.perform(keywords: @report.keywords)
       if service.success?
-        case @report_type
-        when DAY_REPORT
-          @entries = service.entries.order(published_at: :asc).where(published_at: Date.yesterday.all_day)
-        when WEEK_REPORT
-          @entries = service.entries.order(published_at: :asc).where(published_at: (Date.today - 1.week).all_week)
+        @entries = service.entries.order(published_at: :asc)
+        if @report.daily?
+          @entries = @entries.where(published_at: Date.yesterday.all_day)
+        elsif @report.weekly?
+          @entries = @entries.where(published_at: (Date.today - 1.week).all_week)
         end
       end
 

@@ -45,6 +45,7 @@ module Notegpt
 
     def parse_response
       re = /data: \{\"text\": \"(.*)\"\}/
+      pp @response.body
       @data = @response.body.split("\n").map do |line|
         match = line.match(re)
         match ? match[1] : nil
