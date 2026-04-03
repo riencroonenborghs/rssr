@@ -25,7 +25,7 @@ module Reports
     def generate_report_data
       service = GenerateReportData.perform(report: @report)
       if service.success?
-        @data = service.data.join(" ")
+        @data = service.data
         @prompt = service.prompt
         return
       end
