@@ -1,0 +1,64 @@
+/* -app/components/entries_component.html.haml---- */
+
+/* .entries-list { } */
+.entry-row {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #ede8df;
+  transition: background 0.15s ease;
+}
+.entry-row:hover { background: #f4f0e8; }
+.entry-row-meta {
+  display: flex; align-items: center; justify-content: space-between;
+  /* margin-bottom: 0.35rem; */
+}
+.entry-row-feed {
+  font-size: 0.65rem; font-weight: 500; letter-spacing: 0.13em;
+  text-transform: uppercase; color: #9a7a4a; text-decoration: none;
+  transition: color 0.15s ease;
+}
+.entry-row-feed:hover { color: #c9a96e; }
+.entry-row-date {
+  font-size: 0.68rem; font-weight: 300; color: #b0a090; letter-spacing: 0.03em;
+}
+.entry-row-title {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 1.05rem; font-weight: 600; line-height: 1.35;
+  color: #1a1610; text-decoration: none;
+  transition: color 0.15s ease; display: block;
+}
+.entry-row-title:hover { color: #9a7a4a; }
+.entry-row-title.viewed {
+  text-decoration: line-through; color: #b0a090;
+  font-weight: 400;
+}
+.entry-row-image {
+  width: 100%; border-radius: 6px; margin-top: 0.65rem;
+  border: 1px solid #ede8df;
+  box-shadow: 0 2px 12px rgba(180,150,100,0.08);
+}
+.entry-row-tag {
+  font-size: 0.6rem; font-weight: 500; letter-spacing: 0.09em;
+  text-transform: uppercase; background: #f0ebe2;
+  color: #9a7a4a; border: 1px solid #e0d5c1;
+  padding: 1px 7px; border-radius: 99px; display: inline-block;
+  text-decoration: none; margin-right: 4px; margin-bottom: 4px;
+  transition: all 0.15s ease;
+}
+.entry-row-tag:hover { background: #c9a96e; color: #fff; border-color: #c9a96e; }
+.entries-pagination {
+  display: flex; justify-content: center; align-items: center;
+  padding: 1.5rem 1rem;
+  border-top: 1px solid #ede8df;
+}
+.entries-pagination .page a,
+.entries-pagination .page span {
+  font-size: 0.75rem; font-weight: 500; letter-spacing: 0.06em;
+  color: #9a7a4a; padding: 5px 10px; border-radius: 5px;
+  border: 1px solid #e0d5c1; margin: 0 2px;
+  text-decoration: none; transition: all 0.15s ease;
+  display: inline-block;
+}
+.entries-pagination .page a:hover { background: #c9a96e; color: #fff; border-color: #c9a96e; }
+.entries-pagination .page.current span {
+  background: #c9a96e; color: #fff; border-color: #c9a96e;
+}
