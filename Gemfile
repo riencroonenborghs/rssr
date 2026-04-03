@@ -1,6 +1,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
+gem "anthropic", "~> 1.25.0"
 gem "base64", "0.2.0"
 gem "bootsnap", ">= 1.4.2", require: false
 gem "brakeman"

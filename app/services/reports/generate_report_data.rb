@@ -4,6 +4,8 @@ module Reports
   class GenerateReportData
     include Service
 
+    MODEL = "claude-haiku-4-5"
+
     attr_reader :data, :prompt
 
     def initialize(report:)
@@ -37,15 +39,27 @@ module Reports
     end
 
     def create_prompt
-      @prompt = ["Create a summary of the following points. Be concise and to the point."].tap do |ret|
+      @prompt = ["Create a summary of the following points. Be concise and to the point. Stick to the timeline and don't generalize."].tap do |ret|
         @entries.each do |entry|
-          ret << "* #{entry.description}"
+          ret << "* (#{entry.published_at.iso8601}) #{entry.description}"
         end
       end.join("\n")
     end
 
     def summarize
-      @data = Notegpt::Chat.perform(prompt: @prompt).data
+      anthropic = Anthropic::Client.new(
+        api_key: ENV["ANTHROPIC_API_KEY"] # This is the default and can be omitted
+      )
+
+      message = anthropic.messages.create(
+        max_tokens: 1024,
+        messages: [{ role: "user", content: @prompt }],
+        model: MODEL
+      )
+
+      @data = message.content[0].text
+    rescue StandardError => e
+      errors.merge!(e)
     end
   end
 end
