@@ -4,7 +4,7 @@ export default class extends Controller {
   static targets = ["list", "arrow"]
 
   connect() {
-    // Start open by default
+    // Start closed by default
     this.open = false
   }
 

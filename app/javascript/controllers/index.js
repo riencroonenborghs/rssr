@@ -18,3 +18,6 @@ application.register("menu", MenuController)
 
 import FeedsDropdownController from "./feeds_dropdown_controller"
 application.register("feeds-dropdown", FeedsDropdownController)
+
+import ReprotsDropdownController from "./reports_dropdown_controller"
+application.register("reports-dropdown", ReprotsDropdownController)

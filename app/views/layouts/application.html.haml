@@ -49,6 +49,19 @@
                 = link_to feed_path(feed), class: "sidebar-link", data: { "turbo-frame": "entries" } do
                   %span= feed.title
                   %span.badge= count
+          - if user_signed_in?
+            .divider
+            .px-2(data-controller="reports-dropdown")
+              %button.reports-toggle(data-action="click->reports-dropdown#toggle" type="button")
+                %span Daily Reports
+                %span.arrow(data-reports-dropdown-target="arrow" style="transform: rotate(-90deg)") ▾
+              .hidden.flex.flex-col.overflow-auto.sidebar-scroll.mt-1(data-reports-dropdown-target="list" style="max-height: calc(100vh - 420px)")
+                - generated_reports.each do |generated_report|
+                  = link_to generated_report_path(generated_report), class: "sidebar-link" do
+                    %span
+                      = generated_report.report.keywords.join(", ")
+                      \-
+                      = generated_report.created_at.strftime("%e %B")
           .divider
           %p.section-label Manage
           - if user_signed_in?
@@ -91,6 +104,19 @@
                   = link_to feed_path(feed), class: "sidebar-link", data: { "turbo-frame": "entries" } do
                     %span= feed.title
                     %span.badge= count
+            - if user_signed_in?
+              .divider
+              .px-2(data-controller="reports-dropdown")
+                %button.reports-toggle(data-action="click->reports-dropdown#toggle" type="button")
+                  %span Daily Reports
+                  %span.arrow(data-reports-dropdown-target="arrow" style="transform: rotate(-90deg)") ▾
+                .hidden.flex.flex-col.overflow-auto.sidebar-scroll.mt-1(data-reports-dropdown-target="list" style="max-height: calc(100vh - 420px)")
+                  - generated_reports.each do |generated_report|
+                    = link_to generated_report_path(generated_report), class: "sidebar-link" do
+                      %span
+                        = generated_report.report.keywords.join(", ")
+                        \-
+                        = generated_report.created_at.strftime("%e %B")
           %div.px-2.py-4(style="border-top: 1px solid var(--border)")
             %p.section-label.mb-2 Manage
             - if user_signed_in?

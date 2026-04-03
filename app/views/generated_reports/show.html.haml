@@ -1,0 +1,19 @@
+- renderer = Redcarpet::Render::HTML.new
+- markdown = Redcarpet::Markdown.new(renderer, extensions = {})
+- @title = "- Report #{@report.keywords.join(", ")} - #{@generated_report.created_at.strftime("%e %B")}"
+- content_for :meta_title do
+  = @title
+
+.p-2.overflow-auto(class="#{mobile? ? '' : 'w-160'}" style="height: calc(100vh);")
+  .pt-4.flex.flex-col
+    .text-2xl
+      Report
+    .text-lg
+      = @report.keywords.join(", ")
+      \-
+      = @generated_report.created_at.strftime("%e %B")
+  
+  .pt-4
+    - msg = markdown.render(@generated_report.summary)
+    = raw msg
+    

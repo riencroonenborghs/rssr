@@ -52,3 +52,4 @@ db/v3
 /storage/test*
 /storage/foo*
 /storage/production*
+/assets.zip

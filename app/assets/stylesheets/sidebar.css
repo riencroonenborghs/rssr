@@ -40,7 +40,7 @@ body { font-family: 'DM Sans', sans-serif; }
 }
 .nav-primary:hover { background: var(--hover-bg); color: var(--accent); }
 .nav-primary .badge { font-size: 0.7rem; color: var(--accent-dim); font-weight: 400; }
-.feeds-toggle {
+.feeds-toggle, .reports-toggle {
   display: flex; align-items: center; justify-content: space-between;
   width: 100%; padding: 0.55rem 0.75rem; border-radius: 6px;
   background: none; border: none; cursor: pointer;
@@ -48,8 +48,8 @@ body { font-family: 'DM Sans', sans-serif; }
   letter-spacing: 0.18em; text-transform: uppercase;
   transition: color 0.18s ease;
 }
-.feeds-toggle:hover { color: var(--accent); }
-.feeds-toggle .arrow {
+.feeds-toggle:hover, .reports-toggle:hover { color: var(--accent); }
+.feeds-toggle .arrow, .reports-toggle .arrow {
   font-size: 0.7rem; transition: transform 0.22s ease; color: var(--accent-dim);
 }
 .divider {
