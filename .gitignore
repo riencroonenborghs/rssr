@@ -53,3 +53,6 @@ db/v3
 /storage/foo*
 /storage/production*
 /assets.zip
+/config/production.rb
+/config/staging.rb
+/config/deploy/*
