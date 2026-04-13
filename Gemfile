@@ -29,7 +29,7 @@ gem "sass-rails", "= 5.1.0"
 gem "sidekiq"
 gem "sidekiq-cron"
 gem "sprockets-rails", "~> 3.5"
-gem "sqlite3", force_ruby_platform: true
+gem "sqlite3"
 gem "stimulus-rails", "~> 1.3"
 gem "turbo-rails", "~> 2.0"
 gem "valid_url"
