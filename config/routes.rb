@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'sidekiq/web'
 require 'sidekiq/cron/web'
 
@@ -21,6 +23,21 @@ Rails.application.routes.draw do
       resources :subscriptions, only: [:index, :new, :create, :destroy]
       resources :filters, only: [:index, :new, :create, :destroy]
       resources :search, only: [:new, :create]
+    end
+  end
+  
+  namespace :api do
+    namespace :v1 do
+      devise_for :users, controllers: {
+        sessions: "api/v1/users/sessions"
+      }
+
+      resources :unread, only: [:index]
+      resources :feeds, only: [:index, :show] do
+        resources :entries, only: [:show]
+      end
+      resources :tags, only: [:show]
+      resources :bookmarks, only: [:index, :create, :destroy]
     end
   end
 

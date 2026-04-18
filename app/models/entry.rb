@@ -54,6 +54,12 @@ class Entry < ApplicationRecord
 
   attr_accessor :show_entry
 
+  def viewed?(user)
+    return false unless user
+
+    viewed_entries.where(user_id: user.id).any?
+  end
+
   def bookmarked?(user)
     return false unless user
 
