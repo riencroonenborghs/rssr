@@ -4,6 +4,8 @@ import 'screens/sign_in_screen.dart';
 import 'screens/unread_screen.dart';
 import 'services/auth_service.dart';
 
+enum ViewMode { cards, table }
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const RssrApp());
@@ -21,9 +23,13 @@ class RssrApp extends StatefulWidget {
 
 class RssrAppState extends State<RssrApp> {
   ThemeMode _themeMode = ThemeMode.system;
+  ViewMode _viewMode = ViewMode.cards;
 
   void setThemeMode(ThemeMode mode) => setState(() => _themeMode = mode);
   ThemeMode get themeMode => _themeMode;
+
+  void setViewMode(ViewMode mode) => setState(() => _viewMode = mode);
+  ViewMode get viewMode => _viewMode;
 
   @override
   Widget build(BuildContext context) {

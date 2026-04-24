@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '../models/entry.dart';
 import '../services/entries_service.dart';
 import '../services/quick_links_service.dart';
-import '../main.dart';
 import 'entry_screen.dart';
+import 'settings_screen.dart';
 
 // Reusable paginated entries list used by FeedScreen and TagScreen.
 class EntriesScreen extends StatefulWidget {
@@ -752,7 +752,6 @@ class _AppDrawerState extends State<AppDrawer> {
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
     final isDark = theme.brightness == Brightness.dark;
-    final appState = RssrApp.of(context);
 
     return Drawer(
       child: Column(
@@ -918,14 +917,6 @@ class _AppDrawerState extends State<AppDrawer> {
             ),
           ),
 
-          Padding(
-            padding: const EdgeInsets.fromLTRB(12, 0, 12, 4),
-            child: ThemeToggleTile(
-              current: appState.themeMode,
-              onChanged: appState.setThemeMode,
-            ),
-          ),
-
           Divider(
             height: 1,
             color: isDark ? const Color(0xFF252830) : const Color(0xFFE4EAF4),
@@ -934,133 +925,38 @@ class _AppDrawerState extends State<AppDrawer> {
           ),
 
           Padding(
-            padding: const EdgeInsets.fromLTRB(12, 4, 12, 16),
-            child: ListTile(
-              leading: Icon(Icons.logout, size: 20, color: cs.outline),
-              title: Text(
-                'Sign out',
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: cs.onSurface,
+            padding: const EdgeInsets.fromLTRB(12, 4, 12, 4),
+            child: Column(
+              children: [
+                _NavItem(
+                  icon: Icons.settings_outlined,
+                  label: 'Settings',
+                  selected: widget.activeRoute == 'settings',
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    if (widget.activeRoute != 'settings') {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const SettingsScreen()),
+                      );
+                    }
+                  },
                 ),
-              ),
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
-              minLeadingWidth: 20,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8)),
-              onTap: () {
-                Navigator.of(context).pop();
-                widget.onSignOut();
-              },
+                _NavItem(
+                  icon: Icons.logout,
+                  label: 'Sign out',
+                  selected: false,
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    widget.onSignOut();
+                  },
+                ),
+              ],
             ),
           ),
+          const SizedBox(height: 8),
         ],
       ),
     );
   }
 }
 
-class ThemeToggleTile extends StatelessWidget {
-  final ThemeMode current;
-  final ValueChanged<ThemeMode> onChanged;
-
-  const ThemeToggleTile({
-    super.key,
-    required this.current,
-    required this.onChanged,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final cs = theme.colorScheme;
-    final isDark = theme.brightness == Brightness.dark;
-
-    final options = [
-      (ThemeMode.light, Icons.light_mode_outlined, 'Light'),
-      (ThemeMode.system, Icons.brightness_auto_outlined, 'Auto'),
-      (ThemeMode.dark, Icons.dark_mode_outlined, 'Dark'),
-    ];
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 4, bottom: 8),
-            child: Text(
-              'Appearance',
-              style: theme.textTheme.labelSmall?.copyWith(
-                color: cs.outline,
-                letterSpacing: 0.6,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              color: isDark
-                  ? const Color(0xFF1C2030)
-                  : const Color(0xFFF0F2F8),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            padding: const EdgeInsets.all(3),
-            child: Row(
-              children: options.map((opt) {
-                final (mode, icon, label) = opt;
-                final selected = current == mode;
-                return Expanded(
-                  child: GestureDetector(
-                    onTap: () => onChanged(mode),
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 180),
-                      curve: Curves.easeInOut,
-                      padding: const EdgeInsets.symmetric(vertical: 7),
-                      decoration: BoxDecoration(
-                        color: selected
-                            ? (isDark ? const Color(0xFF2D4A8A) : cs.primary)
-                            : Colors.transparent,
-                        borderRadius: BorderRadius.circular(7),
-                        boxShadow: selected && !isDark
-                            ? [
-                                BoxShadow(
-                                  color: cs.primary.withValues(alpha: 0.25),
-                                  blurRadius: 6,
-                                  offset: const Offset(0, 2),
-                                ),
-                              ]
-                            : null,
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            icon,
-                            size: 16,
-                            color: selected ? Colors.white : cs.outline,
-                          ),
-                          const SizedBox(height: 3),
-                          Text(
-                            label,
-                            style: theme.textTheme.labelSmall?.copyWith(
-                              color: selected ? Colors.white : cs.outline,
-                              fontWeight: selected
-                                  ? FontWeight.w600
-                                  : FontWeight.w400,
-                              fontSize: 10,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              }).toList(),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}

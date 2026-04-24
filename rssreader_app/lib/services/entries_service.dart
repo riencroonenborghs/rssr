@@ -3,7 +3,8 @@ import 'package:http/http.dart' as http;
 import '../models/entry.dart';
 
 class EntriesService {
-  static const _baseUrl = 'https://rssreader.croonenborghs.net';
+  static const _baseUrl = 'http://localhost:3000';
+  // static const _baseUrl = 'https://rssreader.croonenborghs.net';
 
   // Tracks bookmark state across screens for the session lifetime.
   static final Set<int> _bookmarkedIds = {};

@@ -3,7 +3,8 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
-  static const _baseUrl = 'https://rssreader.croonenborghs.net';
+  static const _baseUrl = 'http://localhost:3000';
+  // static const _baseUrl = 'https://rssreader.croonenborghs.net';
   static const _cookieKey = 'session_cookie';
 
   Future<({String csrfToken, String cookie})> _fetchCsrf() async {
