@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/entry.dart';
+import '../main.dart';
 import '../services/auth_service.dart';
 import '../services/entries_service.dart';
 import 'entries_screen.dart';
@@ -193,11 +194,13 @@ class _UnreadScreenState extends State<UnreadScreen> {
       );
     }
 
+    final isTable = RssrApp.of(context).viewMode == ViewMode.table;
+
     return RefreshIndicator(
       onRefresh: () => _load(refresh: true),
       child: ListView.builder(
         controller: _scrollController,
-        padding: const EdgeInsets.fromLTRB(12, 8, 12, 16),
+        padding: isTable ? EdgeInsets.zero : const EdgeInsets.fromLTRB(12, 8, 12, 16),
         itemCount: _entries.length + (_loadingMore ? 1 : 0),
         itemBuilder: (context, index) {
           if (index == _entries.length) {
@@ -205,6 +208,9 @@ class _UnreadScreenState extends State<UnreadScreen> {
               padding: EdgeInsets.all(24),
               child: Center(child: CircularProgressIndicator()),
             );
+          }
+          if (isTable) {
+            return EntryRow(entry: _entries[index], cookie: widget.cookie);
           }
           return EntryCard(entry: _entries[index], cookie: widget.cookie);
         },
