@@ -1,4 +1,8 @@
 @import "tailwindcss";
+@import "./sidebar";
+@import "./entries";
+@import "./entry";
+@import "./pagination";
 
 .pagination .page {
   padding: 0.2rem;
@@ -31,3 +35,6 @@
 .tag-size-7 { font-size: 1.0rem; }
 .tag-size-8 { font-size: 1.05rem; }
 .tag-size-9 { font-size: 1.15rem; }
+
+
+

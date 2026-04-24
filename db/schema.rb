@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_01_30_231638) do
+ActiveRecord::Schema[7.2].define(version: 2026_04_02_210434) do
   create_table "bookmarks", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "entry_id", null: false
@@ -88,6 +88,15 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_30_231638) do
     t.index ["value", "user_id"], name: "uniq_filter_val_usr_type"
   end
 
+  create_table "generated_reports", force: :cascade do |t|
+    t.integer "report_id", null: false
+    t.string "summary", null: false
+    t.string "prompt", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["report_id"], name: "index_generated_reports_on_report_id"
+  end
+
 # Could not dump table "old_taggings" because of following StandardError
 #   Unknown type '' for column 'id'
 
@@ -95,6 +104,17 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_30_231638) do
 # Could not dump table "old_tags" because of following StandardError
 #   Unknown type 'serial' for column 'id'
 
+
+  create_table "reports", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "keywords", null: false
+    t.integer "report_type", default: 0, null: false
+    t.datetime "last_generated_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "report_type"], name: "index_reports_on_user_id_and_report_type"
+    t.index ["user_id"], name: "index_reports_on_user_id"
+  end
 
 # Could not dump table "searchable_tags" because of following StandardError
 #   Unknown type '' for column 'taggable_type'
@@ -174,6 +194,9 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_30_231638) do
   add_foreign_key "bookmarks", "users"
   add_foreign_key "entries", "feeds"
   add_foreign_key "filters", "users"
+  add_foreign_key "generated_reports", "reports"
+  add_foreign_key "old_taggings", "old_tags", column: "tag_id"
+  add_foreign_key "reports", "users"
   add_foreign_key "subscriptions", "feeds"
   add_foreign_key "subscriptions", "users"
   add_foreign_key "taggings", "tags"

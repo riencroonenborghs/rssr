@@ -1,6 +1,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
+gem "anthropic", "~> 1.25.0"
 gem "base64", "0.2.0"
 gem "bootsnap", ">= 1.4.2", require: false
 gem "brakeman"
@@ -17,9 +18,9 @@ gem "httparty"
 gem "jbuilder", "~> 2.7"
 gem "jsbundling-rails", "~> 1.3"
 gem "kaminari"
-gem "mina"
 gem "opml-parser"
 gem "puma", ">= 5.6.2"
+gem "redcarpet", "~> 3.6"
 gem "rails", "~> 7.2.0"
 gem "rollbar"
 gem "rubocop"
@@ -28,7 +29,7 @@ gem "sass-rails", "= 5.1.0"
 gem "sidekiq"
 gem "sidekiq-cron"
 gem "sprockets-rails", "~> 3.5"
-gem "sqlite3", force_ruby_platform: true
+gem "sqlite3"
 gem "stimulus-rails", "~> 1.3"
 gem "turbo-rails", "~> 2.0"
 gem "valid_url"
@@ -50,4 +51,17 @@ group :development do
   gem "spring"
   gem "spring-watcher-listen"
   gem "web-console", ">= 3.3.0"
+end
+
+group :development do
+  gem 'capistrano'
+  gem 'capistrano-rails'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rbenv'        # or capistrano-rvm depending on your ruby manager
+  gem "capistrano3-puma", "~> 7.1"
+  gem 'capistrano-nvm', require: false
+
+  # capistrano
+  gem "ed25519", "~> 1.4" 
+  gem "bcrypt_pbkdf", "~> 1.1"
 end

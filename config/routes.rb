@@ -23,6 +23,7 @@ Rails.application.routes.draw do
       resources :subscriptions, only: [:index, :new, :create, :destroy]
       resources :filters, only: [:index, :new, :create, :destroy]
       resources :search, only: [:new, :create]
+      resources :generated_reports, only: [:show]
     end
   end
   

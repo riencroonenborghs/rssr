@@ -26,4 +26,5 @@ class User < ApplicationRecord
   has_many :viewed_entries
   has_many :bookmarks, dependent: :destroy
   has_many :filters, dependent: :destroy
+  has_many :reports, dependent: :destroy
 end

@@ -41,6 +41,13 @@ class ApplicationController < ActionController::Base
   end
   helper_method :active_feeds
 
+  def generated_reports
+    return GeneratedReport.none unless user_signed_in?
+
+    GeneratedReport.joins(:report).merge(current_user.reports).order(created_at: :desc)
+  end
+  helper_method :generated_reports
+
   private
 
   def page

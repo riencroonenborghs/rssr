@@ -10,114 +10,128 @@
     %link(rel="apple-touch-icon" href="#{asset_path("apple-touch.png")}")
     = csrf_meta_tags
     = csp_meta_tag
-
+    %link(rel="preconnect" href="https://fonts.googleapis.com")
+    %link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin="")
+    %link(href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet")
     = javascript_include_tag "application", type: "module"
     = stylesheet_link_tag "application"
+    %link(href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@600&display=swap" rel="stylesheet")
+
   %body(class="c_#{controller_name} a_#{action_name} #{'signed-in' if current_user} #{'mobile' if mobile?}" data-controller="alerts")
     = turbo_frame_tag :meta_title
+
     - if mobile?
       .flex.flex-col.mobile(data-controller="menu")
-        .flex.flex-row.justify-between.items-center.p-2.bg-gray-700.text-white
-          = link_to root_path do
-            RSS Reader
-            = yield :meta_title 
-          = link_to "#", data: { action: "click->menu#show" } do
+        .flex.flex-row.justify-between.items-center.px-4.py-3(style="background: var(--sidebar-bg); border-bottom: 1px solid var(--border)")
+          %a.logo-wordmark(href="/")
+            RSSReader
+          = link_to "#", data: { action: "click->menu#show" }, style: "color: var(--text-muted); font-size: 1.2rem; text-decoration: none;" do
             &#926;
-        #menu.w-full.p-2.flex.flex-col.absolute.bg-white.hidden(style="height: calc(100vh - 40px); top: 40px;")
-          .flex.flex-row.items-center.justify-between.pb-4
-            .text-xl
-              Menu
-            = link_to "#", data: { action: "click->menu#hide" } do
+        #menu.w-full.p-4.flex.flex-col.absolute.hidden(style="height: calc(100vh - 48px); top: 48px; background: var(--sidebar-bg); border-right: 1px solid var(--border)")
+          .flex.flex-row.items-center.justify-between.mb-4
+            %span(style="color: var(--text-muted); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase") Navigation
+            = link_to "#", data: { action: "click->menu#hide" }, style: "color: var(--text-muted); text-decoration: none;" do
               &#8855;
-          = link_to root_path do
-            .flex.flex-row.justify-between.items-center
-              .text-xl.uppercase
-                Unread
-              .text-thin.text-xs
-                = unread_count
+          = link_to root_path, class: "nav-primary" do
+            %span Unread
+            %span.badge= unread_count
           - if user_signed_in?
-            = link_to bookmarks_path do
-              .flex.flex-row.justify-between.items-center
-                .text-xl.uppercase
-                  Bookmarks
-                .text-thin.text-xs
-                  = bookmarks_count
-          .pt-4.uppercase.font-bolder.text-gray-800.text-xl
-            Feeds
-          .flex.flex-col.overflow-auto(style="height: calc(100vh - 140px - 180px - 50px)")
-            - active_feeds.each do |feed, count|
-              = link_to feed_path(feed), data: { "turbo-frame": "entries" }  do
-                .flex.flex-row.justify-between.items-center
-                  %div
-                    = feed.title
-                  .text-thin.text-xs
-                    = count
-          .pt-6.uppercase.font-bolder.text-gray-800.text-xl.pb-2
-            MANAGE
+            = link_to bookmarks_path, class: "nav-primary" do
+              %span Bookmarks
+              %span.badge= bookmarks_count
+          .divider
+          %div(data-controller="feeds-dropdown")
+            %button.feeds-toggle(data-action="click->feeds-dropdown#toggle" type="button")
+              %span Feeds
+              %span.arrow(data-feeds-dropdown-target="arrow" style="transform: rotate(-90deg)") ▾
+            .hidden.flex.flex-col.overflow-auto.sidebar-scroll.mt-1(data-feeds-dropdown-target="list" style="max-height: calc(100vh - 450px)")
+              - active_feeds.each do |feed, count|
+                = link_to feed_path(feed), class: "sidebar-link", data: { "turbo-frame": "entries" } do
+                  %span= feed.title
+                  %span.badge= count
           - if user_signed_in?
-            = link_to subscriptions_path do
+            .divider
+            .px-2(data-controller="reports-dropdown")
+              %button.reports-toggle(data-action="click->reports-dropdown#toggle" type="button")
+                %span Daily Reports
+                %span.arrow(data-reports-dropdown-target="arrow" style="transform: rotate(-90deg)") ▾
+              .hidden.flex.flex-col.overflow-auto.sidebar-scroll.mt-1(data-reports-dropdown-target="list" style="max-height: calc(100vh - 420px)")
+                - generated_reports.each do |generated_report|
+                  = link_to generated_report_path(generated_report), class: "sidebar-link" do
+                    %span
+                      = generated_report.report.keywords.join(", ")
+                      \-
+                      = generated_report.created_at.strftime("%e %B")
+          .divider
+          %p.section-label Manage
+          - if user_signed_in?
+            = link_to subscriptions_path, class: "manage-link" do
               Subscriptions
-            = link_to filters_path do
+            = link_to filters_path, class: "manage-link" do
               Filters
-            = link_to "/sidekiq", target: "_blank" do
+            = link_to "/sidekiq", class: "manage-link", target: "_blank" do
               Sidekiq
-          %div
-            - if user_signed_in?
-              = link_to new_user_session_path, target: "_blank" do
-                Sign Out
-            - else
-              = link_to new_user_session_path, target: "_blank" do
-                Sign in
+          - if user_signed_in?
+            = link_to new_user_session_path, class: "manage-link", target: "_blank" do
+              Sign Out
+          - else
+            = link_to new_user_session_path, class: "manage-link", target: "_blank" do
+              Sign In
         = yield
 
     - else
       .flex.flex-row
-        .w-64.bg-gray-700.text-white(style="height: calc(100vh)")
-          .flex.flex-col.h-full.justify-between
-            #top.p-2
-              .flex.flex-row.justify-center.text-3xl.font-bold
-                = link_to root_path do
-                  RSS Reader
-              .pt-4
-                = link_to root_path do
-                  .flex.flex-row.justify-between.items-center
-                    .text-xl.uppercase
-                      Unread
-                    .text-thin.text-xs
-                      = unread_count
-                - if user_signed_in?
-                  = link_to bookmarks_path do
-                    .flex.flex-row.justify-between.items-center
-                      .text-xl.uppercase
-                        Bookmarks
-                      .text-thin.text-xs
-                        = bookmarks_count
-              .pt-4.uppercase.font-bolder.text-gray-800.text-xl
-                Feeds
-              .flex.flex-col.overflow-auto(style="height: calc(100vh - 140px - 180px - 24px)")
-                - active_feeds.each do |feed, count|
-                  = link_to feed_path(feed), data: { "turbo-frame": "entries" }  do
-                    .flex.flex-row.justify-between.items-center
-                      %div
-                        = feed.title
-                      .text-thin.text-xs
-                        = count
-            #bottom.p-2.flex.flex-col
-              .pt-6.uppercase.font-bolder.text-gray-800.text-xl.pb-2
-                MANAGE
+        %aside(style="width: 232px; min-width: 232px; height: 100vh; background: var(--sidebar-bg); border-right: 1px solid var(--border); display: flex; flex-direction: column; justify-content: space-between;")
+          %div
+            .px-5.py-5(style="border-bottom: 1px solid var(--border)")
+              %a.logo-wordmark(href="/")
+                RSSReader
+            .px-2.pt-4
+              = link_to root_path, class: "nav-primary" do
+                %span Unread
+                %span.badge= unread_count
               - if user_signed_in?
-                = link_to subscriptions_path do
-                  Subscriptions
-                = link_to filters_path do
-                  Filters
-                = link_to "/sidekiq", target: "_blank" do
-                  Sidekiq
-              %div
-                - if user_signed_in?
-                  = link_to new_user_session_path, target: "_blank" do
-                    Sign Out
-                - else
-                  = link_to new_user_session_path, target: "_blank" do
-                    Sign in
+                = link_to bookmarks_path, class: "nav-primary" do
+                  %span Bookmarks
+                  %span.badge= bookmarks_count
+            .divider
+            .px-2(data-controller="feeds-dropdown")
+              %button.feeds-toggle(data-action="click->feeds-dropdown#toggle" type="button")
+                %span Feeds
+                %span.arrow(data-feeds-dropdown-target="arrow" style="transform: rotate(-90deg)") ▾
+              .hidden.flex.flex-col.overflow-auto.sidebar-scroll.mt-1(data-feeds-dropdown-target="list" style="max-height: calc(100vh - 420px)")
+                - active_feeds.each do |feed, count|
+                  = link_to feed_path(feed), class: "sidebar-link", data: { "turbo-frame": "entries" } do
+                    %span= feed.title
+                    %span.badge= count
+            - if user_signed_in?
+              .divider
+              .px-2(data-controller="reports-dropdown")
+                %button.reports-toggle(data-action="click->reports-dropdown#toggle" type="button")
+                  %span Daily Reports
+                  %span.arrow(data-reports-dropdown-target="arrow" style="transform: rotate(-90deg)") ▾
+                .hidden.flex.flex-col.overflow-auto.sidebar-scroll.mt-1(data-reports-dropdown-target="list" style="max-height: calc(100vh - 420px)")
+                  - generated_reports.each do |generated_report|
+                    = link_to generated_report_path(generated_report), class: "sidebar-link" do
+                      %span
+                        = generated_report.report.keywords.join(", ")
+                        \-
+                        = generated_report.created_at.strftime("%e %B")
+          %div.px-2.py-4(style="border-top: 1px solid var(--border)")
+            %p.section-label.mb-2 Manage
+            - if user_signed_in?
+              = link_to subscriptions_path, class: "manage-link" do
+                Subscriptions
+              = link_to filters_path, class: "manage-link" do
+                Filters
+              = link_to "/sidekiq", class: "manage-link", target: "_blank" do
+                Sidekiq
+            .mt-3
+              - if user_signed_in?
+                = link_to new_user_session_path, class: "manage-link", target: "_blank" do
+                  Sign Out
+              - else
+                = link_to new_user_session_path, class: "manage-link", target: "_blank" do
+                  Sign In
         = yield
   = render "/layouts/flash"
