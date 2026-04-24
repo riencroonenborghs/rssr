@@ -41,7 +41,7 @@ module Reports
     def create_prompt
       @prompt = ["Create a summary of the following points. Be concise and to the point. Don't generalize. Only report within the timeline given. No timestamps, just a summary."].tap do |ret|
         @entries.each do |entry|
-          ret << "* (#{entry.published_at.iso8601}) #{entry.description}"
+          ret << "* (#{entry.published_at.iso8601}) #{ActionView::Base.full_sanitizer.sanitize(entry.description)}"
         end
       end.join("\n")
     end

@@ -1,4 +1,4 @@
-web: bundle exec puma -C ./config/puma.rb
+web: RAILS_ENV=development bundle exec puma -C ./config/puma.rb
 log: tail -f log/development.log
 workers: bundle exec sidekiq -C config/sidekiq.yml
 css: yarn build:css --watch
