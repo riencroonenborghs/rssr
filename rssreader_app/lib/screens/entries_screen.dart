@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import '../models/entry.dart';
+import '../models/report.dart';
 import '../services/entries_service.dart';
 import '../services/quick_links_service.dart';
 import '../main.dart';
 import 'entry_screen.dart';
+import 'report_screen.dart';
 import 'settings_screen.dart';
 
 // Reusable paginated entries list used by FeedScreen and TagScreen.
@@ -901,6 +903,51 @@ class _EntryRowState extends State<EntryRow> {
   }
 }
 
+class _AccordionHeader extends StatelessWidget {
+  final String label;
+  final bool expanded;
+  final VoidCallback onTap;
+  final ThemeData theme;
+  final ColorScheme cs;
+
+  const _AccordionHeader({
+    required this.label,
+    required this.expanded,
+    required this.onTap,
+    required this.theme,
+    required this.cs,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(8),
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(4, 8, 4, 8),
+        child: Row(
+          children: [
+            Text(
+              label,
+              style: theme.textTheme.labelSmall?.copyWith(
+                color: cs.outline,
+                letterSpacing: 0.8,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const Spacer(),
+            AnimatedRotation(
+              turns: expanded ? 0.5 : 0,
+              duration: const Duration(milliseconds: 200),
+              child: Icon(Icons.expand_more, size: 16, color: cs.outline),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class _NavItem extends StatelessWidget {
   final IconData? icon;
   final String label;
@@ -977,13 +1024,16 @@ class _AppDrawerState extends State<AppDrawer> {
   final _service = EntriesService();
   final _quickLinksService = QuickLinksService();
   List<Feed> _feeds = [];
-  bool _feedsExpanded = true;
+  bool _feedsExpanded = false;
+  List<DailyReport> _reports = [];
+  bool _reportsExpanded = false;
   List<QuickLink> _quickLinks = [];
 
   @override
   void initState() {
     super.initState();
     _loadFeeds();
+    _loadReports();
     _loadQuickLinks();
   }
 
@@ -991,6 +1041,13 @@ class _AppDrawerState extends State<AppDrawer> {
     try {
       final feeds = await _service.fetchFeeds(widget.cookie);
       if (mounted) setState(() => _feeds = feeds);
+    } catch (_) {}
+  }
+
+  Future<void> _loadReports() async {
+    try {
+      final reports = await _service.fetchDailyReports(widget.cookie);
+      if (mounted) setState(() => _reports = reports);
     } catch (_) {}
   }
 
@@ -1002,6 +1059,12 @@ class _AppDrawerState extends State<AppDrawer> {
   Future<void> _removeQuickLink(int id, QuickLinkType type) async {
     await _quickLinksService.remove(id, type);
     if (mounted) setState(() => _quickLinks.removeWhere((l) => l.id == id && l.type == type));
+  }
+
+  String _formatReportDate(DateTime dt) {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    return '${months[dt.month - 1]} ${dt.day}, ${dt.year}';
   }
 
   @override
@@ -1072,19 +1135,31 @@ class _AppDrawerState extends State<AppDrawer> {
                     }
                   },
                 ),
-                if (_quickLinks.isNotEmpty) ...[
-                  const SizedBox(height: 8),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(4, 8, 4, 4),
-                    child: Text(
-                      'QUICK LINKS',
-                      style: theme.textTheme.labelSmall?.copyWith(
-                        color: cs.outline,
-                        letterSpacing: 0.8,
-                        fontWeight: FontWeight.w600,
-                      ),
+                const SizedBox(height: 8),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(4, 8, 4, 4),
+                  child: Text(
+                    'QUICK LINKS',
+                    style: theme.textTheme.labelSmall?.copyWith(
+                      color: cs.outline,
+                      letterSpacing: 0.8,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
+                ),
+                if (_quickLinks.isEmpty)
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(4, 2, 4, 4),
+                    child: Text(
+                      'Press and hold feeds and tags for quick access',
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: cs.outline,
+                        fontSize: 12,
+                        height: 1.4,
+                      ),
+                    ),
+                  )
+                else
                   ..._quickLinks.map((link) {
                     final icon = link.type == QuickLinkType.feed
                         ? Icons.rss_feed_rounded
@@ -1116,33 +1191,14 @@ class _AppDrawerState extends State<AppDrawer> {
                       },
                     );
                   }),
-                ],
                 if (_feeds.isNotEmpty) ...[
                   const SizedBox(height: 8),
-                  InkWell(
-                    borderRadius: BorderRadius.circular(8),
+                  _AccordionHeader(
+                    label: 'FEEDS',
+                    expanded: _feedsExpanded,
                     onTap: () => setState(() => _feedsExpanded = !_feedsExpanded),
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(4, 8, 4, 8),
-                      child: Row(
-                        children: [
-                          Text(
-                            'FEEDS',
-                            style: theme.textTheme.labelSmall?.copyWith(
-                              color: cs.outline,
-                              letterSpacing: 0.8,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          const Spacer(),
-                          AnimatedRotation(
-                            turns: _feedsExpanded ? 0.5 : 0,
-                            duration: const Duration(milliseconds: 200),
-                            child: Icon(Icons.expand_more, size: 16, color: cs.outline),
-                          ),
-                        ],
-                      ),
-                    ),
+                    theme: theme,
+                    cs: cs,
                   ),
                   AnimatedCrossFade(
                     duration: const Duration(milliseconds: 200),
@@ -1161,6 +1217,42 @@ class _AppDrawerState extends State<AppDrawer> {
                                     cookie: widget.cookie,
                                     feedId: feed.id,
                                     feedTitle: feed.title,
+                                  ),
+                                ),
+                              );
+                            },
+                          )).toList(),
+                    ),
+                    secondChild: const SizedBox.shrink(),
+                  ),
+                ],
+                if (_reports.isNotEmpty) ...[
+                  const SizedBox(height: 8),
+                  _AccordionHeader(
+                    label: 'REPORTS',
+                    expanded: _reportsExpanded,
+                    onTap: () => setState(() => _reportsExpanded = !_reportsExpanded),
+                    theme: theme,
+                    cs: cs,
+                  ),
+                  AnimatedCrossFade(
+                    duration: const Duration(milliseconds: 200),
+                    crossFadeState: _reportsExpanded
+                        ? CrossFadeState.showFirst
+                        : CrossFadeState.showSecond,
+                    firstChild: Column(
+                      children: _reports.map((report) => _NavItem(
+                            icon: Icons.summarize_outlined,
+                            label: _formatReportDate(report.createdAt),
+                            selected: false,
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) => ReportScreen(
+                                    cookie: widget.cookie,
+                                    reportId: report.id,
+                                    previewDate: report.createdAt,
                                   ),
                                 ),
                               );

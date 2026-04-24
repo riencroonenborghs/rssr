@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/entry.dart';
+import '../models/report.dart';
 
 class EntriesService {
   static const _baseUrl = 'http://localhost:3000';
@@ -162,5 +163,23 @@ class EntriesService {
         .toList();
     final meta = PaginationMeta.fromJson(data['meta'] as Map<String, dynamic>);
     return (tag: tag, entries: entries, meta: meta);
+  }
+
+  Future<List<DailyReport>> fetchDailyReports(String cookie) async {
+    final uri = Uri.parse('$_baseUrl/api/v1/reports/daily.json');
+    final response = await http.get(uri, headers: _headers(cookie));
+    if (response.statusCode != 200) throw Exception('HTTP ${response.statusCode}');
+    final data = jsonDecode(response.body) as Map<String, dynamic>;
+    return (data['reports'] as List<dynamic>)
+        .map((r) => DailyReport.fromJson(r as Map<String, dynamic>))
+        .toList();
+  }
+
+  Future<DailyReport> fetchDailyReport(String cookie, int id) async {
+    final uri = Uri.parse('$_baseUrl/api/v1/reports/daily/$id.json');
+    final response = await http.get(uri, headers: _headers(cookie));
+    if (response.statusCode != 200) throw Exception('HTTP ${response.statusCode}');
+    final data = jsonDecode(response.body) as Map<String, dynamic>;
+    return DailyReport.fromJson(data['report'] as Map<String, dynamic>);
   }
 }
