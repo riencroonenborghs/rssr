@@ -741,7 +741,7 @@ class _EntryRowState extends State<EntryRow> {
             color: rowColor,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Thumbnail or feed avatar
                 ClipRRect(
@@ -775,8 +775,6 @@ class _EntryRowState extends State<EntryRow> {
                     children: [
                       Text(
                         entry.title,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
                         style: theme.textTheme.bodyMedium?.copyWith(
                           color: titleColor,
                           fontWeight: _viewed ? FontWeight.w400 : FontWeight.w600,

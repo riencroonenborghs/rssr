@@ -5,7 +5,7 @@ json.entries @entries do |entry|
   json.link entry.link
   json.image entry.image
   json.published_at entry.published_at
-  json.viewed @viewed_entries.key?(entry.id)
+  json.viewed false
   json.bookmarked true
   json.bookmark_id @bookmarks[entry.id]&.id
   json.tags (@tags_by_entry[entry.id] || []) do |tag|

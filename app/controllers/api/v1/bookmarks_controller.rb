@@ -6,7 +6,6 @@ module Api
       def index
         @entries = Entry.where(id: current_user.bookmarks.select(:entry_id)).most_recent_first.page(page)
         set_tags_by_entry
-        set_viewed_entries
         set_bookmarks
       end
 
