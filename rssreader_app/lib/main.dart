@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/sign_in_screen.dart';
 import 'screens/unread_screen.dart';
 import 'services/auth_service.dart';
@@ -28,8 +29,26 @@ class RssrAppState extends State<RssrApp> {
   void setThemeMode(ThemeMode mode) => setState(() => _themeMode = mode);
   ThemeMode get themeMode => _themeMode;
 
-  void setViewMode(ViewMode mode) => setState(() => _viewMode = mode);
   ViewMode get viewMode => _viewMode;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadViewMode();
+  }
+
+  Future<void> _loadViewMode() async {
+    final prefs = await SharedPreferences.getInstance();
+    final stored = prefs.getString('view_mode');
+    if (stored != null && mounted) {
+      setState(() => _viewMode = ViewMode.values.byName(stored));
+    }
+  }
+
+  void setViewMode(ViewMode mode) {
+    setState(() => _viewMode = mode);
+    SharedPreferences.getInstance().then((p) => p.setString('view_mode', mode.name));
+  }
 
   @override
   Widget build(BuildContext context) {

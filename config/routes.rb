@@ -39,6 +39,10 @@ Rails.application.routes.draw do
       end
       resources :tags, only: [:show]
       resources :bookmarks, only: [:index, :create, :destroy]
+
+      namespace :reports do
+        resources :daily, only: [:index, :show]
+      end
     end
   end
 
