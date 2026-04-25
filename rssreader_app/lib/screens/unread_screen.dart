@@ -200,7 +200,7 @@ class _UnreadScreenState extends State<UnreadScreen> {
       onRefresh: () => _load(refresh: true),
       child: ListView.builder(
         controller: _scrollController,
-        padding: isTable ? EdgeInsets.zero : const EdgeInsets.fromLTRB(12, 8, 12, 16),
+        padding: EdgeInsets.zero,
         itemCount: _entries.length + (_loadingMore ? 1 : 0),
         itemBuilder: (context, index) {
           if (index == _entries.length) {

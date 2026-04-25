@@ -192,7 +192,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
           onDismissed: (_) => _delete(filter, index),
           child: Container(
             decoration: BoxDecoration(
-              color: isDark ? const Color(0xFF161B27) : Colors.white,
+              color: isDark ? const Color(0xFF1E2921) : Colors.white,
               borderRadius: BorderRadius.circular(12),
             ),
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
@@ -283,7 +283,7 @@ class _AddFilterDialogState extends State<_AddFilterDialog> {
     final isDark = theme.brightness == Brightness.dark;
 
     return AlertDialog(
-      backgroundColor: isDark ? const Color(0xFF1C2030) : Colors.white,
+      backgroundColor: isDark ? const Color(0xFF1E2921) : Colors.white,
       title: Text('Add filter', style: TextStyle(color: cs.onSurface)),
       content: Column(
         mainAxisSize: MainAxisSize.min,

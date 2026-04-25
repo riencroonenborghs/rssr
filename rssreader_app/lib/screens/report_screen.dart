@@ -139,7 +139,7 @@ class _ReportScreenState extends State<ReportScreen> {
 
         if (report.summary != null && report.summary!.isNotEmpty) ...[
           const SizedBox(height: 24),
-          Divider(height: 1, color: isDark ? const Color(0xFF252830) : const Color(0xFFE4EAF4)),
+          Divider(height: 1, color: isDark ? const Color(0xFF1E2E1F) : const Color(0xFFDCEBDC)),
           const SizedBox(height: 24),
           Text(
             report.summary!,

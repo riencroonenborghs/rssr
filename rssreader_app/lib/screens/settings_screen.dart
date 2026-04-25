@@ -114,7 +114,7 @@ class _SettingsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF161B27) : Colors.white,
+        color: isDark ? const Color(0xFF1E2921) : Colors.white,
         borderRadius: BorderRadius.circular(12),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
@@ -220,7 +220,7 @@ class _ThemeSegmented extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF1C2030) : const Color(0xFFF0F2F8),
+        color: isDark ? const Color(0xFF141A14) : const Color(0xFFEFF5EF),
         borderRadius: BorderRadius.circular(10),
       ),
       padding: const EdgeInsets.all(3),
@@ -237,7 +237,7 @@ class _ThemeSegmented extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
                 color: selected
-                    ? (isDark ? const Color(0xFF2D4A8A) : cs.primary)
+                    ? cs.primary
                     : Colors.transparent,
                 borderRadius: BorderRadius.circular(7),
                 boxShadow: selected && !isDark
@@ -291,7 +291,7 @@ class _ViewModeSegmented extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF1C2030) : const Color(0xFFF0F2F8),
+        color: isDark ? const Color(0xFF141A14) : const Color(0xFFEFF5EF),
         borderRadius: BorderRadius.circular(10),
       ),
       padding: const EdgeInsets.all(3),
@@ -308,7 +308,7 @@ class _ViewModeSegmented extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
                 color: selected
-                    ? (isDark ? const Color(0xFF2D4A8A) : cs.primary)
+                    ? cs.primary
                     : Colors.transparent,
                 borderRadius: BorderRadius.circular(7),
                 boxShadow: selected && !isDark

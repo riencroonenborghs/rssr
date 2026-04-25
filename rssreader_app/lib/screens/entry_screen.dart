@@ -65,7 +65,7 @@ class _EntryScreenState extends State<EntryScreen> {
 
     return Scaffold(
       backgroundColor:
-          isDark ? const Color(0xFF0D0F14) : const Color(0xFFF0F2F8),
+          isDark ? const Color(0xFF141A14) : const Color(0xFFF4FAF4),
       body: _loading
           ? _buildLoading(cs)
           : _error != null
@@ -368,8 +368,8 @@ class _EntryScreenState extends State<EntryScreen> {
                   Divider(
                     height: 1,
                     color: isDark
-                        ? const Color(0xFF252830)
-                        : const Color(0xFFE4EAF4),
+                        ? const Color(0xFF1E2E1F)
+                        : const Color(0xFFDCEBDC),
                   ),
                   const SizedBox(height: 24),
                   _DescriptionBody(

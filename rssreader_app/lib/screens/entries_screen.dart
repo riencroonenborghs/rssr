@@ -206,7 +206,7 @@ class _EntriesScreenState extends State<EntriesScreen> {
         controller: _scrollController,
         padding: isTable
             ? EdgeInsets.zero
-            : const EdgeInsets.fromLTRB(12, 8, 12, 16),
+            : EdgeInsets.zero,
         itemCount: _entries.length + (_loadingMore ? 1 : 0),
         itemBuilder: (context, index) {
           if (index == _entries.length) {
@@ -386,8 +386,8 @@ class _EntryCardState extends State<EntryCard> {
 
     final viewed = _viewed;
     final cardColor = viewed
-        ? (isDark ? const Color(0xFF0F1219) : const Color(0xFFF7F8FA))
-        : (isDark ? const Color(0xFF161B27) : Colors.white);
+        ? (isDark ? const Color(0xFF141A14) : const Color(0xFFEFF5EF))
+        : (isDark ? const Color(0xFF1E2921) : Colors.white);
     final titleColor = viewed
         ? cs.onSurface.withValues(alpha: 0.45)
         : cs.onSurface;
@@ -395,23 +395,28 @@ class _EntryCardState extends State<EntryCard> {
         ? cs.outline
         : cs.primary;
 
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: Material(
+    return Column(
+      children: [
+        Material(
         color: cardColor,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.zero,
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: () => _openEntry(context),
           splashColor: cs.primary.withValues(alpha: 0.06),
           highlightColor: cs.primary.withValues(alpha: 0.04),
-          child: Column(
+          child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Image on the left
               if (hasImage)
-                SizedBox(
-                  height: 140,
-                  width: double.infinity,
+                Padding(
+                  padding: const EdgeInsets.only(top: 10, left: 12),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: SizedBox(
+                  width: 88,
+                  height: 88,
                   child: ColorFiltered(
                     colorFilter: viewed
                         ? const ColorFilter.matrix([
@@ -420,236 +425,231 @@ class _EntryCardState extends State<EntryCard> {
                             0.2126, 0.7152, 0.0722, 0, 0,
                             0,      0,      0,      0.5, 0,
                           ])
-                        : const ColorFilter.mode(
-                            Colors.transparent, BlendMode.dst),
+                        : const ColorFilter.mode(Colors.transparent, BlendMode.dst),
                     child: Image.network(
                       entry.image!,
                       fit: BoxFit.cover,
-                      errorBuilder: (context, error, stack) =>
-                          const SizedBox.shrink(),
+                      errorBuilder: (context, error, stack) => const SizedBox.shrink(),
+                    ),
+                  ),
                     ),
                   ),
                 ),
 
-              Padding(
-                padding: EdgeInsets.fromLTRB(12, hasImage ? 10 : 12, 12, 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Feed + date + viewed badge row
-                    Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => FeedScreen(
-                                cookie: widget.cookie,
-                                feedId: entry.feed.id,
-                                feedTitle: entry.feed.title,
-                              ),
-                            ),
-                          ),
-                          onLongPress: () async {
-                            await _quickLinksService.add(QuickLink(
-                              id: entry.feed.id,
-                              title: entry.feed.title,
-                              type: QuickLinkType.feed,
-                            ));
-                            if (context.mounted) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('${entry.feed.title} added to quick links'),
-                                  duration: const Duration(seconds: 2),
-                                ),
-                              );
-                            }
-                          },
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              CircleAvatar(
-                                radius: 8,
-                                backgroundColor: viewed
-                                    ? cs.outline.withValues(alpha: 0.15)
-                                    : cs.primary.withValues(alpha: 0.12),
-                                child: Text(
-                                  entry.feed.title.isNotEmpty
-                                      ? entry.feed.title[0].toUpperCase()
-                                      : '?',
-                                  style: TextStyle(
-                                    fontSize: 8,
-                                    fontWeight: FontWeight.w700,
-                                    color: feedColor,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 6),
-                              Text(
-                                entry.feed.title,
-                                style: theme.textTheme.labelSmall?.copyWith(
-                                  color: feedColor,
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 0.3,
-                                  decoration: TextDecoration.none,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const Spacer(),
-                        if (viewed)
-                          Container(
-                            margin: const EdgeInsets.only(right: 6),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 6, vertical: 1),
-                            decoration: BoxDecoration(
-                              color: isDark
-                                  ? const Color(0xFF252830)
-                                  : const Color(0xFFEBEDF2),
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            child: Text(
-                              'Read',
-                              style: theme.textTheme.labelSmall?.copyWith(
-                                color: cs.outline,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w500,
-                                letterSpacing: 0.3,
-                              ),
-                            ),
-                          ),
-                        if (entry.publishedAt != null)
-                          Text(
-                            _formatDate(entry.publishedAt!),
-                            style: theme.textTheme.labelSmall?.copyWith(
-                              color: cs.outline,
-                              fontSize: 11,
-                            ),
-                          ),
-                        const SizedBox(width: 4),
-                        GestureDetector(
-                          onTap: _toggleBookmark,
-                          child: _bookmarkLoading
-                              ? SizedBox(
-                                  width: 16,
-                                  height: 16,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 1.5,
-                                    color: cs.primary,
-                                  ),
-                                )
-                              : Icon(
-                                  _bookmarked
-                                      ? Icons.bookmark_rounded
-                                      : Icons.bookmark_outline_rounded,
-                                  size: 18,
-                                  color: _bookmarked ? cs.primary : cs.outline,
-                                ),
-                        ),
-                      ],
-                    ),
-
-                    const SizedBox(height: 5),
-
-                    // Title
-                    Text(
-                      entry.title,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        fontWeight: viewed ? FontWeight.w400 : FontWeight.w600,
-                        color: titleColor,
-                        height: 1.3,
-                        letterSpacing: -0.1,
-                      ),
-                      maxLines: hasImage ? 2 : 3,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-
-                    // Description
-                    if (!viewed &&
-                        entry.description != null &&
-                        entry.description!.isNotEmpty) ...[
-                      const SizedBox(height: 3),
-                      Text(
-                        entry.description!,
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: cs.onSurface.withValues(alpha: 0.55),
-                          height: 1.4,
-                          fontSize: 12,
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-
-                    // Tags
-                    if (entry.tags.isNotEmpty) ...[
-                      const SizedBox(height: 6),
-                      Wrap(
-                        spacing: 4,
-                        runSpacing: 4,
-                        children: entry.tags.map((tag) {
-                          return GestureDetector(
+              // Content
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Feed + date + bookmark row
+                      Row(
+                        children: [
+                          GestureDetector(
                             onTap: () => Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (_) => TagScreen(
+                                builder: (_) => FeedScreen(
                                   cookie: widget.cookie,
-                                  tagId: tag.id,
-                                  tagName: tag.name,
+                                  feedId: entry.feed.id,
+                                  feedTitle: entry.feed.title,
                                 ),
                               ),
                             ),
                             onLongPress: () async {
                               await _quickLinksService.add(QuickLink(
-                                id: tag.id,
-                                title: tag.name,
-                                type: QuickLinkType.tag,
+                                id: entry.feed.id,
+                                title: entry.feed.title,
+                                type: QuickLinkType.feed,
                               ));
                               if (context.mounted) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                    content: Text('${tag.name} added to quick links'),
+                                    content: Text('${entry.feed.title} added to quick links'),
                                     duration: const Duration(seconds: 2),
                                   ),
                                 );
                               }
                             },
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 7, vertical: 2),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                CircleAvatar(
+                                  radius: 8,
+                                  backgroundColor: viewed
+                                      ? cs.outline.withValues(alpha: 0.15)
+                                      : cs.primary.withValues(alpha: 0.12),
+                                  child: Text(
+                                    entry.feed.title.isNotEmpty
+                                        ? entry.feed.title[0].toUpperCase()
+                                        : '?',
+                                    style: TextStyle(
+                                      fontSize: 8,
+                                      fontWeight: FontWeight.w700,
+                                      color: feedColor,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 6),
+                                Text(
+                                  entry.feed.title,
+                                  style: theme.textTheme.labelSmall?.copyWith(
+                                    color: feedColor,
+                                    fontWeight: FontWeight.w600,
+                                    letterSpacing: 0.3,
+                                    decoration: TextDecoration.none,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const Spacer(),
+                          if (viewed)
+                            Container(
+                              margin: const EdgeInsets.only(right: 6),
+                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
                               decoration: BoxDecoration(
-                                color: viewed
-                                    ? (isDark
-                                        ? const Color(0xFF1C2030)
-                                        : const Color(0xFFEBEDF2))
-                                    : (isDark
-                                        ? cs.primary.withValues(alpha: 0.15)
-                                        : cs.secondaryContainer),
-                                borderRadius: BorderRadius.circular(20),
+                                color: isDark ? const Color(0xFF1E2E1F) : const Color(0xFFDCEBDC),
+                                borderRadius: BorderRadius.circular(6),
                               ),
                               child: Text(
-                                tag.name,
+                                'Read',
                                 style: theme.textTheme.labelSmall?.copyWith(
-                                  color: viewed
-                                      ? cs.outline
-                                      : (isDark
-                                          ? cs.primary
-                                          : cs.onSecondaryContainer),
-                                  fontSize: 11,
+                                  color: cs.outline,
+                                  fontSize: 10,
                                   fontWeight: FontWeight.w500,
+                                  letterSpacing: 0.3,
                                 ),
                               ),
                             ),
-                          );
-                        }).toList(),
+                          if (entry.publishedAt != null)
+                            Text(
+                              _formatDate(entry.publishedAt!),
+                              style: theme.textTheme.labelSmall?.copyWith(
+                                color: cs.outline,
+                                fontSize: 11,
+                              ),
+                            ),
+                          const SizedBox(width: 4),
+                          GestureDetector(
+                            onTap: _toggleBookmark,
+                            child: _bookmarkLoading
+                                ? SizedBox(
+                                    width: 16,
+                                    height: 16,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 1.5,
+                                      color: cs.primary,
+                                    ),
+                                  )
+                                : Icon(
+                                    _bookmarked
+                                        ? Icons.bookmark_rounded
+                                        : Icons.bookmark_outline_rounded,
+                                    size: 18,
+                                    color: _bookmarked ? cs.primary : cs.outline,
+                                  ),
+                          ),
+                        ],
                       ),
+
+                      const SizedBox(height: 4),
+
+                      // Title
+                      Text(
+                        entry.title,
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          fontWeight: viewed ? FontWeight.w400 : FontWeight.w600,
+                          color: titleColor,
+                          height: 1.3,
+                          letterSpacing: -0.1,
+                        ),
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+
+                      // Description
+                      if (!viewed &&
+                          entry.description != null &&
+                          entry.description!.isNotEmpty) ...[
+                        const SizedBox(height: 3),
+                        Text(
+                          entry.description!,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: cs.onSurface.withValues(alpha: 0.55),
+                            height: 1.4,
+                            fontSize: 12,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+
+                      // Tags
+                      if (entry.tags.isNotEmpty) ...[
+                        const SizedBox(height: 6),
+                        Wrap(
+                          spacing: 4,
+                          runSpacing: 4,
+                          children: entry.tags.map((tag) {
+                            return GestureDetector(
+                              onTap: () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) => TagScreen(
+                                    cookie: widget.cookie,
+                                    tagId: tag.id,
+                                    tagName: tag.name,
+                                  ),
+                                ),
+                              ),
+                              onLongPress: () async {
+                                await _quickLinksService.add(QuickLink(
+                                  id: tag.id,
+                                  title: tag.name,
+                                  type: QuickLinkType.tag,
+                                ));
+                                if (context.mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('${tag.name} added to quick links'),
+                                      duration: const Duration(seconds: 2),
+                                    ),
+                                  );
+                                }
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                                decoration: BoxDecoration(
+                                  color: viewed
+                                      ? (isDark ? const Color(0xFF1E2E1F) : const Color(0xFFDCEBDC))
+                                      : (isDark ? cs.primary.withValues(alpha: 0.15) : cs.secondaryContainer),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Text(
+                                  tag.name,
+                                  style: theme.textTheme.labelSmall?.copyWith(
+                                    color: viewed
+                                        ? cs.outline
+                                        : (isDark ? cs.primary : cs.onSecondaryContainer),
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ],
                     ],
-                  ],
+                  ),
                 ),
               ),
             ],
           ),
         ),
       ),
+        Divider(height: 1, thickness: 1, color: isDark ? const Color(0xFF1E2E1F) : const Color(0xFFDCEBDC)),
+      ],
     );
   }
 
@@ -735,7 +735,7 @@ class _EntryRowState extends State<EntryRow> {
 
     final rowColor = _viewed
         ? Colors.transparent
-        : (isDark ? const Color(0xFF161B27) : Colors.white);
+        : (isDark ? const Color(0xFF1E2921) : Colors.white);
     final titleColor = _viewed
         ? cs.onSurface.withValues(alpha: 0.4)
         : cs.onSurface;
@@ -893,7 +893,7 @@ class _EntryRowState extends State<EntryRow> {
           thickness: 1,
           indent: 16,
           endIndent: 0,
-          color: isDark ? const Color(0xFF1E2230) : const Color(0xFFEEF0F6),
+          color: isDark ? const Color(0xFF1E2E1F) : const Color(0xFFDCEBDC),
         ),
       ],
     );
@@ -908,7 +908,7 @@ class _EntryRowState extends State<EntryRow> {
       height: 44,
       decoration: BoxDecoration(
         color: _viewed
-            ? (isDark ? const Color(0xFF1C2030) : const Color(0xFFEBEDF2))
+            ? (isDark ? const Color(0xFF1E2E1F) : const Color(0xFFDCEBDC))
             : cs.primary.withValues(alpha: 0.12),
       ),
       alignment: Alignment.center,
@@ -1110,28 +1110,23 @@ class _AppDrawerState extends State<AppDrawer> {
           Container(
             padding: const EdgeInsets.fromLTRB(20, 52, 20, 20),
             decoration: BoxDecoration(
-              color: isDark ? const Color(0xFF161A24) : cs.primary,
+              color: isDark ? const Color(0xFF1F1C18) : const Color(0xFFFBF9F5),
               border: Border(
                 bottom: BorderSide(
-                  color: isDark
-                      ? const Color(0xFF252830)
-                      : cs.primary.withValues(alpha: 0.3),
+                  color: isDark ? const Color(0xFF1E2E1F) : const Color(0xFFDCEBDC),
                   width: 1,
                 ),
               ),
             ),
             child: Row(
               children: [
-                Icon(
-                  Icons.rss_feed_rounded,
-                  size: 22,
-                  color: isDark ? cs.primary : cs.onPrimary,
-                ),
+                Icon(Icons.rss_feed_rounded, size: 22, color: cs.primary),
                 const SizedBox(width: 10),
                 Text(
                   'RSS Reader',
                   style: theme.textTheme.titleMedium?.copyWith(
-                    color: isDark ? cs.onSurface : cs.onPrimary,
+                    fontFamily: 'Georgia',
+                    color: cs.onSurface,
                     fontWeight: FontWeight.w700,
                     letterSpacing: 0.2,
                   ),
@@ -1298,7 +1293,7 @@ class _AppDrawerState extends State<AppDrawer> {
 
           Divider(
             height: 1,
-            color: isDark ? const Color(0xFF252830) : const Color(0xFFE4EAF4),
+            color: isDark ? const Color(0xFF1E2E1F) : const Color(0xFFDCEBDC),
             indent: 20,
             endIndent: 20,
           ),
