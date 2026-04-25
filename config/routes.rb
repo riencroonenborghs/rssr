@@ -43,6 +43,8 @@ Rails.application.routes.draw do
       namespace :reports do
         resources :daily, only: [:index, :show]
       end
+
+      resources :filters, only: [:index, :create, :destroy]
     end
   end
 
