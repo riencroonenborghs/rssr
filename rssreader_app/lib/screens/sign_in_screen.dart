@@ -59,7 +59,7 @@ class _SignInScreenState extends State<SignInScreen> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: cs.primaryContainer,
+      backgroundColor: theme.brightness == Brightness.dark ? cs.primaryContainer : Colors.white,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(

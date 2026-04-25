@@ -65,7 +65,7 @@ class _EntryScreenState extends State<EntryScreen> {
 
     return Scaffold(
       backgroundColor:
-          isDark ? const Color(0xFF141A14) : const Color(0xFFF4FAF4),
+          isDark ? const Color(0xFF141A14) : Colors.white,
       body: _loading
           ? _buildLoading(cs)
           : _error != null

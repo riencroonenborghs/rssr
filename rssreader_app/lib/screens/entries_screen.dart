@@ -411,7 +411,7 @@ class _EntryCardState extends State<EntryCard> {
               // Image on the left
               if (hasImage)
                 Padding(
-                  padding: const EdgeInsets.only(top: 10, left: 12),
+                  padding: const EdgeInsets.only(top: 10, left: 12, bottom: 10),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: SizedBox(
