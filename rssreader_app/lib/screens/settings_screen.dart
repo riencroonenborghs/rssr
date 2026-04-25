@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import '../main.dart';
+import 'filters_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({super.key});
+  final String cookie;
+
+  const SettingsScreen({super.key, required this.cookie});
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +55,22 @@ class SettingsScreen extends StatelessWidget {
                 cs: cs,
                 isDark: isDark,
                 theme: theme,
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
+          _SectionLabel('Content', theme, cs),
+          _SettingsCard(
+            isDark: isDark,
+            cs: cs,
+            child: _SettingsLinkRow(
+              label: 'Filters',
+              cs: cs,
+              theme: theme,
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => FiltersScreen(cookie: cookie),
+                ),
               ),
             ),
           ),
@@ -133,6 +152,44 @@ class _SettingsRow extends StatelessWidget {
           const Spacer(),
           child,
         ],
+      ),
+    );
+  }
+}
+
+class _SettingsLinkRow extends StatelessWidget {
+  final String label;
+  final VoidCallback onTap;
+  final ColorScheme cs;
+  final ThemeData theme;
+
+  const _SettingsLinkRow({
+    required this.label,
+    required this.onTap,
+    required this.cs,
+    required this.theme,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        child: Row(
+          children: [
+            Text(
+              label,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: cs.onSurface,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const Spacer(),
+            Icon(Icons.chevron_right_rounded, size: 20, color: cs.outline),
+          ],
+        ),
       ),
     );
   }

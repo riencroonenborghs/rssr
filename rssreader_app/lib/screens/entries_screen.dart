@@ -394,7 +394,6 @@ class _EntryCardState extends State<EntryCard> {
     final feedColor = viewed
         ? cs.outline
         : cs.primary;
-    final dotColor = viewed ? cs.outline : cs.primary;
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
@@ -468,16 +467,23 @@ class _EntryCardState extends State<EntryCard> {
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Container(
-                                width: 6,
-                                height: 6,
-                                margin:
-                                    const EdgeInsets.only(right: 7, top: 1),
-                                decoration: BoxDecoration(
-                                  color: dotColor,
-                                  shape: BoxShape.circle,
+                              CircleAvatar(
+                                radius: 8,
+                                backgroundColor: viewed
+                                    ? cs.outline.withValues(alpha: 0.15)
+                                    : cs.primary.withValues(alpha: 0.12),
+                                child: Text(
+                                  entry.feed.title.isNotEmpty
+                                      ? entry.feed.title[0].toUpperCase()
+                                      : '?',
+                                  style: TextStyle(
+                                    fontSize: 8,
+                                    fontWeight: FontWeight.w700,
+                                    color: feedColor,
+                                  ),
                                 ),
                               ),
+                              const SizedBox(width: 6),
                               Text(
                                 entry.feed.title,
                                 style: theme.textTheme.labelSmall?.copyWith(
@@ -806,14 +812,38 @@ class _EntryRowState extends State<EntryRow> {
                             ));
                           }
                         },
-                        child: Text(
-                          entry.feed.title,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: theme.textTheme.labelSmall?.copyWith(
-                            color: feedColor,
-                            fontWeight: FontWeight.w500,
-                          ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            CircleAvatar(
+                              radius: 7,
+                              backgroundColor: _viewed
+                                  ? cs.outline.withValues(alpha: 0.15)
+                                  : cs.primary.withValues(alpha: 0.12),
+                              child: Text(
+                                entry.feed.title.isNotEmpty
+                                    ? entry.feed.title[0].toUpperCase()
+                                    : '?',
+                                style: TextStyle(
+                                  fontSize: 7,
+                                  fontWeight: FontWeight.w700,
+                                  color: feedColor,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 5),
+                            Flexible(
+                              child: Text(
+                                entry.feed.title,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: theme.textTheme.labelSmall?.copyWith(
+                                  color: feedColor,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -976,7 +1006,7 @@ class _NavItem extends StatelessWidget {
                   ? cs.primary
                   : cs.primary.withValues(alpha: 0.12),
               child: Text(
-                label.length >= 2 ? label.substring(0, 2).toUpperCase() : label.toUpperCase(),
+                label[0].toUpperCase(),
                 style: theme.textTheme.labelSmall?.copyWith(
                   color: selected ? cs.onPrimary : cs.primary,
                   fontWeight: FontWeight.w700,
@@ -1162,7 +1192,7 @@ class _AppDrawerState extends State<AppDrawer> {
                 else
                   ..._quickLinks.map((link) {
                     final icon = link.type == QuickLinkType.feed
-                        ? Icons.rss_feed_rounded
+                        ? null
                         : Icons.label_outline_rounded;
                     return _NavItem(
                       icon: icon,
@@ -1285,7 +1315,7 @@ class _AppDrawerState extends State<AppDrawer> {
                     Navigator.of(context).pop();
                     if (widget.activeRoute != 'settings') {
                       Navigator.of(context).push(
-                        MaterialPageRoute(builder: (_) => const SettingsScreen()),
+                        MaterialPageRoute(builder: (_) => SettingsScreen(cookie: widget.cookie)),
                       );
                     }
                   },

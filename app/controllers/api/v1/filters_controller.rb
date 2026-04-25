@@ -4,7 +4,7 @@ module Api
   module V1
     class FiltersController < Api::BaseController
       def index
-        @filters = current_user.filters.order(value: :asc).page(page)
+        @filters = current_user.filters.order("lower(value) asc").page(page)
       end
 
       def create

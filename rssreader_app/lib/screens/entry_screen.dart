@@ -234,15 +234,21 @@ class _EntryScreenState extends State<EntryScreen> {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Container(
-                        width: 7,
-                        height: 7,
-                        margin: const EdgeInsets.only(right: 8, top: 1),
-                        decoration: BoxDecoration(
-                          color: cs.primary,
-                          shape: BoxShape.circle,
+                      CircleAvatar(
+                        radius: 9,
+                        backgroundColor: cs.primary.withValues(alpha: 0.12),
+                        child: Text(
+                          feed.title.isNotEmpty
+                              ? feed.title[0].toUpperCase()
+                              : '?',
+                          style: TextStyle(
+                            fontSize: 9,
+                            fontWeight: FontWeight.w700,
+                            color: cs.primary,
+                          ),
                         ),
                       ),
+                      const SizedBox(width: 7),
                       Text(
                         feed.title,
                         style: theme.textTheme.labelMedium?.copyWith(
