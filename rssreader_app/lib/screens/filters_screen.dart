@@ -91,84 +91,17 @@ class _FiltersScreenState extends State<FiltersScreen> {
     }
   }
 
-  Future<void> _showAddDialog(ThemeData theme, ColorScheme cs, bool isDark) async {
-    String comparison = 'includes';
-    final valueController = TextEditingController();
-    String? dialogError;
-
-    await showDialog<void>(
+  Future<void> _showAddDialog() async {
+    final filter = await showDialog<Filter>(
       context: context,
-      builder: (ctx) {
-        return StatefulBuilder(
-          builder: (ctx, setDialogState) {
-            return AlertDialog(
-              backgroundColor: isDark ? const Color(0xFF1C2030) : Colors.white,
-              title: Text('Add filter', style: TextStyle(color: cs.onSurface)),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Type', style: theme.textTheme.labelSmall?.copyWith(color: cs.outline)),
-                  const SizedBox(height: 6),
-                  SegmentedButton<String>(
-                    segments: const [
-                      ButtonSegment(value: 'includes', label: Text('contains')),
-                      ButtonSegment(value: 'tagged', label: Text('tagged with')),
-                    ],
-                    selected: {comparison},
-                    onSelectionChanged: (s) => setDialogState(() => comparison = s.first),
-                  ),
-                  const SizedBox(height: 16),
-                  Text('Value', style: theme.textTheme.labelSmall?.copyWith(color: cs.outline)),
-                  const SizedBox(height: 6),
-                  TextField(
-                    controller: valueController,
-                    autofocus: true,
-                    style: TextStyle(color: cs.onSurface),
-                    decoration: InputDecoration(
-                      hintText: 'e.g. flutter',
-                      hintStyle: TextStyle(color: cs.outline),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-                    ),
-                  ),
-                  if (dialogError != null) ...[
-                    const SizedBox(height: 8),
-                    Text(dialogError!, style: TextStyle(color: cs.error, fontSize: 12)),
-                  ],
-                ],
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(ctx).pop(),
-                  child: const Text('Cancel'),
-                ),
-                FilledButton(
-                  onPressed: () async {
-                    final value = valueController.text.trim();
-                    if (value.isEmpty) {
-                      setDialogState(() => dialogError = 'Value is required');
-                      return;
-                    }
-                    try {
-                      final id = await _service.createFilter(widget.cookie, comparison, value);
-                      if (!ctx.mounted) return;
-                      Navigator.of(ctx).pop();
-                      final newFilter = Filter(id: id, comparison: comparison, value: value);
-                      setState(() => _filters.insert(0, newFilter));
-                    } catch (e) {
-                      setDialogState(() => dialogError = e.toString().replaceFirst('Exception: ', ''));
-                    }
-                  },
-                  child: const Text('Add'),
-                ),
-              ],
-            );
-          },
-        );
-      },
+      builder: (ctx) => _AddFilterDialog(
+        cookie: widget.cookie,
+        service: _service,
+      ),
     );
-
-    valueController.dispose();
+    if (filter != null) {
+      setState(() => _filters.insert(0, filter));
+    }
   }
 
   @override
@@ -180,7 +113,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Filters')),
       floatingActionButton: FloatingActionButton(
-        onPressed: _loading ? null : () => _showAddDialog(theme, cs, isDark),
+        onPressed: _loading ? null : _showAddDialog,
         child: const Icon(Icons.add),
       ),
       body: _loading
@@ -297,6 +230,107 @@ class _FiltersScreenState extends State<FiltersScreen> {
           ),
         );
       },
+    );
+  }
+}
+
+class _AddFilterDialog extends StatefulWidget {
+  final String cookie;
+  final EntriesService service;
+
+  const _AddFilterDialog({required this.cookie, required this.service});
+
+  @override
+  State<_AddFilterDialog> createState() => _AddFilterDialogState();
+}
+
+class _AddFilterDialogState extends State<_AddFilterDialog> {
+  final _valueController = TextEditingController();
+  String _comparison = 'includes';
+  String? _error;
+  bool _submitting = false;
+
+  @override
+  void dispose() {
+    _valueController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _submit() async {
+    final value = _valueController.text.trim();
+    if (value.isEmpty) {
+      setState(() => _error = 'Value is required');
+      return;
+    }
+    setState(() { _submitting = true; _error = null; });
+    try {
+      final id = await widget.service.createFilter(widget.cookie, _comparison, value);
+      if (!mounted) return;
+      Navigator.of(context).pop(Filter(id: id, comparison: _comparison, value: value));
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _error = e.toString().replaceFirst('Exception: ', '');
+        _submitting = false;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+    final isDark = theme.brightness == Brightness.dark;
+
+    return AlertDialog(
+      backgroundColor: isDark ? const Color(0xFF1C2030) : Colors.white,
+      title: Text('Add filter', style: TextStyle(color: cs.onSurface)),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Type', style: theme.textTheme.labelSmall?.copyWith(color: cs.outline)),
+          const SizedBox(height: 6),
+          SegmentedButton<String>(
+            segments: const [
+              ButtonSegment(value: 'includes', label: Text('contains')),
+              ButtonSegment(value: 'tagged', label: Text('tagged with')),
+            ],
+            selected: {_comparison},
+            onSelectionChanged: (s) => setState(() => _comparison = s.first),
+          ),
+          const SizedBox(height: 16),
+          Text('Value', style: theme.textTheme.labelSmall?.copyWith(color: cs.outline)),
+          const SizedBox(height: 6),
+          TextField(
+            controller: _valueController,
+            autofocus: true,
+            style: TextStyle(color: cs.onSurface),
+            onSubmitted: (_) => _submit(),
+            decoration: InputDecoration(
+              hintText: 'e.g. flutter',
+              hintStyle: TextStyle(color: cs.outline),
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+            ),
+          ),
+          if (_error != null) ...[
+            const SizedBox(height: 8),
+            Text(_error!, style: TextStyle(color: cs.error, fontSize: 12)),
+          ],
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: _submitting ? null : () => Navigator.of(context).pop(),
+          child: const Text('Cancel'),
+        ),
+        FilledButton(
+          onPressed: _submitting ? null : _submit,
+          child: _submitting
+              ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
+              : const Text('Add'),
+        ),
+      ],
     );
   }
 }
