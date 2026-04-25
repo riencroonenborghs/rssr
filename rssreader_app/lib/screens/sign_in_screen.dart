@@ -72,7 +72,6 @@ class _SignInScreenState extends State<SignInScreen> {
                 Text(
                   'RSS Reader',
                   style: theme.textTheme.headlineMedium?.copyWith(
-                    fontFamily: 'Georgia',
                     color: cs.onSurface,
                     fontWeight: FontWeight.w700,
                     letterSpacing: 0.2,

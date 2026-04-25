@@ -1125,7 +1125,6 @@ class _AppDrawerState extends State<AppDrawer> {
                 Text(
                   'RSS Reader',
                   style: theme.textTheme.titleMedium?.copyWith(
-                    fontFamily: 'Georgia',
                     color: cs.onSurface,
                     fontWeight: FontWeight.w700,
                     letterSpacing: 0.2,

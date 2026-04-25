@@ -80,12 +80,12 @@ ThemeData _buildTheme(Brightness brightness) {
 
   final baseTextTheme = ThemeData.light().textTheme;
   final textTheme = baseTextTheme.copyWith(
-    displayLarge:  baseTextTheme.displayLarge?.copyWith(fontFamily: 'Georgia', color: onSurface, height: 1.2),
-    displayMedium: baseTextTheme.displayMedium?.copyWith(fontFamily: 'Georgia', color: onSurface, height: 1.2),
-    displaySmall:  baseTextTheme.displaySmall?.copyWith(fontFamily: 'Georgia', color: onSurface, height: 1.2),
-    headlineLarge: baseTextTheme.headlineLarge?.copyWith(fontFamily: 'Georgia', color: onSurface, fontWeight: FontWeight.w700, height: 1.25),
-    headlineMedium:baseTextTheme.headlineMedium?.copyWith(fontFamily: 'Georgia', color: onSurface, fontWeight: FontWeight.w700, height: 1.25),
-    headlineSmall: baseTextTheme.headlineSmall?.copyWith(fontFamily: 'Georgia', color: onSurface, fontWeight: FontWeight.w700, height: 1.3),
+    displayLarge:  baseTextTheme.displayLarge?.copyWith(color: onSurface, height: 1.2),
+    displayMedium: baseTextTheme.displayMedium?.copyWith(color: onSurface, height: 1.2),
+    displaySmall:  baseTextTheme.displaySmall?.copyWith(color: onSurface, height: 1.2),
+    headlineLarge: baseTextTheme.headlineLarge?.copyWith(color: onSurface, fontWeight: FontWeight.w700, height: 1.25),
+    headlineMedium:baseTextTheme.headlineMedium?.copyWith(color: onSurface, fontWeight: FontWeight.w700, height: 1.25),
+    headlineSmall: baseTextTheme.headlineSmall?.copyWith(color: onSurface, fontWeight: FontWeight.w700, height: 1.3),
     titleLarge:    baseTextTheme.titleLarge?.copyWith(color: onSurface, fontWeight: FontWeight.w600, letterSpacing: 0.1),
     titleMedium:   baseTextTheme.titleMedium?.copyWith(color: onSurface, fontWeight: FontWeight.w600),
     titleSmall:    baseTextTheme.titleSmall?.copyWith(color: onSurface, fontWeight: FontWeight.w600),
@@ -133,10 +133,9 @@ ThemeData _buildTheme(Brightness brightness) {
       centerTitle: false,
       titleTextStyle: TextStyle(
         color: onSurface,
-        fontFamily: 'Georgia',
         fontSize: 20,
-        fontWeight: FontWeight.w700,
-        letterSpacing: 0.1,
+        fontWeight: FontWeight.w600,
+        letterSpacing: 0.0,
       ),
       iconTheme: IconThemeData(color: onSurface),
       systemOverlayStyle: SystemUiOverlayStyle(
