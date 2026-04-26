@@ -285,8 +285,8 @@ class _ViewModeSegmented extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final options = [
-      (ViewMode.cards, Icons.dashboard_outlined, 'Cards'),
-      (ViewMode.table, Icons.view_list_outlined, 'Table'),
+      (ViewMode.cards, Icons.list_outlined, 'Normal'),
+      (ViewMode.table, Icons.view_list_outlined, 'Compact'),
     ];
 
     return Container(
