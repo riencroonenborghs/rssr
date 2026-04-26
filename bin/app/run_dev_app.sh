@@ -2,4 +2,4 @@
 
 cd rssreader_app
 
-API_BASE_URL=http://localhost:3000 flutter run
+flutter run --dart-define-from-file=.env.dev.json
