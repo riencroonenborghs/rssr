@@ -387,7 +387,7 @@ class _EntryCardState extends State<EntryCard> {
     final viewed = _viewed;
     final cardColor = viewed
         ? (isDark ? const Color(0xFF141A14) : const Color(0xFFEFF5EF))
-        : (isDark ? const Color(0xFF1E2921) : Colors.white);
+        : (isDark ? Colors.black : Colors.white);
     final titleColor = viewed
         ? cs.onSurface.withValues(alpha: 0.45)
         : cs.onSurface;
@@ -734,8 +734,8 @@ class _EntryRowState extends State<EntryRow> {
     final entry = widget.entry;
 
     final rowColor = _viewed
-        ? Colors.transparent
-        : (isDark ? const Color(0xFF1E2921) : Colors.white);
+        ? (isDark ? const Color(0xFF141A14) : const Color(0xFFEFF5EF))
+        : (isDark ? Colors.black : Colors.white);
     final titleColor = _viewed
         ? cs.onSurface.withValues(alpha: 0.4)
         : cs.onSurface;
