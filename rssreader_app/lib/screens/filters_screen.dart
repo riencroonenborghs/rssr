@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../models/entry.dart';
+import '../models/filter.dart';
+import '../models/pagination_meta.dart';
 import '../services/filter_service.dart';
 
 class FiltersScreen extends StatefulWidget {

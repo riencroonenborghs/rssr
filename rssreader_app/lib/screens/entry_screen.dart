@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../models/entry.dart';
+import '../models/feed.dart';
 import '../services/feed_service.dart';
+import '../models/quick_link.dart';
 import '../services/quick_links_service.dart';
 import 'entries_screen.dart';
 

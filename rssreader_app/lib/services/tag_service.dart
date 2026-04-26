@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/entry.dart';
+import '../models/pagination_meta.dart';
+import '../models/tag.dart';
 
 class TagService {
   static const _baseUrl = String.fromEnvironment('API_BASE_URL');

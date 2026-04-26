@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/entry.dart';
+import '../models/pagination_meta.dart';
 
 class EntriesService {
   static const _baseUrl = String.fromEnvironment('API_BASE_URL');

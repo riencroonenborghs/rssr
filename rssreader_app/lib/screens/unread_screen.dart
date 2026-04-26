@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/entry.dart';
+import '../models/pagination_meta.dart';
 import '../main.dart';
 import '../services/auth_service.dart';
 import '../services/entries_service.dart';
