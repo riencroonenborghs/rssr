@@ -4,7 +4,9 @@ import '../models/pagination_meta.dart';
 import '../main.dart';
 import '../services/auth_service.dart';
 import '../services/entries_service.dart';
-import 'entries_screen.dart';
+import 'app_drawer.dart';
+import '../widgets/entry_card.dart';
+import '../widgets/entry_row.dart';
 import 'sign_in_screen.dart';
 
 class UnreadScreen extends StatefulWidget {

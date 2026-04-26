@@ -5,7 +5,8 @@ import '../models/feed.dart';
 import '../services/feed_service.dart';
 import '../models/quick_link.dart';
 import '../services/quick_links_service.dart';
-import 'entries_screen.dart';
+import 'feed_screen.dart';
+import 'tag_screen.dart';
 
 class EntryScreen extends StatefulWidget {
   final String cookie;
