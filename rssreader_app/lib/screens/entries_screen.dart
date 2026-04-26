@@ -1055,9 +1055,10 @@ class _AppDrawerState extends State<AppDrawer> {
   final _quickLinksService = QuickLinksService();
   List<Feed> _feeds = [];
   bool _feedsExpanded = false;
-  List<DailyReport> _reports = [];
+  List<Report> _reports = [];
   bool _reportsExpanded = false;
   List<QuickLink> _quickLinks = [];
+  bool _quickLinksExpanded = false;
 
   @override
   void initState() {
@@ -1076,7 +1077,7 @@ class _AppDrawerState extends State<AppDrawer> {
 
   Future<void> _loadReports() async {
     try {
-      final reports = await _service.fetchDailyReports(widget.cookie);
+      final reports = await _service.fetchReports(widget.cookie);
       if (mounted) setState(() => _reports = reports);
     } catch (_) {}
   }
@@ -1089,12 +1090,6 @@ class _AppDrawerState extends State<AppDrawer> {
   Future<void> _removeQuickLink(int id, QuickLinkType type) async {
     await _quickLinksService.remove(id, type);
     if (mounted) setState(() => _quickLinks.removeWhere((l) => l.id == id && l.type == type));
-  }
-
-  String _formatReportDate(DateTime dt) {
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    return '${months[dt.month - 1]} ${dt.day}, ${dt.year}';
   }
 
   @override
@@ -1160,61 +1155,65 @@ class _AppDrawerState extends State<AppDrawer> {
                   },
                 ),
                 const SizedBox(height: 8),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(4, 8, 4, 4),
-                  child: Text(
-                    'QUICK LINKS',
-                    style: theme.textTheme.labelSmall?.copyWith(
-                      color: cs.outline,
-                      letterSpacing: 0.8,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                _AccordionHeader(
+                  label: 'QUICK LINKS',
+                  expanded: _quickLinksExpanded,
+                  onTap: () => setState(() => _quickLinksExpanded = !_quickLinksExpanded),
+                  theme: theme,
+                  cs: cs,
                 ),
-                if (_quickLinks.isEmpty)
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(4, 2, 4, 4),
-                    child: Text(
-                      'Press and hold feeds and tags for quick access',
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: cs.outline,
-                        fontSize: 12,
-                        height: 1.4,
-                      ),
-                    ),
-                  )
-                else
-                  ..._quickLinks.map((link) {
-                    final icon = link.type == QuickLinkType.feed
-                        ? null
-                        : Icons.label_outline_rounded;
-                    return _NavItem(
-                      icon: icon,
-                      label: link.title,
-                      selected: false,
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => link.type == QuickLinkType.feed
-                                ? FeedScreen(
-                                    cookie: widget.cookie,
-                                    feedId: link.id,
-                                    feedTitle: link.title,
-                                  )
-                                : TagScreen(
-                                    cookie: widget.cookie,
-                                    tagId: link.id,
-                                    tagName: link.title,
-                                  ),
+                AnimatedCrossFade(
+                  duration: const Duration(milliseconds: 200),
+                  crossFadeState: _quickLinksExpanded
+                      ? CrossFadeState.showFirst
+                      : CrossFadeState.showSecond,
+                  firstChild: _quickLinks.isEmpty
+                      ? Padding(
+                          padding: const EdgeInsets.fromLTRB(4, 2, 4, 4),
+                          child: Text(
+                            'Press and hold feeds and tags for quick access',
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: cs.outline,
+                              fontSize: 12,
+                              height: 1.4,
+                            ),
                           ),
-                        );
-                      },
-                      onLongPress: () async {
-                        await _removeQuickLink(link.id, link.type);
-                      },
-                    );
-                  }),
+                        )
+                      : Column(
+                          children: _quickLinks.map((link) {
+                            final icon = link.type == QuickLinkType.feed
+                                ? null
+                                : Icons.label_outline_rounded;
+                            return _NavItem(
+                              icon: icon,
+                              label: link.title,
+                              selected: false,
+                              onTap: () {
+                                Navigator.of(context).pop();
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (_) => link.type == QuickLinkType.feed
+                                        ? FeedScreen(
+                                            cookie: widget.cookie,
+                                            feedId: link.id,
+                                            feedTitle: link.title,
+                                          )
+                                        : TagScreen(
+                                            cookie: widget.cookie,
+                                            tagId: link.id,
+                                            tagName: link.title,
+                                          ),
+                                  ),
+                                );
+                              },
+                              onLongPress: () async {
+                                await _removeQuickLink(link.id, link.type);
+                              },
+                            );
+                          }).toList(),
+                        ),
+                  secondChild: const SizedBox.shrink(),
+                ),
                 if (_feeds.isNotEmpty) ...[
                   const SizedBox(height: 8),
                   _AccordionHeader(
@@ -1267,16 +1266,15 @@ class _AppDrawerState extends State<AppDrawer> {
                     firstChild: Column(
                       children: _reports.map((report) => _NavItem(
                             icon: Icons.summarize_outlined,
-                            label: _formatReportDate(report.createdAt),
+                            label: report.keywords.join(', '),
                             selected: false,
                             onTap: () {
                               Navigator.of(context).pop();
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (_) => ReportScreen(
+                                  builder: (_) => ReportDailyListScreen(
                                     cookie: widget.cookie,
-                                    reportId: report.id,
-                                    previewDate: report.createdAt,
+                                    report: report,
                                   ),
                                 ),
                               );
@@ -1333,3 +1331,109 @@ class _AppDrawerState extends State<AppDrawer> {
   }
 }
 
+class ReportDailyListScreen extends StatefulWidget {
+  final String cookie;
+  final Report report;
+
+  const ReportDailyListScreen({
+    super.key,
+    required this.cookie,
+    required this.report,
+  });
+
+  @override
+  State<ReportDailyListScreen> createState() => _ReportDailyListScreenState();
+}
+
+class _ReportDailyListScreenState extends State<ReportDailyListScreen> {
+  final _service = EntriesService();
+  List<DailyReport> _reports = [];
+  bool _loading = true;
+  String? _error;
+
+  @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+
+  Future<void> _load() async {
+    try {
+      final reports = await _service.fetchDailyReports(widget.cookie);
+      if (!mounted) return;
+      setState(() { _reports = reports; _loading = false; });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() { _error = e.toString(); _loading = false; });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+    final isDark = theme.brightness == Brightness.dark;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(widget.report.keywords.join(', ')),
+            Text('Reports', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400)),
+          ],
+        ),
+      ),
+      body: _loading
+          ? Center(child: CircularProgressIndicator(color: cs.primary))
+          : _error != null
+              ? Center(child: Text(_error!, style: TextStyle(color: cs.error)))
+              : _reports.isEmpty
+                  ? Center(
+                      child: Text('No reports yet', style: TextStyle(color: cs.outline)),
+                    )
+                  : ListView.separated(
+                      padding: EdgeInsets.zero,
+                      itemCount: _reports.length,
+                      separatorBuilder: (_, __) => Divider(
+                        height: 1,
+                        color: isDark ? const Color(0xFF1E2E1F) : const Color(0xFFDCEBDC),
+                      ),
+                      itemBuilder: (context, index) {
+                        final r = _reports[index];
+                        final preview = r.summary != null && r.summary!.isNotEmpty
+                            ? r.summary!.substring(0, r.summary!.length.clamp(0, 100))
+                            : null;
+                        return ListTile(
+                          leading: Icon(Icons.summarize_outlined, size: 20, color: cs.outline),
+                          title: Text(_formatDate(r.createdAt)),
+                          subtitle: preview != null
+                              ? Text(
+                                  preview,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: theme.textTheme.bodySmall?.copyWith(color: cs.outline),
+                                )
+                              : null,
+                          onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => ReportScreen(
+                                cookie: widget.cookie,
+                                reportId: r.id,
+                                previewDate: r.createdAt,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+    );
+  }
+
+  String _formatDate(DateTime dt) {
+    const months = ['January', 'February', 'March', 'April', 'May', 'June',
+                    'July', 'August', 'September', 'October', 'November', 'December'];
+    const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    return '${weekdays[dt.weekday - 1]}, ${months[dt.month - 1]} ${dt.day}, ${dt.year}';
+  }
+}

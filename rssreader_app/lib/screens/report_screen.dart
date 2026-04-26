@@ -51,17 +51,7 @@ class _ReportScreenState extends State<ReportScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text('Daily Report'),
-            if (widget.previewDate != null)
-              Text(
-                _formatDate(widget.previewDate!),
-                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
-              ),
-          ],
-        ),
+        title: const Text('Daily Report'),
       ),
       body: _loading
           ? Center(child: CircularProgressIndicator(color: cs.primary))
