@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/sign_in_screen.dart';
 import 'screens/unread_screen.dart';
@@ -7,8 +8,9 @@ import 'services/auth_service.dart';
 
 enum ViewMode { cards, table }
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: '.env');
   runApp(const RssrApp());
 }
 
@@ -144,7 +146,7 @@ ThemeData _buildTheme(Brightness brightness) {
       ),
     ),
     drawerTheme: DrawerThemeData(
-      backgroundColor: isDark ? const Color(0xFF171C17) : const Color(0xFFF4FAF4),
+      backgroundColor: isDark ? const Color(0xFF171C17) : const Color(0xFFFFFFFF),
       surfaceTintColor: Colors.transparent,
       elevation: 2,
     ),

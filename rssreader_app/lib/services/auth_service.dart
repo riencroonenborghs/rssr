@@ -1,10 +1,10 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
-  // static const _baseUrl = 'http://localhost:3000';
-  static const _baseUrl = 'https://rssreader.croonenborghs.net';
+  static String get _baseUrl => dotenv.env['API_BASE_URL']!;
   static const _cookieKey = 'session_cookie';
 
   Future<({String csrfToken, String cookie})> _fetchCsrf() async {

@@ -1,11 +1,11 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import '../models/entry.dart';
 import '../models/report.dart';
 
 class EntriesService {
-  // static const _baseUrl = 'http://localhost:3000';
-  static const _baseUrl = 'https://rssreader.croonenborghs.net';
+  static String get _baseUrl => dotenv.env['API_BASE_URL']!;
 
   // Tracks bookmark state across screens for the session lifetime.
   static final Set<int> _bookmarkedIds = {};

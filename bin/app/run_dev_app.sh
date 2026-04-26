@@ -2,4 +2,4 @@
 
 cd rssreader_app
 
-flutter run
+API_BASE_URL=http://localhost:3000 flutter run
