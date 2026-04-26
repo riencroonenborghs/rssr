@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../models/report.dart';
 import '../services/entries_service.dart';
 
@@ -141,12 +143,56 @@ class _ReportScreenState extends State<ReportScreen> {
           const SizedBox(height: 24),
           Divider(height: 1, color: isDark ? const Color(0xFF1E2E1F) : const Color(0xFFDCEBDC)),
           const SizedBox(height: 24),
-          Text(
-            report.summary!,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: cs.onSurface.withValues(alpha: 0.85),
-              height: 1.7,
-              letterSpacing: 0.1,
+          MarkdownBody(
+            data: report.summary!,
+            onTapLink: (text, href, title) {
+              if (href != null) launchUrl(Uri.parse(href), mode: LaunchMode.externalApplication);
+            },
+            styleSheet: MarkdownStyleSheet.fromTheme(theme).copyWith(
+              p: theme.textTheme.bodyMedium?.copyWith(
+                color: cs.onSurface.withValues(alpha: 0.85),
+                height: 1.7,
+                letterSpacing: 0.1,
+              ),
+              h1: theme.textTheme.headlineSmall?.copyWith(color: cs.onSurface),
+              h2: theme.textTheme.titleLarge?.copyWith(color: cs.onSurface),
+              h3: theme.textTheme.titleMedium?.copyWith(color: cs.onSurface),
+              strong: theme.textTheme.bodyMedium?.copyWith(
+                color: cs.onSurface,
+                fontWeight: FontWeight.w700,
+                height: 1.7,
+              ),
+              em: theme.textTheme.bodyMedium?.copyWith(
+                color: cs.onSurface.withValues(alpha: 0.85),
+                fontStyle: FontStyle.italic,
+                height: 1.7,
+              ),
+              code: theme.textTheme.bodySmall?.copyWith(
+                color: cs.primary,
+                backgroundColor: isDark ? cs.primary.withValues(alpha: 0.1) : cs.primaryContainer,
+                fontFamily: 'monospace',
+              ),
+              blockquote: theme.textTheme.bodyMedium?.copyWith(
+                color: cs.onSurface.withValues(alpha: 0.65),
+                fontStyle: FontStyle.italic,
+                height: 1.7,
+              ),
+              blockquoteDecoration: BoxDecoration(
+                border: Border(
+                  left: BorderSide(color: cs.primary.withValues(alpha: 0.5), width: 3),
+                ),
+                color: isDark ? cs.primary.withValues(alpha: 0.07) : cs.primaryContainer.withValues(alpha: 0.4),
+              ),
+              listBullet: theme.textTheme.bodyMedium?.copyWith(
+                color: cs.onSurface.withValues(alpha: 0.85),
+                height: 1.7,
+              ),
+              a: theme.textTheme.bodyMedium?.copyWith(
+                color: cs.primary,
+                height: 1.7,
+                decoration: TextDecoration.underline,
+                decorationColor: cs.primary.withValues(alpha: 0.5),
+              ),
             ),
           ),
         ],
