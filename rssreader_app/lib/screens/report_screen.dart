@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../models/report.dart';
-import '../services/entries_service.dart';
+import '../services/report_service.dart';
 
 class ReportScreen extends StatefulWidget {
   final String cookie;
@@ -21,7 +21,7 @@ class ReportScreen extends StatefulWidget {
 }
 
 class _ReportScreenState extends State<ReportScreen> {
-  final _service = EntriesService();
+  final _service = ReportService();
   DailyReport? _report;
   bool _loading = true;
   String? _error;

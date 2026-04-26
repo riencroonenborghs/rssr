@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/entry.dart';
-import '../services/entries_service.dart';
+import '../services/filter_service.dart';
 
 class FiltersScreen extends StatefulWidget {
   final String cookie;
@@ -12,7 +12,7 @@ class FiltersScreen extends StatefulWidget {
 }
 
 class _FiltersScreenState extends State<FiltersScreen> {
-  final _service = EntriesService();
+  final _service = FilterService();
   final _scrollController = ScrollController();
 
   List<Filter> _filters = [];
@@ -236,7 +236,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
 
 class _AddFilterDialog extends StatefulWidget {
   final String cookie;
-  final EntriesService service;
+  final FilterService service;
 
   const _AddFilterDialog({required this.cookie, required this.service});
 

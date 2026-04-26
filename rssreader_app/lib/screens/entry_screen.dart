@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../models/entry.dart';
-import '../services/entries_service.dart';
+import '../services/feed_service.dart';
 import '../services/quick_links_service.dart';
 import 'entries_screen.dart';
 
@@ -26,7 +26,7 @@ class EntryScreen extends StatefulWidget {
 }
 
 class _EntryScreenState extends State<EntryScreen> {
-  final _service = EntriesService();
+  final _service = FeedService();
   final _quickLinksService = QuickLinksService();
   Feed? _feed;
   Entry? _entry;

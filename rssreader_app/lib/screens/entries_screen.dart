@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import '../models/entry.dart';
 import '../models/report.dart';
-import '../services/entries_service.dart';
+import '../services/bookmark_service.dart';
+import '../services/feed_service.dart';
+import '../services/report_service.dart';
+import '../services/tag_service.dart';
 import '../services/quick_links_service.dart';
 import '../main.dart';
 import 'entry_screen.dart';
@@ -248,7 +251,7 @@ class FeedScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final service = EntriesService();
+    final service = FeedService();
     return EntriesScreen(
       cookie: cookie,
       title: feedTitle,
@@ -268,7 +271,7 @@ class BookmarksScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final service = EntriesService();
+    final service = BookmarkService();
     return EntriesScreen(
       cookie: cookie,
       title: 'Bookmarks',
@@ -293,7 +296,7 @@ class TagScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final service = EntriesService();
+    final service = TagService();
     return EntriesScreen(
       cookie: cookie,
       title: tagName,
@@ -327,16 +330,16 @@ class _EntryCardState extends State<EntryCard> {
 
   late bool _viewed = widget.entry.viewed;
   late bool _bookmarked =
-      EntriesService.bookmarkOverride(widget.entry.id) ?? widget.entry.bookmarked;
+      BookmarkService.bookmarkOverride(widget.entry.id) ?? widget.entry.bookmarked;
   bool _bookmarkLoading = false;
-  final _service = EntriesService();
+  final _service = BookmarkService();
 
   @override
   void didUpdateWidget(EntryCard oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.entry.id != widget.entry.id) {
       _bookmarked =
-          EntriesService.bookmarkOverride(widget.entry.id) ?? widget.entry.bookmarked;
+          BookmarkService.bookmarkOverride(widget.entry.id) ?? widget.entry.bookmarked;
     }
   }
 
@@ -683,11 +686,11 @@ class EntryRow extends StatefulWidget {
 
 class _EntryRowState extends State<EntryRow> {
   final _quickLinksService = QuickLinksService();
-  final _service = EntriesService();
+  final _service = BookmarkService();
 
   late bool _viewed = widget.entry.viewed;
   late bool _bookmarked =
-      EntriesService.bookmarkOverride(widget.entry.id) ?? widget.entry.bookmarked;
+      BookmarkService.bookmarkOverride(widget.entry.id) ?? widget.entry.bookmarked;
   bool _bookmarkLoading = false;
 
   Future<void> _openEntry(BuildContext context) async {
@@ -1051,7 +1054,8 @@ class AppDrawer extends StatefulWidget {
 }
 
 class _AppDrawerState extends State<AppDrawer> {
-  final _service = EntriesService();
+  final _feedService = FeedService();
+  final _reportService = ReportService();
   final _quickLinksService = QuickLinksService();
   List<Feed> _feeds = [];
   bool _feedsExpanded = false;
@@ -1070,14 +1074,14 @@ class _AppDrawerState extends State<AppDrawer> {
 
   Future<void> _loadFeeds() async {
     try {
-      final feeds = await _service.fetchFeeds(widget.cookie);
+      final feeds = await _feedService.fetchFeeds(widget.cookie);
       if (mounted) setState(() => _feeds = feeds);
     } catch (_) {}
   }
 
   Future<void> _loadReports() async {
     try {
-      final reports = await _service.fetchReports(widget.cookie);
+      final reports = await _reportService.fetchReports(widget.cookie);
       if (mounted) setState(() => _reports = reports);
     } catch (_) {}
   }
@@ -1346,7 +1350,7 @@ class ReportDailyListScreen extends StatefulWidget {
 }
 
 class _ReportDailyListScreenState extends State<ReportDailyListScreen> {
-  final _service = EntriesService();
+  final _service = ReportService();
   List<DailyReport> _reports = [];
   bool _loading = true;
   String? _error;
