@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import Sidebar from "./components/Sidebar"
 import EntriesList from "./components/EntriesList"
 import EntryDetail from "./components/EntryDetail"
+import { fetchUnread } from "./api/unread"
 
 export default function App() {
   const [entries, setEntries] = useState([])
@@ -11,8 +12,7 @@ export default function App() {
 
   useEffect(() => {
     setLoading(true)
-    fetch("/api/v1/unread", { headers: { "Accept": "application/json" } })
-      .then((r) => r.json())
+    fetchUnread()
       .then((data) => setEntries(data.entries || []))
       .finally(() => setLoading(false))
   }, [])
