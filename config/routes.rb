@@ -16,6 +16,8 @@ Rails.application.routes.draw do
     get "/feeds/:feed_id", to: "react_app#index"
     get "/feeds/:feed_id/entries/:entry_id", to: "react_app#index"
     get "/tags/:tag_id", to: "react_app#index"
+    get "/reports/:report_id", to: "react_app#index"
+    get "/reports/:report_id/daily/:daily_id", to: "react_app#index"
   end
 
   resources :unread, only: [:index]

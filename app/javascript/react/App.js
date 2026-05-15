@@ -2,6 +2,8 @@ import React, { useState, useEffect, useCallback } from "react"
 import Sidebar from "./components/Sidebar"
 import EntriesList from "./components/EntriesList"
 import EntryDetail from "./components/EntryDetail"
+import DailyReportDetail from "./components/DailyReportDetail"
+import DailyReportsList from "./components/DailyReportsList"
 import MobileNav from "./mobile/MobileNav"
 import MobileEntriesList from "./mobile/MobileEntriesList"
 import MobileEntryDetail from "./mobile/MobileEntryDetail"
@@ -9,6 +11,7 @@ import { fetchUnread } from "./api/unread"
 import { fetchFeeds, fetchFeed, fetchEntry } from "./api/feeds"
 import { fetchTag } from "./api/tags"
 import { fetchBookmarks } from "./api/bookmarks"
+import { fetchDailyReport, fetchDailyReports } from "./api/reports"
 import { pushUrl, parseUrl } from "./hooks/useAppNavigation"
 import { useIsMobile } from "./hooks/useIsMobile"
 
@@ -25,6 +28,10 @@ export default function App() {
   const [activeNavItem, setActiveNavItem] = useState(null)
   const [activeEntry, setActiveEntry] = useState(null)
   const [entryLoading, setEntryLoading] = useState(false)
+  const [activeDailyReport, setActiveDailyReport] = useState(null)
+  const [dailyReportLoading, setDailyReportLoading] = useState(false)
+  const [dailyReports, setDailyReports] = useState([])
+  const [dailyReportsLoading, setDailyReportsLoading] = useState(false)
   const [mobileView, setMobileView] = useState("nav")
 
   function setEntriesFromResponse(data) {
@@ -38,7 +45,7 @@ export default function App() {
   }
 
   useEffect(() => {
-    const { feedId, entryId, tagId, view } = parseUrl()
+    const { feedId, entryId, tagId, view, reportId, dailyId } = parseUrl()
 
     setLoading(true)
     Promise.all([fetchFeeds(), fetchUnread(), fetchBookmarks()])
@@ -47,7 +54,19 @@ export default function App() {
         setUnreadCount(unreadData.meta?.total_count ?? null)
         setBookmarkCount(bookmarksData.meta?.total_count ?? null)
 
-        if (tagId) {
+        if (reportId && dailyId) {
+          setActiveNavItem({ type: "daily_report", id: Number(dailyId), reportId: Number(reportId) })
+          setDailyReportLoading(true)
+          return fetchDailyReport(reportId, dailyId)
+            .then((data) => setActiveDailyReport(data.report))
+            .finally(() => setDailyReportLoading(false))
+        } else if (reportId) {
+          setActiveNavItem({ type: "report", id: Number(reportId) })
+          setDailyReportsLoading(true)
+          return fetchDailyReports(reportId)
+            .then((data) => setDailyReports(data.reports || []))
+            .finally(() => setDailyReportsLoading(false))
+        } else if (tagId) {
           setActiveNavItem({ type: "tag", id: tagId })
           setMobileView("list")
           return fetchTag(tagId).then((data) => setEntriesFromResponse(data))
@@ -78,7 +97,10 @@ export default function App() {
   }, [])
 
   function handleNavSelect(item) {
+    if (item.type === "daily_report") return handleDailyReportSelect(item)
+    if (item.type === "report") return handleReportSelect(item)
     setActiveEntry(null)
+    setActiveDailyReport(null)
     setActiveNavItem(item)
     setLoading(true)
     setMeta(null)
@@ -101,6 +123,18 @@ export default function App() {
         })
         .finally(() => setLoading(false))
     }
+  }
+
+  function handleReportSelect(item) {
+    setActiveEntry(null)
+    setActiveDailyReport(null)
+    setActiveNavItem(item)
+    setDailyReports([])
+    setDailyReportsLoading(true)
+    pushUrl(item, null)
+    fetchDailyReports(item.id)
+      .then((data) => setDailyReports(data.reports || []))
+      .finally(() => setDailyReportsLoading(false))
   }
 
   const handleLoadMore = useCallback(() => {
@@ -134,6 +168,19 @@ export default function App() {
     fetchEntry(entry.feed.id, entry.id)
       .then((data) => setActiveEntry({ ...data.entry, feed: data.feed }))
       .finally(() => setEntryLoading(false))
+  }
+
+  function handleDailyReportSelect(item) {
+    setActiveDailyReport(null)
+    setDailyReportLoading(true)
+    // Keep activeNavItem as "report" when selecting from DailyReportsList middle pane
+    if (activeNavItem?.type !== "report") {
+      setActiveNavItem(item)
+    }
+    pushUrl(item, null)
+    fetchDailyReport(item.reportId, item.id)
+      .then((data) => setActiveDailyReport(data.report))
+      .finally(() => setDailyReportLoading(false))
   }
 
   function handleTagSelect(tag) {
@@ -193,6 +240,9 @@ export default function App() {
     )
   }
 
+  const showDailyReportsList = activeNavItem?.type === "report"
+  const showDailyReportDetail = activeNavItem?.type === "daily_report" || (showDailyReportsList && activeDailyReport != null)
+
   return (
     <div className="flex flex-row h-screen overflow-hidden">
       <Sidebar
@@ -202,19 +252,31 @@ export default function App() {
         activeItem={activeNavItem}
         onSelect={handleNavSelect}
       />
-      <EntriesList
-        title={listTitle}
-        entries={entries}
-        loading={loading}
-        loadingMore={loadingMore}
-        hasMore={hasMore}
-        onLoadMore={handleLoadMore}
-        activeEntry={activeEntry}
-        onSelect={handleEntrySelect}
-        onFeedSelect={(feed) => handleNavSelect({ type: "feed", ...feed })}
-        onTagSelect={handleTagSelect}
-      />
-      <EntryDetail entry={activeEntry} loading={entryLoading} />
+      {showDailyReportsList
+        ? <DailyReportsList
+            title={activeNavItem?.title}
+            dailyReports={dailyReports}
+            loading={dailyReportsLoading}
+            activeEntry={activeDailyReport}
+            onSelect={handleDailyReportSelect}
+          />
+        : <EntriesList
+            title={listTitle}
+            entries={entries}
+            loading={loading}
+            loadingMore={loadingMore}
+            hasMore={hasMore}
+            onLoadMore={handleLoadMore}
+            activeEntry={activeEntry}
+            onSelect={handleEntrySelect}
+            onFeedSelect={(feed) => handleNavSelect({ type: "feed", ...feed })}
+            onTagSelect={handleTagSelect}
+          />
+      }
+      {showDailyReportDetail
+        ? <DailyReportDetail report={activeDailyReport} loading={dailyReportLoading} />
+        : <EntryDetail entry={activeEntry} loading={entryLoading} />
+      }
     </div>
   )
 }

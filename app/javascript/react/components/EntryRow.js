@@ -28,7 +28,7 @@ export default function EntryRow({ entry, active, compact, onSelect, onFeedSelec
           <a
             href={`/react/feeds/${entry.feed?.id}`}
             className="hover:underline"
-            style={{ color: "var(--accent-dim)" }}
+            style={{ color: "var(--entry-feed-color)" }}
             onClick={(e) => { e.preventDefault(); e.stopPropagation(); onFeedSelect(entry.feed) }}
           >
             {entry.feed?.title}
