@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useRef, useEffect } from "react"
 
 function formatDate(iso) {
   if (!iso) return null
@@ -7,6 +7,16 @@ function formatDate(iso) {
 }
 
 export default function EntryDetail({ entry, loading }) {
+  const contentRef = useRef(null)
+
+  useEffect(() => {
+    if (!contentRef.current) return
+    contentRef.current.querySelectorAll("a").forEach((a) => {
+      a.setAttribute("target", "_blank")
+      a.setAttribute("rel", "noopener noreferrer")
+    })
+  }, [entry])
+
   if (loading) {
     return (
       <div className="flex-1 h-screen flex items-center justify-center text-sm"
@@ -47,7 +57,7 @@ export default function EntryDetail({ entry, loading }) {
           )}
         </div>
       </div>
-      <div className="text-[0.92rem] leading-7" style={{ color: "var(--detail-text-primary)" }}
+      <div ref={contentRef} className="text-[0.92rem] leading-7" style={{ color: "var(--detail-text-primary)" }}
         dangerouslySetInnerHTML={{ __html: entry.description || "<p>No content available.</p>" }}
       />
     </div>
