@@ -1,9 +1,12 @@
 import React from "react"
 import EntryRow from "./EntryRow"
 import { useSettings } from "../context/SettingsContext"
+import { useEndlessScroll } from "../hooks/useEndlessScroll"
 
-export default function EntriesList({ title, entries = [], loading, activeEntry, onSelect, onFeedSelect, onTagSelect }) {
+export default function EntriesList({ title, entries = [], loading, loadingMore, hasMore, onLoadMore, activeEntry, onSelect, onFeedSelect, onTagSelect }) {
   const { density } = useSettings()
+  const scrollRef = useEndlessScroll(onLoadMore, hasMore && !loadingMore)
+
   return (
     <div className="flex flex-col h-screen w-[340px] min-w-[340px] overflow-hidden border-r"
       style={{ background: "var(--sidebar-surface)", borderColor: "var(--border)" }}>
@@ -13,7 +16,7 @@ export default function EntriesList({ title, entries = [], loading, activeEntry,
           {title || "Entries"}
         </h2>
       </div>
-      <div className="overflow-y-auto flex-1 sidebar-scroll">
+      <div ref={scrollRef} className="overflow-y-auto flex-1 sidebar-scroll">
         {loading ? (
           <div className="py-8 px-4 text-sm text-center" style={{ color: "var(--text-muted)" }}>
             Loading…
@@ -23,17 +26,24 @@ export default function EntriesList({ title, entries = [], loading, activeEntry,
             No entries
           </div>
         ) : (
-          entries.map((entry) => (
-            <EntryRow
-              key={entry.id}
-              entry={entry}
-              active={activeEntry?.id === entry.id}
-              compact={density === "compact"}
-              onSelect={onSelect}
-              onFeedSelect={onFeedSelect}
-              onTagSelect={onTagSelect}
-            />
-          ))
+          <>
+            {entries.map((entry) => (
+              <EntryRow
+                key={entry.id}
+                entry={entry}
+                active={activeEntry?.id === entry.id}
+                compact={density === "compact"}
+                onSelect={onSelect}
+                onFeedSelect={onFeedSelect}
+                onTagSelect={onTagSelect}
+              />
+            ))}
+            {loadingMore && (
+              <div className="py-4 text-center text-[0.75rem]" style={{ color: "var(--text-faint)" }}>
+                Loading…
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>

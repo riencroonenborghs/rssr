@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import Sidebar from "./components/Sidebar"
 import EntriesList from "./components/EntriesList"
 import EntryDetail from "./components/EntryDetail"
@@ -17,14 +17,25 @@ export default function App() {
 
   const [feeds, setFeeds] = useState([])
   const [entries, setEntries] = useState([])
+  const [meta, setMeta] = useState(null)
+  const [loadingMore, setLoadingMore] = useState(false)
   const [unreadCount, setUnreadCount] = useState(null)
   const [bookmarkCount, setBookmarkCount] = useState(null)
   const [loading, setLoading] = useState(true)
   const [activeNavItem, setActiveNavItem] = useState(null)
   const [activeEntry, setActiveEntry] = useState(null)
   const [entryLoading, setEntryLoading] = useState(false)
-  // mobile: "nav" | "list" | "entry"
   const [mobileView, setMobileView] = useState("nav")
+
+  function setEntriesFromResponse(data) {
+    setEntries(data.entries || [])
+    setMeta(data.meta || null)
+  }
+
+  function appendEntriesFromResponse(data) {
+    setEntries((prev) => [...prev, ...(data.entries || [])])
+    setMeta(data.meta || null)
+  }
 
   useEffect(() => {
     const { feedId, entryId, tagId, view } = parseUrl()
@@ -39,14 +50,14 @@ export default function App() {
         if (tagId) {
           setActiveNavItem({ type: "tag", id: tagId })
           setMobileView("list")
-          return fetchTag(tagId).then((data) => setEntries(data.entries || []))
+          return fetchTag(tagId).then((data) => setEntriesFromResponse(data))
         } else if (view === "bookmarks") {
           setActiveNavItem({ type: "bookmarks" })
-          setEntries(bookmarksData.entries || [])
+          setEntriesFromResponse(bookmarksData)
           setMobileView("list")
         } else if (feedId) {
           return fetchFeed(feedId).then((data) => {
-            setEntries(data.entries || [])
+            setEntriesFromResponse(data)
             const feed = (feedsData.feeds || []).find((f) => String(f.id) === feedId)
             setActiveNavItem({ type: "feed", id: Number(feedId), title: feed?.title || data.feed?.title })
             setMobileView("list")
@@ -59,7 +70,7 @@ export default function App() {
             }
           })
         } else {
-          setEntries(unreadData.entries || [])
+          setEntriesFromResponse(unreadData)
           setMobileView("nav")
         }
       })
@@ -70,26 +81,49 @@ export default function App() {
     setActiveEntry(null)
     setActiveNavItem(item)
     setLoading(true)
+    setMeta(null)
     setMobileView("list")
     pushUrl(item, null)
 
     if (item.type === "feed") {
       fetchFeed(item.id)
-        .then((data) => setEntries(data.entries || []))
+        .then((data) => setEntriesFromResponse(data))
         .finally(() => setLoading(false))
     } else if (item.type === "bookmarks") {
       fetchBookmarks()
-        .then((data) => setEntries(data.entries || []))
+        .then((data) => setEntriesFromResponse(data))
         .finally(() => setLoading(false))
     } else {
       fetchUnread()
         .then((data) => {
-          setEntries(data.entries || [])
+          setEntriesFromResponse(data)
           setUnreadCount(data.meta?.total_count ?? null)
         })
         .finally(() => setLoading(false))
     }
   }
+
+  const handleLoadMore = useCallback(() => {
+    if (!meta || meta.current_page >= meta.total_pages || loadingMore) return
+    const nextPage = meta.current_page + 1
+    setLoadingMore(true)
+
+    const item = activeNavItem
+    let request
+    if (item?.type === "feed") {
+      request = fetchFeed(item.id, nextPage)
+    } else if (item?.type === "bookmarks") {
+      request = fetchBookmarks(nextPage)
+    } else if (item?.type === "tag") {
+      request = fetchTag(item.id, nextPage)
+    } else {
+      request = fetchUnread(nextPage)
+    }
+
+    request
+      .then((data) => appendEntriesFromResponse(data))
+      .finally(() => setLoadingMore(false))
+  }, [meta, loadingMore, activeNavItem])
 
   function handleEntrySelect(entry) {
     setActiveEntry(null)
@@ -106,10 +140,11 @@ export default function App() {
     setActiveEntry(null)
     setActiveNavItem({ type: "tag", ...tag })
     setLoading(true)
+    setMeta(null)
     setMobileView("list")
     pushUrl({ type: "tag", ...tag }, null)
     fetchTag(tag.id)
-      .then((data) => setEntries(data.entries || []))
+      .then((data) => setEntriesFromResponse(data))
       .finally(() => setLoading(false))
   }
 
@@ -119,14 +154,7 @@ export default function App() {
     bookmarks: "Bookmarks",
   }[activeNavItem?.type] ?? "Unread"
 
-  const sharedProps = {
-    feeds, unreadCount, bookmarkCount, activeItem: activeNavItem,
-    entries, loading, activeEntry, entryLoading, listTitle,
-    onNavSelect: handleNavSelect,
-    onEntrySelect: handleEntrySelect,
-    onFeedSelect: (feed) => handleNavSelect({ type: "feed", ...feed }),
-    onTagSelect: handleTagSelect,
-  }
+  const hasMore = meta ? meta.current_page < meta.total_pages : false
 
   if (isMobile) {
     if (mobileView === "entry") {
@@ -144,8 +172,11 @@ export default function App() {
           title={listTitle}
           entries={entries}
           loading={loading}
+          loadingMore={loadingMore}
+          hasMore={hasMore}
+          onLoadMore={handleLoadMore}
           onSelect={handleEntrySelect}
-          onFeedSelect={sharedProps.onFeedSelect}
+          onFeedSelect={(feed) => handleNavSelect({ type: "feed", ...feed })}
           onTagSelect={handleTagSelect}
           onBack={() => setMobileView("nav")}
         />
@@ -175,9 +206,12 @@ export default function App() {
         title={listTitle}
         entries={entries}
         loading={loading}
+        loadingMore={loadingMore}
+        hasMore={hasMore}
+        onLoadMore={handleLoadMore}
         activeEntry={activeEntry}
         onSelect={handleEntrySelect}
-        onFeedSelect={sharedProps.onFeedSelect}
+        onFeedSelect={(feed) => handleNavSelect({ type: "feed", ...feed })}
         onTagSelect={handleTagSelect}
       />
       <EntryDetail entry={activeEntry} loading={entryLoading} />
