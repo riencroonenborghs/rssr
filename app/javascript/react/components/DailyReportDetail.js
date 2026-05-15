@@ -1,4 +1,5 @@
 import React from "react"
+import Markdown from "react-markdown"
 
 function formatDate(iso) {
   if (!iso) return null
@@ -40,9 +41,9 @@ export default function DailyReportDetail({ report, loading }) {
           {formatDate(report.created_at)}
         </div>
       </div>
-      <div className="text-[0.92rem] leading-7" style={{ color: "var(--detail-text-primary)" }}
-        dangerouslySetInnerHTML={{ __html: report.summary || "<p>No summary available.</p>" }}
-      />
+      <div className="text-[0.92rem] leading-7" style={{ color: "var(--detail-text-primary)" }}>
+        <Markdown>{report.summary}</Markdown>
+      </div>
     </div>
   )
 }
