@@ -5,6 +5,7 @@ import SettingsModal from "./SettingsModal"
 import { fetchReports } from "../api/reports"
 
 const userEmail = document.getElementById("react-root")?.dataset?.userEmail || null
+const signedIn = document.getElementById("react-root")?.dataset?.signedIn === "true" || false
 
 export default function Sidebar({ feeds = [], unreadCount, bookmarkCount, activeItem, onSelect }) {
   const [showSettings, setShowSettings] = useState(false)
@@ -32,14 +33,14 @@ export default function Sidebar({ feeds = [], unreadCount, bookmarkCount, active
                 <span>Unread</span>
                 {unreadCount != null && <span className="badge">{unreadCount}</span>}
               </a>
-              <a
+              {bookmarkCount != null && <a
                 href="/react/bookmarks"
                 className={`nav-primary${activeItem?.type === "bookmarks" ? " active" : ""}`}
                 onClick={(e) => { e.preventDefault(); onSelect({ type: "bookmarks" }) }}
               >
                 <span>Bookmarks</span>
-                {bookmarkCount != null && <span className="badge">{bookmarkCount}</span>}
-              </a>
+                <span className="badge">{bookmarkCount}</span>
+              </a>}
             </div>
             <div className="divider" />
             <div className="px-2">
@@ -73,7 +74,7 @@ export default function Sidebar({ feeds = [], unreadCount, bookmarkCount, active
       </aside>
 
       {showSettings && (
-        <SettingsModal userEmail={userEmail} onClose={() => setShowSettings(false)} />
+        <SettingsModal signedIn={signedIn} userEmail={userEmail} onClose={() => setShowSettings(false)} />
       )}
     </>
   )

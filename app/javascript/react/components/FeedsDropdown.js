@@ -20,9 +20,9 @@ export default function FeedsDropdown({ feeds, activeItem, onSelect }) {
       </button>
       {open && (
         <div className="flex flex-col overflow-auto sidebar-scroll mt-1" style={{ maxHeight: "calc(100vh - 420px)" }}>
-          {feeds.map((feed) => (
+          {feeds.map((feed, index) => (
             <a
-              key={feed.id}
+              key={index}
               href={`/react/feeds/${feed.id}`}
               className={`sidebar-link${activeItem?.id === feed.id && activeItem?.type === "feed" ? " active" : ""}`}
               onClick={(e) => { e.preventDefault(); onSelect({ type: "feed", ...feed }) }}

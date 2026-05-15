@@ -2,7 +2,8 @@ const JSON_HEADERS = { "Accept": "application/json", "Content-Type": "applicatio
 
 async function request(path, options = {}) {
   const res = await fetch(`/api/v1${path}`, { ...options, headers: { ...JSON_HEADERS, ...options.headers } })
-  if (!res.ok) throw new Error(`API error ${res.status}: ${path}`)
+  // if (!res.ok) throw new Error(`API error ${res.status}: ${path}`)
+  if (!res.ok) { return [] }
   return res.json()
 }
 

@@ -5,6 +5,8 @@ module Api
     class EntriesController < Api::BaseController
       include FeedEntries
 
+      skip_before_action :authenticate_user!
+
       def show
         set_feed
 

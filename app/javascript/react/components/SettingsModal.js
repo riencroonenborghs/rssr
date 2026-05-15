@@ -3,6 +3,10 @@ import { useSettings } from "../context/SettingsContext"
 import { useIsMobile } from "../hooks/useIsMobile"
 import { fetchSubscriptions, createSubscription, deleteSubscription } from "../api/subscriptions"
 import { fetchFilters, createFilter, deleteFilter } from "../api/filters"
+import { LogIn, LogOut } from 'lucide-react';
+
+const signInPath = document.getElementById("react-root")?.dataset?.signInPath
+const signOutPath = document.getElementById("react-root")?.dataset?.signOutPath
 
 const THEMES = [
   { value: "light", label: "Light" },
@@ -19,8 +23,6 @@ const COMPARISONS = [
   { value: "includes", label: "contains" },
   { value: "tagged", label: "tagged with" },
 ]
-
-const TABS = ["Appearance", "Subscriptions", "Filters"]
 
 function OptionGroup({ label, options, value, onChange }) {
   return (
@@ -237,9 +239,11 @@ function FiltersTab() {
   )
 }
 
-function ModalContent({ userEmail, onClose }) {
+function ModalContent({ signedIn, userEmail, onClose }) {
   const { theme, setTheme, density, setDensity } = useSettings()
   const [tab, setTab] = useState("Appearance")
+
+  const TABS = signedIn ? ["Appearance", "Subscriptions", "Filters"] : ["Appearance"]
 
   return (
     <>
@@ -254,6 +258,21 @@ function ModalContent({ userEmail, onClose }) {
           ✕
         </button>
       </div>
+      <>
+        <div className="px-5 py-3 border-b" style={{ borderColor: "var(--border)" }}>
+          <p className="text-[0.75rem] truncate" style={{ color: "var(--text-muted)" }}>
+            {!signedIn && <a href={signInPath} target="_blank" rel="noopener noreferrer" className="cursor-pointer flex flex-row items-center gap-x-2">
+              <LogIn size={16} />
+              Sign In
+            </a>}
+
+            {signedIn && <button href={signOutPath} className="flex flex-row items-center gap-x-2">
+              <LogOut size={16} />
+              Sign Out
+            </button>}
+          </p>
+        </div>
+      </>
       {userEmail && (
         <div className="px-5 py-3 border-b" style={{ borderColor: "var(--border)" }}>
           <p className="text-[0.75rem] truncate" style={{ color: "var(--text-muted)" }}>{userEmail}</p>
@@ -286,7 +305,7 @@ function ModalContent({ userEmail, onClose }) {
   )
 }
 
-export default function SettingsModal({ onClose, userEmail }) {
+export default function SettingsModal({ onClose, signedIn, userEmail }) {
   const isMobile = useIsMobile()
 
   useEffect(() => {
@@ -310,7 +329,7 @@ export default function SettingsModal({ onClose, userEmail }) {
         style={{ background: "var(--sidebar-surface)", border: "1px solid var(--border)" }}
         onClick={(e) => e.stopPropagation()}
       >
-        <ModalContent userEmail={userEmail} onClose={onClose} />
+        <ModalContent signedIn={signedIn} userEmail={userEmail} onClose={onClose} />
       </div>
     </div>
   )

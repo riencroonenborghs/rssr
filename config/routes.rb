@@ -65,7 +65,8 @@ Rails.application.routes.draw do
   
   match "*path", to: "catch_all#show", via: :all
 
-  root to: "unread#index"
+  # root to: "unread#index"
+  root to: "react_app#index"
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

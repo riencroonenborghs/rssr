@@ -3,6 +3,8 @@
 module Api
   module V1
     class UnreadController < Api::BaseController
+      skip_before_action :authenticate_user!
+
       def index
         @entries = filtered_scope do
           user_scope do

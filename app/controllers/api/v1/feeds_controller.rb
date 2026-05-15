@@ -5,9 +5,11 @@ module Api
     class FeedsController < Api::BaseController
       include FeedEntries
 
+      skip_before_action :authenticate_user!
+
       def index
         @feeds = Feed.joins(:subscriptions).where(subscriptions: { active: true }).order(feeds: { title: :asc })
-        @feeds = @feeds.where(subscriptions: { user_id: current_user.id })
+        @feeds = @feeds.where(subscriptions: { user_id: current_user.id }) if current_user
         @entry_count_by_feed_id = Entry
           .joins(feed: :subscriptions)
           .group(:feed_id)
