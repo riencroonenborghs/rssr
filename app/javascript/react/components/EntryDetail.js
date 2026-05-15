@@ -6,7 +6,16 @@ function formatDate(iso) {
   return d.toLocaleDateString("en-GB", { day: "numeric", month: "short" })
 }
 
-export default function EntryDetail({ entry }) {
+export default function EntryDetail({ entry, loading }) {
+  if (loading) {
+    return (
+      <div className="flex-1 h-screen flex items-center justify-center text-sm"
+        style={{ color: "var(--text-faint)" }}>
+        Loading…
+      </div>
+    )
+  }
+
   if (!entry) {
     return (
       <div className="flex-1 h-screen flex items-center justify-center text-sm"

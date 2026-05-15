@@ -7,3 +7,7 @@ export function fetchFeeds() {
 export function fetchFeed(id, page = 1) {
   return api.get(`/feeds/${id}?page=${page}`)
 }
+
+export function fetchEntry(feedId, entryId) {
+  return api.get(`/feeds/${feedId}/entries/${entryId}`)
+}

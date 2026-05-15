@@ -3,7 +3,7 @@ import Sidebar from "./components/Sidebar"
 import EntriesList from "./components/EntriesList"
 import EntryDetail from "./components/EntryDetail"
 import { fetchUnread } from "./api/unread"
-import { fetchFeeds, fetchFeed } from "./api/feeds"
+import { fetchFeeds, fetchFeed, fetchEntry } from "./api/feeds"
 import { fetchTag } from "./api/tags"
 import { fetchBookmarks } from "./api/bookmarks"
 
@@ -15,6 +15,7 @@ export default function App() {
   const [loading, setLoading] = useState(true)
   const [activeNavItem, setActiveNavItem] = useState(null)
   const [activeEntry, setActiveEntry] = useState(null)
+  const [entryLoading, setEntryLoading] = useState(false)
 
   useEffect(() => {
     setLoading(true)
@@ -51,6 +52,14 @@ export default function App() {
     }
   }
 
+  function handleEntrySelect(entry) {
+    setActiveEntry(null)
+    setEntryLoading(true)
+    fetchEntry(entry.feed.id, entry.id)
+      .then((data) => setActiveEntry({ ...data.entry, feed: data.feed }))
+      .finally(() => setEntryLoading(false))
+  }
+
   function handleTagSelect(tag) {
     setActiveEntry(null)
     setActiveNavItem({ type: "tag", ...tag })
@@ -80,11 +89,11 @@ export default function App() {
         entries={entries}
         loading={loading}
         activeEntry={activeEntry}
-        onSelect={setActiveEntry}
+        onSelect={handleEntrySelect}
         onFeedSelect={(feed) => handleNavSelect({ type: "feed", ...feed })}
         onTagSelect={handleTagSelect}
       />
-      <EntryDetail entry={activeEntry} />
+      <EntryDetail entry={activeEntry} loading={entryLoading} />
     </div>
   )
 }
