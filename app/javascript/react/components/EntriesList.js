@@ -9,20 +9,20 @@ export default function EntriesList({ title, entries = [], loading, loadingMore,
 
   return (
     <div className="flex flex-col h-screen w-[340px] min-w-[340px] overflow-hidden border-r"
-      style={{ background: "var(--sidebar-surface)", borderColor: "var(--border)" }}>
-      <div className="px-4 py-4 border-b" style={{ borderColor: "var(--border)" }}>
+      style={{ background: "var(--entries-bg)", borderColor: "var(--entries-border)" }}>
+      <div className="px-4 py-4 border-b" style={{ borderColor: "var(--entries-border)" }}>
         <h2 className="m-0 text-[0.7rem] font-medium tracking-[0.14em] uppercase"
-          style={{ color: "var(--text-muted)" }}>
+          style={{ color: "var(--entries-text-muted)" }}>
           {title || "Entries"}
         </h2>
       </div>
       <div ref={scrollRef} className="overflow-y-auto flex-1 sidebar-scroll">
         {loading ? (
-          <div className="py-8 px-4 text-sm text-center" style={{ color: "var(--text-muted)" }}>
+          <div className="py-8 px-4 text-sm text-center" style={{ color: "var(--entries-text-muted)" }}>
             Loading…
           </div>
         ) : entries.length === 0 ? (
-          <div className="py-8 px-4 text-sm text-center" style={{ color: "var(--text-muted)" }}>
+          <div className="py-8 px-4 text-sm text-center" style={{ color: "var(--entries-text-muted)" }}>
             No entries
           </div>
         ) : (
@@ -39,7 +39,7 @@ export default function EntriesList({ title, entries = [], loading, loadingMore,
               />
             ))}
             {loadingMore && (
-              <div className="py-4 text-center text-[0.75rem]" style={{ color: "var(--text-faint)" }}>
+              <div className="py-4 text-center text-[0.75rem]" style={{ color: "var(--entries-text-faint)" }}>
                 Loading…
               </div>
             )}
