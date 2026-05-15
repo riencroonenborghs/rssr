@@ -26,7 +26,7 @@ export default function DailyReportDetail({ report, loading }) {
   }
 
   return (
-    <div className="flex-1 h-screen overflow-y-auto px-12 py-10 max-w-[720px] sidebar-scroll"
+    <div className="flex-1 h-screen overflow-y-auto px-12 py-10 sidebar-scroll"
       style={{ background: "var(--detail-bg)" }}>
       <div className="mb-6">
         <div className="text-[0.7rem] font-medium tracking-[0.14em] uppercase mb-2"
