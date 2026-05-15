@@ -1,7 +1,9 @@
 import React from "react"
 import EntryRow from "../components/EntryRow"
+import { useSettings } from "../context/SettingsContext"
 
 export default function MobileEntriesList({ title, entries = [], loading, onSelect, onFeedSelect, onTagSelect, onBack }) {
+  const { density } = useSettings()
   return (
     <div className="flex flex-col h-screen" style={{ background: "var(--sidebar-surface)" }}>
       <div className="flex items-center gap-3 px-4 py-3 border-b shrink-0"
@@ -30,7 +32,7 @@ export default function MobileEntriesList({ title, entries = [], loading, onSele
               key={entry.id}
               entry={entry}
               active={false}
-              compact={false}
+              compact={density === "compact"}
               onSelect={onSelect}
               onFeedSelect={onFeedSelect}
               onTagSelect={onTagSelect}
