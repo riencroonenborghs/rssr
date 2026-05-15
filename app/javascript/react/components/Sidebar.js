@@ -14,18 +14,10 @@ const MANAGE_LINKS = [
 
 export default function Sidebar({ feeds = [], activeItem, onSelect }) {
   return (
-    <aside style={{
-      width: 232,
-      minWidth: 232,
-      height: "100vh",
-      background: "var(--sidebar-bg)",
-      borderRight: "1px solid var(--border)",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "space-between",
-    }}>
+    <aside className="flex flex-col justify-between h-screen w-[232px] min-w-[232px] border-r"
+      style={{ background: "var(--sidebar-bg)", borderColor: "var(--border)" }}>
       <div>
-        <div className="px-5 py-5" style={{ borderBottom: "1px solid var(--border)" }}>
+        <div className="px-5 py-5 border-b" style={{ borderColor: "var(--border)" }}>
           <a className="logo-wordmark" href="/react">RSSReader</a>
         </div>
         <div className="px-2 pt-4">
@@ -46,7 +38,7 @@ export default function Sidebar({ feeds = [], activeItem, onSelect }) {
           <FeedsDropdown feeds={feeds} activeItem={activeItem} onSelect={onSelect} />
         </div>
       </div>
-      <div className="px-2 py-4" style={{ borderTop: "1px solid var(--border)" }}>
+      <div className="px-2 py-4 border-t" style={{ borderColor: "var(--border)" }}>
         <p className="section-label mb-2">Manage</p>
         {MANAGE_LINKS.map((link) => (
           <a

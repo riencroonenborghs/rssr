@@ -32,7 +32,7 @@ export default function App() {
   const listTitle = activeNavItem?.type === "feed" ? activeNavItem.title : "Unread"
 
   return (
-    <div style={{ display: "flex", flexDirection: "row", height: "100vh", overflow: "hidden" }}>
+    <div className="flex flex-row h-screen overflow-hidden">
       <Sidebar
         feeds={feeds}
         activeItem={activeNavItem}

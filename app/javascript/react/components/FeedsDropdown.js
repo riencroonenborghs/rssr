@@ -19,10 +19,7 @@ export default function FeedsDropdown({ feeds, activeItem, onSelect }) {
         </span>
       </button>
       {open && (
-        <div
-          className="flex flex-col overflow-auto sidebar-scroll mt-1"
-          style={{ maxHeight: "calc(100vh - 420px)" }}
-        >
+        <div className="flex flex-col overflow-auto sidebar-scroll mt-1" style={{ maxHeight: "calc(100vh - 420px)" }}>
           {feeds.map((feed) => (
             <a
               key={feed.id}
