@@ -51,9 +51,8 @@ Rails.application.routes.draw do
       resources :bookmarks, only: [:index, :create, :destroy]
 
       resources :subscriptions, only: [:index, :create, :destroy]
-      resources :reports, only: [:index, :create, :update, :destroy]
-      namespace :reports do
-        resources :daily, only: [:index, :show]
+      resources :reports, only: [:index, :create, :update, :destroy] do
+        resources :daily, only: [:index, :show], controller: "reports/daily"
       end
 
       resources :filters, only: [:index, :create, :destroy]

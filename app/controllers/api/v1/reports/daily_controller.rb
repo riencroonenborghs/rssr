@@ -7,7 +7,7 @@ module Api
         def index
           @daily_reports = GeneratedReport
             .includes(:report)
-            .where(report_id: current_user.reports.daily.select(:id))
+            .where(report_id: params[:report_id])
             .order(created_at: :desc)
         end
 
