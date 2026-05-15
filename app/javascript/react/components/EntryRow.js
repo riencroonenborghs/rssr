@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 
 function formatDate(iso) {
   if (!iso) return null
@@ -7,6 +7,8 @@ function formatDate(iso) {
 }
 
 export default function EntryRow({ entry, active, compact, onSelect, onFeedSelect, onTagSelect }) {
+  const [showAllTags, setShowAllTags] = useState(false)
+
   return (
     <div
       onClick={() => onSelect(entry)}
@@ -51,7 +53,7 @@ export default function EntryRow({ entry, active, compact, onSelect, onFeedSelec
         </div>
         {!compact && entry.tags?.length > 0 && (
           <div className="flex gap-[0.3rem] flex-wrap">
-            {entry.tags.map((tag, index) => (
+            {(showAllTags ? entry.tags : entry.tags.slice(0, 3)).map((tag, index) => (
               <a
                 key={index}
                 href={`/react/tags/${tag.id}`}
@@ -62,6 +64,16 @@ export default function EntryRow({ entry, active, compact, onSelect, onFeedSelec
                 #{tag.name}
               </a>
             ))}
+            {!showAllTags && entry.tags.length > 3 && (
+              <button
+                type="button"
+                className="text-[0.5rem] px-[6px] py-[1px] rounded-full border-none cursor-pointer"
+                style={{ color: "var(--entries-text-muted)", background: "rgba(0,0,0,0.06)" }}
+                onClick={(e) => { e.stopPropagation(); setShowAllTags(true) }}
+              >
+                +{entry.tags.length - 3}
+              </button>
+            )}
           </div>
         )}
       </div>
