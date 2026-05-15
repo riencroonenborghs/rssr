@@ -5,23 +5,25 @@ import EntryDetail from "./components/EntryDetail"
 import { fetchUnread } from "./api/unread"
 import { fetchFeeds, fetchFeed } from "./api/feeds"
 import { fetchTag } from "./api/tags"
+import { fetchBookmarks } from "./api/bookmarks"
 
 export default function App() {
   const [feeds, setFeeds] = useState([])
   const [entries, setEntries] = useState([])
   const [unreadCount, setUnreadCount] = useState(null)
+  const [bookmarkCount, setBookmarkCount] = useState(null)
   const [loading, setLoading] = useState(true)
   const [activeNavItem, setActiveNavItem] = useState(null)
   const [activeEntry, setActiveEntry] = useState(null)
 
   useEffect(() => {
     setLoading(true)
-    Promise.all([fetchFeeds(), fetchUnread()])
-      .then(([feedsData, unreadData]) => {
-        const unreadEntries = unreadData.entries || []
+    Promise.all([fetchFeeds(), fetchUnread(), fetchBookmarks()])
+      .then(([feedsData, unreadData, bookmarksData]) => {
         setFeeds(feedsData.feeds)
-        setEntries(unreadEntries)
+        setEntries(unreadData.entries || [])
         setUnreadCount(unreadData.meta?.total_count ?? null)
+        setBookmarkCount(bookmarksData.meta?.total_count ?? null)
       })
       .finally(() => setLoading(false))
   }, [])
@@ -29,16 +31,22 @@ export default function App() {
   function handleNavSelect(item) {
     setActiveEntry(null)
     setActiveNavItem(item)
+    setLoading(true)
 
     if (item.type === "feed") {
-      setLoading(true)
       fetchFeed(item.id)
         .then((data) => setEntries(data.entries || []))
         .finally(() => setLoading(false))
-    } else {
-      setLoading(true)
-      fetchUnread()
+    } else if (item.type === "bookmarks") {
+      fetchBookmarks()
         .then((data) => setEntries(data.entries || []))
+        .finally(() => setLoading(false))
+    } else {
+      fetchUnread()
+        .then((data) => {
+          setEntries(data.entries || [])
+          setUnreadCount(data.meta?.total_count ?? null)
+        })
         .finally(() => setLoading(false))
     }
   }
@@ -52,17 +60,18 @@ export default function App() {
       .finally(() => setLoading(false))
   }
 
-  const listTitle = activeNavItem?.type === "feed"
-    ? activeNavItem.title
-    : activeNavItem?.type === "tag"
-      ? `#${activeNavItem.name}`
-      : "Unread"
+  const listTitle = {
+    feed: activeNavItem?.title,
+    tag: `#${activeNavItem?.name}`,
+    bookmarks: "Bookmarks",
+  }[activeNavItem?.type] ?? "Unread"
 
   return (
     <div className="flex flex-row h-screen overflow-hidden">
       <Sidebar
         feeds={feeds}
         unreadCount={unreadCount}
+        bookmarkCount={bookmarkCount}
         activeItem={activeNavItem}
         onSelect={handleNavSelect}
       />
