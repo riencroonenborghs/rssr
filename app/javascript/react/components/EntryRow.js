@@ -40,8 +40,8 @@ export default function EntryRow({ entry, active, onSelect, onFeedSelect, onTagS
             </>
           )}
         </div>
-        <div className="text-[0.85rem] font-medium leading-[1.35] mb-[0.3rem] overflow-hidden line-clamp-2"
-          style={{ color: "var(--text-primary)" }}>
+        <div className={`text-[0.85rem] leading-[1.35] mb-[0.3rem] overflow-hidden line-clamp-2 ${entry.viewed ? "font-normal" : "font-medium"}`}
+          style={{ color: entry.viewed ? "var(--text-muted)" : "var(--text-primary)" }}>
           {entry.title}
         </div>
         {entry.tags?.length > 0 && (

@@ -17,7 +17,7 @@ export default function EntryDetail({ entry }) {
   }
 
   return (
-    <div className="flex-1 h-screen overflow-y-auto px-12 py-10 max-w-[720px] sidebar-scroll">
+    <div className="flex-1 h-screen overflow-y-auto px-12 py-10 sidebar-scroll">
       <div className="mb-6">
         <h1 className="text-[1.6rem] font-semibold leading-[1.3] mb-3"
           style={{ fontFamily: "'Playfair Display', serif", color: "var(--text-primary)" }}>
