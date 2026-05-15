@@ -1,8 +1,4 @@
-json.feed do
-  json.id @feed.id
-  json.title @feed.title
-  json.url @feed.url
-end
+
 
 json.entries @entries do |entry|
   json.id entry.id
@@ -17,6 +13,11 @@ json.entries @entries do |entry|
   json.tags (@tags_by_entry[entry.id] || []) do |tag|
     json.id tag.id
     json.name tag.name
+  end
+  json.feed do
+    json.id @feed.id
+    json.title @feed.title
+    json.url @feed.url
   end
 end
 

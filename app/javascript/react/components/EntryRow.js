@@ -6,7 +6,7 @@ function formatDate(iso) {
   return d.toLocaleDateString("en-GB", { day: "numeric", month: "short" })
 }
 
-export default function EntryRow({ entry, active, onSelect, onFeedSelect }) {
+export default function EntryRow({ entry, active, onSelect, onFeedSelect, onTagSelect }) {
   return (
     <div
       onClick={() => onSelect(entry)}
@@ -47,11 +47,15 @@ export default function EntryRow({ entry, active, onSelect, onFeedSelect }) {
         {entry.tags?.length > 0 && (
           <div className="flex gap-[0.3rem] flex-wrap">
             {entry.tags.map((tag, index) => (
-              <span key={index}
-                className="text-[0.65rem] px-[6px] py-[1px] rounded-full"
-                style={{ color: "var(--text-muted)", background: "rgba(255,255,255,0.05)" }}>
-                {tag.name}
-              </span>
+              <a
+                key={index}
+                href={`/react?tag=${tag.id}`}
+                className="text-[0.5rem] px-[6px] py-[1px] rounded-full hover:underline"
+                style={{ color: "var(--text-muted)", background: "rgba(255,255,255,0.05)" }}
+                onClick={(e) => { e.preventDefault(); e.stopPropagation(); onTagSelect(tag) }}
+              >
+                #{tag.name}
+              </a>
             ))}
           </div>
         )}

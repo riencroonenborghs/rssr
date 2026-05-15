@@ -4,6 +4,7 @@ import EntriesList from "./components/EntriesList"
 import EntryDetail from "./components/EntryDetail"
 import { fetchUnread } from "./api/unread"
 import { fetchFeeds, fetchFeed } from "./api/feeds"
+import { fetchTag } from "./api/tags"
 
 export default function App() {
   const [feeds, setFeeds] = useState([])
@@ -40,7 +41,20 @@ export default function App() {
     }
   }
 
-  const listTitle = activeNavItem?.type === "feed" ? activeNavItem.title : "Unread"
+  function handleTagSelect(tag) {
+    setActiveEntry(null)
+    setActiveNavItem({ type: "tag", ...tag })
+    setLoading(true)
+    fetchTag(tag.id)
+      .then((data) => setEntries(data.entries || []))
+      .finally(() => setLoading(false))
+  }
+
+  const listTitle = activeNavItem?.type === "feed"
+    ? activeNavItem.title
+    : activeNavItem?.type === "tag"
+      ? `#${activeNavItem.name}`
+      : "Unread"
 
   return (
     <div className="flex flex-row h-screen overflow-hidden">
@@ -56,6 +70,7 @@ export default function App() {
         activeEntry={activeEntry}
         onSelect={setActiveEntry}
         onFeedSelect={(feed) => handleNavSelect({ type: "feed", ...feed })}
+        onTagSelect={handleTagSelect}
       />
       <EntryDetail entry={activeEntry} />
     </div>
