@@ -13,4 +13,4 @@
     = stylesheet_link_tag "application"
 
   %body(style="margin: 0; padding: 0; background: var(--sidebar-bg); color: var(--text-primary);")
-    #react-root
+    #react-root(data-user-email="#{current_user&.email}")

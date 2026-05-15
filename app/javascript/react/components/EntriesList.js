@@ -1,7 +1,9 @@
 import React from "react"
 import EntryRow from "./EntryRow"
+import { useSettings } from "../context/SettingsContext"
 
 export default function EntriesList({ title, entries = [], loading, activeEntry, onSelect, onFeedSelect, onTagSelect }) {
+  const { density } = useSettings()
   return (
     <div className="flex flex-col h-screen w-[340px] min-w-[340px] overflow-hidden border-r"
       style={{ background: "var(--sidebar-surface)", borderColor: "var(--border)" }}>
@@ -26,6 +28,7 @@ export default function EntriesList({ title, entries = [], loading, activeEntry,
               key={entry.id}
               entry={entry}
               active={activeEntry?.id === entry.id}
+              compact={density === "compact"}
               onSelect={onSelect}
               onFeedSelect={onFeedSelect}
               onTagSelect={onTagSelect}

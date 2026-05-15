@@ -11,6 +11,30 @@
   --border: rgba(201,169,110,0.12);
   --hover-bg: rgba(201,169,110,0.06);
 }
+[data-theme="light"] {
+  --sidebar-bg: #f5f0e8;
+  --sidebar-surface: #faf7f2;
+  --accent: #a07840;
+  --accent-dim: #c9a96e;
+  --text-primary: #1a1612;
+  --text-muted: #7a6f60;
+  --text-faint: #b0a898;
+  --border: rgba(160,120,64,0.15);
+  --hover-bg: rgba(160,120,64,0.07);
+}
+@media (prefers-color-scheme: light) {
+  [data-theme="auto"] {
+    --sidebar-bg: #f5f0e8;
+    --sidebar-surface: #faf7f2;
+    --accent: #a07840;
+    --accent-dim: #c9a96e;
+    --text-primary: #1a1612;
+    --text-muted: #7a6f60;
+    --text-faint: #b0a898;
+    --border: rgba(160,120,64,0.15);
+    --hover-bg: rgba(160,120,64,0.07);
+  }
+}
 body { font-family: 'DM Sans', sans-serif; }
 .display-font { font-family: 'DM Sans', system-ui, sans-serif; }
 .sidebar-link {
