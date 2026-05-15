@@ -23,7 +23,7 @@ export default function FeedsDropdown({ feeds, activeItem, onSelect }) {
           {feeds.map((feed) => (
             <a
               key={feed.id}
-              href={`/feeds/${feed.id}`}
+              href={`/react/feeds/${feed.id}`}
               className={`sidebar-link${activeItem?.id === feed.id && activeItem?.type === "feed" ? " active" : ""}`}
               onClick={(e) => { e.preventDefault(); onSelect({ type: "feed", ...feed }) }}
             >

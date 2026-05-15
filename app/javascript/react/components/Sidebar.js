@@ -25,7 +25,7 @@ export default function Sidebar({ feeds = [], unreadCount, bookmarkCount, active
             {unreadCount != null && <span className="badge">{unreadCount}</span>}
           </a>
           <a
-            href="/bookmarks"
+            href="/react/bookmarks"
             className={`nav-primary${activeItem?.type === "bookmarks" ? " active" : ""}`}
             onClick={(e) => { e.preventDefault(); onSelect({ type: "bookmarks" }) }}
           >

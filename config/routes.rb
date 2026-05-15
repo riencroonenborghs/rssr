@@ -10,7 +10,13 @@ Rails.application.routes.draw do
     sessions: "users/sessions"
   }
 
-  get "/react", to: "react_app#index"
+  scope "/react" do
+    get "/", to: "react_app#index", as: :react_app
+    get "/bookmarks", to: "react_app#index"
+    get "/feeds/:feed_id", to: "react_app#index"
+    get "/feeds/:feed_id/entries/:entry_id", to: "react_app#index"
+    get "/tags/:tag_id", to: "react_app#index"
+  end
 
   resources :unread, only: [:index]
   resources :feeds, only: [:show] do
