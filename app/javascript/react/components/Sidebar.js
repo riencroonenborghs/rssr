@@ -1,18 +1,13 @@
 import React from "react"
 import FeedsDropdown from "./FeedsDropdown"
 
-const NAV_ITEMS = [
-  { label: "Unread", path: "/", badge: null },
-  { label: "Bookmarks", path: "/bookmarks", badge: null },
-]
-
 const MANAGE_LINKS = [
   { label: "Subscriptions", path: "/subscriptions" },
   { label: "Filters", path: "/filters" },
   { label: "Sidekiq", path: "/sidekiq", external: true },
 ]
 
-export default function Sidebar({ feeds = [], activeItem, onSelect }) {
+export default function Sidebar({ feeds = [], unreadCount, activeItem, onSelect }) {
   return (
     <aside className="flex flex-col justify-between h-screen w-[232px] min-w-[232px] border-r"
       style={{ background: "var(--sidebar-bg)", borderColor: "var(--border)" }}>
@@ -21,17 +16,14 @@ export default function Sidebar({ feeds = [], activeItem, onSelect }) {
           <a className="logo-wordmark" href="/react">RSSReader</a>
         </div>
         <div className="px-2 pt-4">
-          {NAV_ITEMS.map((item) => (
-            <a
-              key={item.path}
-              href={item.path}
-              className={`nav-primary${activeItem?.path === item.path ? " active" : ""}`}
-              onClick={(e) => { e.preventDefault(); onSelect({ type: "nav", ...item }) }}
-            >
-              <span>{item.label}</span>
-              {item.badge != null && <span className="badge">{item.badge}</span>}
-            </a>
-          ))}
+          <a
+            href="/"
+            className={`nav-primary${!activeItem || activeItem.type === "nav" && activeItem.path === "/" ? " active" : ""}`}
+            onClick={(e) => { e.preventDefault(); onSelect({ type: "nav", label: "Unread", path: "/" }) }}
+          >
+            <span>Unread</span>
+            {unreadCount != null && <span className="badge">{unreadCount}</span>}
+          </a>
         </div>
         <div className="divider" />
         <div className="px-2">

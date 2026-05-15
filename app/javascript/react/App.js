@@ -9,6 +9,7 @@ import { fetchTag } from "./api/tags"
 export default function App() {
   const [feeds, setFeeds] = useState([])
   const [entries, setEntries] = useState([])
+  const [unreadCount, setUnreadCount] = useState(null)
   const [loading, setLoading] = useState(true)
   const [activeNavItem, setActiveNavItem] = useState(null)
   const [activeEntry, setActiveEntry] = useState(null)
@@ -20,6 +21,7 @@ export default function App() {
         const unreadEntries = unreadData.entries || []
         setFeeds(feedsData.feeds)
         setEntries(unreadEntries)
+        setUnreadCount(unreadData.meta?.total_count ?? null)
       })
       .finally(() => setLoading(false))
   }, [])
@@ -60,6 +62,7 @@ export default function App() {
     <div className="flex flex-row h-screen overflow-hidden">
       <Sidebar
         feeds={feeds}
+        unreadCount={unreadCount}
         activeItem={activeNavItem}
         onSelect={handleNavSelect}
       />
