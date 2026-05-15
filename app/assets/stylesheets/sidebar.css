@@ -10,14 +10,14 @@
   --text-faint: #2e333d;
   --border: rgba(255,255,255,0.06);
   --hover-bg: rgba(255,255,255,0.04);
-  --entries-bg: #f5f6f4;
+  --entries-bg: #111318;
   --entries-border: rgba(0,0,0,0.07);
   --entries-hover-bg: rgba(0,0,0,0.04);
-  --entries-text-primary: #2a2d28;
+  --entries-text-primary: #d4cfc8;
   --entries-text-muted: #7a8278;
   --entries-text-faint: #adb5a8;
-  --detail-bg: #fafaf9;
-  --detail-text-primary: #2a2d28;
+  --detail-bg: #111318;
+  --detail-text-primary: #d4cfc8;
   --detail-text-muted: #7a8278;
   --detail-accent: #4e7a60;
 }
