@@ -33,7 +33,7 @@ export default function EntryRow({ entry, active, compact, onSelect, onFeedSelec
         <div className={`flex justify-between gap-[0.4rem] items-center flex-wrap text-[0.72rem] ${compact ? "mb-0" : "mb-[0.4rem]"}`}
           style={{ color: "var(--entries-text-faint)" }}>
           <a
-            href={`/react/feeds/${entry.feed?.id}`}
+            href={`/v2/feeds/${entry.feed?.id}`}
             className="hover:underline"
             style={{ color: "var(--entries-text-muted)" }}
             onClick={(e) => { e.preventDefault(); e.stopPropagation(); onFeedSelect(entry.feed) }}
@@ -56,7 +56,7 @@ export default function EntryRow({ entry, active, compact, onSelect, onFeedSelec
             {(showAllTags ? entry.tags : entry.tags.slice(0, 3)).map((tag, index) => (
               <a
                 key={index}
-                href={`/react/tags/${tag.id}`}
+                href={`/v2/tags/${tag.id}`}
                 className="text-[0.5rem] px-[6px] py-[1px] rounded-full hover:underline"
                 style={{ color: "var(--entries-text-muted)", background: "rgba(0,0,0,0.06)" }}
                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); onTagSelect(tag) }}

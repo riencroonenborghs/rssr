@@ -13,7 +13,7 @@ export default function MobileNav({ feeds, unreadCount, bookmarkCount, activeIte
         style={{ background: "var(--sidebar-bg)" }}>
         <div className="flex items-center justify-between px-5 py-4 border-b"
           style={{ borderColor: "var(--border)" }}>
-          <a className="logo-wordmark" href="/react">RSSReader</a>
+          <a className="logo-wordmark" href="/">RSSReader</a>
           <button
             type="button"
             onClick={() => setShowSettings((s) => !s)}
@@ -26,7 +26,7 @@ export default function MobileNav({ feeds, unreadCount, bookmarkCount, activeIte
 
         <div className="px-2 pt-4">
           <a
-            href="/react"
+            href="/"
             className={`nav-primary${!activeItem || activeItem.type === "unread" ? " active" : ""}`}
             onClick={(e) => { e.preventDefault(); onSelect({ type: "unread" }) }}
           >
@@ -34,7 +34,7 @@ export default function MobileNav({ feeds, unreadCount, bookmarkCount, activeIte
             {unreadCount != null && <span className="badge">{unreadCount}</span>}
           </a>
           <a
-            href="/react/bookmarks"
+            href="/v2/bookmarks"
             className={`nav-primary${activeItem?.type === "bookmarks" ? " active" : ""}`}
             onClick={(e) => { e.preventDefault(); onSelect({ type: "bookmarks" }) }}
           >

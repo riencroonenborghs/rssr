@@ -21,12 +21,12 @@ export default function Sidebar({ feeds = [], unreadCount, bookmarkCount, active
         style={{ background: "var(--sidebar-bg)", borderColor: "var(--border)" }}>
         <div className="flex flex-col overflow-hidden flex-1">
           <div className="px-5 py-5 border-b shrink-0" style={{ borderColor: "var(--border)" }}>
-            <a className="logo-wordmark" href="/react">RSSReader</a>
+            <a className="logo-wordmark" href="/">RSSReader</a>
           </div>
           <div className="overflow-y-auto flex-1 sidebar-scroll">
             <div className="px-2 pt-4">
               <a
-                href="/react"
+                href="/"
                 className={`nav-primary${!activeItem || activeItem.type === "unread" ? " active" : ""}`}
                 onClick={(e) => { e.preventDefault(); onSelect({ type: "unread" }) }}
               >
@@ -34,7 +34,7 @@ export default function Sidebar({ feeds = [], unreadCount, bookmarkCount, active
                 {unreadCount != null && <span className="badge">{unreadCount}</span>}
               </a>
               {bookmarkCount != null && <a
-                href="/react/bookmarks"
+                href="/v2/bookmarks"
                 className={`nav-primary${activeItem?.type === "bookmarks" ? " active" : ""}`}
                 onClick={(e) => { e.preventDefault(); onSelect({ type: "bookmarks" }) }}
               >

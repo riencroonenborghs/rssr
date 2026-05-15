@@ -20,7 +20,7 @@ export default function ReportsDropdown({ reports, activeItem, onSelect }) {
           {reports.map((report) => (
             <a
               key={report.id}
-              href={`/react/reports/${report.id}`}
+              href={`/v2/reports/${report.id}`}
               className={`sidebar-link text-[0.82rem]${activeItem?.type === "report" && activeItem?.id === report.id ? " active" : ""}`}
               onClick={(e) => { e.preventDefault(); onSelect({ type: "report", id: report.id, title: report.keywords?.join(", ") }) }}
             >

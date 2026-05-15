@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     sessions: "users/sessions"
   }
 
-  scope "/react" do
+  scope "/v2" do
     get "/", to: "react_app#index", as: :react_app
     get "/bookmarks", to: "react_app#index"
     get "/feeds/:feed_id", to: "react_app#index"
@@ -20,20 +20,20 @@ Rails.application.routes.draw do
     get "/reports/:report_id/daily/:daily_id", to: "react_app#index"
   end
 
-  resources :unread, only: [:index]
-  resources :feeds, only: [:show] do
-    resources :entries, only: [:show]
-  end
-  resources :tags, only: [:show]
+  # resources :unread, only: [:index]
+  # resources :feeds, only: [:show] do
+  #   resources :entries, only: [:show]
+  # end
+  # resources :tags, only: [:show]
 
   devise_scope :user do
     authenticated :user do
       mount Sidekiq::Web => "/sidekiq"
-      resources :bookmarks, only: [:index, :create, :destroy]
-      resources :subscriptions, only: [:index, :new, :create, :destroy]
-      resources :filters, only: [:index, :new, :create, :destroy]
-      resources :search, only: [:new, :create]
-      resources :generated_reports, only: [:show]
+  #     resources :bookmarks, only: [:index, :create, :destroy]
+  #     resources :subscriptions, only: [:index, :new, :create, :destroy]
+  #     resources :filters, only: [:index, :new, :create, :destroy]
+  #     resources :search, only: [:new, :create]
+  #     resources :generated_reports, only: [:show]
     end
   end
   
@@ -65,7 +65,6 @@ Rails.application.routes.draw do
   
   match "*path", to: "catch_all#show", via: :all
 
-  # root to: "unread#index"
   root to: "react_app#index"
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
