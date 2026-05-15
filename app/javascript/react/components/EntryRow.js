@@ -6,7 +6,7 @@ function formatDate(iso) {
   return d.toLocaleDateString("en-GB", { day: "numeric", month: "short" })
 }
 
-export default function EntryRow({ entry, active, onSelect }) {
+export default function EntryRow({ entry, active, onSelect, onFeedSelect }) {
   return (
     <button
       onClick={() => onSelect(entry)}
@@ -25,7 +25,13 @@ export default function EntryRow({ entry, active, onSelect }) {
       <div className="flex-1 min-w-0">
         <div className="flex justify-between gap-[0.4rem] items-center flex-wrap text-[0.72rem] mb-[0.4rem]"
           style={{ color: "var(--text-muted)" }}>
-          <span style={{ color: "var(--accent-dim)" }}>{entry.feed?.title}</span>
+          <button
+            className="border-none bg-transparent p-0 cursor-pointer text-[0.72rem]"
+            style={{ color: "var(--accent-dim)" }}
+            onClick={(e) => { e.stopPropagation(); onFeedSelect(entry.feed) }}
+          >
+            {entry.feed?.title}
+          </button>
           {entry.published_at && (
             <>
               <span>·</span>

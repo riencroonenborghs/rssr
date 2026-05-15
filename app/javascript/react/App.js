@@ -3,7 +3,7 @@ import Sidebar from "./components/Sidebar"
 import EntriesList from "./components/EntriesList"
 import EntryDetail from "./components/EntryDetail"
 import { fetchUnread } from "./api/unread"
-import { fetchFeeds } from "./api/feeds"
+import { fetchFeeds, fetchFeed } from "./api/feeds"
 
 export default function App() {
   const [feeds, setFeeds] = useState([])
@@ -17,19 +17,28 @@ export default function App() {
     Promise.all([fetchFeeds(), fetchUnread()])
       .then(([feedsData, unreadData]) => {
         const unreadEntries = unreadData.entries || []
-        const countByFeedId = unreadEntries.reduce((acc, e) => {
-          acc[e.feed.id] = (acc[e.feed.id] || 0) + 1
-          return acc
-        }, {})
-        setFeeds((feedsData.feeds || []).map((f) => ({ ...f, count: countByFeedId[f.id] || 0 })))
+        setFeeds(feedsData.feeds)
         setEntries(unreadEntries)
       })
       .finally(() => setLoading(false))
   }, [])
 
-  const visibleEntries = activeNavItem?.type === "feed"
-    ? entries.filter((e) => e.feed.id === activeNavItem.id)
-    : entries
+  function handleNavSelect(item) {
+    setActiveEntry(null)
+    setActiveNavItem(item)
+
+    if (item.type === "feed") {
+      setLoading(true)
+      fetchFeed(item.id)
+        .then((data) => setEntries(data.entries || []))
+        .finally(() => setLoading(false))
+    } else {
+      setLoading(true)
+      fetchUnread()
+        .then((data) => setEntries(data.entries || []))
+        .finally(() => setLoading(false))
+    }
+  }
 
   const listTitle = activeNavItem?.type === "feed" ? activeNavItem.title : "Unread"
 
@@ -38,14 +47,15 @@ export default function App() {
       <Sidebar
         feeds={feeds}
         activeItem={activeNavItem}
-        onSelect={(item) => { setActiveNavItem(item); setActiveEntry(null) }}
+        onSelect={handleNavSelect}
       />
       <EntriesList
         title={listTitle}
-        entries={visibleEntries}
+        entries={entries}
         loading={loading}
         activeEntry={activeEntry}
         onSelect={setActiveEntry}
+        onFeedSelect={(feed) => handleNavSelect({ type: "feed", ...feed })}
       />
       <EntryDetail entry={activeEntry} />
     </div>

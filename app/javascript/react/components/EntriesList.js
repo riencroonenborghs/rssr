@@ -1,7 +1,7 @@
 import React from "react"
 import EntryRow from "./EntryRow"
 
-export default function EntriesList({ title, entries = [], loading, activeEntry, onSelect }) {
+export default function EntriesList({ title, entries = [], loading, activeEntry, onSelect, onFeedSelect }) {
   return (
     <div className="flex flex-col h-screen w-[340px] min-w-[340px] overflow-hidden border-r"
       style={{ background: "var(--sidebar-surface)", borderColor: "var(--border)" }}>
@@ -27,6 +27,7 @@ export default function EntriesList({ title, entries = [], loading, activeEntry,
               entry={entry}
               active={activeEntry?.id === entry.id}
               onSelect={onSelect}
+              onFeedSelect={onFeedSelect}
             />
           ))
         )}
