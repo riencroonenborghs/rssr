@@ -1,0 +1,60 @@
+import React from "react"
+
+function formatDate(iso) {
+  if (!iso) return null
+  const d = new Date(iso)
+  return d.toLocaleDateString("en-GB", { day: "numeric", month: "short" })
+}
+
+export default function MobileEntryDetail({ entry, loading, onBack }) {
+  return (
+    <div className="flex flex-col h-screen" style={{ background: "var(--sidebar-bg)" }}>
+      <div className="flex items-center gap-3 px-4 py-3 border-b shrink-0"
+        style={{ borderColor: "var(--border)" }}>
+        <button
+          type="button"
+          onClick={onBack}
+          className="border-none bg-transparent cursor-pointer text-[1.1rem] p-0 leading-none"
+          style={{ color: "var(--text-muted)" }}
+        >
+          ←
+        </button>
+
+        {entry && (
+          <h2 className="m-0 text-[0.7rem] font-medium tracking-[0.14em] uppercase"
+            style={{ color: "var(--text-muted)" }}>
+            {entry.feed?.title}
+          </h2>
+        )}
+      </div>
+
+      <div className="overflow-y-auto flex-1 sidebar-scroll px-5 py-6">
+        {loading ? (
+          <div className="py-12 text-sm text-center" style={{ color: "var(--text-faint)" }}>Loading…</div>
+        ) : !entry ? null : (
+          <>
+            <h1 className="text-[1.4rem] font-semibold leading-[1.3] mb-3"
+              style={{ fontFamily: "'Playfair Display', serif", color: "var(--text-primary)" }}>
+              {entry.title}
+            </h1>
+            <div className="flex gap-3 text-[0.72rem] mb-6" style={{ color: "var(--text-muted)" }}>
+              {entry.published_at && <span>{formatDate(entry.published_at)}</span>}
+              {entry.link && (
+                <>
+                  <span>·</span>
+                  <a href={entry.link} target="_blank" rel="noopener noreferrer"
+                    className="no-underline" style={{ color: "var(--accent)" }}>
+                    Original ↗
+                  </a>
+                </>
+              )}
+            </div>
+            <div className="text-[0.92rem] leading-7" style={{ color: "var(--text-primary)" }}
+              dangerouslySetInnerHTML={{ __html: entry.description || "<p>No content available.</p>" }}
+            />
+          </>
+        )}
+      </div>
+    </div>
+  )
+}
