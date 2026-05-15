@@ -8,9 +8,9 @@ function formatDate(iso) {
 
 export default function EntryRow({ entry, active, onSelect, onFeedSelect }) {
   return (
-    <button
+    <div
       onClick={() => onSelect(entry)}
-      className={`flex flex-row gap-3 w-full text-left border-none border-b cursor-pointer transition-colors duration-150 p-[0.85rem_1rem] items-start ${active ? "bg-[var(--hover-bg)]" : "bg-transparent hover:bg-[var(--hover-bg)]"}`}
+      className={`flex flex-row gap-3 w-full text-left border-b cursor-pointer transition-colors duration-150 p-[0.85rem_1rem] items-start select-none ${active ? "bg-[var(--hover-bg)]" : "bg-transparent hover:bg-[var(--hover-bg)]"}`}
       style={{ borderBottom: "1px solid var(--border)" }}
     >
       {entry.image && (
@@ -25,13 +25,14 @@ export default function EntryRow({ entry, active, onSelect, onFeedSelect }) {
       <div className="flex-1 min-w-0">
         <div className="flex justify-between gap-[0.4rem] items-center flex-wrap text-[0.72rem] mb-[0.4rem]"
           style={{ color: "var(--text-muted)" }}>
-          <button
-            className="border-none bg-transparent p-0 cursor-pointer text-[0.72rem]"
+          <a
+            href={`/react?feed=${entry.feed?.id}`}
+            className="hover:underline"
             style={{ color: "var(--accent-dim)" }}
-            onClick={(e) => { e.stopPropagation(); onFeedSelect(entry.feed) }}
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); onFeedSelect(entry.feed) }}
           >
             {entry.feed?.title}
-          </button>
+          </a>
           {entry.published_at && (
             <>
               <span>·</span>
@@ -45,8 +46,8 @@ export default function EntryRow({ entry, active, onSelect, onFeedSelect }) {
         </div>
         {entry.tags?.length > 0 && (
           <div className="flex gap-[0.3rem] flex-wrap">
-            {entry.tags.map((tag) => (
-              <span key={tag.id}
+            {entry.tags.map((tag, index) => (
+              <span key={index}
                 className="text-[0.65rem] px-[6px] py-[1px] rounded-full"
                 style={{ color: "var(--text-muted)", background: "rgba(255,255,255,0.05)" }}>
                 {tag.name}
@@ -55,6 +56,6 @@ export default function EntryRow({ entry, active, onSelect, onFeedSelect }) {
           </div>
         )}
       </div>
-    </button>
+    </div>
   )
 }
