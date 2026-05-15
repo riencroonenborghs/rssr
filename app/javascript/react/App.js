@@ -3,8 +3,10 @@ import Sidebar from "./components/Sidebar"
 import EntriesList from "./components/EntriesList"
 import EntryDetail from "./components/EntryDetail"
 import { fetchUnread } from "./api/unread"
+import { fetchFeeds } from "./api/feeds"
 
 export default function App() {
+  const [feeds, setFeeds] = useState([])
   const [entries, setEntries] = useState([])
   const [loading, setLoading] = useState(true)
   const [activeNavItem, setActiveNavItem] = useState(null)
@@ -12,18 +14,18 @@ export default function App() {
 
   useEffect(() => {
     setLoading(true)
-    fetchUnread()
-      .then((data) => setEntries(data.entries || []))
+    Promise.all([fetchFeeds(), fetchUnread()])
+      .then(([feedsData, unreadData]) => {
+        const unreadEntries = unreadData.entries || []
+        const countByFeedId = unreadEntries.reduce((acc, e) => {
+          acc[e.feed.id] = (acc[e.feed.id] || 0) + 1
+          return acc
+        }, {})
+        setFeeds((feedsData.feeds || []).map((f) => ({ ...f, count: countByFeedId[f.id] || 0 })))
+        setEntries(unreadEntries)
+      })
       .finally(() => setLoading(false))
   }, [])
-
-  const feeds = Object.values(
-    entries.reduce((acc, e) => {
-      if (!acc[e.feed.id]) acc[e.feed.id] = { id: e.feed.id, title: e.feed.title, count: 0 }
-      acc[e.feed.id].count++
-      return acc
-    }, {})
-  )
 
   const visibleEntries = activeNavItem?.type === "feed"
     ? entries.filter((e) => e.feed.id === activeNavItem.id)
