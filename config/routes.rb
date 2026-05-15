@@ -10,6 +10,8 @@ Rails.application.routes.draw do
     sessions: "users/sessions"
   }
 
+  get "/react", to: "react_app#index"
+
   resources :unread, only: [:index]
   resources :feeds, only: [:show] do
     resources :entries, only: [:show]
