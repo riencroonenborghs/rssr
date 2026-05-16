@@ -66,6 +66,7 @@ function SubscriptionsTab() {
   const [autoTitle, setAutoTitle] = useState(true)
   const [adding, setAdding] = useState(false)
   const [error, setError] = useState(null)
+  const [success, setSuccess] = useState(false)
 
   const load = useCallback(() => {
     fetchSubscriptions().then((d) => setSubs(d.subscriptions || []))
@@ -78,8 +79,15 @@ function SubscriptionsTab() {
     if (!url.trim()) return
     setAdding(true)
     setError(null)
+    setSuccess(false)
     createSubscription(url.trim(), autoTitle, tags)
-      .then(() => { setUrl(""); setTags(""); load() })
+      .then(() => {
+        setUrl("")
+        setTags("")
+        setSuccess(true)
+        load()
+        setTimeout(() => setSuccess(false), 3000)
+      })
       .catch((err) => setError(err.message || "Failed to subscribe"))
       .finally(() => setAdding(false))
   }
@@ -121,6 +129,11 @@ function SubscriptionsTab() {
           </label>
         </div>
         {error && <p className="text-[0.75rem] mb-2" style={{ color: "#e05" }}>{error}</p>}
+        {success && (
+          <p className="text-[0.75rem] mb-2" style={{ color: "var(--accent)" }}>
+            ✓ Subscribed successfully
+          </p>
+        )}
         <button
           type="submit"
           disabled={adding || !url.trim()}
