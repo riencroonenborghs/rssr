@@ -3,6 +3,7 @@ import FeedsDropdown from "../components/FeedsDropdown"
 import SettingsModal from "../components/SettingsModal"
 
 const userEmail = document.getElementById("react-root")?.dataset?.userEmail || null
+const signedIn = document.getElementById("react-root")?.dataset?.signedIn === "true" || false
 
 export default function MobileNav({ feeds, unreadCount, bookmarkCount, activeItem, onSelect }) {
   const [showSettings, setShowSettings] = useState(false)
@@ -56,7 +57,7 @@ export default function MobileNav({ feeds, unreadCount, bookmarkCount, activeIte
       </div>
 
       {showSettings && (
-        <SettingsModal userEmail={userEmail} onClose={() => setShowSettings(false)} />
+        <SettingsModal signedIn={signedIn} userEmail={userEmail} onClose={() => setShowSettings(false)} />
       )}
     </>
   )
