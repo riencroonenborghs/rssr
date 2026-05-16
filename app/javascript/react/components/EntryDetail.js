@@ -1,10 +1,5 @@
 import React, { useRef, useEffect } from "react"
-
-function formatDate(iso) {
-  if (!iso) return null
-  const d = new Date(iso)
-  return d.toLocaleDateString("en-GB", { day: "numeric", month: "short" })
-}
+import { formatDateHHMM } from "../hooks/useDateFormat"
 
 export default function EntryDetail({ entry, loading }) {
   const contentRef = useRef(null)
@@ -45,7 +40,7 @@ export default function EntryDetail({ entry, loading }) {
         </h1>
         <div className="flex gap-3 text-[0.75rem]" style={{ color: "var(--detail-text-muted)" }}>
           <span>{entry.feed?.title}</span>
-          {entry.published_at && <><span>·</span><span>{formatDate(entry.published_at)}</span></>}
+          {entry.published_at && <><span>·</span><span>{formatDateHHMM(entry.published_at)}</span></>}
           {entry.link && (
             <>
               <span>·</span>

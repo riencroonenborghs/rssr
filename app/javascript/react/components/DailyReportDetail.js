@@ -1,10 +1,6 @@
 import React from "react"
 import Markdown from "react-markdown"
-
-function formatDate(iso) {
-  if (!iso) return null
-  return new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })
-}
+import { formatDate } from "../hooks/useDateFormat"
 
 export default function DailyReportDetail({ report, loading }) {
   if (loading) {

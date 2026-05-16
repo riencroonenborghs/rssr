@@ -1,10 +1,5 @@
 import React from "react"
-
-function formatDate(iso) {
-  if (!iso) return null
-  const d = new Date(iso)
-  return d.toLocaleDateString("en-GB", { day: "numeric", month: "short" })
-}
+import { formatDateHHMM } from "../hooks/useDateFormat"
 
 export default function MobileEntryDetail({ entry, loading, onBack }) {
   return (
@@ -38,7 +33,7 @@ export default function MobileEntryDetail({ entry, loading, onBack }) {
               {entry.title}
             </h1>
             <div className="flex gap-3 text-[0.72rem] mb-6" style={{ color: "var(--text-muted)" }}>
-              {entry.published_at && <span>{formatDate(entry.published_at)}</span>}
+              {entry.published_at && <span>{formatDateHHMM(entry.published_at)}</span>}
               {entry.link && (
                 <>
                   <span>·</span>

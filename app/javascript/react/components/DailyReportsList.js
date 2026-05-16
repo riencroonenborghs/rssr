@@ -1,9 +1,5 @@
 import React from "react"
-
-function formatDate(iso) {
-  if (!iso) return null
-  return new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })
-}
+import { formatDate } from "../hooks/useDateFormat"
 
 export default function DailyReportsList({ title, dailyReports, loading, activeEntry, onSelect }) {
   return (

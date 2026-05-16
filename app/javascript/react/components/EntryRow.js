@@ -1,10 +1,5 @@
 import React, { useState } from "react"
-
-function formatDate(iso) {
-  if (!iso) return null
-  const d = new Date(iso)
-  return d.toLocaleDateString("en-GB", { day: "numeric", month: "short" })
-}
+import { formatDateHHMM } from "../hooks/useDateFormat"
 
 export default function EntryRow({ entry, active, compact, onSelect, onFeedSelect, onTagSelect }) {
   const [showAllTags, setShowAllTags] = useState(false)
@@ -43,7 +38,7 @@ export default function EntryRow({ entry, active, compact, onSelect, onFeedSelec
           {entry.published_at && (
             <>
               <span>·</span>
-              <span>{formatDate(entry.published_at)}</span>
+              <span>{formatDateHHMM(entry.published_at)}</span>
             </>
           )}
         </div>
