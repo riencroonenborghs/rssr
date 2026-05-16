@@ -13,7 +13,7 @@ module Api
           url: subscription_params[:url],
           title: subscription_params[:title],
           get_title_from_url: subscription_params[:get_title_from_url] == "true",
-          tag_names: nil
+          tag_names: subscription_params[:tags]
         )
 
         if service.success?
@@ -34,7 +34,7 @@ module Api
       private
 
       def subscription_params
-        params.require(:subscription).permit(:url, :title, :get_title_from_url)
+        params.require(:subscription).permit(:url, :title, :get_title_from_url, :tags)
       end
     end
   end

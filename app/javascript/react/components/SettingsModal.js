@@ -62,6 +62,7 @@ function AppearanceTab({ theme, setTheme, density, setDensity }) {
 function SubscriptionsTab() {
   const [subs, setSubs] = useState(null)
   const [url, setUrl] = useState("")
+  const [tags, setTags] = useState("")
   const [autoTitle, setAutoTitle] = useState(true)
   const [adding, setAdding] = useState(false)
   const [error, setError] = useState(null)
@@ -77,8 +78,8 @@ function SubscriptionsTab() {
     if (!url.trim()) return
     setAdding(true)
     setError(null)
-    createSubscription(url.trim(), autoTitle)
-      .then(() => { setUrl(""); load() })
+    createSubscription(url.trim(), autoTitle, tags)
+      .then(() => { setUrl(""); setTags(""); load() })
       .catch((err) => setError(err.message || "Failed to subscribe"))
       .finally(() => setAdding(false))
   }
@@ -96,6 +97,14 @@ function SubscriptionsTab() {
           placeholder="https://example.com/feed.xml"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
+          className="w-full px-3 py-2 rounded text-[0.82rem] border mb-2 outline-none"
+          style={{ background: "var(--hover-bg)", color: "var(--text-primary)", borderColor: "var(--border)" }}
+        />
+        <input
+          type="text"
+          placeholder="tag, other tag"
+          value={tags}
+          onChange={(e) => setTags(e.target.value)}
           className="w-full px-3 py-2 rounded text-[0.82rem] border mb-2 outline-none"
           style={{ background: "var(--hover-bg)", color: "var(--text-primary)", borderColor: "var(--border)" }}
         />
