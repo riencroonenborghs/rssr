@@ -3,6 +3,7 @@ import FeedsDropdown from "./FeedsDropdown"
 import ReportsDropdown from "./ReportsDropdown"
 import SettingsModal from "./SettingsModal"
 import { fetchReports } from "../api/reports"
+import { Cog } from "lucide-react"
 
 const userEmail = document.getElementById("react-root")?.dataset?.userEmail || null
 const signedIn = document.getElementById("react-root")?.dataset?.signedIn === "true" || false
@@ -68,7 +69,9 @@ export default function Sidebar({ feeds = [], unreadCount, bookmarkCount, active
             <span className="text-[0.78rem] truncate max-w-[150px]" style={{ color: "var(--text-muted)" }}>
               {userEmail || "Settings"}
             </span>
-            <span className="text-[0.85rem] ml-2 shrink-0" style={{ color: "var(--text-faint)" }}>⚙</span>
+            <span className="text-[0.85rem] ml-2 shrink-0" style={{ color: "var(--text-faint)" }}>
+              <Cog size={12}></Cog>
+            </span>
           </button>
         </div>
       </aside>

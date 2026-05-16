@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { ChevronDown } from "lucide-react"
 
 export default function FeedsDropdown({ feeds, activeItem, onSelect }) {
   const [open, setOpen] = useState(true)
@@ -15,7 +16,7 @@ export default function FeedsDropdown({ feeds, activeItem, onSelect }) {
           className="arrow"
           style={{ transform: open ? "rotate(0deg)" : "rotate(-90deg)" }}
         >
-          ▾
+          <ChevronDown size={12}></ChevronDown>
         </span>
       </button>
       {open && (

@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from "react"
 import { formatDateHHMM } from "../hooks/useDateFormat"
+import { ExternalLink } from "lucide-react"
 
 export default function EntryDetail({ entry, loading }) {
   const contentRef = useRef(null)
@@ -45,8 +46,9 @@ export default function EntryDetail({ entry, loading }) {
             <>
               <span>·</span>
               <a href={entry.link} target="_blank" rel="noopener noreferrer"
-                className="no-underline" style={{ color: "var(--detail-accent)" }}>
-                Original ↗
+                className="no-underline flex flex-row items-center gap-x-2" style={{ color: "var(--detail-accent)" }}>
+                Original
+                <ExternalLink size={12}></ExternalLink>
               </a>
             </>
           )}

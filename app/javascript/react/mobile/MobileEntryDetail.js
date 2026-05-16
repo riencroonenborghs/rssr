@@ -1,5 +1,6 @@
 import React from "react"
 import { formatDateHHMM } from "../hooks/useDateFormat"
+import { ExternalLink } from "lucide-react"
 
 export default function MobileEntryDetail({ entry, loading, onBack }) {
   return (
@@ -38,8 +39,9 @@ export default function MobileEntryDetail({ entry, loading, onBack }) {
                 <>
                   <span>·</span>
                   <a href={entry.link} target="_blank" rel="noopener noreferrer"
-                    className="no-underline" style={{ color: "var(--accent)" }}>
-                    Original ↗
+                    className="no-underline flex flex-row items-center gap-x-2" style={{ color: "var(--accent)" }}>
+                    Original
+                    <ExternalLink size={12}></ExternalLink>
                   </a>
                 </>
               )}

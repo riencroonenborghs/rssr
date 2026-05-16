@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import FeedsDropdown from "../components/FeedsDropdown"
 import SettingsModal from "../components/SettingsModal"
+import { Cog } from "lucide-react"
 
 const userEmail = document.getElementById("react-root")?.dataset?.userEmail || null
 const signedIn = document.getElementById("react-root")?.dataset?.signedIn === "true" || false
@@ -21,7 +22,7 @@ export default function MobileNav({ feeds, unreadCount, bookmarkCount, activeIte
             className="border-none bg-transparent cursor-pointer text-lg p-1"
             style={{ color: "var(--text-faint)" }}
           >
-            ⚙
+            <Cog size={12}></Cog>
           </button>
         </div>
 

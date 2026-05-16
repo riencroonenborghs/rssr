@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { ChevronDown } from "lucide-react"
 
 export default function ReportsDropdown({ reports, activeItem, onSelect }) {
   const [open, setOpen] = useState(false)
@@ -13,7 +14,9 @@ export default function ReportsDropdown({ reports, activeItem, onSelect }) {
         onClick={() => setOpen((o) => !o)}
       >
         <span>Reports</span>
-        <span className="arrow" style={{ transform: open ? "rotate(0deg)" : "rotate(-90deg)" }}>▾</span>
+        <span className="arrow" style={{ transform: open ? "rotate(0deg)" : "rotate(-90deg)" }}>
+          <ChevronDown size={12}></ChevronDown>
+        </span>
       </button>
       {open && (
         <div className="flex flex-col mt-1">
