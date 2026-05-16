@@ -1,8 +1,18 @@
-import React from "react"
+import React, { useState } from "react"
 import { formatDateHHMM } from "../hooks/useDateFormat"
-import { ExternalLink } from "lucide-react"
+import { ExternalLink, Bookmark, BookmarkCheck } from "lucide-react"
+import { createBookmark, deleteBookmark } from "../api/bookmarks";
 
 export default function MobileEntryDetail({ entry, loading, onBack }) {
+  const [bookmarked, setBookmarked] = useState(entry?.bookmarked)
+
+  const handleCreateBookmark = () => {
+    createBookmark(entry.id).then(() => setBookmarked(true))
+  }
+  const handleDeleteBookmark = () => {
+    deleteBookmark(entry.id).then(() => setBookmarked(false))
+  }
+
   return (
     <div className="flex flex-col h-screen" style={{ background: "var(--sidebar-bg)" }}>
       <div className="flex items-center gap-3 px-4 py-3 border-b shrink-0"
@@ -34,6 +44,8 @@ export default function MobileEntryDetail({ entry, loading, onBack }) {
               {entry.title}
             </h1>
             <div className="flex gap-3 text-[0.72rem] mb-6" style={{ color: "var(--text-muted)" }}>
+              {bookmarked && <BookmarkCheck size={16} className="cursor-pointer" onClick={handleDeleteBookmark}></BookmarkCheck>}
+              {!bookmarked && <Bookmark size={16} className="cursor-pointer" onClick={handleCreateBookmark}></Bookmark>}
               {entry.published_at && <span>{formatDateHHMM(entry.published_at)}</span>}
               {entry.link && (
                 <>

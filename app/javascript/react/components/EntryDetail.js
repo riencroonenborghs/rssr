@@ -1,9 +1,18 @@
-import React, { useRef, useEffect } from "react"
+import React, { useRef, useEffect, useState } from "react"
 import { formatDateHHMM } from "../hooks/useDateFormat"
-import { ExternalLink } from "lucide-react"
+import { ExternalLink, Bookmark, BookmarkCheck } from "lucide-react"
+import { createBookmark, deleteBookmark } from "../api/bookmarks";
 
 export default function EntryDetail({ entry, loading }) {
   const contentRef = useRef(null)
+  const [bookmarked, setBookmarked] = useState(entry?.bookmarked)
+
+  const handleCreateBookmark = () => {
+    createBookmark(entry.id).then(() => setBookmarked(true))
+  }
+  const handleDeleteBookmark = () => {
+    deleteBookmark(entry.id).then(() => setBookmarked(false))
+  }
 
   useEffect(() => {
     if (!contentRef.current) return
@@ -39,7 +48,9 @@ export default function EntryDetail({ entry, loading }) {
           style={{ fontFamily: "'Playfair Display', serif", color: "var(--detail-text-primary)" }}>
           {entry.title}
         </h1>
-        <div className="flex gap-3 text-[0.75rem]" style={{ color: "var(--detail-text-muted)" }}>
+        <div className="flex items-center gap-3 text-[0.75rem]" style={{ color: "var(--detail-text-muted)" }}>
+          {bookmarked && <BookmarkCheck size={16} className="cursor-pointer" onClick={handleDeleteBookmark}></BookmarkCheck>}
+          {!bookmarked && <Bookmark size={16} className="cursor-pointer" onClick={handleCreateBookmark}></Bookmark>}
           <span>{entry.feed?.title}</span>
           {entry.published_at && <><span>·</span><span>{formatDateHHMM(entry.published_at)}</span></>}
           {entry.link && (
