@@ -4,9 +4,7 @@ import ReportsDropdown from "./ReportsDropdown"
 import SettingsModal from "./SettingsModal"
 import { fetchReports } from "../api/reports"
 import { Cog } from "lucide-react"
-
-const userEmail = document.getElementById("react-root")?.dataset?.userEmail || null
-const signedIn = document.getElementById("react-root")?.dataset?.signedIn === "true" || false
+import { userEmail } from "../hooks/useSignedin"
 
 export default function Sidebar({ feeds = [], unreadCount, bookmarkCount, activeItem, onSelect }) {
   const [showSettings, setShowSettings] = useState(false)
@@ -77,7 +75,7 @@ export default function Sidebar({ feeds = [], unreadCount, bookmarkCount, active
       </aside>
 
       {showSettings && (
-        <SettingsModal signedIn={signedIn} userEmail={userEmail} onClose={() => setShowSettings(false)} />
+        <SettingsModal onClose={() => setShowSettings(false)} />
       )}
     </>
   )

@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { formatDateHHMM } from "../hooks/useDateFormat"
 import { ExternalLink, Bookmark, BookmarkCheck, ArrowLeft } from "lucide-react"
 import { createBookmark, deleteBookmark } from "../api/bookmarks";
+import { signedIn } from "../hooks/useSignedin"
 
 export default function MobileEntryDetail({ entry, loading, onBack }) {
   const [bookmarked, setBookmarked] = useState(entry?.bookmarked)
@@ -44,8 +45,8 @@ export default function MobileEntryDetail({ entry, loading, onBack }) {
               {entry.title}
             </h1>
             <div className="flex gap-3 text-[0.72rem] mb-6" style={{ color: "var(--text-muted)" }}>
-              {bookmarked && <BookmarkCheck size={16} className="cursor-pointer" onClick={handleDeleteBookmark}></BookmarkCheck>}
-              {!bookmarked && <Bookmark size={16} className="cursor-pointer" onClick={handleCreateBookmark}></Bookmark>}
+              {signedIn && bookmarked && <BookmarkCheck size={16} className="cursor-pointer" onClick={handleDeleteBookmark}></BookmarkCheck>}
+              {signedIn && !bookmarked && <Bookmark size={16} className="cursor-pointer" onClick={handleCreateBookmark}></Bookmark>}
               {entry.published_at && <span>{formatDateHHMM(entry.published_at)}</span>}
               {entry.link && (
                 <>

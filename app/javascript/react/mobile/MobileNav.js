@@ -2,9 +2,7 @@ import React, { useState } from "react"
 import FeedsDropdown from "../components/FeedsDropdown"
 import SettingsModal from "../components/SettingsModal"
 import { Cog } from "lucide-react"
-
-const userEmail = document.getElementById("react-root")?.dataset?.userEmail || null
-const signedIn = document.getElementById("react-root")?.dataset?.signedIn === "true" || false
+import { userEmail } from "../hooks/useSignedin"
 
 export default function MobileNav({ feeds, unreadCount, bookmarkCount, activeItem, onSelect }) {
   const [showSettings, setShowSettings] = useState(false)
@@ -58,7 +56,7 @@ export default function MobileNav({ feeds, unreadCount, bookmarkCount, activeIte
       </div>
 
       {showSettings && (
-        <SettingsModal signedIn={signedIn} userEmail={userEmail} onClose={() => setShowSettings(false)} />
+        <SettingsModal onClose={() => setShowSettings(false)} />
       )}
     </>
   )

@@ -4,6 +4,7 @@ import { useIsMobile } from "../hooks/useIsMobile"
 import { fetchSubscriptions, createSubscription, deleteSubscription } from "../api/subscriptions"
 import { fetchFilters, createFilter, deleteFilter } from "../api/filters"
 import { LogIn, LogOut } from 'lucide-react';
+import { userEmail, signedIn } from "../hooks/useSignedin"
 
 const signInPath = document.getElementById("react-root")?.dataset?.signInPath
 const signOutPath = document.getElementById("react-root")?.dataset?.signOutPath
@@ -261,7 +262,7 @@ function FiltersTab() {
   )
 }
 
-function ModalContent({ signedIn, userEmail, onClose }) {
+function ModalContent({ onClose }) {
   const { theme, setTheme, density, setDensity } = useSettings()
   const [tab, setTab] = useState("Appearance")
 
