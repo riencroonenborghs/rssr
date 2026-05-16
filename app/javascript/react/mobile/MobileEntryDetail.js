@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { formatDateHHMM } from "../hooks/useDateFormat"
-import { ExternalLink, Bookmark, BookmarkCheck } from "lucide-react"
+import { ExternalLink, Bookmark, BookmarkCheck, ArrowLeft } from "lucide-react"
 import { createBookmark, deleteBookmark } from "../api/bookmarks";
 
 export default function MobileEntryDetail({ entry, loading, onBack }) {
@@ -23,7 +23,7 @@ export default function MobileEntryDetail({ entry, loading, onBack }) {
           className="border-none bg-transparent cursor-pointer text-[1.1rem] p-0 leading-none"
           style={{ color: "var(--text-muted)" }}
         >
-          ←
+          <ArrowLeft size={16}></ArrowLeft>
         </button>
 
         {entry && (

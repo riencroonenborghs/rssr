@@ -2,6 +2,7 @@ import React from "react"
 import EntryRow from "../components/EntryRow"
 import { useSettings } from "../context/SettingsContext"
 import { useEndlessScroll } from "../hooks/useEndlessScroll"
+import { ArrowLeft } from "lucide-react"
 
 export default function MobileEntriesList({ title, entries = [], loading, loadingMore, hasMore, onLoadMore, onSelect, onFeedSelect, onTagSelect, onBack }) {
   const { density } = useSettings()
@@ -17,7 +18,7 @@ export default function MobileEntriesList({ title, entries = [], loading, loadin
           className="border-none bg-transparent cursor-pointer text-[1.1rem] p-0 leading-none"
           style={{ color: "var(--text-muted)" }}
         >
-          ←
+          <ArrowLeft size={16}></ArrowLeft>
         </button>
         <h2 className="m-0 text-[0.7rem] font-medium tracking-[0.14em] uppercase"
           style={{ color: "var(--text-muted)" }}>
