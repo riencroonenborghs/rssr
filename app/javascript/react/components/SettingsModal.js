@@ -339,7 +339,7 @@ export default function SettingsModal({ onClose, signedIn, userEmail }) {
   if (isMobile) {
     return (
       <div className="fixed inset-0 z-50 flex flex-col" style={{ background: "var(--sidebar-bg)" }}>
-        <ModalContent userEmail={userEmail} onClose={onClose} />
+        <ModalContent signedIn={signedIn} userEmail={userEmail} onClose={onClose} />
       </div>
     )
   }
