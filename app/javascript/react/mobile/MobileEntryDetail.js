@@ -21,18 +21,17 @@ export default function MobileEntryDetail({ entry, loading, onBack }) {
         <button
           type="button"
           onClick={onBack}
-          className="border-none bg-transparent cursor-pointer text-[1.1rem] p-0 leading-none"
+          className="border-none bg-transparent cursor-pointer text-[1.1rem] p-0 leading-none flex items-center gap-x-2"
           style={{ color: "var(--text-muted)" }}
         >
           <ArrowLeft size={16}></ArrowLeft>
+          {entry && (
+            <h2 className="m-0 text-[0.7rem] font-medium tracking-[0.14em] uppercase"
+              style={{ color: "var(--text-muted)" }}>
+              {entry.feed?.title}
+            </h2>
+          )}
         </button>
-
-        {entry && (
-          <h2 className="m-0 text-[0.7rem] font-medium tracking-[0.14em] uppercase"
-            style={{ color: "var(--text-muted)" }}>
-            {entry.feed?.title}
-          </h2>
-        )}
       </div>
 
       <div className="overflow-y-auto flex-1 sidebar-scroll px-5 py-6">

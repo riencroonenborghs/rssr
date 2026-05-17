@@ -15,15 +15,15 @@ export default function MobileEntriesList({ title, entries = [], loading, loadin
         <button
           type="button"
           onClick={onBack}
-          className="border-none bg-transparent cursor-pointer text-[1.1rem] p-0 leading-none"
+          className="border-none bg-transparent cursor-pointer text-[1.1rem] p-0 leading-none flex items-center gap-x-2"
           style={{ color: "var(--text-muted)" }}
         >
           <ArrowLeft size={16}></ArrowLeft>
+          <h2 className="m-0 text-[0.7rem] font-medium tracking-[0.14em] uppercase"
+            style={{ color: "var(--text-muted)" }}>
+            {title || "Entries"}
+          </h2>
         </button>
-        <h2 className="m-0 text-[0.7rem] font-medium tracking-[0.14em] uppercase"
-          style={{ color: "var(--text-muted)" }}>
-          {title || "Entries"}
-        </h2>
       </div>
       <div ref={scrollRef} className="overflow-y-auto flex-1 sidebar-scroll">
         {loading ? (
