@@ -8,7 +8,7 @@ import MobileNav from "./mobile/MobileNav"
 import MobileEntriesList from "./mobile/MobileEntriesList"
 import MobileEntryDetail from "./mobile/MobileEntryDetail"
 import { fetchUnread } from "./api/unread"
-import { fetchFeeds, fetchFeed, fetchEntry } from "./api/feeds"
+import { fetchFeeds, fetchFeed, fetchEntry, fetchEntryUrl } from "./api/feeds"
 import { fetchTag } from "./api/tags"
 import { fetchBookmarks } from "./api/bookmarks"
 import { fetchDailyReport, fetchDailyReports } from "./api/reports"
@@ -170,6 +170,10 @@ export default function App() {
       .finally(() => setEntryLoading(false))
   }
 
+  function handleMobileEntrySelect(entry) {
+    window.open(fetchEntryUrl(entry.feed.id, entry.id), '_blank').focus()
+  }
+
   function handleDailyReportSelect(item) {
     setActiveDailyReport(null)
     setDailyReportLoading(true)
@@ -222,7 +226,7 @@ export default function App() {
           loadingMore={loadingMore}
           hasMore={hasMore}
           onLoadMore={handleLoadMore}
-          onSelect={handleEntrySelect}
+          onSelect={handleMobileEntrySelect}
           onFeedSelect={(feed) => handleNavSelect({ type: "feed", ...feed })}
           onTagSelect={handleTagSelect}
           onBack={() => setMobileView("nav")}
