@@ -171,6 +171,7 @@ export default function App() {
   }
 
   function handleMobileEntrySelect(entry) {
+    setEntries((prev) => prev.map((e) => e.id === entry.id ? { ...e, viewed: true } : e))
     window.open(fetchEntryUrl(entry.feed.id, entry.id), '_blank').focus()
   }
 
