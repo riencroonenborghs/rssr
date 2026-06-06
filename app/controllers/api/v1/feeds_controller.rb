@@ -8,7 +8,7 @@ module Api
       skip_before_action :authenticate_user!
 
       def index
-        @feeds = Feed.joins(:subscriptions).where(subscriptions: { active: true }).order(feeds: { title: :asc })
+        @feeds = Feed.joins(:subscriptions).where(subscriptions: { active: true }).order(feeds: { title: :asc }).distinct
         @feeds = @feeds.where(subscriptions: { user_id: current_user.id }) if current_user
         @entry_count_by_feed_id = Entry
           .joins(feed: :subscriptions)
