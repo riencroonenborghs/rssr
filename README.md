@@ -1,29 +1,24 @@
-# RSS Reader
+# README
 
-Simple RSS reader. Supports both desktop and mobile browsers.
+This README would normally document whatever steps are necessary to get the
+application up and running.
 
-## Tech
+Things you may want to cover:
 
-  - Ruby on Rails 7.2
-  - SQLite
-  - Sidekiq
+* Ruby version
 
-[![Ruby on Rails - Install dependencies, run security checks, linters and tests](https://github.com/riencroonenborghs/rssr/actions/workflows/rubyonrails.yml/badge.svg)](https://github.com/riencroonenborghs/rssr/actions/workflows/rubyonrails.yml)
+* System dependencies
 
-## What can it do?
+* Configuration
 
-  - User authentication
-  - Manage feeds
-  - Refreshes every 30 minutes
-  - 2 week data retention
-  - Bookmarks
-  - Filtering with [FTS5](https://sqlite.org/fts5.html)
+* Database creation
 
-## How to run
+* Database initialization
 
-  - `cp .env.example .env` and edit to your liking
-  - edit `db/seeds.rb` to your liking
-  - `EMAIL=... PASSWORD=... ./bin/rails db:create db:migrate db:seed`
-  - `yarn install`
-  - `./bin/dev`
+* How to run the test suite
 
+* Services (job queues, cache servers, search engines, etc.)
+
+* Deployment instructions
+
+* ...

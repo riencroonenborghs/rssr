@@ -1,70 +1,46 @@
 # frozen_string_literal: true
 
-require 'sidekiq/web'
-require 'sidekiq/cron/web'
-
 Rails.application.routes.draw do
-  # mount Sidekiq::Web => "/sidekiq" if Rails.env.development?
+  devise_for :users, controllers: { sessions: "users/sessions" }
 
-  devise_for :users, controllers: {
-    sessions: "users/sessions"
-  }
-
-  scope "/v2" do
-    get "/", to: "react_app#index", as: :react_app
-    get "/bookmarks", to: "react_app#index"
-    get "/feeds/:feed_id", to: "react_app#index"
-    get "/feeds/:feed_id/entries/:entry_id", to: "react_app#index"
-    get "/tags/:tag_id", to: "react_app#index"
-    get "/reports/:report_id", to: "react_app#index"
-    get "/reports/:report_id/daily/:daily_id", to: "react_app#index"
+  # The job queue dashboard, for signed in users only.
+  authenticate :user do
+    mount SolidQueueMonitor::Engine => "/solid_queue"
   end
 
-  # resources :unread, only: [:index]
-  # resources :feeds, only: [:show] do
-  #   resources :entries, only: [:show]
-  # end
-  # resources :tags, only: [:show]
+  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  devise_scope :user do
-    authenticated :user do
-      mount Sidekiq::Web => "/sidekiq"
-  #     resources :bookmarks, only: [:index, :create, :destroy]
-  #     resources :subscriptions, only: [:index, :new, :create, :destroy]
-  #     resources :filters, only: [:index, :new, :create, :destroy]
-  #     resources :search, only: [:new, :create]
-  #     resources :generated_reports, only: [:show]
+  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
+  # Can be used by load balancers and uptime monitors to verify that the app is live.
+  get "up" => "rails/health#show", as: :rails_health_check
+
+  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
+  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
+  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+
+  # Defines the root path route ("/")
+  root "home#index"
+
+  namespace :api, defaults: { format: :json } do
+    resources :bookmarks, only: :index
+    resources :subscriptions, only: :create
+    resources :filters, only: [ :index, :create, :destroy ]
+    resource :search, only: :show
+    resources :feeds, only: :index do
+      resources :entries, only: :index
     end
-  end
-  
-  namespace :api do
-    namespace :v1 do
-      devise_for :users, controllers: {
-        sessions: "api/v1/users/sessions"
-      }
-
-      resources :unread, only: [:index]
-      resources :feeds, only: [:index, :show] do
-        resources :entries, only: [:show]
-      end
-      resources :tags, only: [:show]
-      resources :bookmarks, only: [:index, :create, :destroy]
-
-      resources :subscriptions, only: [:index, :create, :destroy]
-      resources :reports, only: [:index, :create, :update, :destroy] do
-        resources :daily, only: [:index, :show], controller: "reports/daily"
-      end
-
-      resources :filters, only: [:index, :create, :destroy]
+    resources :entries, only: [ :index, :show ] do
+      resource :read, only: :create
+      resource :bookmark, only: [ :create, :destroy ], controller: "entry_bookmarks"
     end
   end
 
-  match "/:code", to: "errors#show", via: :all, constraints: { code: Regexp.new(
- ErrorsController::VALID_STATUS_CODES.join("|") ) }
-  
-  match "*path", to: "catch_all#show", via: :all
-
-  root to: "react_app#index"
-
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  # Client-side routes of the React app; each serves the app, which renders the page.
+  %w[feeds bookmarks search subscriptions/new filters settings].each do |path|
+    get path, to: "home#index"
+  end
+  get "feeds/:feed_id(/entries/:entry_id)", to: "home#index"
+  get "entries/:entry_id", to: "home#index"
+  get "bookmarks/entries/:entry_id", to: "home#index"
+  get "search/entries/:entry_id", to: "home#index"
 end

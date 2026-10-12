@@ -1,26 +1,19 @@
 {
-  "name": "rssr",
+  "name": "app",
   "private": true,
   "devDependencies": {
-    "esbuild": "^0.25.11"
+    "esbuild": "^0.28.2"
   },
   "scripts": {
-    "build": "esbuild app/javascript/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets --loader:.js=jsx",
-    "build:css": "npx @tailwindcss/cli -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify"
+    "build": "esbuild app/javascript/*.* --bundle --jsx=automatic --loader:.js=jsx --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets --loader:.js=jsx",
+    "build:css": "bunx @tailwindcss/cli -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify"
   },
   "dependencies": {
-    "@hotwired/stimulus": "^3.2.2",
-    "@hotwired/turbo-rails": "^8.0.20",
-    "@rails/ujs": "^7.1.3-4",
-    "@reduxjs/toolkit": "^2.8.2",
-    "@tailwindcss/cli": "^4.1.14",
-    "lucide-react": "^1.16.0",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1",
-    "react-markdown": "^10.1.0",
-    "react-redux": "^9.2.0",
-    "react-router": "^7.8.1",
-    "react-spinners": "^0.17.0",
-    "tailwindcss": "^4.1.14"
+    "@tailwindcss/cli": "^4.3.3",
+    "lucide-react": "~1.49.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "react-router": "^7",
+    "tailwindcss": "^4.3.3"
   }
 }

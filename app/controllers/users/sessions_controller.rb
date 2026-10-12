@@ -1,7 +1,6 @@
-# frozen_string_literal: true
-
 module Users
+  # Adds JSON responses so the React sign in modal can sign in without a page load.
   class SessionsController < Devise::SessionsController
-    layout "devise"
+    respond_to :html, :json
   end
 end

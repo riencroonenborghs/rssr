@@ -1,40 +1,123 @@
 @import "tailwindcss";
-@import "./sidebar";
-@import "./entries";
-@import "./entry";
-@import "./pagination";
 
-.pagination .page {
-  padding: 0.2rem;
-}
-.pagination .current {
-  font-weight: bolder;
-}
+/* Dark mode follows the "dark" class on <html>, set from the theme setting. */
+@custom-variant dark (&:where(.dark, .dark *));
 
-
-/* custom */
-
-.text-xxs {
-  font-size: 0.5rem;
-}
-.text-xtiny {
-  font-size: 0.4rem;
+@theme {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --color-brand: #3d8136;
+  /* The navigation's background in the dark theme. */
+  --color-brand-dark: #1d4419;
+  /* Brand-coloured text and icons, readable on the page background in either theme. */
+  --color-brand-fg: #2f6a29;
+  /* The page background; use instead of white so it follows the theme. */
+  --color-surface: #ffffff;
 }
 
-.max-w-xxs {
-  max-width: 12rem;
+/*
+ * Dark theme: the gray scale is reversed, so gray-900 text becomes light and gray-50 backgrounds
+ * become dark without dark: variants. Text on a gray-900 background should therefore use
+ * gray-50, not white, and overlays should use black.
+ */
+.dark {
+  color-scheme: dark;
+  --color-brand-fg: #8fd486;
+  --color-surface: oklch(17% 0.02 260);
+  --color-gray-50: oklch(13% 0.028 261.692);
+  --color-gray-100: oklch(21% 0.034 264.665);
+  --color-gray-200: oklch(27.8% 0.033 256.848);
+  --color-gray-300: oklch(37.3% 0.034 259.733);
+  --color-gray-400: oklch(55.1% 0.027 264.364);
+  --color-gray-500: oklch(62% 0.025 262);
+  --color-gray-600: oklch(70.7% 0.022 261.325);
+  --color-gray-700: oklch(87.2% 0.01 258.338);
+  --color-gray-800: oklch(92.8% 0.006 264.531);
+  --color-gray-900: oklch(96.7% 0.003 264.542);
+  --color-gray-950: oklch(98.5% 0.002 247.839);
 }
 
-.tag-size-0 { font-size: 0.65rem; }
-.tag-size-1 { font-size: 0.7rem; }
-.tag-size-2 { font-size: 0.75rem; }
-.tag-size-3 { font-size: 0.8rem; }
-.tag-size-4 { font-size: 0.85rem; }
-.tag-size-5 { font-size: 0.9rem; }
-.tag-size-6 { font-size: 0.95rem; }
-.tag-size-7 { font-size: 1.0rem; }
-.tag-size-8 { font-size: 1.05rem; }
-.tag-size-9 { font-size: 1.15rem; }
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
 
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in oklab, var(--color-gray-500) 40%, transparent) transparent;
+  }
 
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+  }
+}
 
+/* An entry's summary: feed HTML, sanitized by the server, laid out for reading. */
+@layer components {
+  .entry-content {
+    max-width: 68ch;
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: var(--color-gray-800);
+    overflow-wrap: anywhere;
+
+    & > * + * { margin-top: 1.1em; }
+    & h1, & h2, & h3, & h4 {
+      margin-top: 1.6em;
+      font-weight: 600;
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+      color: var(--color-gray-900);
+    }
+    & h1, & h2 { font-size: 1.35em; }
+    & h3, & h4 { font-size: 1.15em; }
+    & a {
+      color: var(--color-brand-fg);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+    & a:hover { text-decoration-thickness: 2px; }
+    & img, & video, & iframe {
+      max-width: 100%;
+      height: auto;
+      border-radius: 0.75rem;
+    }
+    & figure { margin-inline: 0; }
+    & figcaption {
+      margin-top: 0.5em;
+      font-size: 0.85em;
+      color: var(--color-gray-500);
+    }
+    & blockquote {
+      border-left: 3px solid var(--color-brand);
+      padding-left: 1em;
+      color: var(--color-gray-600);
+      font-style: italic;
+    }
+    & ul, & ol { padding-left: 1.4em; }
+    & ul { list-style: disc; }
+    & ol { list-style: decimal; }
+    & li + li { margin-top: 0.35em; }
+    & code {
+      border-radius: 0.3rem;
+      background: var(--color-gray-100);
+      padding: 0.1em 0.35em;
+      font-size: 0.9em;
+    }
+    & pre {
+      overflow-x: auto;
+      border-radius: 0.75rem;
+      background: var(--color-gray-100);
+      padding: 1em;
+      font-size: 0.85em;
+      line-height: 1.6;
+    }
+    & pre code { background: none; padding: 0; }
+    & table { display: block; overflow-x: auto; border-collapse: collapse; font-size: 0.9em; }
+    & th, & td { border: 1px solid var(--color-gray-200); padding: 0.4em 0.7em; text-align: left; }
+    & hr { border-color: var(--color-gray-200); }
+  }
+}

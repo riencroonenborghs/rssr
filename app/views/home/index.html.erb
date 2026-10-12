@@ -1,0 +1,6 @@
+<%= tag.div id: "root", class: "h-full", data: {
+      signed_in: user_signed_in?,
+      sign_in_path: new_user_session_path,
+      sign_out_path: destroy_user_session_path,
+      jobs_path: solid_queue_monitor.root_path
+    } %>
