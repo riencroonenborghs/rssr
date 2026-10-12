@@ -8,6 +8,7 @@ gem "devise", "~> 5.0"
 gem "feedjira", "~> 4.0"
 gem "httparty", "~> 0.24.3"
 gem "image_processing", "~> 1.2"
+gem "io-console", "0.9.4"
 gem "jbuilder"
 gem "jsbundling-rails"
 gem "kamal", require: false
