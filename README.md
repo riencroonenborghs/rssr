@@ -1,24 +1,18 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+RSS Reader
 
-Things you may want to cover:
+## Features
 
-* Ruby version
+- user accounts
+- manage RSS feeds
+- filters
+- bookmarks
+- full-text search
+- 30 minute feed refresh
+- 2 week retention
 
-* System dependencies
+## Stack
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- Rails 8.1
+- Solid Queue
