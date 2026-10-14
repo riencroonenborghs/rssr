@@ -13,6 +13,7 @@ export default function EntriesPage({ session, apiPath, basePath, emptyMessage, 
   const hasSelection = Boolean(useMatch(`${prefix}/entries/:entryId`))
   const { entries, nextPage, loading, error, loadMore } = useEntriesPages(apiPath)
   const markRead = useMarkRead(session)
+  const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
   return (
     <>
@@ -23,7 +24,7 @@ export default function EntriesPage({ session, apiPath, basePath, emptyMessage, 
         <ul className="divide-y divide-brand/10">
           {entries.map((entry) => (
             <li key={entry.id}>
-              <EntryRow entry={entry} to={`${prefix}/entries/${entry.id}`} showFeed newTab showBookmark={session.signedIn} />
+              <EntryRow entry={entry} to={`${prefix}/entries/${entry.id}`} showFeed newTab={isMobile} showBookmark={session.signedIn} />
             </li>
           ))}
         </ul>

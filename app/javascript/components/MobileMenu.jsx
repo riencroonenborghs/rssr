@@ -33,7 +33,7 @@ export default function MobileMenu({ session, onSignIn }) {
 
   // Close the drawer once a link has navigated.
   useEffect(() => setOpen(false), [pathname])
-
+  
   const signIn = () => {
     setOpen(false)
     onSignIn()

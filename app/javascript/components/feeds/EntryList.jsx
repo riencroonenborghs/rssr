@@ -13,6 +13,7 @@ export default function EntryList({ session }) {
   const { feeds } = useOutletContext()
   const feed = feeds?.find((candidate) => String(candidate.id) === feedId)
   const { entries, nextPage, loading, error, loadMore } = useEntriesPages(`/api/feeds/${feedId}/entries`)
+  const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
   return (
     <>
@@ -29,7 +30,7 @@ export default function EntryList({ session }) {
       <ul className="divide-y divide-gray-100 py-1">
         {entries.map((entry) => (
           <li key={entry.id}>
-            <EntryRow entry={entry} to={`/feeds/${feedId}/entries/${entry.id}`} showBookmark={session.signedIn} newTab />
+            <EntryRow entry={entry} to={`/feeds/${feedId}/entries/${entry.id}`} showBookmark={session.signedIn} newTab={isMobile} />
           </li>
         ))}
       </ul>
