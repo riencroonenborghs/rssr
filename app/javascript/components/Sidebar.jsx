@@ -1,6 +1,6 @@
 import { ListChecks, LogIn, Rss } from "lucide-react"
 import { Link, useLocation } from "react-router"
-import { isActiveItem, footerItems, mainItems } from "./navigation"
+import { isActiveItem, footerItems, signedInFooterItems, mainItems } from "./navigation"
 import SignOutButton from "./SignOutButton"
 
 const iconLinkClassName = ({ isActive }) =>
@@ -31,6 +31,7 @@ export default function Sidebar({ session, onSignIn }) {
       </ul>
 
       <ul className="mt-auto space-y-1.5">
+        {session.signedIn && signedInFooterItems.map((item) => <li key={item.to}><IconLink {...item} /></li>)}
         {footerItems.map((item) => <li key={item.to}><IconLink {...item} /></li>)}
         {session.signedIn && (
           <li>

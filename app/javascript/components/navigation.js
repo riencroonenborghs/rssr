@@ -6,14 +6,16 @@ export const mainItems = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard, paths: [ "/entries" ] },
   { to: "/feeds", label: "Feeds", icon: Rss },
   { to: "/bookmarks", label: "Bookmarks", icon: Bookmark },
-  { to: "/search", label: "Search", icon: Search },
-  { to: "/subscriptions/new", label: "Add a feed", icon: Plus }
+  { to: "/search", label: "Search", icon: Search }
 ]
 
 // Shown at the bottom of the navigation.
 export const footerItems = [
-  { to: "/filters", label: "Filters", icon: Funnel },
   { to: "/settings", label: "Settings", icon: Settings }
+]
+export const signedInFooterItems = [
+  { to: "/subscriptions/new", label: "Add a feed", icon: Plus },
+  { to: "/filters", label: "Filters", icon: Funnel }
 ]
 
 const isUnder = (pathname, path) => pathname === path || pathname.startsWith(`${path}/`)
