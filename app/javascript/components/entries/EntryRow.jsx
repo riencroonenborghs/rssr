@@ -17,10 +17,6 @@ export default function EntryRow({ entry, to, showFeed = false, showBookmark = f
 
   return (
     <div className="relative flex items-start transition-colors has-[a.active]:bg-brand/12 has-[a:not(.active):hover]:bg-brand/6">
-      <span
-        aria-hidden="true"
-        className={`absolute left-1.5 size-1.5 rounded-full bg-brand ${compact ? "top-3" : "top-[1.4rem]"} ${entry.read ? "opacity-0" : ""}`}
-      />
       <div className="flex min-w-0 flex-1 flex-col">
         {showFeed && (
           <div className={`flex min-w-0 ${compact ? "px-4 pt-2 md:px-5" : "px-4 pt-3.5 md:px-5"}`}>
