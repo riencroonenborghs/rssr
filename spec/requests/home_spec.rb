@@ -5,7 +5,7 @@ RSpec.describe "Home", type: :request do
     Nokogiri::HTML(response.body).at_css("#root")
   end
 
-  %w[/ /feeds /bookmarks /search /subscriptions /filters /settings].each do |path|
+  %w[/ /feeds /bookmarks /search /summary /subscriptions /filters /settings].each do |path|
     it "serves the React app at #{path}" do
       get path
 

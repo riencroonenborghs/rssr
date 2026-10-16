@@ -28,6 +28,7 @@ Rails.application.routes.draw do
     end
     resources :filters, only: [ :index, :create, :destroy ]
     resource :search, only: :show
+    resource :summary, only: :create
     resources :feeds, only: :index do
       resources :entries, only: :index
     end
@@ -38,7 +39,7 @@ Rails.application.routes.draw do
   end
 
   # Client-side routes of the React app; each serves the app, which renders the page.
-  %w[feeds bookmarks search subscriptions filters settings].each do |path|
+  %w[feeds bookmarks search summary subscriptions filters settings].each do |path|
     get path, to: "home#index"
   end
   get "feeds/:feed_id(/entries/:entry_id)", to: "home#index"

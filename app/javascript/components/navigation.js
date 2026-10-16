@@ -1,4 +1,4 @@
-import { Bookmark, Funnel, LayoutDashboard, ListTree, Rss, Search, Settings } from "lucide-react"
+import { Bookmark, Funnel, LayoutDashboard, ListTree, Rss, Search, Settings, Sparkles } from "lucide-react"
 
 // The app's sections, shown in the desktop sidebar and the mobile menu. A section is active on
 // its path and the paths below it; the dashboard's entries live under /entries.
@@ -14,6 +14,7 @@ export const footerItems = [
   { to: "/settings", label: "Settings", icon: Settings }
 ]
 export const signedInFooterItems = [
+  { to: "/summary", label: "Summary", icon: Sparkles },
   { to: "/subscriptions", label: "Subscriptions", icon: ListTree },
   { to: "/filters", label: "Filters", icon: Funnel }
 ]

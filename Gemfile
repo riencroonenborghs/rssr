@@ -1,10 +1,12 @@
 source "https://rubygems.org"
 
 gem "annotaterb", "~> 4.25"
+gem "anthropic", "~> 1.80"
 gem "awesome_print", "~> 1.9"
 gem "bootsnap", require: false
 gem "cssbundling-rails"
 gem "devise", "~> 5.0"
+gem "dotenv-rails", "~> 3.2"
 gem "feedjira", "~> 4.0"
 gem "httparty", "~> 0.24.3"
 gem "image_processing", "~> 1.2"
