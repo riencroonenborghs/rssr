@@ -27,12 +27,11 @@ RSpec.describe "Dashboard and bookmarks", type: :system do
       visit "/"
 
       expect(page.all("main li").map(&:text)).to match([ /News.*News entry/m, /Tech.*Tech entry/m ])
-      entry_window = window_opened_by { click_link "Tech entry" }
-      within_window(entry_window) do
-        expect(page).to have_css("h1", text: "Tech entry")
-        expect(page).to have_text("Tech summary")
-        expect(page).to have_css("a[aria-label='Dashboard'][aria-current='page']")
-      end
+      click_link "Tech entry"
+      expect(page).to have_current_path("/entries/#{tech_entry.id}")
+      expect(page).to have_css("h1", text: "Tech entry")
+      expect(page).to have_text("Tech summary")
+      expect(page).to have_css("a[aria-label='Dashboard'][aria-current='page']")
     end
 
     it "lists subscribed entries on the dashboard and marks opened ones read when signed in" do
@@ -44,9 +43,9 @@ RSpec.describe "Dashboard and bookmarks", type: :system do
       expect(page).to have_no_link("Tech entry")
       expect(page).to have_css("main p.font-medium", text: "News entry")
 
-      entry_window = window_opened_by { click_link "News entry" }
-      within_window(entry_window) { expect(page).to have_text("News summary") }
-      # Reading the entry in its tab shows it as read here.
+      click_link "News entry"
+      expect(page).to have_text("News summary")
+      # Reading the entry shows it as read in the list next to it.
       expect(page).to have_css("main p.text-gray-400", text: "News entry")
       screenshot("desktop-dashboard")
       expect(user.read?(news_entry)).to be(true)
@@ -60,12 +59,11 @@ RSpec.describe "Dashboard and bookmarks", type: :system do
       expect(page).to have_link("Tech entry")
       expect(page).to have_no_link("News entry")
 
-      entry_window = window_opened_by { click_link "Tech entry" }
-      within_window(entry_window) do
-        expect(page).to have_text("Tech summary")
-        expect(page).to have_css("a[aria-label='Bookmarks'][aria-current='page']")
-        screenshot("desktop-bookmarks")
-      end
+      click_link "Tech entry"
+      expect(page).to have_current_path("/bookmarks/entries/#{tech_entry.id}")
+      expect(page).to have_text("Tech summary")
+      expect(page).to have_css("a[aria-label='Bookmarks'][aria-current='page']")
+      screenshot("desktop-bookmarks")
     end
 
     it "asks to sign in for bookmarks when signed out" do

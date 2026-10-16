@@ -19,23 +19,21 @@ RSpec.describe "Toggling bookmarks", type: :system do
       sign_in user
     end
 
-    it "toggles from the list and the details, keeping both tabs in sync" do
+    it "toggles from the list and the details, keeping both in sync" do
       visit "/"
-      entry_window = window_opened_by { click_link "An entry" }
-      within_window(entry_window) { expect(page).to have_text("Summary") }
+      click_link "An entry"
+      within("article") { expect(page).to have_text("Summary") }
 
       within("main") { click_button "Bookmark" }
-      expect(page).to have_button("Remove bookmark")
+      within("main") { expect(page).to have_button("Remove bookmark") }
+      within("article") { expect(page).to have_button("Remove bookmark") }
       expect(user.bookmarked?(entry)).to be(true)
-      within_window(entry_window) do
-        within("article") { expect(page).to have_button("Remove bookmark") }
-        page.save_screenshot(Rails.root.join("tmp/screenshots/desktop-bookmarked.png")) if ENV["SCREENSHOTS"]
+      page.save_screenshot(Rails.root.join("tmp/screenshots/desktop-bookmarked.png")) if ENV["SCREENSHOTS"]
 
-        within("article") { click_button "Remove bookmark" }
-        within("article") { expect(page).to have_button("Bookmark") }
-      end
-      expect(user.bookmarked?(entry)).to be(false)
+      within("article") { click_button "Remove bookmark" }
+      within("article") { expect(page).to have_button("Bookmark") }
       within("main") { expect(page).to have_button("Bookmark") }
+      expect(user.bookmarked?(entry)).to be(false)
     end
 
     it "keeps an unbookmarked entry on the bookmarks page until it is reloaded" do
@@ -55,10 +53,8 @@ RSpec.describe "Toggling bookmarks", type: :system do
     visit "/"
     expect(page).to have_no_button("Bookmark")
 
-    entry_window = window_opened_by { click_link "An entry" }
-    within_window(entry_window) do
-      expect(page).to have_text("Summary")
-      expect(page).to have_no_button("Bookmark")
-    end
+    click_link "An entry"
+    within("article") { expect(page).to have_text("Summary") }
+    expect(page).to have_no_button("Bookmark")
   end
 end

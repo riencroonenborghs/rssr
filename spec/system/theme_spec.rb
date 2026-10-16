@@ -51,13 +51,10 @@ RSpec.describe "Theme", type: :system do
     screenshot("theme-1-settings-dark")
 
     visit "/"
-    entry_window = window_opened_by { click_link "Read entry" }
-    within_window(entry_window) do
-      expect(page).to have_text("Summary with")
-      expect(dark?).to be(true)
-      screenshot("theme-2-entry-dark")
-    end
-    entry_window.close
+    click_link "Read entry"
+    expect(page).to have_text("Summary with")
+    expect(dark?).to be(true)
+    screenshot("theme-2-entry-dark")
 
     refresh
     expect(dark?).to be(true)

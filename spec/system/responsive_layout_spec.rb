@@ -141,17 +141,15 @@ RSpec.describe "Responsive layout", type: :system do
       feed_link = find("main a", text: "Example feed")
       expect(feed_link).to have_text("2")
 
-      entry_window = window_opened_by { click_link entry.title }
-      within_window(entry_window) do
-        expect(page).to have_css("h1", text: entry.title)
-        screenshot("desktop-entry")
-      end
+      click_link entry.title
+      expect(page).to have_css("h1", text: entry.title)
+      screenshot("desktop-entry")
 
-      # The list stays in this tab, and reading the entry in the new tab updates it.
-      expect(page).to have_link(entry.title)
-      expect(page).to have_css("p.text-gray-400", text: entry.title)
+      # The entry replaces the feed's entries next to the feeds; reading it updates the unread count,
+      # and going back shows it as read.
       expect(feed_link).to have_text("1")
-      entry_window.close
+      within("article") { click_link "Example feed" }
+      expect(page).to have_css("p.text-gray-400", text: entry.title)
     end
   end
 end
