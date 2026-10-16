@@ -27,10 +27,10 @@ RSpec.describe "Api::Subscriptions", type: :request do
 
       expect(response).to have_http_status(:ok)
       expect(response.parsed_body).to eq([
-        { "id" => apple_subscription.id, "feed" => { "id" => apple.id, "title" => "apple", "url" => apple.url, "error" => nil, "last_fetched_at" => nil } },
+                                           { "id" => apple_subscription.id, "feed" => { "id" => apple.id, "title" => "apple", "url" => apple.url, "error" => nil, "last_fetched_at" => nil } },
         { "id" => zebra_subscription.id, "feed" => { "id" => zebra.id, "title" => "Zebra", "url" => zebra.url, "error" => "HTTP 500",
                                                     "last_fetched_at" => "2026-10-17T09:30:00.000Z" } }
-      ])
+                                         ])
     end
   end
 
@@ -87,9 +87,9 @@ RSpec.describe "Api::Subscriptions", type: :request do
         rss_feed = RssFeed.sole
         expect(response).to have_http_status(:created)
         expect(response.parsed_body).to eq({
-          "id" => user.subscriptions.sole.id,
+                                             "id" => user.subscriptions.sole.id,
           "feed" => { "id" => rss_feed.id, "title" => "Feed", "url" => url, "error" => nil, "last_fetched_at" => nil }
-        })
+                                           })
         expect(user.subscribed?(rss_feed)).to be(true)
       end
 
@@ -131,10 +131,10 @@ RSpec.describe "Api::Subscriptions", type: :request do
 
         expect(response).to have_http_status(:ok)
         expect(response.parsed_body).to eq({
-          "id" => subscription.id,
+                                             "id" => subscription.id,
           "feed" => { "id" => rss_feed.id, "title" => "Feed", "url" => url, "error" => nil,
                       "last_fetched_at" => rss_feed.reload.last_fetched_at.as_json }
-        })
+                                           })
         expect(rss_feed.last_fetched_at).to be_present
         expect(rss_feed.rss_entries.pluck(:title)).to eq([ "New post" ])
       end

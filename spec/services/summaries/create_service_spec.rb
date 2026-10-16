@@ -5,7 +5,7 @@ RSpec.describe Summaries::CreateService do
   let(:feed) { RssFeed.create!(url: "https://example.com/feed.xml", title: "Example") }
 
   around do |example|
-    previous = ENV["ANTHROPIC_API"]
+    previous = ENV.fetch("ANTHROPIC_API", nil)
     ENV["ANTHROPIC_API"] = "test-key"
     example.run
   ensure
@@ -32,7 +32,7 @@ RSpec.describe Summaries::CreateService do
     expect(result.summary).to eq("Overview [1][2]")
     expect(result.entries).to eq([ newer, older ])
     expect(result.total).to eq(2)
-    expect(stub.with { |request|
+    expect(stub.with do |request|
       body = JSON.parse(request.body)
       content = body.dig("messages", 0, "content")
       request.headers["X-Api-Key"] == "test-key" &&
@@ -41,7 +41,7 @@ RSpec.describe Summaries::CreateService do
         content.include?("Keywords: electric cars") && content.include?("Posts from the last 24 hours") &&
         content.include?("[1] New electric cars announced") && content.include?("[2] Electric cars sell well") &&
         content.include?("Sales doubled.") && !content.include?("last month")
-    }).to have_been_requested
+    end).to have_been_requested
   end
 
   it "covers the longer periods" do
@@ -71,7 +71,7 @@ RSpec.describe Summaries::CreateService do
 
     expect(result.summary).to be_nil
     expect(result.total).to eq(0)
-    expect(WebMock).not_to have_requested(:post, %r{api\.anthropic\.com})
+    expect(WebMock).not_to have_requested(:post, /api\.anthropic\.com/)
   end
 
   it "requires keywords and a known period" do
@@ -88,7 +88,7 @@ RSpec.describe Summaries::CreateService do
 
   it "explains a rejected API key" do
     entry("Electric cars")
-    stub_request(:post, %r{api\.anthropic\.com}).to_return(
+    stub_request(:post, /api\.anthropic\.com/).to_return(
       status: 401, body: { type: "error", error: { type: "authentication_error", message: "invalid x-api-key" } }.to_json,
       headers: { "Content-Type" => "application/json" }
     )

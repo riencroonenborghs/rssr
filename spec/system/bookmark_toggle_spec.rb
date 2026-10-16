@@ -29,9 +29,7 @@ RSpec.describe "Toggling bookmarks", type: :system do
       expect(user.bookmarked?(entry)).to be(true)
       within_window(entry_window) do
         within("article") { expect(page).to have_button("Remove bookmark") }
-        if ENV["SCREENSHOTS"]
-          page.save_screenshot(Rails.root.join("tmp/screenshots/desktop-bookmarked.png"))
-        end
+        page.save_screenshot(Rails.root.join("tmp/screenshots/desktop-bookmarked.png")) if ENV["SCREENSHOTS"]
 
         within("article") { click_button "Remove bookmark" }
         within("article") { expect(page).to have_button("Bookmark") }

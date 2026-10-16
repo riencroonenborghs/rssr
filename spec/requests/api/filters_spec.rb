@@ -29,10 +29,10 @@ RSpec.describe "Api::Filters", type: :request do
 
         expect(response).to have_http_status(:ok)
         expect(response.parsed_body).to eq([
-          { "id" => ads.id, "kind" => "keyword", "value" => "ads" },
+                                             { "id" => ads.id, "kind" => "keyword", "value" => "ads" },
           { "id" => sponsored.id, "kind" => "keyword", "value" => "sponsored" },
           { "id" => regexp.id, "kind" => "regexp", "value" => "^Ad:" }
-        ])
+                                           ])
       end
     end
 

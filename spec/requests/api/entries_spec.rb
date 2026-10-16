@@ -22,9 +22,9 @@ RSpec.describe "Api::Entries", type: :request do
         get api_feed_entries_path(other_feed)
 
         expect(response.parsed_body["entries"]).to eq([
-          { "id" => newer.id, "title" => "Apple", "published_at" => "2026-10-02T00:00:00.000Z", "image_url" => nil, "read" => false, "bookmarked" => false, "feed" => { "id" => other_feed.id, "title" => other_feed.url } },
+                                                        { "id" => newer.id, "title" => "Apple", "published_at" => "2026-10-02T00:00:00.000Z", "image_url" => nil, "read" => false, "bookmarked" => false, "feed" => { "id" => other_feed.id, "title" => other_feed.url } },
           { "id" => older.id, "title" => "Older", "published_at" => "2026-10-01T00:00:00.000Z", "image_url" => nil, "read" => false, "bookmarked" => false, "feed" => { "id" => other_feed.id, "title" => other_feed.url } }
-        ])
+                                                      ])
       end
 
       it "returns the entries a page at a time" do
@@ -60,9 +60,9 @@ RSpec.describe "Api::Entries", type: :request do
         get api_feed_entries_path(feed)
 
         expect(response.parsed_body["entries"]).to eq([
-          { "id" => newer.id, "title" => "Newer", "published_at" => "2026-10-02T00:00:00.000Z", "image_url" => nil, "read" => false, "bookmarked" => true, "feed" => { "id" => feed.id, "title" => "Feed" } },
+                                                        { "id" => newer.id, "title" => "Newer", "published_at" => "2026-10-02T00:00:00.000Z", "image_url" => nil, "read" => false, "bookmarked" => true, "feed" => { "id" => feed.id, "title" => "Feed" } },
           { "id" => older.id, "title" => "Older", "published_at" => "2026-10-01T00:00:00.000Z", "image_url" => nil, "read" => true, "bookmarked" => false, "feed" => { "id" => feed.id, "title" => "Feed" } }
-        ])
+                                                      ])
       end
 
       it "falls back to when the entry was stored for the date" do

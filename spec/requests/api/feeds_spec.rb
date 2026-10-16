@@ -19,9 +19,9 @@ RSpec.describe "Api::Feeds", type: :request do
 
         expect(response).to have_http_status(:ok)
         expect(response.parsed_body).to eq([
-          { "id" => apple.id, "title" => "Apple", "url" => apple.url, "unread_count" => 0 },
+                                             { "id" => apple.id, "title" => "Apple", "url" => apple.url, "unread_count" => 0 },
           { "id" => zebra.id, "title" => "Zebra", "url" => zebra.url, "unread_count" => 2 }
-        ])
+                                           ])
       end
     end
 
@@ -41,10 +41,10 @@ RSpec.describe "Api::Feeds", type: :request do
         get api_feeds_path
 
         expect(response.parsed_body).to eq([
-          { "id" => apple.id, "title" => "apple", "url" => apple.url, "unread_count" => 1 },
+                                             { "id" => apple.id, "title" => "apple", "url" => apple.url, "unread_count" => 1 },
           { "id" => untitled.id, "title" => untitled.url, "url" => untitled.url, "unread_count" => 0 },
           { "id" => zebra.id, "title" => "Zebra", "url" => zebra.url, "unread_count" => 1 }
-        ])
+                                           ])
       end
 
       it "does not count entries hidden by the user's filters" do

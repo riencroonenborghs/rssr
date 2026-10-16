@@ -6,7 +6,7 @@ RSpec.describe "Summarizing posts", type: :system do
   let(:feed) { RssFeed.create!(url: "https://example.com/feed.xml", title: "Example") }
 
   around do |example|
-    previous = ENV["ANTHROPIC_API"]
+    previous = ENV.fetch("ANTHROPIC_API", nil)
     ENV["ANTHROPIC_API"] = "test-key"
     example.run
   ensure

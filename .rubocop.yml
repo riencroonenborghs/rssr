@@ -2,7 +2,7 @@ AllCops:
   NewCops:
     enable
   Exclude:
-    - 'db/schema.rb'
+    - 'db/*schema.rb'
     - 'db/migrate/*.rb'
     - 'node_modules/**/*'
     - 'bin/**/*'
@@ -41,3 +41,31 @@ Layout/HashAlignment:
   Enabled: false
 Layout/ArrayAlignment:
   Enabled: false
+# Capistrano's file name.
+Naming/FileName:
+  Exclude:
+    - 'Capfile.rb'
+
+# Service objects are called through ApplicationService.call and have no state to initialize there.
+Lint/MissingSuper:
+  AllowedParentClasses:
+    - ApplicationService
+
+# System specs save screenshots on purpose.
+Lint/Debugger:
+  DebuggerMethods:
+    Capybara: ~
+
+# Normalizers read better as ->(value) { value.strip } than lambda(&:strip).
+Style/SymbolProc:
+  AllowedMethods:
+    - lambda
+
+# Match the Rails style the code is written in: spaces inside array brackets, and private methods
+# indented under `private` without a blank line after it.
+Layout/SpaceInsideArrayLiteralBrackets:
+  EnforcedStyle: space
+Layout/IndentationConsistency:
+  EnforcedStyle: indented_internal_methods
+Layout/EmptyLinesAroundAccessModifier:
+  EnforcedStyle: only_before

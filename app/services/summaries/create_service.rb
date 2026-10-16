@@ -11,7 +11,7 @@ module Summaries
 
     PERIODS = { "24h" => 24.hours, "week" => 1.week, "2weeks" => 2.weeks }.freeze
     MAX_ENTRIES = 100
-    MODEL = :"claude-opus-5-5"
+    MODEL = :'claude-opus-5-5'
 
     SYSTEM_PROMPT = <<~PROMPT.freeze
       You summarize posts from the user's RSS feeds. You are given the keywords the user searched

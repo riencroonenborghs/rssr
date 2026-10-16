@@ -17,7 +17,7 @@ RSpec.describe "Api::Entries (all feeds)", type: :request do
       get api_entries_path
 
       expect(response.parsed_body["entries"].map { |e| [ e["title"], e["feed"]["title"] ] })
-        .to eq([ [ "Newer", "Other" ], [ "Older", "Feed" ] ])
+        .to eq([ %w[Newer Other], %w[Older Feed] ])
       expect(response.parsed_body["next_page"]).to be_nil
     end
 
@@ -35,9 +35,9 @@ RSpec.describe "Api::Entries (all feeds)", type: :request do
       get api_entries_path
 
       expect(response.parsed_body["entries"].map { |e| e.slice("title", "read", "bookmarked") }).to eq([
-        { "title" => "Bookmarked", "read" => false, "bookmarked" => true },
+                                                                                                         { "title" => "Bookmarked", "read" => false, "bookmarked" => true },
         { "title" => "Read", "read" => true, "bookmarked" => false }
-      ])
+                                                                                                       ])
     end
 
     it "returns a page at a time" do

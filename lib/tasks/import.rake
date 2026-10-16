@@ -6,7 +6,8 @@ namespace :import do
     puts "Importing #{path} into the #{Rails.env} database…"
 
     Imports::LegacyDatabaseService.call(path).each do |name, (imported, total)|
-      puts format("  %-14s %6d imported, %6d already present (%d in source)", "#{name}:", imported, total - imported, total)
+      puts format("  %<name>-14s %<imported>6d imported, %<present>6d already present (%<total>d in source)",
+                  name: "#{name}:", imported: imported, present: total - imported, total: total)
     end
   end
 end

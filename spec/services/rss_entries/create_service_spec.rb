@@ -31,9 +31,9 @@ RSpec.describe RssEntries::CreateService do
       feed.rss_entries.create!(guid: "b", image_url: "https://example.com/old.jpg")
 
       described_class.call(feed, [
-        feed_entry(entry_id: "a", image: "https://example.com/a.jpg"),
+                             feed_entry(entry_id: "a", image: "https://example.com/a.jpg"),
         feed_entry(entry_id: "b", image: "https://example.com/new.jpg")
-      ])
+                           ])
 
       expect(feed.rss_entries.order(:guid).pluck(:image_url)).to eq([ "https://example.com/a.jpg", "https://example.com/old.jpg" ])
     end

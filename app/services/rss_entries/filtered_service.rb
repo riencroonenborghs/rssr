@@ -24,7 +24,7 @@ module RssEntries
       def without_keyword_matches(entries, filters)
         return entries if filters.empty?
 
-        query = filters.map { |filter| "(#{filter.keywords.map { |word| %("#{word}") }.join(" AND ")})" }.join(" OR ")
+        query = filters.map { |filter| "(#{filter.keywords.map { |word| %("#{word}") }.join(' AND ')})" }.join(" OR ")
         entries.where("rss_entries.id NOT IN (SELECT rowid FROM rss_entries_fts WHERE rss_entries_fts MATCH ?)", query)
       end
 

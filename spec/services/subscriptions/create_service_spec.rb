@@ -25,9 +25,9 @@ RSpec.describe Subscriptions::CreateService do
       end
 
       it "fetches the new feed's entries in the background" do
-        expect {
+        expect do
           described_class.call(user, url: url, title: "My feed")
-        }.to have_enqueued_job(RssFeeds::FetchJob).with(instance_of(RssFeed))
+        end.to have_enqueued_job(RssFeeds::FetchJob).with(instance_of(RssFeed))
       end
 
       it "retitles an existing feed" do
@@ -53,9 +53,9 @@ RSpec.describe Subscriptions::CreateService do
         rss_feed = RssFeed.create!(url: url, title: "Existing")
         stub = stub_request(:get, url)
 
-        expect {
+        expect do
           described_class.call(user, url: url)
-        }.not_to have_enqueued_job(RssFeeds::FetchJob)
+        end.not_to have_enqueued_job(RssFeeds::FetchJob)
 
         expect(rss_feed.reload.title).to eq("Existing")
         expect(user.subscribed?(rss_feed)).to be(true)
@@ -65,9 +65,9 @@ RSpec.describe Subscriptions::CreateService do
       it "fails without adding the feed when it cannot be fetched" do
         stub_request(:get, url).to_return(status: 404)
 
-        expect {
+        expect do
           described_class.call(user, url: url)
-        }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: URL could not be downloaded (HTTP 404)")
+        end.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: URL could not be downloaded (HTTP 404)")
         expect(RssFeed.count).to eq(0)
       end
 
@@ -80,15 +80,15 @@ RSpec.describe Subscriptions::CreateService do
     end
 
     it "rejects a blank URL" do
-      expect {
+      expect do
         described_class.call(user, url: " ", title: "Feed")
-      }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: URL can't be blank")
+      end.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: URL can't be blank")
     end
 
     it "rejects a URL that is not http or https" do
-      expect {
+      expect do
         described_class.call(user, url: "ftp://example.com/feed.xml", title: "Feed")
-      }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: URL must start with http:// or https://")
+      end.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: URL must start with http:// or https://")
       expect(RssFeed.count).to eq(0)
     end
   end

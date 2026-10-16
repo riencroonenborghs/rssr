@@ -29,7 +29,7 @@ class Filter < ApplicationRecord
 
   normalizes :value, with: ->(value) { value.strip }
 
-  validates :value, presence: true, uniqueness: { scope: [ :user_id, :kind ] }
+  validates :value, presence: true, uniqueness: { scope: %i[user_id kind] }
   validate :value_is_a_valid_regexp, if: :regexp?
   validate :value_has_words, if: :keyword?
 

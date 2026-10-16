@@ -45,7 +45,7 @@ RSpec.describe "Responsive layout", type: :system do
       within("dialog[open]") do
         expect(page).to have_link("Bookmarks")
         expect(page).to have_link("Settings")
-      expect(find("nav").rect.width).to eq(390)
+        expect(find("nav").rect.width).to eq(390)
         expect(page).to have_button("Sign out")
         expect(page).to have_link("Jobs", href: "/solid_queue/")
         screenshot("phone-1-menu")

@@ -25,16 +25,26 @@ gem "sqlite3", ">= 2.1"
 gem "stimulus-rails"
 gem "thruster", require: false
 gem "turbo-rails"
-gem "tzinfo-data", platforms: %i[ windows jruby ]
+gem "tzinfo-data", platforms: %i[windows jruby]
 
 group :development do
   gem "web-console"
+
+  # Deployment
+  gem "bcrypt_pbkdf", "~> 1.1"
+  gem "capistrano"
+  gem "capistrano3-puma", "~> 7.1"
+  gem "capistrano-bundler"
+  gem "capistrano-nvm", require: false
+  gem "capistrano-rails"
+  gem "capistrano-rbenv"
+  gem "ed25519", "~> 1.4"
 end
 
 group :development, :test do
   gem "brakeman", require: false
   gem "bundler-audit", require: false
-  gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
+  gem "debug", platforms: %i[mri windows], require: "debug/prelude"
   gem "rspec-rails", "~> 8.0"
   gem "rubocop-rails-omakase", require: false
 end
@@ -43,17 +53,4 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "webmock", "~> 3.26"
-end
-
-group :development do
-  gem 'capistrano'
-  gem 'capistrano-rails'
-  gem 'capistrano-bundler'
-  gem 'capistrano-rbenv'        # or capistrano-rvm depending on your ruby manager
-  gem "capistrano3-puma", "~> 7.1"
-  gem 'capistrano-nvm', require: false
-
-  # capistrano
-  gem "ed25519", "~> 1.4" 
-  gem "bcrypt_pbkdf", "~> 1.1"
 end

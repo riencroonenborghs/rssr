@@ -6,7 +6,7 @@ RSpec.describe "Api::Summaries", type: :request do
   let(:feed) { RssFeed.create!(url: "https://example.com/feed.xml", title: "Example") }
 
   around do |example|
-    previous = ENV["ANTHROPIC_API"]
+    previous = ENV.fetch("ANTHROPIC_API", nil)
     ENV["ANTHROPIC_API"] = "test-key"
     example.run
   ensure
@@ -33,11 +33,11 @@ RSpec.describe "Api::Summaries", type: :request do
 
       expect(response).to have_http_status(:ok)
       expect(response.parsed_body).to eq({
-        "summary" => "Overview [1]",
+                                           "summary" => "Overview [1]",
         "total" => 1,
         "entries" => [ { "id" => entry.id, "title" => "Electric cars", "url" => "https://example.com/1",
                          "published_at" => entry.published_at.as_json, "feed" => { "id" => feed.id, "title" => "Example" } } ]
-      })
+                                         })
     end
 
     it "returns no summary when nothing matches" do

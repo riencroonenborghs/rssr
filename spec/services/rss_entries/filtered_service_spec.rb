@@ -26,7 +26,7 @@ RSpec.describe RssEntries::FilteredService do
     entry("Unpublished")
     entry("New", published_at: 1.hour.ago)
 
-    expect(filtered_titles).to eq([ "Unpublished", "New", "Old" ])
+    expect(filtered_titles).to eq(%w[Unpublished New Old])
   end
 
   context "with keyword filters" do

@@ -31,9 +31,9 @@ RSpec.describe "Api::Bookmarks", type: :request do
         get api_bookmarks_path
 
         expect(response.parsed_body["entries"].map { |e| e.slice("title", "read", "bookmarked") }).to eq([
-          { "title" => "Second bookmarked", "read" => false, "bookmarked" => true },
+                                                                                                           { "title" => "Second bookmarked", "read" => false, "bookmarked" => true },
           { "title" => "First bookmarked, apple", "read" => true, "bookmarked" => true }
-        ])
+                                                                                                         ])
         expect(response.parsed_body["next_page"]).to be_nil
       end
 
