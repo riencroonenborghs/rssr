@@ -1,5 +1,23 @@
 require "rails_helper"
 
+# == Schema Information
+#
+# Table name: rss_feeds
+# Database name: primary
+#
+#  id              :integer          not null, primary key
+#  active          :boolean          default(TRUE), not null
+#  error           :string
+#  last_fetched_at :datetime
+#  title           :string
+#  url             :string           not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
+# Indexes
+#
+#  index_rss_feeds_on_url  (url) UNIQUE
+#
 RSpec.describe RssFeed do
   it "strips the URL and title, storing a blank title as nil" do
     feed = described_class.new(url: " https://example.com/feed.xml ", title: "  ")

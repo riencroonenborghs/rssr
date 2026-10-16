@@ -23,7 +23,7 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json } do
     resources :bookmarks, only: :index
-    resources :subscriptions, only: :create
+    resources :subscriptions, only: [ :index, :create, :destroy ]
     resources :filters, only: [ :index, :create, :destroy ]
     resource :search, only: :show
     resources :feeds, only: :index do
@@ -36,7 +36,7 @@ Rails.application.routes.draw do
   end
 
   # Client-side routes of the React app; each serves the app, which renders the page.
-  %w[feeds bookmarks search subscriptions/new filters settings].each do |path|
+  %w[feeds bookmarks search subscriptions subscriptions/new filters settings].each do |path|
     get path, to: "home#index"
   end
   get "feeds/:feed_id(/entries/:entry_id)", to: "home#index"

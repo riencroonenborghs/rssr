@@ -10,6 +10,7 @@ import Layout from "./Layout"
 import Page from "./Page"
 import SearchPage from "./SearchPage"
 import SettingsPage from "./SettingsPage"
+import SubscriptionsPage from "./SubscriptionsPage"
 
 function SignInRequired({ title, children }) {
   return (
@@ -49,6 +50,9 @@ export default function App({ session }) {
           <Route index element={<Message>Select an entry to read it.</Message>} />
           <Route path="entries/:entryId" element={<EntryDetail session={session} backTo="/search" backLabel="Search" />} />
         </Route>
+        <Route path="subscriptions" element={session.signedIn
+          ? <SubscriptionsPage />
+          : <SignInRequired title="Subscriptions">Sign in to manage your subscriptions.</SignInRequired>} />
         <Route path="subscriptions/new" element={session.signedIn
           ? <AddFeedPage />
           : <SignInRequired title="Add a feed">Sign in to add feeds.</SignInRequired>} />
