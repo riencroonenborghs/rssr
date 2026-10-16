@@ -16,7 +16,8 @@ RSpec.describe "Api::Subscriptions", type: :request do
 
     it "returns the user's subscriptions with their feeds, ordered by title" do
       sign_in user
-      zebra = RssFeed.create!(url: "https://example.com/zebra.xml", title: "Zebra", error: "HTTP 500")
+      zebra = RssFeed.create!(url: "https://example.com/zebra.xml", title: "Zebra", error: "HTTP 500",
+                              last_fetched_at: Time.utc(2026, 10, 17, 9, 30))
       apple = RssFeed.create!(url: "https://example.com/apple.xml", title: "apple")
       zebra_subscription = user.subscribe(zebra)
       apple_subscription = user.subscribe(apple)
@@ -26,8 +27,9 @@ RSpec.describe "Api::Subscriptions", type: :request do
 
       expect(response).to have_http_status(:ok)
       expect(response.parsed_body).to eq([
-        { "id" => apple_subscription.id, "feed" => { "id" => apple.id, "title" => "apple", "url" => apple.url, "error" => nil } },
-        { "id" => zebra_subscription.id, "feed" => { "id" => zebra.id, "title" => "Zebra", "url" => zebra.url, "error" => "HTTP 500" } }
+        { "id" => apple_subscription.id, "feed" => { "id" => apple.id, "title" => "apple", "url" => apple.url, "error" => nil, "last_fetched_at" => nil } },
+        { "id" => zebra_subscription.id, "feed" => { "id" => zebra.id, "title" => "Zebra", "url" => zebra.url, "error" => "HTTP 500",
+                                                    "last_fetched_at" => "2026-10-17T09:30:00.000Z" } }
       ])
     end
   end
@@ -79,12 +81,15 @@ RSpec.describe "Api::Subscriptions", type: :request do
     context "when signed in" do
       before { sign_in user }
 
-      it "subscribes to the feed and returns it" do
+      it "subscribes to the feed and returns the subscription" do
         post api_subscriptions_path, params: { url: url, title: "Feed" }, as: :json
 
         rss_feed = RssFeed.sole
         expect(response).to have_http_status(:created)
-        expect(response.parsed_body).to eq({ "id" => rss_feed.id, "title" => "Feed", "url" => url })
+        expect(response.parsed_body).to eq({
+          "id" => user.subscriptions.sole.id,
+          "feed" => { "id" => rss_feed.id, "title" => "Feed", "url" => url, "error" => nil, "last_fetched_at" => nil }
+        })
         expect(user.subscribed?(rss_feed)).to be(true)
       end
 
@@ -95,6 +100,61 @@ RSpec.describe "Api::Subscriptions", type: :request do
 
         expect(response).to have_http_status(:unprocessable_content)
         expect(response.parsed_body["error"]).to match(/HTTP 500/)
+      end
+    end
+  end
+
+  describe "POST /api/subscriptions/:id/reload" do
+    let(:rss_feed) { RssFeed.create!(url: url, title: "Feed", error: "HTTP 500") }
+
+    it "requires signing in" do
+      subscription = user.subscribe(rss_feed)
+
+      post api_subscription_reload_path(subscription), as: :json
+
+      expect(response).to have_http_status(:unauthorized)
+    end
+
+    context "when signed in" do
+      before { sign_in user }
+
+      it "fetches the feed's new entries and returns the subscription" do
+        subscription = user.subscribe(rss_feed)
+        stub_request(:get, url).to_return(body: <<~XML)
+          <?xml version="1.0"?>
+          <rss version="2.0"><channel><title>Feed</title><link>https://example.com</link><description>Feed</description>
+            <item><title>New post</title><link>https://example.com/new</link><guid>new</guid></item>
+          </channel></rss>
+        XML
+
+        post api_subscription_reload_path(subscription), as: :json
+
+        expect(response).to have_http_status(:ok)
+        expect(response.parsed_body).to eq({
+          "id" => subscription.id,
+          "feed" => { "id" => rss_feed.id, "title" => "Feed", "url" => url, "error" => nil,
+                      "last_fetched_at" => rss_feed.reload.last_fetched_at.as_json }
+        })
+        expect(rss_feed.last_fetched_at).to be_present
+        expect(rss_feed.rss_entries.pluck(:title)).to eq([ "New post" ])
+      end
+
+      it "returns the fetch error with the subscription" do
+        subscription = user.subscribe(rss_feed)
+        stub_request(:get, url).to_return(status: 404)
+
+        post api_subscription_reload_path(subscription), as: :json
+
+        expect(response).to have_http_status(:ok)
+        expect(response.parsed_body.dig("feed", "error")).to match(/404/)
+      end
+
+      it "does not reload another user's subscription" do
+        subscription = other_user.subscribe(rss_feed)
+
+        post api_subscription_reload_path(subscription), as: :json
+
+        expect(response).to have_http_status(:not_found)
       end
     end
   end

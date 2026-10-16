@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router"
-import AddFeedPage from "./AddFeedPage"
 import { DetailColumn, ListColumn, ListHeader, Message } from "./Columns"
 import EntriesPage from "./entries/EntriesPage"
 import EntryDetail from "./entries/EntryDetail"
@@ -53,9 +52,6 @@ export default function App({ session }) {
         <Route path="subscriptions" element={session.signedIn
           ? <SubscriptionsPage />
           : <SignInRequired title="Subscriptions">Sign in to manage your subscriptions.</SignInRequired>} />
-        <Route path="subscriptions/new" element={session.signedIn
-          ? <AddFeedPage />
-          : <SignInRequired title="Add a feed">Sign in to add feeds.</SignInRequired>} />
         <Route path="filters" element={session.signedIn
           ? <FiltersPage />
           : <SignInRequired title="Filters">Sign in to manage your filters.</SignInRequired>} />

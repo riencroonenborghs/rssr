@@ -1,6 +1,6 @@
 module Api
   # Lists the signed in user's subscriptions, subscribes them to a feed by URL, with an optional
-  # title, and unsubscribes them from a feed.
+  # title, returning the subscription, and unsubscribes them from a feed.
   class SubscriptionsController < BaseController
     before_action :authenticate_user!
 
@@ -9,8 +9,9 @@ module Api
     end
 
     def create
-      @rss_feed = Subscriptions::CreateService.call(current_user, url: params[:url], title: params[:title])
-      render :create, status: :created
+      rss_feed = Subscriptions::CreateService.call(current_user, url: params[:url], title: params[:title])
+      @subscription = current_user.subscriptions.find_by!(rss_feed: rss_feed)
+      render :show, status: :created
     end
 
     # Removes the subscription; the feed itself stays, as other users may be subscribed to it.
