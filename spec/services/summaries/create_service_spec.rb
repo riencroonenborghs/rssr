@@ -34,10 +34,10 @@ RSpec.describe Summaries::CreateService do
     expect(result.total).to eq(2)
     expect(stub.with do |request|
       body = JSON.parse(request.body)
-      content = body.dig("messages", 0, "content")
+      content = body.dig("messages", 0, "content", 0, "text")
       request.headers["X-Api-Key"] == "test-key" &&
         request.headers["Anthropic-Beta"] == "server-side-fallback-2026-07-01" &&
-        body["model"] == "claude-opus-5-5" && body["fallbacks"] == "default" && body["stream"] == true &&
+        body["model"] == "claude-opus-5-5" && body["fallbacks"] == "default" && body.dig("output_config", "effort") == "medium" &&
         content.include?("Keywords: electric cars") && content.include?("Posts from the last 24 hours") &&
         content.include?("[1] New electric cars announced") && content.include?("[2] Electric cars sell well") &&
         content.include?("Sales doubled.") && !content.include?("last month")

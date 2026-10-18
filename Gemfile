@@ -1,7 +1,6 @@
 source "https://rubygems.org"
 
 gem "annotaterb", "~> 4.25"
-gem "anthropic", "~> 1.80"
 gem "awesome_print", "~> 1.9"
 gem "bootsnap", require: false
 gem "cssbundling-rails"
@@ -17,6 +16,7 @@ gem "kamal", require: false
 gem "propshaft"
 gem "puma", ">= 5.0"
 gem "rails", "~> 8.1.4"
+gem "ruby_llm", "~> 2.1"
 gem "solid_cable"
 gem "solid_cache"
 gem "solid_queue"

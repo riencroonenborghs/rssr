@@ -1,8 +1,9 @@
 module Summaries
   # Summarizes the entries matching keywords (as search does) published within a period, using the
-  # Claude API with the key in ANTHROPIC_API. Only the newest MAX_ENTRIES entries are sent. Returns
-  # a Result whose summary is nil when no entries match. The summary is plain text: "## " headings,
-  # "- " bullets and paragraphs, citing entries as [n], their position in Result#entries.
+  # Claude API through RubyLLM with the key in ANTHROPIC_API. Only the newest MAX_ENTRIES entries
+  # are sent. Returns a Result whose summary is nil when no entries match. The summary is plain text:
+  # "## " headings, "- " bullets and paragraphs, citing entries as [n], their position in
+  # Result#entries.
   # Raises Summaries::CreateService::Error with a message for the user when it cannot summarize.
   class CreateService < ApplicationService
     class Error < StandardError; end
@@ -11,7 +12,7 @@ module Summaries
 
     PERIODS = { "24h" => 24.hours, "week" => 1.week, "2weeks" => 2.weeks }.freeze
     MAX_ENTRIES = 100
-    MODEL = :'claude-opus-5-5'
+    MODEL = "claude-opus-5-5".freeze
 
     SYSTEM_PROMPT = <<~PROMPT.freeze
       You summarize posts from the user's RSS feeds. You are given the keywords the user searched
@@ -48,32 +49,29 @@ module Summaries
       attr_reader :entries, :keywords, :period
 
       def summarize(selected)
-        stream = client.beta.messages.stream(
-          model: MODEL,
-          max_tokens: 16_000,
-          output_config: { effort: :medium },
+        message = llm.chat(model: MODEL, provider: :anthropic)
+          .with_instructions(SYSTEM_PROMPT)
+          .with_max_output_tokens(16_000)
+          .with_thinking(effort: :medium)
           # On a policy decline, the API retries on its default fallback model.
-          betas: [ "server-side-fallback-2026-07-01" ],
-          fallbacks: :default,
-          system_: SYSTEM_PROMPT,
-          messages: [ { role: "user", content: prompt(selected) } ]
-        )
-        message = stream.accumulated_message
-        raise Error, "Claude declined to summarize these posts" if message.stop_reason == :refusal
+          .with_headers("anthropic-beta" => "server-side-fallback-2026-07-01")
+          .with_provider_options(fallbacks: "default")
+          .ask(prompt(selected))
+        raise Error, "Claude declined to summarize these posts" if message.content_filtered?
 
-        message.content.select { |block| block.type == :text }.map(&:text).join.strip
-      rescue Anthropic::Errors::AuthenticationError, Anthropic::Errors::PermissionDeniedError
+        message.content.to_s.strip
+      rescue RubyLLM::UnauthorizedError, RubyLLM::ForbiddenError
         raise Error, "The Anthropic API key in ANTHROPIC_API was rejected"
-      rescue Anthropic::Errors::RateLimitError
+      rescue RubyLLM::RateLimitError
         raise Error, "The Anthropic API is rate limiting requests; try again shortly"
-      rescue Anthropic::Errors::APIError => e
+      rescue RubyLLM::Error => e
         Rails.logger.error("[#{self.class.name}] Claude API request failed: #{e.class}: #{e.message}")
         raise Error, "The summary could not be created (#{e.class.name.demodulize})"
       end
 
-      def client
+      def llm
         api_key = ENV["ANTHROPIC_API"].presence or raise Error, "Set ANTHROPIC_API to an Anthropic API key to create summaries"
-        Anthropic::Client.new(api_key: api_key)
+        RubyLLM.context { |config| config.anthropic_api_key = api_key }
       end
 
       def prompt(selected)

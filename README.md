@@ -47,7 +47,7 @@ full-text search, filters and AI summaries of what your feeds say about a topic.
 - **Jobs and caching**: Solid Queue (with recurring jobs), Solid Cache, Solid Cable
 - **Auth**: Devise
 - **Feeds**: Feedjira for parsing, HTTParty for downloading
-- **AI**: Anthropic Ruby SDK, Claude Opus 5.5
+- **AI**: RubyLLM (Anthropic provider), Claude Opus 5.5
 - **Frontend**: React 19 and React Router 7, served by Rails as a single page app talking to a JSON API
   (Jbuilder); Tailwind CSS 4, Lucide icons, bundled with esbuild
 - **Tests**: RSpec, Capybara with headless Chrome, WebMock
